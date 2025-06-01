@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "RateCast",
+    "slug": "tcalc-mobile",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sdedola.tcalcmobile",
+      "buildNumber": "18",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["fetch", "remote-notification"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "versionCode": 2,
+      "edgeToEdgeEnabled": true,
+      "package": "com.sdedola.tcalcmobile"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "63842548-a21a-4ebd-b86d-96cff60b051f"
+      }
+    },
+    "developmentClient": {
+      "silentLaunch": true
+    },
+    "updates": {
+      "enabled": false
+    }
+  }
+}
