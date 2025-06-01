@@ -11,6 +11,7 @@ import {
   ScrollView,
   Image,
   Keyboard,
+  Switch,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -23,6 +24,7 @@ import { useHistory, HistoryItem } from '../hooks/useHistory';
 import DisclaimerModal from './DisclaimerModal';
 import { isTablet } from '../platform/deviceUtils';
 import RightColumnContent from '../components/RightColumnContent';
+import { TariffService } from '../services/tariffService';
 
 const getLineItemLabel = (component: { label?: string; description?: string; type?: string }) => {
   return component.label || component.description || component.type || '—';
@@ -42,6 +44,7 @@ const COLORS = {
   error: '#FF3B30',
   sectionBg: '#F5F7FA',
   borderColor: '#D8E0E9',
+  saveButtonBlue: '#2E86C1', // New color for Save & Clear button
 };
 
 type LookupScreenNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Lookup'>;
@@ -67,6 +70,8 @@ interface LookupResult {
     mpf: { rate: number; amount: number };
     hmf: { rate: number; amount: number };
   };
+  effectiveDate?: string;
+  expirationDate?: string;
 }
 
 interface DutyComponent {
@@ -86,6 +91,10 @@ interface DutyCalculation {
     mpf: { rate: number; amount: number };
     hmf: { rate: number; amount: number };
   };
+  htsCode: string;
+  description: string;
+  effectiveDate: string;
+  expirationDate: string;
 }
 
 export default function LookupScreen() {
@@ -109,6 +118,8 @@ export default function LookupScreen() {
   const [showRecentHistory, setShowRecentHistory] = useState(isTablet());
   const countryInputRef = useRef<TextInput>(null);
   const declaredValueInputRef = useRef<TextInput>(null);
+  const htsCodeInputRef = useRef<TextInput>(null);
+  const [isReciprocalAdditive, setIsReciprocalAdditive] = useState(false);
 
   useEffect(() => {
     loadHistory();
@@ -407,7 +418,14 @@ export default function LookupScreen() {
         return;
       }
 
-      const dutyCalculation = calculateDuty(htsCode, value, selectedCountry.code);
+      const dutyCalculation = calculateDuty(htsCode, value, selectedCountry.code, isReciprocalAdditive);
+
+      console.log('Duty calculation result:', {
+        htsCode: dutyCalculation.htsCode,
+        description: dutyCalculation.description,
+        effectiveDate: dutyCalculation.effectiveDate,
+        expirationDate: dutyCalculation.expirationDate
+      });
 
       // Store the entry and calculation for later use when saving
       currentEntry.current = entry;
@@ -433,14 +451,16 @@ export default function LookupScreen() {
       const specialRate = extractSpecialRate(dutyCalculation.breakdown, selectedCountry.name);
 
       const lookupResult: LookupResult = {
-        htsCode: entry["HTS Number"],
-        description: entry.Description,
+        htsCode: dutyCalculation.htsCode,
+        description: dutyCalculation.description,
         dutyRate: dutyCalculation.totalRate,
         totalAmount: dutyCalculation.amount,
         breakdown: formattedBreakdown,
         specialRate: specialRate,
         components: componentsWithLabels,
         fees: dutyCalculation.fees,
+        effectiveDate: dutyCalculation.effectiveDate,
+        expirationDate: dutyCalculation.expirationDate,
       };
 
       setResult(lookupResult);
@@ -452,6 +472,56 @@ export default function LookupScreen() {
       console.error('Lookup error:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleSaveAndSearch = async () => {
+    if (!result || !selectedCountry || !declaredValue) {
+      Alert.alert('Error', 'No lookup result to save');
+      return;
+    }
+
+    try {
+      const value = parseFloat(declaredValue);
+      const entry = currentEntry.current;
+      const dutyCalculation = currentDutyCalculation.current;
+
+      if (!entry || !dutyCalculation) {
+        console.error('Missing entry or duty calculation data');
+        return;
+      }
+
+      // Save to history with complete data
+      await saveToHistory({
+        htsCode: result.htsCode,
+        countryCode: selectedCountry.code,
+        countryName: selectedCountry.name,
+        description: result.description,
+        dutyRate: dutyCalculation.totalRate,
+        declaredValue: value,
+        totalAmount: dutyCalculation.amount,
+        components: dutyCalculation.components,
+        fees: dutyCalculation.fees,
+        breakdown: result.breakdown,
+        specialRate: result.specialRate,
+      });
+
+      // Store the current HTS code before resetting
+      const currentHtsCode = htsCode;
+
+      // Reset the form but keep the HTS code
+      setSelectedCountry(undefined);
+      setDeclaredValue('');
+      setFormattedDeclaredValue('');
+      setResult(null);
+      setShowInput(true);
+      setIsSaved(false);
+      currentEntry.current = null;
+      currentDutyCalculation.current = null;
+      setHtsCode(currentHtsCode); // Restore the HTS code
+    } catch (error) {
+      Alert.alert('Error', 'Failed to save to history');
+      console.error('Save error:', error);
     }
   };
 
@@ -471,31 +541,31 @@ export default function LookupScreen() {
         return;
       }
 
-      console.log('Saving to history with country:', {
-        code: selectedCountry.code,
-        name: selectedCountry.name
-      });
-
       // Save to history with complete data
       await saveToHistory({
-        htsCode: entry["HTS Number"],
-        countryCode: selectedCountry.code, // Save country code
-        countryName: selectedCountry.name, // Save country name
-        description: entry.Description,
+        htsCode: result.htsCode,
+        countryCode: selectedCountry.code,
+        countryName: selectedCountry.name,
+        description: result.description,
         dutyRate: dutyCalculation.totalRate,
-        declaredValue: value, // Save the declared value
-        totalAmount: dutyCalculation.amount, // Save the total amount
-        components: dutyCalculation.components, // Save the components
-        fees: dutyCalculation.fees, // Save the fees
-        breakdown: result.breakdown, // Save the breakdown
-        specialRate: result.specialRate, // Save special rate information
+        declaredValue: value,
+        totalAmount: dutyCalculation.amount,
+        components: dutyCalculation.components,
+        fees: dutyCalculation.fees,
+        breakdown: result.breakdown,
+        specialRate: result.specialRate,
       });
 
       // Mark as saved
       setIsSaved(true);
 
-      // Navigate to History tab
-      navigation.navigate('History');
+      // Reset the form
+      handleNewLookup();
+
+      // Focus the HTS code input
+      setTimeout(() => {
+        htsCodeInputRef.current?.focus();
+      }, 100);
     } catch (error) {
       Alert.alert('Error', 'Failed to save to history');
       console.error('Save error:', error);
@@ -515,12 +585,19 @@ export default function LookupScreen() {
   };
 
   // Comparison Section calculations for China
-  const declared = parseFloat(declaredValue || '0');
-  const priorRate = 1.45;
-  const currentRate = 0.30;
-  const priorAmount = declared * priorRate;
-  const currentAmount = declared * currentRate;
-  const delta = priorAmount - currentAmount;
+  let comparison = null;
+  if (selectedCountry?.code === 'CN' && htsCode && declaredValue) {
+    const value = parseFloat(declaredValue);
+    if (!isNaN(value) && value > 0) {
+      try {
+        // Use the TariffService to get dynamic comparison
+        const tariffService = TariffService.getInstance();
+        comparison = tariffService.calculateDutyDifferences(htsCode, value, selectedCountry.code);
+      } catch (e) {
+        console.error('Comparison calculation error:', e);
+      }
+    }
+  }
 
   const renderRecentHistory = () => null;
 
@@ -637,6 +714,7 @@ export default function LookupScreen() {
               <View style={styles.inputContainer}>
                 <View style={styles.inputWrapper}>
                   <TextInput
+                    ref={htsCodeInputRef}
                     style={styles.input}
                     value={htsCode}
                     onChangeText={setHtsCode}
@@ -677,6 +755,17 @@ export default function LookupScreen() {
                   />
                 </View>
 
+                {/* Add Reciprocal Tariff Toggle */}
+                <View style={styles.toggleContainer}>
+                  <Text style={styles.toggleLabel}>Make Reciprocal Tariffs Additive</Text>
+                  <Switch
+                    value={isReciprocalAdditive}
+                    onValueChange={setIsReciprocalAdditive}
+                    trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
+                    thumbColor={COLORS.white}
+                  />
+                </View>
+
                 <TouchableOpacity
                   style={[styles.lookupButton, (isLoading || isTariffLoading) && styles.lookupButtonDisabled]}
                   onPress={handleLookup}
@@ -685,7 +774,7 @@ export default function LookupScreen() {
                   {isLoading || isTariffLoading ? (
                     <ActivityIndicator color={COLORS.white} />
                   ) : (
-                    <Text style={styles.lookupButtonText}>Lookup</Text>
+                    <Text style={styles.lookupButtonText}>Search</Text>
                   )}
                 </TouchableOpacity>
               </View>
@@ -695,13 +784,23 @@ export default function LookupScreen() {
                   <Text style={styles.resultHtsCode}>{result?.htsCode}</Text>
                   <Text style={styles.resultCountry}>{selectedCountry?.name}</Text>
                 </View>
-                <TouchableOpacity
-                  style={styles.newLookupButton}
-                  onPress={handleNewLookup}
-                >
-                  <Ionicons name="refresh" size={18} color={COLORS.white} />
-                  <Text style={styles.newLookupButtonText}>New Lookup</Text>
-                </TouchableOpacity>
+                <View style={styles.resultHeaderButtons}>
+                  <TouchableOpacity
+                    style={[styles.actionButton, styles.saveSearchButton]}
+                    onPress={handleSaveAndSearch}
+                  >
+                    <Ionicons name="refresh" size={18} color={COLORS.white} />
+                    <Text style={styles.actionButtonText}>Save & Search</Text>
+                  </TouchableOpacity>
+                  {!isSaved && (
+                    <TouchableOpacity
+                      style={[styles.actionButton, styles.saveClearButton, { marginTop: 8 }]}
+                      onPress={handleSaveToHistory}
+                    >
+                      <Text style={styles.actionButtonText}>Save & Clear</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
             )}
           </View>
@@ -709,7 +808,7 @@ export default function LookupScreen() {
           {/* Results Section */}
           {!showInput && result && (
             <ScrollView style={styles.resultContainer}>
-              <Text style={styles.lookupResultsTitle}>Lookup results</Text>
+              <Text style={styles.lookupResultsTitle}>Search Results</Text>
 
               {/* Product Information Section */}
               <View style={styles.sectionContainer}>
@@ -733,25 +832,18 @@ export default function LookupScreen() {
                   <Text style={styles.gridValue}>{formatCurrency(parseFloat(declaredValue))}</Text>
                 </View>
 
-                {/* New Fields */}
-                {currentEntry.current?.additional_duty && (
+                {/* Date Information */}
+                {result.effectiveDate && (
                   <View style={styles.gridRow}>
-                    <Text style={styles.gridLabel}>Additional Duty:</Text>
-                    <Text style={styles.gridValue}>{currentEntry.current.additional_duty}</Text>
+                    <Text style={styles.gridLabel}>Tariff Effective:</Text>
+                    <Text style={styles.gridValue}>{result.effectiveDate}</Text>
                   </View>
                 )}
 
-                {currentEntry.current?.begin_effect_date && (
+                {result.expirationDate && (
                   <View style={styles.gridRow}>
-                    <Text style={styles.gridLabel}>Effective Date:</Text>
-                    <Text style={styles.gridValue}>{currentEntry.current.begin_effect_date}</Text>
-                  </View>
-                )}
-
-                {currentEntry.current?.end_effective_date && (
-                  <View style={styles.gridRow}>
-                    <Text style={styles.gridLabel}>Expiration Date:</Text>
-                    <Text style={styles.gridValue}>{currentEntry.current.end_effective_date}</Text>
+                    <Text style={styles.gridLabel}>Tariff Expires:</Text>
+                    <Text style={styles.gridValue}>{result.expirationDate}</Text>
                   </View>
                 )}
               </View>
@@ -810,44 +902,48 @@ export default function LookupScreen() {
               </View>
 
               {/* Comparison Section - Only for China */}
-              {selectedCountry?.code === 'CN' && (
+              {selectedCountry?.code === 'CN' && comparison && (
                 <>
                   <Text style={[styles.sectionTitle, {marginTop: 24}]}>Comparison</Text>
                   <View style={styles.sectionContainer}>
-                    {/* Comparison Table Header */}
-                    <View style={styles.tableHeader}>
-                      <Text style={styles.tableHeaderCell1}>Tariff War Period</Text>
-                      <Text style={styles.tableHeaderCell2}>Additional %</Text>
-                      <Text style={styles.tableHeaderCell3}>Amount</Text>
-                    </View>
-                    {/* Current Rate */}
+                    {/* Toggle ON (Additive): Both RT and 301 */}
                     <View style={styles.tableRow}>
-                      <Text style={styles.tableCell1}>90-day US/CH Tariff</Text>
-                      <Text style={styles.tableCell2}>{formatNumber(currentRate * 100)}%</Text>
-                      <Text style={styles.tableCell3}>{formatCurrency(currentAmount)}</Text>
+                      <Text style={styles.tableCell1}>
+                        Toggle ON (Additive): Total with RT + 301
+                      </Text>
+                      <Text style={styles.tableCell2}>
+                        {formatCurrency(comparison.toggleOn.withRT)}
+                      </Text>
+                      <Text style={styles.tableCell3}>
+                        {(() => {
+                          // % Delta vs. 301 only (Toggle ON without RT)
+                          const base = comparison.toggleOn.withoutRT;
+                          const diff = comparison.toggleOn.withRT - base;
+                          const percent = base > 0 ? (diff / base) * 100 : 0;
+                          return `${percent >= 0 ? '+' : ''}${formatNumber(percent, 1)}% vs. 301 only`;
+                        })()}
+                      </Text>
                     </View>
-                    {/* Prior Rate */}
+                    {/* Toggle OFF: RT only vs. 301 only */}
                     <View style={styles.tableRow}>
-                      <Text style={styles.tableCell1}>Special US/CH Tariff</Text>
-                      <Text style={styles.tableCell2}>{formatNumber(priorRate * 100)}%</Text>
-                      <Text style={styles.tableCell3}>{formatCurrency(priorAmount)}</Text>
-                    </View>
-                    {/* Decrease Row */}
-                    <View style={styles.totalRow}>
-                      <Text style={styles.totalCell1}>Delta</Text>
-                      <Text style={styles.decreaseValue}>({formatCurrency(delta)})</Text>
+                      <Text style={styles.tableCell1}>
+                        Toggle OFF: RT Only / 301 Only
+                      </Text>
+                      <Text style={styles.tableCell2}>
+                        {formatCurrency(comparison.toggleOff.withRT)} / {formatCurrency(comparison.toggleOff.withoutRT)}
+                      </Text>
+                      <Text style={styles.tableCell3}>
+                        {(() => {
+                          // % Delta between RT only and 301 only (Toggle OFF)
+                          const base = comparison.toggleOff.withoutRT;
+                          const diff = comparison.toggleOff.withRT - base;
+                          const percent = base > 0 ? (diff / base) * 100 : 0;
+                          return `${percent >= 0 ? '+' : ''}${formatNumber(percent, 1)}% vs. 301 only`;
+                        })()}
+                      </Text>
                     </View>
                   </View>
                 </>
-              )}
-
-              {!isSaved && (
-                <TouchableOpacity
-                  style={styles.saveButton}
-                  onPress={handleSaveToHistory}
-                >
-                  <Text style={styles.saveButtonText}>Save Results</Text>
-                </TouchableOpacity>
               )}
 
               <View style={styles.disclaimerContainer}>
@@ -978,7 +1074,7 @@ const styles = StyleSheet.create({
   resultHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: 16,
     paddingTop: 16,
   },
@@ -994,15 +1090,26 @@ const styles = StyleSheet.create({
     fontSize: isTablet() ? 16 : 13,
     color: COLORS.darkGray,
   },
-  newLookupButton: {
+  resultHeaderButtons: {
+    alignItems: 'flex-end',
+    minWidth: 160, // Set minimum width for button container
+  },
+  actionButton: {
     flexDirection: 'row',
-    backgroundColor: COLORS.orange,
     borderRadius: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     paddingVertical: 8,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: 160, // Fixed width for both buttons
   },
-  newLookupButtonText: {
+  saveSearchButton: {
+    backgroundColor: COLORS.orange,
+  },
+  saveClearButton: {
+    backgroundColor: COLORS.saveButtonBlue,
+  },
+  actionButtonText: {
     color: COLORS.white,
     fontSize: isTablet() ? 19 : 15,
     fontWeight: '600',
@@ -1156,22 +1263,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     flexShrink: 0, // Add this line
   },
-  saveButton: {
-    backgroundColor: COLORS.orange,
-    borderRadius: 8,
-    height: 48,
-    width: 200,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 32,
-    marginBottom: 16,
-  },
-  saveButtonText: {
-    color: COLORS.white,
-    fontSize: isTablet() ? 20 : 16,
-    fontWeight: '600',
-  },
   disclaimerContainer: {
     marginBottom: 24,
   },
@@ -1270,5 +1361,22 @@ const styles = StyleSheet.create({
     fontSize: isTablet() ? 16 : 14,
     color: COLORS.darkGray,
     textAlign: 'center',
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.lightGray,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.mediumGray,
+    paddingHorizontal: 12,
+    height: 48,
+    marginBottom: 8,
+  },
+  toggleLabel: {
+    fontSize: isTablet() ? 16 : 14,
+    color: COLORS.darkBlue,
+    fontWeight: '500',
   },
 });
