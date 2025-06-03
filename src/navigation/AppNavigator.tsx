@@ -14,7 +14,6 @@ import HistoryScreen from '../screens/HistoryScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen';
-import TestScreen from '../screens/TestScreen';
 import LinksScreen from '../screens/LinksScreen';
 import InAppWebViewScreen from '../screens/InAppWebViewScreen';
 
@@ -156,15 +155,6 @@ const CustomDrawerContent = (props: any) => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="Test"
-        component={TestScreen}
-        options={{
-          drawerIcon: ({ color, size, focused }: DrawerIconProps) => (
-            <Ionicons name="flask" size={size} color={color} />
-          ),
-        }}
-      />
     </Drawer.Navigator>
   );
 };
@@ -189,7 +179,6 @@ function CustomTopTabBar({ state, descriptors, navigation }: BottomTabBarProps) 
               case 'Lookup': return 'search';
               case 'History': return 'time';
               case 'Settings': return 'settings-outline';
-              case 'Test': return 'flask';
               case 'Links': return 'help-circle-outline';
               default: return 'help-circle-outline';
             }
