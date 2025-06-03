@@ -31,7 +31,7 @@ export interface HistoryItem {
   timestamp: number;
 }
 
-const HISTORY_STORAGE_KEY = '@RateCast:history';
+const HISTORY_STORAGE_KEY = '@HarmonyTi:history';
 
 export const useHistory = () => {
   const [history, setHistory] = useState<HistoryItem[]>([]);

@@ -8,7 +8,7 @@ import { AuthProvider, useAuth } from './src/navigation/contexts/AuthContext';
 import { View, ActivityIndicator } from 'react-native';
 
 // First launch key for AsyncStorage
-const FIRST_LAUNCH_KEY = '@RateCast:firstLaunch';
+const FIRST_LAUNCH_KEY = '@HarmonyTi:firstLaunch';
 
 function AppContent() {
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);

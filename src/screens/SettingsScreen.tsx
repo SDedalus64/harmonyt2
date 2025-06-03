@@ -214,7 +214,7 @@ export default function SettingsScreen() {
               resizeMode="contain"
             />
             <Text style={styles.versionText}>Version 1.0.0</Text>
-            <Text style={styles.copyrightText}>© 2025 RateCast. All rights reserved.</Text>
+            <Text style={styles.copyrightText}>© 2025 HarmonyTi. All rights reserved.</Text>
           </View>
         </View>
       </ScrollView>

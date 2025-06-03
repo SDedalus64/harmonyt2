@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '../navigation/contexts/AuthContext';
 
 // Storage keys
-const AUTH_TOKEN_KEY = '@RateCast:authToken';
-const REFRESH_TOKEN_KEY = '@RateCast:refreshToken';
-const USER_DATA_KEY = '@RateCast:userData';
+const AUTH_TOKEN_KEY = '@HarmonyTi:authToken';
+const REFRESH_TOKEN_KEY = '@HarmonyTi:refreshToken';
+const USER_DATA_KEY = '@HarmonyTi:userData';
 
 // Mock user data for development
 const MOCK_USERS = [
