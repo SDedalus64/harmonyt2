@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
+import { Alert, AppState, AppStateStatus } from 'react-native';
 
 // Define user profile interface
 export interface UserProfile {
@@ -24,6 +24,7 @@ export interface AuthContextValue {
 // Storage keys
 const USER_PROFILE_KEY = '@tcalc_user_profile';
 const AUTH_TOKEN_KEY = '@tcalc_auth_token';
+const AUTH_STATE_KEY = '@tcalc_auth_state';
 
 // Mock API endpoints
 const API_BASE_URL = 'https://api.example.com';
@@ -34,26 +35,54 @@ const API_BASE_URL = 'https://api.example.com';
 export function useAuth(): AuthContextValue {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const appState = useRef(AppState.currentState);
 
-  // Check for existing session on mount
-  useEffect(() => {
-    const checkAuthStatus = async () => {
+  // Function to restore auth state
+  const restoreAuthState = async () => {
       try {
-        const token = await AsyncStorage.getItem(AUTH_TOKEN_KEY);
-        if (token) {
-          const profileJson = await AsyncStorage.getItem(USER_PROFILE_KEY);
-          if (profileJson) {
+      const [authState, token, profileJson] = await Promise.all([
+        AsyncStorage.getItem(AUTH_STATE_KEY),
+        AsyncStorage.getItem(AUTH_TOKEN_KEY),
+        AsyncStorage.getItem(USER_PROFILE_KEY)
+      ]);
+
+      if (authState === 'true' && token && profileJson) {
             const profile = JSON.parse(profileJson);
             setUserProfile(profile);
             setIsLoggedIn(true);
-          }
+        console.log('Auth state restored successfully');
+      } else {
+        console.log('No valid auth state found');
         }
       } catch (error) {
-        console.error('Error checking auth status:', error);
-      }
-    };
+      console.error('Error restoring auth state:', error);
+    } finally {
+      setIsInitialized(true);
+    }
+  };
 
-    checkAuthStatus();
+  // Handle app state changes
+  useEffect(() => {
+    // Subscribe to app state changes
+    const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        // App has come to the foreground
+        console.log('App came to foreground, checking auth state');
+        restoreAuthState();
+      }
+      appState.current = nextAppState;
+    });
+
+    // Initial auth state check
+    restoreAuthState();
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   /**
@@ -62,16 +91,14 @@ export function useAuth(): AuthContextValue {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       // In a real app, this would be an API call
-      // For now, we'll simulate a successful login
       console.log(`Logging in user: ${email}`);
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Mock successful login
       const mockToken = 'mock-auth-token-' + Date.now();
-      await AsyncStorage.setItem(AUTH_TOKEN_KEY, mockToken);
-      
+
       // Mock user profile
       const profile: UserProfile = {
         email,
@@ -79,12 +106,17 @@ export function useAuth(): AuthContextValue {
         companyName: 'Demo Company',
         receiveUpdates: true
       };
-      
-      await AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile));
-      
+
+      // Save all auth data atomically
+      await Promise.all([
+        AsyncStorage.setItem(AUTH_TOKEN_KEY, mockToken),
+        AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile)),
+        AsyncStorage.setItem(AUTH_STATE_KEY, 'true')
+      ]);
+
       setUserProfile(profile);
       setIsLoggedIn(true);
-      
+
       return true;
     } catch (error) {
       console.error('Login error:', error);
@@ -105,14 +137,13 @@ export function useAuth(): AuthContextValue {
     try {
       // In a real app, this would be an API call
       console.log(`Registering user: ${email}`);
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       // Mock successful registration
       const mockToken = 'mock-auth-token-' + Date.now();
-      await AsyncStorage.setItem(AUTH_TOKEN_KEY, mockToken);
-      
+
       // Save user profile
       const profile: UserProfile = {
         email,
@@ -120,15 +151,20 @@ export function useAuth(): AuthContextValue {
         companyName,
         receiveUpdates
       };
-      
-      await AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile));
-      
+
+      // Save all auth data atomically
+      await Promise.all([
+        AsyncStorage.setItem(AUTH_TOKEN_KEY, mockToken),
+        AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile)),
+        AsyncStorage.setItem(AUTH_STATE_KEY, 'true')
+      ]);
+
       // Send data to HubSpot (in a real app)
       console.log('Sending user data to HubSpot:', profile);
-      
+
       setUserProfile(profile);
       setIsLoggedIn(true);
-      
+
       return true;
     } catch (error) {
       console.error('Registration error:', error);
@@ -141,8 +177,11 @@ export function useAuth(): AuthContextValue {
    */
   const logout = async (): Promise<void> => {
     try {
-      await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
-      await AsyncStorage.removeItem(USER_PROFILE_KEY);
+      await Promise.all([
+        AsyncStorage.removeItem(AUTH_TOKEN_KEY),
+        AsyncStorage.removeItem(USER_PROFILE_KEY),
+        AsyncStorage.removeItem(AUTH_STATE_KEY)
+      ]);
       setUserProfile(null);
       setIsLoggedIn(false);
     } catch (error) {
@@ -158,14 +197,14 @@ export function useAuth(): AuthContextValue {
       if (!userProfile) {
         return false;
       }
-      
+
       // Update profile
       const updatedProfile = { ...userProfile, ...profile };
       await AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(updatedProfile));
-      
+
       // In a real app, send update to API
       console.log('Updating profile:', updatedProfile);
-      
+
       setUserProfile(updatedProfile);
       return true;
     } catch (error) {
@@ -182,7 +221,7 @@ export function useAuth(): AuthContextValue {
       // Get history from storage
       const historyJson = await AsyncStorage.getItem('@tcalc_history');
       const history = historyJson ? JSON.parse(historyJson) : [];
-      
+
       // Prepare data for backend
       const data = {
         email,
@@ -190,13 +229,13 @@ export function useAuth(): AuthContextValue {
         history,
         userProfile: isLoggedIn ? userProfile : null
       };
-      
+
       // In a real app, this would be an API call to your backend
       console.log('Sending history to backend for email delivery:', data);
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // If user is not logged in but provided email, save partial profile
       if (!isLoggedIn && email) {
         const partialProfile: UserProfile = {
@@ -205,11 +244,11 @@ export function useAuth(): AuthContextValue {
           companyName: '',
           receiveUpdates
         };
-        
+
         // In a real app, send to HubSpot
         console.log('Sending partial profile to HubSpot:', partialProfile);
       }
-      
+
       return true;
     } catch (error) {
       console.error('Send history error:', error);

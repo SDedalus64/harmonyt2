@@ -1,5 +1,4 @@
-import { HistoryItem, DutyComponent } from './hooks/useHistory';
-import { User } from './contexts/AuthContext';
+import { HistoryItem } from '../hooks/useHistory';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -20,8 +19,8 @@ export type MainTabParamList = {
   Settings: undefined;
   Test: undefined;
   Links: undefined;
+
 };
 
 // Re-export types for convenience
-export type { HistoryItem, DutyComponent } from './hooks/useHistory';
-export type { User } from './contexts/AuthContext';
+export type { HistoryItem } from '../hooks/useHistory';

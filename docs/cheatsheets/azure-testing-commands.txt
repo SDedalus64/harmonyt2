@@ -1,0 +1,30 @@
+Azure-Only Testing Commands
+
+Start fresh build:
+npx expo start --clear
+
+Start with full cache clear:
+npx expo start --clear --reset-cache
+
+Check bundle size:
+du -sh src/
+
+Find large files:
+find src/ -type f -size +1M
+
+Check if local data removed:
+ls -la src/
+
+Test HTS codes:
+84715001 (China)
+61091000 (Mexico)
+87032310 (Canada)
+
+Expected startup: <1 second
+Expected first lookup: 1-3 seconds
+Expected cached lookup: <500ms
+
+Watch console for:
+🚀 Loading tariff data from Azure Blob Storage
+⏱️ Load time: XXXXms
+📦 Tariff data already loaded and cached

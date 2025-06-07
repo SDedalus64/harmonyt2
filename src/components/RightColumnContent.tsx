@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   ScrollView,
   Image,
   Linking,
+  ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
@@ -80,30 +82,68 @@ const recentSocialPosts: SocialPost[] = [
   },
 ];
 
-const recentBlogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Avoid Rolled Shipments This Peak Season',
-    excerpt: "Learn how to avoid rolled shipments with proven strategies for 2025's peak season.",
-    date: 'May 2025',
-    url: 'https://dedola.com/2025/05/avoid-rolled-shipments-this-peak-season/',
-    image: DEDOLA_LOGO,
-  },
-  {
-    id: '2',
-    title: 'FTZ vs Bonded Warehouse vs Bonded CFS Entry',
-    excerpt: 'Section 301 tariffs remain high for China imports. Learn how FTZs, bonded warehouses, and CFS entries help U.S. importers defer duties and reduce costs.',
-    date: 'May 2025',
-    url: 'https://dedola.com/2025/05/ftz-vs-bonded-warehouse-vs-bonded-cfs-entry/',
-    image: DEDOLA_LOGO,
-  },
-];
+
 
 const RightColumnContent = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleInAppPress = (url: string, title?: string, platform?: string) => {
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch('https://dedola.com/wp-json/wp/v2/posts?per_page=3&after=2025-01-01T00:00:00&_embed');
+
+        if (response.ok) {
+          const posts = await response.json();
+
+          const transformedPosts = posts.slice(0, 3).map((post: any) => {
+            let featuredImage = DEDOLA_LOGO;
+
+            try {
+              if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
+                const media = post._embedded['wp:featuredmedia'][0];
+                if (media.media_details && media.media_details.sizes) {
+                  featuredImage = media.media_details.sizes.medium?.source_url ||
+                                media.media_details.sizes.thumbnail?.source_url ||
+                                media.media_details.sizes.full?.source_url ||
+                                media.source_url ||
+                                DEDOLA_LOGO;
+                } else if (media.source_url) {
+                  featuredImage = media.source_url;
+                }
+              }
+            } catch (e) {
+              console.log('Error extracting featured image');
+            }
+
+            return {
+              id: String(post.id),
+              title: post.title.rendered,
+              excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
+              date: new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+              url: post.link,
+              image: featuredImage
+            };
+          });
+
+          setBlogPosts(transformedPosts);
+        }
+      } catch (e) {
+        console.error('Error fetching blog posts:', e);
+      }
+      setLoading(false);
+    };
+
+    fetchBlogs();
+  }, []);
+
+  const handleInAppPress = (url: string, title?: string) => {
     navigation.navigate('InAppWebView', { url, title });
+  };
+
+  const handleExternalPress = (url: string) => {
+    Linking.openURL(url);
   };
 
   const getPlatformIcon = (platform: string) => {
@@ -141,6 +181,23 @@ const RightColumnContent = () => {
       {/* Dedola Logo at the top */}
       <View style={styles.logoContainer}>
         <Image source={{ uri: DEDOLA_LOGO }} style={styles.logoImage} resizeMode="contain" />
+
+        {/* Social Icons Row */}
+        <View style={styles.socialIconsRow}>
+          {recentSocialPosts.map((post) => (
+            <TouchableOpacity
+              key={post.id}
+              style={styles.socialIconButton}
+              onPress={() => handleExternalPress(post.url)}
+            >
+              <Ionicons
+                name={getPlatformIcon(post.platform)}
+                size={28}
+                color={getPlatformColor(post.platform)}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
 
       {/* Call to Action Section */}
@@ -165,37 +222,15 @@ const RightColumnContent = () => {
         </View>
       </View>
 
-      {/* Social Media Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Social Media</Text>
-        {recentSocialPosts.map((post) => (
-          <TouchableOpacity
-            key={post.id}
-            style={styles.socialCard}
-            onPress={() => handleInAppPress(post.url, post.title, post.platform)}
-          >
-            <View style={styles.socialHeader}>
-              <Ionicons
-                name={getPlatformIcon(post.platform)}
-                size={28}
-                color={getPlatformColor(post.platform)}
-                style={styles.socialIcon}
-              />
-              <Text style={styles.platformName} numberOfLines={1}>
-                {post.title}
-              </Text>
-            </View>
-            <Text style={styles.postPreview} numberOfLines={2}>
-              {post.preview}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+
 
       {/* Blog Posts Section */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Latest Blog Posts</Text>
-        {recentBlogPosts.map((post) => (
+        {loading ? (
+          <ActivityIndicator size="small" color={COLORS.lightBlue} style={{ marginVertical: 20 }} />
+        ) : (
+          blogPosts.map((post) => (
           <TouchableOpacity
             key={post.id}
             style={styles.blogCard}
@@ -210,7 +245,7 @@ const RightColumnContent = () => {
             </Text>
             <Text style={styles.date}>{post.date}</Text>
           </TouchableOpacity>
-        ))}
+        )))}
       </View>
     </ScrollView>
   );
@@ -349,6 +384,20 @@ const styles = StyleSheet.create({
   date: {
     fontSize: isTablet() ? 11 : 10,
     color: COLORS.darkGray,
+  },
+  socialIconsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 12,
+    gap: 12,
+  },
+  socialIconButton: {
+    padding: 6,
+    borderRadius: 20,
+    backgroundColor: COLORS.lightGray,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

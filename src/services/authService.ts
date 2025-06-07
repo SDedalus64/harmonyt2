@@ -5,6 +5,7 @@ import { User } from '../navigation/contexts/AuthContext';
 const AUTH_TOKEN_KEY = '@HarmonyTi:authToken';
 const REFRESH_TOKEN_KEY = '@HarmonyTi:refreshToken';
 const USER_DATA_KEY = '@HarmonyTi:userData';
+const REGISTERED_USERS_KEY = '@HarmonyTi:registeredUsers';
 
 // Mock user data for development
 const MOCK_USERS = [
@@ -52,6 +53,38 @@ const generateMockTokens = () => ({
   token: `mock_token_${Math.random().toString(36).substring(7)}`,
   refreshToken: `mock_refresh_${Math.random().toString(36).substring(7)}`,
 });
+
+// Load registered users from AsyncStorage
+const loadRegisteredUsers = async () => {
+  try {
+    const usersJson = await AsyncStorage.getItem(REGISTERED_USERS_KEY);
+    if (usersJson) {
+      const users = JSON.parse(usersJson);
+      // Merge with existing mock users
+      users.forEach((user: any) => {
+        if (!MOCK_USERS.some(u => u.email === user.email)) {
+          MOCK_USERS.push(user);
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Error loading registered users:', error);
+  }
+};
+
+// Save registered users to AsyncStorage
+const saveRegisteredUsers = async () => {
+  try {
+    // Filter out the default test user to avoid duplication
+    const usersToSave = MOCK_USERS.filter(u => u.email !== 'test@example.com');
+    await AsyncStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(usersToSave));
+  } catch (error) {
+    console.error('Error saving registered users:', error);
+  }
+};
+
+// Initialize by loading registered users
+loadRegisteredUsers();
 
 // Helper function to handle API errors
 const handleApiError = async (response: Response): Promise<never> => {
@@ -107,6 +140,7 @@ export const getTokens = async () => {
 
 export const clearTokens = async () => {
   try {
+    // Only clear auth tokens and current user data, NOT registered users
     await AsyncStorage.multiRemove([
       AUTH_TOKEN_KEY,
       REFRESH_TOKEN_KEY,
@@ -141,6 +175,9 @@ export const getUserData = async (): Promise<User | null> => {
 // Mock API calls
 export const login = async (email: string, password: string): Promise<User> => {
   try {
+    // Load registered users first
+    await loadRegisteredUsers();
+
     // Simulate API delay
     await delay(1000);
 
@@ -172,6 +209,9 @@ export const register = async (
   receiveUpdates: boolean
 ): Promise<User> => {
   try {
+    // Load registered users first
+    await loadRegisteredUsers();
+
     // Simulate API delay
     await delay(1000);
 
@@ -195,6 +235,9 @@ export const register = async (
       password,
       user: newUser,
     });
+
+    // Save registered users to AsyncStorage
+    await saveRegisteredUsers();
 
     // Generate mock tokens
     const { token, refreshToken } = generateMockTokens();

@@ -17,7 +17,7 @@ export interface HistoryItem {
     description: string;
   };
   breakdown?: string[];
-  components?: { type: string; rate: number; amount: number }[];
+  components?: { type: string; rate: number; amount: number; label?: string }[];
   fees?: {
     mpf: { rate: number; amount: number };
     hmf: { rate: number; amount: number };
@@ -25,9 +25,17 @@ export interface HistoryItem {
   timestamp: number;
   // For backward compatibility
   country?: string;
+  // Unit calculations
+  unitCount?: string;
+  unitCalculations?: {
+    costPerUnitWithRT: number;
+    costPerUnitWithoutRT?: number;
+    additionalPerUnit?: number;
+    hasRT: boolean;
+  };
 }
 
-const HISTORY_STORAGE_KEY = '@tcalc_history';
+const HISTORY_STORAGE_KEY = '@HarmonyTi:history';
 
 export function useHistory() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -36,11 +44,13 @@ export function useHistory() {
   const loadHistory = useCallback(async () => {
     setHistoryLoading(true);
     try {
+      console.log('[loadHistory] Loading from key:', HISTORY_STORAGE_KEY);
       const savedHistory = await AsyncStorage.getItem(HISTORY_STORAGE_KEY);
-      console.log('[loadHistory] Loaded from storage:', savedHistory);
+      console.log('[loadHistory] Raw data from storage:', savedHistory);
       if (savedHistory) {
         const parsedHistory = JSON.parse(savedHistory);
-        
+        console.log('[loadHistory] Parsed history length:', parsedHistory.length);
+
         // Handle backward compatibility for older history items
         const updatedHistory = parsedHistory.map((item: any) => {
           // If item has old 'country' field but not the new fields
@@ -79,10 +89,10 @@ export function useHistory() {
               { code: 'VN', name: 'Vietnam' },
               { code: 'ZA', name: 'South Africa' },
             ];
-            
+
             const foundCountry = countries.find(c => c.code === item.country);
             const countryName = foundCountry ? foundCountry.name : item.country;
-            
+
             return {
               ...item,
               countryCode: item.country,
@@ -91,7 +101,7 @@ export function useHistory() {
           }
           return item;
         });
-        
+
         setHistory(updatedHistory);
       } else {
         setHistory([]);
@@ -115,7 +125,7 @@ export function useHistory() {
         code: item.countryCode,
         name: item.countryName
       });
-      
+
       // Always get the latest history from storage
       const existingHistory = await AsyncStorage.getItem(HISTORY_STORAGE_KEY);
       const historyItems: HistoryItem[] = existingHistory ? JSON.parse(existingHistory) : [];
@@ -135,7 +145,10 @@ export function useHistory() {
 
       // Save to storage
       await AsyncStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(trimmedHistory));
-      
+      console.log('[saveToHistory] Saved to AsyncStorage with key:', HISTORY_STORAGE_KEY);
+      console.log('[saveToHistory] Total items in history:', trimmedHistory.length);
+      console.log('[saveToHistory] Latest item:', trimmedHistory[0]);
+
       // Update local state immediately to reflect changes
       setHistory(trimmedHistory);
     } catch (error) {
@@ -150,10 +163,10 @@ export function useHistory() {
       await AsyncStorage.removeItem(HISTORY_STORAGE_KEY);
       // Fallback: force set to empty array in case removeItem fails
       await AsyncStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify([]));
-      
+
       // Directly update the local state to empty array
       setHistory([]);
-      
+
       console.log('[clearHistory] History cleared.');
     } catch (error) {
       console.error('Error clearing history:', error);

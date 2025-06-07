@@ -1,10 +1,15 @@
 // Types
-import tariffDataJson from '../data/tariff_processed.json';
+// Pure Azure blob storage implementation - no local data
+
+// Import Azure configuration
+import { AZURE_CONFIG, getAzureUrls } from '../config/azure.config';
 
 export interface TariffData {
   data_last_updated?: string;
   tariffs: TariffEntry[];
   tariff_truce?: TariffTruce;
+  metadata?: any;
+  country_programs?: any;
 }
 
 export interface TariffEntry {
@@ -89,9 +94,6 @@ export interface TariffEntry {
   begin_effect_date?: string;
   end_effective_date?: string;
   footnote_comment?: string;
-
-  // Computed field
-  normalizedCode?: string;
 }
 
 export interface TariffTruce {
@@ -124,9 +126,10 @@ const HMF_RATE = 0.00125; // 0.125% Harbor Maintenance Fee
 export class TariffService {
   private static instance: TariffService;
   private tariffData: TariffData | null = null;
+  private segmentCache: Map<string, TariffEntry[]> = new Map();
   private initialized = false;
   private lastFetchTime: number = 0;
-  private readonly CACHE_DURATION = 1000 * 60 * 60; // 1 hour cache
+  private readonly CACHE_DURATION = AZURE_CONFIG.cacheDuration;
 
   private constructor() {}
 
@@ -137,46 +140,159 @@ export class TariffService {
     return TariffService.instance;
   }
 
-  async initialize(): Promise<void> {
-    if (this.initialized && Date.now() - this.lastFetchTime < this.CACHE_DURATION) {
-      return;
-    }
-
+  // Add retry logic for network requests
+  private async fetchWithRetry(url: string, retryCount = 0): Promise<Response> {
     try {
-      // Use the imported preprocessed data directly
-      const data = tariffDataJson;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), AZURE_CONFIG.requestTimeout);
 
-      // The preprocessed data has the correct structure
-          this.tariffData = data as TariffData;
-
-        // Normalize HTS codes for all entries
-        if (this.tariffData?.tariffs) {
-          this.tariffData.tariffs = this.tariffData.tariffs.map(entry => ({
-            ...entry,
-            normalizedCode: this.normalizeHtsCode(entry.hts8 || entry['\ufeffhts8'] || entry["HTS Number"] || '')
-          }));
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json',
+          'Cache-Control': 'max-age=3600' // 1 hour cache
         }
+      });
 
-        this.lastFetchTime = Date.now();
-        this.initialized = true;
-      console.log('Successfully initialized tariff data from preprocessed file');
-        console.log('Total tariff entries loaded:', this.tariffData?.tariffs?.length || 0);
-      console.log('Data last updated:', this.tariffData?.data_last_updated || 'Unknown');
+      clearTimeout(timeoutId);
 
-      // Log metadata if available
-      if ((this.tariffData as any).metadata) {
-        console.log('Metadata:', (this.tariffData as any).metadata);
+      if (!response.ok && retryCount < AZURE_CONFIG.retry.maxAttempts - 1) {
+        const delay = AZURE_CONFIG.retry.delayMs * Math.pow(AZURE_CONFIG.retry.backoffMultiplier, retryCount);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.fetchWithRetry(url, retryCount + 1);
       }
+
+      return response;
     } catch (error) {
-      console.error('Failed to initialize tariff data:', error);
-      throw new Error('Failed to initialize tariff data from preprocessed file');
+      if (retryCount < AZURE_CONFIG.retry.maxAttempts - 1) {
+        const delay = AZURE_CONFIG.retry.delayMs * Math.pow(AZURE_CONFIG.retry.backoffMultiplier, retryCount);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.fetchWithRetry(url, retryCount + 1);
+      }
+      throw error;
     }
   }
 
+  isInitialized(): boolean {
+    return this.initialized && Date.now() - this.lastFetchTime < this.CACHE_DURATION;
+  }
+
+  async initialize(): Promise<void> {
+    if (this.isInitialized()) {
+      console.log('Tariff data already initialized and cached');
+      return;
+    }
+
+    const startTime = Date.now();
+
+    try {
+      console.log('🚀 Loading tariff data from Azure Blob Storage (no local fallback)...');
+
+      const urls = getAzureUrls();
+      console.log('📡 Fetching from:', urls.mainData);
+
+      // Fetch the main tariff data from Azure
+      const response = await this.fetchWithRetry(urls.mainData);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch tariff data: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      // The data from Azure has the correct structure
+      this.tariffData = data as TariffData;
+
+      this.lastFetchTime = Date.now();
+      this.initialized = true;
+
+      const loadTime = Date.now() - startTime;
+      console.log('✅ Successfully loaded tariff data from Azure');
+      console.log(`⏱️  Load time: ${loadTime}ms`);
+      console.log('📊 Total tariff entries loaded:', this.tariffData?.tariffs?.length || 0);
+      console.log('📅 Data last updated:', this.tariffData?.data_last_updated || 'Unknown');
+
+      // Log metadata if available
+      if (this.tariffData?.metadata) {
+        console.log('📋 Metadata:', this.tariffData.metadata);
+      }
+    } catch (error) {
+      const loadTime = Date.now() - startTime;
+      console.error(`❌ Failed to initialize tariff data after ${loadTime}ms:`, error);
+
+      // No local fallback - pure Azure implementation
+      throw new Error(`Failed to load tariff data from Azure: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  // New method to load segment data on demand
+  async loadSegment(segmentId: string): Promise<TariffEntry[]> {
+    // Check cache first
+    if (this.segmentCache.has(segmentId)) {
+      return this.segmentCache.get(segmentId)!;
+    }
+
+    try {
+      const urls = getAzureUrls();
+      const segmentUrl = urls.getSegmentUrl(segmentId);
+      console.log(`Loading segment ${segmentId} from ${segmentUrl}`);
+
+      const response = await this.fetchWithRetry(segmentUrl);
+
+      if (!response.ok) {
+        // Don't throw for 404s, just return empty array
+        if (response.status === 404) {
+          console.log(`Segment ${segmentId} not found, will use main data`);
+          return [];
+        }
+        throw new Error(`Failed to fetch segment ${segmentId}: ${response.status}`);
+      }
+
+      const segmentData = await response.json();
+
+      // Cache the segment
+      this.segmentCache.set(segmentId, segmentData);
+
+      return segmentData;
+    } catch (error) {
+      console.error(`Failed to load segment ${segmentId}:`, error);
+      return [];
+    }
+  }
+
+  // Update findTariffEntry to use segments for better performance
+  async findTariffEntryOptimized(htsCode: string): Promise<TariffEntry | undefined> {
+    // For now, just use the main data since it contains all entries
+    // Segment optimization can be added later when all segment files are available
+    return this.findTariffEntry(htsCode);
+  }
+
+  private getSegmentId(prefix: string): string | null {
+    const prefixNum = parseInt(prefix);
+
+    // Based on the segment-index.json, these are the available segments:
+    // Single digit segments: 1x, 3x, 4x, 5x
+    // Individual chapters: 01-09, 20-29, 60-99
+
+    // Check for x-segments first (10-19, 30-39, 40-49, 50-59)
+    if (prefixNum >= 10 && prefixNum <= 19) return '1x';
+    if (prefixNum >= 30 && prefixNum <= 39) return '3x';
+    if (prefixNum >= 40 && prefixNum <= 49) return '4x';
+    if (prefixNum >= 50 && prefixNum <= 59) return '5x';
+
+    // Check for individual chapter files
+    if (prefixNum >= 1 && prefixNum <= 9) return prefix.padStart(2, '0');
+    if (prefixNum >= 20 && prefixNum <= 29) return prefix;
+    if (prefixNum >= 60 && prefixNum <= 99) return prefix;
+
+    // No segment file for chapters 10-19, 30-39, 40-49, 50-59 (except the x files)
+    // and chapters 11-19, 31-39, 41-49, 51-59
+    return null;
+  }
+
   private normalizeHtsCode(code: string): string {
-    // Remove BOM character if present and normalize to 8 digits
-    const cleanedCode = String(code).replace(/\ufeff/g, '').replace(/\D/g, '');
-    return cleanedCode.padEnd(8, '0').slice(0, 8);
+    // Don't normalize - just return the code as-is after removing any BOM character
+    return String(code).replace(/\ufeff/g, '');
   }
 
   getLastUpdated(): string {
@@ -189,12 +305,11 @@ export class TariffService {
       return undefined;
     }
 
-    const normalizedSearch = this.normalizeHtsCode(htsCode);
-    console.log('Searching for normalized code:', normalizedSearch);
-    console.log('First 5 normalized codes in data:', this.tariffData.tariffs.slice(0, 5).map(e => e.normalizedCode));
+    console.log('Searching for HTS code:', htsCode);
+    console.log('First 5 HTS codes in data:', this.tariffData.tariffs.slice(0, 5).map(e => e.hts8));
 
     const result = this.tariffData.tariffs.find(entry =>
-      entry.normalizedCode === normalizedSearch
+      entry.hts8 === htsCode
     );
 
     if (!result) {
@@ -954,5 +1069,35 @@ export class TariffService {
       },
       breakdown
     };
+  }
+
+  // Add search functionality for HTS code suggestions
+  async searchByPrefix(prefix: string, limit: number = 15): Promise<Array<{ code: string; description: string }>> {
+    if (!this.initialized) {
+      await this.initialize();
+    }
+
+    if (!this.tariffData?.tariffs || prefix.length < 3) {
+      return [];
+    }
+
+    const results: Array<{ code: string; description: string }> = [];
+
+    // For performance, only search in the main data for now
+    // In the future, this could be optimized to search segments
+    for (const entry of this.tariffData.tariffs) {
+      if (entry.hts8?.startsWith(prefix)) {
+        results.push({
+          code: entry.hts8,
+          description: entry.brief_description || ''
+        });
+
+        if (results.length >= limit) {
+          break;
+        }
+      }
+    }
+
+    return results;
   }
 }

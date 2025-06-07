@@ -35,12 +35,39 @@ export function useTariff() {
     const initializeTariff = async () => {
       try {
         const tariffService = TariffService.getInstance();
-        await tariffService.initialize();
+
+        // Check if already initialized (no preloading anymore)
+        if (tariffService.isInitialized()) {
+          console.log('📦 Tariff data already loaded and cached');
+          setService(tariffService);
+          setLastUpdated(tariffService.getLastUpdated());
+          setIsLoading(false);
+          return;
+        }
+
+        // If not initialized, the App.tsx is already loading it in the background
+        // Just wait for it to complete
+        console.log('⏳ Waiting for tariff data to load...');
+
+        // Set the service reference even if not fully loaded
+        // The actual methods will wait for initialization
         setService(tariffService);
-        setLastUpdated(tariffService.getLastUpdated());
         setIsLoading(false);
+
+        // Check periodically if the service has been initialized
+        const checkInterval = setInterval(() => {
+          if (tariffService.isInitialized()) {
+            console.log('✅ Tariff data now available');
+            setLastUpdated(tariffService.getLastUpdated());
+            clearInterval(checkInterval);
+          }
+        }, 500);
+
+        // Clean up interval after 30 seconds
+        setTimeout(() => clearInterval(checkInterval), 30000);
+
       } catch (err) {
-        console.error('Failed to initialize tariff service:', err);
+        console.error('❌ Failed to initialize tariff service:', err);
         setError(err instanceof Error ? err : new Error('Failed to initialize tariff service'));
         setIsLoading(false);
       }
@@ -54,6 +81,49 @@ export function useTariff() {
       throw new Error('Tariff service not initialized');
     }
     return service.findTariffEntry(htsCode);
+  }, [service]);
+
+  const findTariffEntryAsync = useCallback(async (htsCode: string): Promise<TariffEntry | undefined> => {
+    if (!service) {
+      throw new Error('Tariff service not initialized');
+    }
+
+    // Wait for initialization if needed
+    if (!service.isInitialized()) {
+      console.log('⏳ Waiting for tariff data to complete loading...');
+      await service.initialize();
+    }
+
+    return service.findTariffEntryOptimized(htsCode);
+  }, [service]);
+
+  const searchByPrefix = useCallback(async (prefix: string, limit: number = 15): Promise<Array<{ code: string; description: string }>> => {
+    if (!service) {
+      throw new Error('Tariff service not initialized');
+    }
+
+    // Wait for initialization if needed
+    if (!service.isInitialized()) {
+      console.log('⏳ Waiting for tariff data to complete loading...');
+      await service.initialize();
+    }
+
+    return service.searchByPrefix(prefix, limit);
+  }, [service]);
+
+  const searchTariffEntries = useCallback((searchTerm: string): TariffEntry[] => {
+    if (!service) {
+      throw new Error('Tariff service not initialized');
+    }
+
+    const results: TariffEntry[] = [];
+
+    const exactMatch = service.findTariffEntry(searchTerm);
+    if (exactMatch) {
+      results.push(exactMatch);
+    }
+
+    return results;
   }, [service]);
 
   const calculateDuty = useCallback((
@@ -73,6 +143,9 @@ export function useTariff() {
     error,
     lastUpdated,
     findTariffEntry,
+    findTariffEntryAsync,
+    searchTariffEntries,
+    searchByPrefix,
     calculateDuty
   };
 }

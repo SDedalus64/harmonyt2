@@ -3,7 +3,7 @@
     "name": "HarmonyTi",
     "slug": "tcalc-mobile",
     "version": "2.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -15,10 +15,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sdedola.tcalcmobile",
-      "buildNumber": "18",
+      "buildNumber": "26",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "UIBackgroundModes": ["fetch", "remote-notification"]
+        "UIBackgroundModes": [
+          "fetch",
+          "remote-notification"
+        ]
       }
     },
     "android": {
@@ -26,7 +29,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "versionCode": 2,
+      "versionCode": 26,
       "edgeToEdgeEnabled": true,
       "package": "com.sdedola.tcalcmobile"
     },

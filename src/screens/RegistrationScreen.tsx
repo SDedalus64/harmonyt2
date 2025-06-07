@@ -16,11 +16,15 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 
-type RegistrationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Register'>;
+// Storage key to track if user has previously signed in
+const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';
+
+type RegistrationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Registration'>;
 
 interface FormErrors {
   email: string;
@@ -113,6 +117,8 @@ export default function RegistrationScreen() {
 
     try {
       await register(email, password, name, companyName, receiveUpdates);
+      // Mark that user has signed in
+      await AsyncStorage.setItem(HAS_SIGNED_IN_KEY, 'true');
       // After successful registration, navigate to login
       navigation.reset({
         index: 0,
@@ -131,8 +137,15 @@ export default function RegistrationScreen() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <ScrollView contentContainerStyle={styles.scrollContent}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          bounces={true}
+          keyboardDismissMode="on-drag"
+        >
           <View style={styles.header}>
             <Text style={styles.title}>Create Account</Text>
             <Text style={styles.subtitle}>
@@ -263,7 +276,7 @@ export default function RegistrationScreen() {
             {/* Login Link */}
             <View style={styles.loginLinkContainer}>
               <Text style={styles.loginText}>Already have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login', {})}>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.loginLink}>Log In</Text>
               </TouchableOpacity>
             </View>
@@ -284,6 +297,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 24,
+    paddingBottom: 40,
+    flexGrow: 1,
   },
   header: {
     marginBottom: 32,

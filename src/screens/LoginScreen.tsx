@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,12 +11,22 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
+import { isTablet } from '../platform/deviceUtils';
+import { Ionicons } from '@expo/vector-icons';
+
+// Get screen dimensions
+const { width: screenWidth } = Dimensions.get('window');
+
+// Storage key to track if user has previously signed in
+const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';
 
 // Brand colors
 const COLORS = {
@@ -39,7 +49,22 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [hasSignedInBefore, setHasSignedInBefore] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
+
+  useEffect(() => {
+    // Check if user has signed in before
+    const checkPreviousSignIn = async () => {
+      try {
+        const hasSignedIn = await AsyncStorage.getItem(HAS_SIGNED_IN_KEY);
+        setHasSignedInBefore(hasSignedIn === 'true');
+      } catch (error) {
+        console.error('Error checking previous sign in:', error);
+      }
+    };
+    checkPreviousSignIn();
+  }, []);
 
   const handleLogin = async () => {
     if (!email.trim()) {
@@ -55,11 +80,10 @@ export default function LoginScreen() {
 
     try {
       await login(email, password);
-      // Navigate to Main screen
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Main' }],
-      });
+      // Mark that user has signed in
+      await AsyncStorage.setItem(HAS_SIGNED_IN_KEY, 'true');
+      // Navigation will be handled automatically by AppNavigator
+      // when isAuthenticated becomes true
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid email or password');
       console.error('Login error:', error);
@@ -77,7 +101,7 @@ export default function LoginScreen() {
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 20}
+        keyboardVerticalOffset={0}
       >
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}
@@ -88,14 +112,16 @@ export default function LoginScreen() {
           <View style={styles.contentContainer}>
             <View style={styles.logoContainer}>
               <Image
-                source={require('../../assets/logo470.png')}
+                source={require('../../assets/Harmony2x.png')}
                 style={styles.logo}
                 resizeMode="contain"
               />
             </View>
 
             <View style={styles.formContainer}>
-              <Text style={styles.welcomeText}>Welcome Back</Text>
+              <Text style={styles.welcomeText}>
+                {hasSignedInBefore ? 'Welcome Back' : 'Welcome'}
+              </Text>
 
               <View style={styles.inputContainer}>
                 <TextInput
@@ -111,16 +137,28 @@ export default function LoginScreen() {
               </View>
 
               <View style={styles.inputContainer}>
+                <View style={styles.passwordWrapper}>
                 <TextInput
-                  style={styles.input}
+                    style={styles.passwordInput}
                   placeholder="Password"
                   value={password}
                   onChangeText={setPassword}
-                  secureTextEntry
+                    secureTextEntry={!showPassword}
                   autoCapitalize="none"
                   autoCorrect={false}
                   returnKeyType="done"
                 />
+                  <TouchableOpacity
+                    style={styles.eyeIcon}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-off-outline" : "eye-outline"}
+                      size={22}
+                      color={COLORS.darkGray}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
 
               <TouchableOpacity
@@ -171,7 +209,8 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   logo: {
-    width: 370,
+    width: isTablet() ? 600 : screenWidth * 0.7,
+    height: isTablet() ? 120 : 80,
   },
   formContainer: {
     backgroundColor: COLORS.lightGray,
@@ -230,5 +269,19 @@ const styles = StyleSheet.create({
     color: COLORS.lightBlue,
     fontSize: 16,
     fontWeight: '600',
+  },
+  passwordWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: '100%',
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 16,
+    color: COLORS.black,
+  },
+  eyeIcon: {
+    marginLeft: 8,
+    marginRight: -8,
   },
 });

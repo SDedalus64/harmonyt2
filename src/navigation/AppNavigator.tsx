@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Platform, TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import { createDrawerNavigator, DrawerNavigationOptions, DrawerContentComponentProps } from '@react-navigation/drawer';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
+
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ import LoginScreen from '../screens/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen';
 import LinksScreen from '../screens/LinksScreen';
 import InAppWebViewScreen from '../screens/InAppWebViewScreen';
+
 
 // Brand colors
 const COLORS = {
@@ -31,7 +32,7 @@ const COLORS = {
 // Create navigators with proper typing
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
-const Tab = createBottomTabNavigator<MainTabParamList>();
+
 const Drawer = createDrawerNavigator<MainTabParamList>();
 
 interface DrawerIconProps {
@@ -159,89 +160,22 @@ const CustomDrawerContent = (props: any) => {
   );
 };
 
-// Custom top tab bar component
-function CustomTopTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
-  const insets = useSafeAreaInsets();
-  return (
-    <>
-      <View style={{ flexDirection: 'row', height: 44, backgroundColor: COLORS.lightBlue, alignItems: 'center', borderBottomWidth: 1, borderBottomColor: COLORS.mediumGray }}>
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
-          const label =
-            typeof options.tabBarLabel === 'string'
-              ? options.tabBarLabel
-              : typeof options.title === 'string'
-              ? options.title
-              : route.name;
-          const isFocused = state.index === index;
-          const iconName = (() => {
-            switch (route.name) {
-              case 'Lookup': return 'search';
-              case 'History': return 'time';
-              case 'Settings': return 'settings-outline';
-              case 'Links': return 'help-circle-outline';
-              default: return 'help-circle-outline';
-            }
-          })();
-          return (
-            <TouchableOpacity
-              key={route.key}
-              accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
-              {...(options.tabBarAccessibilityLabel ? { accessibilityLabel: options.tabBarAccessibilityLabel as string } : {})}
-              onPress={() => {
-                if (!isFocused) {
-                  navigation.navigate(route.name);
-                }
-              }}
-              style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '100%' }}
-            >
-              <Ionicons
-                name={iconName as any}
-                size={20}
-                color={isFocused ? COLORS.white : COLORS.mediumGray}
-                style={{ marginBottom: 2 }}
-              />
-              <Text style={{ color: isFocused ? COLORS.white : COLORS.mediumGray, fontWeight: isFocused ? '700' : '500', fontSize: 15 }}>
-                {typeof label === 'string' ? label : route.name}
-              </Text>
-              {isFocused && (
-                <View style={{ position: 'absolute', bottom: 0, left: 16, right: 16, height: 2, backgroundColor: COLORS.orange, borderRadius: 1 }} />
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-      {/* Safe area spacer below the bar */}
-      {insets.bottom > 0 && <View style={{ height: insets.bottom, backgroundColor: COLORS.lightBlue }} />}
-    </>
-  );
-}
 
-function MainTabs() {
-  const isTabletDevice = isTablet();
+
+function MainStack() {
+  const MainStackNavigator = createNativeStackNavigator<MainTabParamList>();
+
   return (
-    <Tab.Navigator
-      tabBar={props => <CustomTopTabBar {...props} />}
+    <MainStackNavigator.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Tab.Screen name="Lookup" component={LookupScreen} />
-      <Tab.Screen name="History" component={HistoryScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-      {/* Show both Links and Test tabs on iPad, only Links on iPhone */}
-      <Tab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Links',
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name="link-outline" size={size} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      <MainStackNavigator.Screen name="Lookup" component={LookupScreen} />
+      <MainStackNavigator.Screen name="History" component={HistoryScreen} />
+      <MainStackNavigator.Screen name="Settings" component={SettingsScreen} />
+      <MainStackNavigator.Screen name="Links" component={LinksScreen} />
+    </MainStackNavigator.Navigator>
   );
 }
 
@@ -274,8 +208,8 @@ function AuthNavigator() {
 
 // Main navigation component that adapts based on device
 export function AppNavigator({ isAuthenticated, isFirstLaunch }: { isAuthenticated: boolean; isFirstLaunch: boolean }) {
-  // Always use MainTabs for all devices
-  const MainNavigator = MainTabs;
+  // Use MainStack with floating navigation
+  const MainNavigator = MainStack;
 
   // Show loading state while auth is being initialized
   if (isFirstLaunch === null) {

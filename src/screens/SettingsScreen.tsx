@@ -17,6 +17,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
 import { isTablet } from '../platform/deviceUtils';
+import { useSettings } from '../hooks/useSettings';
 
 // Brand colors
 const COLORS = {
@@ -37,6 +38,7 @@ type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 export default function SettingsScreen() {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   const { logout } = useAuth();
+  const { settings, updateSetting } = useSettings();
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = React.useState(false);
   const [cellularDataEnabled, setCellularDataEnabled] = React.useState(true);
@@ -92,16 +94,6 @@ export default function SettingsScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <View style={[styles.headerContainer, { paddingTop: 0 }]}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/logo185.png')}
-            style={[styles.headerLogo, { marginTop: logoMarginTop }]}
-            resizeMode="contain"
-          />
-        </View>
-      </View>
-
       <ScrollView style={styles.scrollView}>
         <Text style={styles.sectionTitle}>Settings</Text>
 
@@ -128,6 +120,19 @@ export default function SettingsScreen() {
         {/* Preferences Section */}
         <View style={styles.section}>
           <Text style={styles.sectionHeader}>Preferences</Text>
+
+          <View style={styles.settingItem}>
+            <View style={styles.settingItemContent}>
+              <Ionicons name="save-outline" size={22} color={COLORS.lightBlue} />
+              <Text style={styles.settingItemText}>Auto-Save to History</Text>
+            </View>
+            <Switch
+              value={settings.autoSaveToHistory}
+              onValueChange={(value) => updateSetting('autoSaveToHistory', value)}
+              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
+              thumbColor={COLORS.white}
+            />
+          </View>
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
@@ -209,7 +214,7 @@ export default function SettingsScreen() {
 
           <View style={styles.aboutContainer}>
             <Image
-              source={require('../../assets/logo470.png')}
+              source={require('../../assets/Harmony2x.png')}
               style={styles.aboutLogo}
               resizeMode="contain"
             />
@@ -244,8 +249,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerLogo: {
-    width: 185,
-    height: 40,
+    width: 370,
+    height: 80,
   },
   scrollView: {
     flex: 1,
@@ -295,8 +300,8 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
   },
   aboutLogo: {
-    width: 180,
-    height: 60,
+    width: 360,
+    height: 120,
     marginBottom: 16,
   },
   versionText: {

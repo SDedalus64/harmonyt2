@@ -2,6 +2,8 @@
 import React, { useRef, useState } from 'react';
 import { View, StyleSheet, Platform, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
 
 // Brand colors
 const COLORS = {
@@ -14,7 +16,13 @@ const COLORS = {
   darkGray: '#666666',
 };
 
-export default function InAppWebViewScreen({ route }) {
+type InAppWebViewScreenRouteProp = RouteProp<RootStackParamList, 'InAppWebView'>;
+
+interface Props {
+  route: InAppWebViewScreenRouteProp;
+}
+
+export default function InAppWebViewScreen({ route }: Props) {
   const { url, title } = route.params;
   const webViewRef = useRef(null);
   const [canGoBack, setCanGoBack] = useState(false);

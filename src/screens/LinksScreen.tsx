@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Platform, Linking, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
+import { getResponsiveValue, getSpacing } from '../config/brandColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -229,45 +230,45 @@ const LinksScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Fixed Header */}
-      <View style={[styles.header, { paddingTop: logoMarginTop }]}>
-        <View style={styles.logoContainer}>
-          <Image source={{ uri: DEDOLA_LOGO }} style={styles.logoImage} resizeMode="contain" />
-        </View>
-        <View style={styles.socialIconsRow}>
-          {recentSocialPosts.map((post) => (
-            <TouchableOpacity
-              key={post.id}
-              style={styles.socialIconButton}
-              onPress={() => handlePress(post.url)}
-              accessibilityLabel={post.title}
-            >
-              <Ionicons
-                name={getPlatformIcon(post.platform)}
-                size={32}
-                color={getPlatformColor(post.platform)}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      {/* Blog Section Header */}
-      <View style={styles.blogSectionHeader}>
-        <Text style={styles.sectionTitle}>2025 Blog Posts</Text>
-        {blogPosts.length > 0 && (
-          <View style={styles.dataSourceBadge}>
-            <Text style={styles.dataSourceText}>🔄 Live</Text>
-          </View>
-        )}
-      </View>
-
-      {/* Scrollable Blog Content */}
+      {/* Scrollable Content with Logo and Social Icons at Top */}
       <ScrollView
         style={styles.blogScrollView}
         contentContainerStyle={styles.blogScrollContent}
         showsVerticalScrollIndicator={true}
+        nestedScrollEnabled={true}
       >
+        {/* Logo and Social Icons at Top of Content */}
+        <View style={styles.topContent}>
+          <View style={styles.logoContainer}>
+            <Image source={{ uri: DEDOLA_LOGO }} style={styles.logoImage} resizeMode="contain" />
+          </View>
+          <View style={styles.socialIconsRow}>
+            {recentSocialPosts.map((post) => (
+              <TouchableOpacity
+                key={post.id}
+                style={styles.socialIconButton}
+                onPress={() => handlePress(post.url)}
+                accessibilityLabel={post.title}
+              >
+                <Ionicons
+                  name={getPlatformIcon(post.platform)}
+                  size={32}
+                  color={getPlatformColor(post.platform)}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* Blog Section Header */}
+        <View style={styles.blogSectionHeader}>
+          <Text style={styles.sectionTitle}>2025 Blog Posts</Text>
+          {blogPosts.length > 0 && (
+            <View style={styles.dataSourceBadge}>
+              <Text style={styles.dataSourceText}>🔄 Live</Text>
+            </View>
+          )}
+        </View>
         {loading ? (
           <ActivityIndicator size="large" color="#217DB2" style={styles.loader} />
         ) : error ? (
@@ -283,7 +284,7 @@ const LinksScreen = () => {
             </TouchableOpacity>
           </View>
         ) : blogPosts.length === 0 ? (
-          <View style={styles.emptyContainer}>
+          <View style={[styles.emptyContainer, { paddingHorizontal: getResponsiveValue(20, 28) }]}>
             <Ionicons name="newspaper-outline" size={48} color="#999" />
             <Text style={styles.emptyText}>No blog posts available</Text>
             <Text style={styles.emptyDetail}>Check back later for updates</Text>
@@ -300,9 +301,12 @@ const LinksScreen = () => {
                   onPress={() => handleBlogPress(post.links[0]?.url || post.id, post.title)}
                   accessibilityLabel={post.title}
                 >
-                  <Image source={{ uri: image }} style={styles.blogImage} resizeMode="cover" />
-                  <View style={styles.blogContent}>
+                  <Image source={{ uri: image }} style={styles.blogImageLarge} resizeMode="cover" />
+                  <View style={styles.blogTextContent}>
                     <Text style={styles.blogTitle}>{post.title}</Text>
+                    <Text style={styles.blogExcerpt} numberOfLines={2}>
+                      {post.description}
+                    </Text>
                     <Text style={styles.blogDate}>
                       {new Date(post.published).toLocaleDateString('en-US', {
                         month: 'short',
@@ -310,7 +314,7 @@ const LinksScreen = () => {
                         year: 'numeric'
                       })}
                     </Text>
-                  </View>
+                                    </View>
                 </TouchableOpacity>
               );
             })}
@@ -326,29 +330,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  header: {
+  topContent: {
     backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
+    paddingTop: getResponsiveValue(60, 80), // Extra top padding for full screen (safe area)
+    paddingBottom: getResponsiveValue(20, 24), // Increased bottom padding
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
-    // Add shadow for iOS
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    // Add elevation for Android
-    elevation: 4,
   },
   scrollContent: {
     padding: 16,
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: getResponsiveValue(24, 32), // Increased margin for better spacing
   },
   logoImage: {
     width: 180,
@@ -363,18 +358,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
+    paddingVertical: getResponsiveValue(16, 20), // Increased vertical padding
     backgroundColor: '#F8F8F8',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    marginBottom: getResponsiveValue(20, 24), // Increased margin
   },
   blogScrollView: {
     flex: 1,
   },
   blogScrollContent: {
-    padding: 16,
-    paddingBottom: 32,
+    paddingBottom: getResponsiveValue(80, 100), // Adequate bottom padding for full screen
   },
   socialCard: {
     backgroundColor: '#F8F8F8',
@@ -403,14 +396,25 @@ const styles = StyleSheet.create({
   },
   blogCard: {
     backgroundColor: '#F8F8F8',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 10,
+    borderRadius: getResponsiveValue(8, 12), // Responsive border radius
+    padding: getResponsiveValue(16, 20), // Increased padding
+    marginBottom: getResponsiveValue(14, 18), // Increased margin between cards
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   blogContent: {
     flex: 1,
+  },
+  blogTextContent: {
+    flex: 1,
+    paddingLeft: getResponsiveValue(16, 20), // Increased left padding for better spacing
+  },
+  blogImageLarge: {
+    width: isTablet() ? 80 : 60,
+    height: isTablet() ? 80 : 60,
+    borderRadius: 4,
+    backgroundColor: '#fff',
   },
   blogHeader: {
     flexDirection: 'row',
@@ -442,33 +446,37 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   blogExcerpt: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#666',
-    lineHeight: 18,
+    lineHeight: 20,
+    marginTop: 8,
+    marginBottom: 8,
   },
   socialIconsRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 24,
-    gap: 18,
+    marginBottom: getResponsiveValue(28, 36), // Increased margin for better spacing
+    gap: getResponsiveValue(18, 24), // Increased gap between icons
   },
   socialIconButton: {
-    marginHorizontal: 8,
-    padding: 8,
-    borderRadius: 24,
+    marginHorizontal: getResponsiveValue(8, 12), // Increased horizontal margin
+    padding: getResponsiveValue(10, 14), // Increased padding for better touch targets
+    borderRadius: getResponsiveValue(24, 28), // Responsive border radius
     backgroundColor: '#F8F8F8',
     alignItems: 'center',
     justifyContent: 'center',
   },
   blogListContainer: {
-    marginBottom: 24,
+    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
+    marginBottom: getResponsiveValue(32, 40), // Increased bottom margin for more space
   },
   loader: {
-    marginVertical: 20,
+    marginVertical: getResponsiveValue(24, 32), // Increased margin for better spacing
   },
   errorContainer: {
-    padding: 20,
+    padding: getResponsiveValue(24, 32), // Increased padding
+    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
     alignItems: 'center',
   },
   errorText: {
@@ -485,9 +493,9 @@ const styles = StyleSheet.create({
   },
   retryButton: {
     backgroundColor: '#217DB2',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
+    paddingHorizontal: getResponsiveValue(24, 32), // Increased horizontal padding
+    paddingVertical: getResponsiveValue(12, 16), // Increased vertical padding
+    borderRadius: getResponsiveValue(8, 12), // Responsive border radius
   },
   retryText: {
     color: '#fff',
@@ -495,9 +503,9 @@ const styles = StyleSheet.create({
   },
   dataSourceBadge: {
     backgroundColor: '#F0F0F0',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: getResponsiveValue(12, 16), // Increased horizontal padding
+    paddingVertical: getResponsiveValue(6, 8), // Increased vertical padding
+    borderRadius: getResponsiveValue(12, 16), // Responsive border radius
   },
   dataSourceText: {
     fontSize: 12,
@@ -505,9 +513,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   emptyContainer: {
-    flex: 1,
+    minHeight: getResponsiveValue(200, 300), // Use minHeight instead of flex: 1
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: getResponsiveValue(40, 60),
   },
   emptyText: {
     fontSize: 16,

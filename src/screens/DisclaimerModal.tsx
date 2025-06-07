@@ -1,13 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Switch, Keyboard } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Switch, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
 
 interface DisclaimerModalProps {
   visible: boolean;
   onAgree: () => void;
 }
 
+// Get device dimensions and calculate 75%
+const getModalDimensions = () => {
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+  const modalWidth = screenWidth * 0.75;
+  const modalHeight = screenHeight * 0.75;
+
+  // Device detection logic
+  const isTablet = screenWidth >= 768; // iPad and larger tablets
+  const isSmallPhone = screenWidth < 375; // Smaller phones
+  const isLargePhone = screenWidth >= 414; // iPhone Plus/Pro Max sizes
+
+  return {
+    modalWidth,
+    modalHeight,
+    screenWidth,
+    screenHeight,
+    isTablet,
+    isSmallPhone,
+    isLargePhone,
+    deviceType: isTablet ? 'tablet' : isSmallPhone ? 'small-phone' : isLargePhone ? 'large-phone' : 'phone',
+    platform: Platform.OS,
+  };
+};
+
 const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) => {
   const [agreed, setAgreed] = useState(false);
+  const [dimensions, setDimensions] = useState(getModalDimensions());
+  const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     if (visible) {
@@ -15,11 +41,52 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
     }
   }, [visible]);
 
+  useEffect(() => {
+    // Update dimensions on orientation change
+    const updateDimensions = () => {
+      setDimensions(getModalDimensions());
+    };
+
+    const subscription = Dimensions.addEventListener('change', updateDimensions);
+
+    return () => subscription?.remove();
+  }, []);
+
   const handleAgree = () => {
     if (agreed) {
       onAgree();
     }
   };
+
+  // Adjust font sizes based on device type
+  const getFontSizes = () => {
+    const { isTablet, isSmallPhone } = dimensions;
+
+    if (isTablet) {
+      return {
+        title: 24,
+        text: 16,
+        button: 18,
+        checkbox: 16,
+      };
+    } else if (isSmallPhone) {
+      return {
+        title: 18,
+        text: 13,
+        button: 14,
+        checkbox: 13,
+      };
+    } else {
+      return {
+        title: 20,
+        text: 14,
+        button: 16,
+        checkbox: 14,
+      };
+    }
+  };
+
+  const fontSizes = getFontSizes();
 
   return (
     <Modal
@@ -30,30 +97,100 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
       onRequestClose={() => { /* (Optional) handle modal close (e.g. via back button) */ }}
     >
       <View style={styles.modalOverlay}>
-         <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Important Disclaimer</Text>
-            <Text style={styles.modalText}>
-               This lookup tool is for general informational purposes only and not legal advice. Data is sourced from public records (U.S. HTS, Section 301 Notices) but is subject to change. Dedola Global Logistics does not guarantee accuracy or timeliness.
-               <Text style={{ fontWeight: 'bold' }}> Users are solely responsible for verifying all information with a licensed customs broker or official sources before making business decisions.</Text> Use of this tool is at your own risk.
-               {'\n\n'}
-               <Text style={{ fontWeight: 'bold' }}>Privacy Note:</Text> Your individual tariff lookups and calculations are processed and stored only within your browser during your session. This specific lookup data is not automatically collected or stored by us. If you choose to use the 'Email My Session & Get Guide' feature, your email address and the session history you've saved will be used to provide you with that information and the guide.
-            </Text>
-            <View style={styles.modalCheckboxRow}>
-               <Switch
-                  value={agreed}
-                  onValueChange={setAgreed}
-                  trackColor={{ false: '#E1E1E1', true: '#2EAAF2' }}
-                  thumbColor="#fff"
-               />
-               <Text style={styles.modalCheckboxLabel}>I have read, understand, and agree to this disclaimer.</Text>
-            </View>
-            <TouchableOpacity
-               style={[styles.modalButton, !agreed && styles.modalButtonDisabled]}
-               onPress={handleAgree}
-               disabled={!agreed}
+         <View style={[
+           styles.modalContent,
+           {
+             width: dimensions.modalWidth,
+             maxHeight: dimensions.modalHeight,
+             // Add padding adjustments based on device
+             padding: dimensions.isTablet ? 30 : dimensions.isSmallPhone ? 15 : 20,
+           }
+         ]}>
+            <ScrollView
+              ref={scrollViewRef}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollContent}
+              bounces={false}
             >
-               <Text style={styles.modalButtonText}>Agree & Continue</Text>
-            </TouchableOpacity>
+              <Text style={[styles.modalTitle, { fontSize: fontSizes.title }]}>Welcome to HarmonyTi</Text>
+
+              {/* Debug info - remove in production */}
+              {__DEV__ && (
+                <Text style={styles.debugText}>
+                  Device: {dimensions.deviceType} | Platform: {dimensions.platform} |
+                  Screen: {dimensions.screenWidth.toFixed(0)}x{dimensions.screenHeight.toFixed(0)} |
+                  Modal: {dimensions.modalWidth.toFixed(0)}x{dimensions.modalHeight.toFixed(0)}
+                </Text>
+              )}
+
+              <Text style={[styles.modalSubtitle, { fontSize: fontSizes.text + 2 }]}>
+                Your Professional Import Duty Calculator
+              </Text>
+
+              <Text style={[styles.modalText, { fontSize: fontSizes.text }]}>
+                <Text style={{ fontWeight: 'bold' }}>What we provide:</Text>
+                {'\n'}• Real-time duty estimates based on official U.S. tariff data
+                {'\n'}• Current trade action rates (Section 301, 232, reciprocal tariffs)
+                {'\n'}• Instant calculations for import planning
+                {'\n\n'}
+                <Text style={{ fontWeight: 'bold' }}>Important to know:</Text>
+                {'\n'}• Estimates are for planning purposes only
+                {'\n'}• Final duties are determined by U.S. Customs at time of entry
+                {'\n'}• Always verify with a licensed customs broker for official rulings
+                {'\n\n'}
+                <Text style={{ fontWeight: 'bold' }}>Your privacy:</Text>
+                {'\n'}• Calculations are processed locally on your device
+                {'\n'}• We don't store your lookup history unless you request a report
+                {'\n'}• or an evaluation of your import duties.
+                {'\n'}• Email features are optional and only used when requested
+              </Text>
+
+              <View style={styles.legalNotice}>
+                <Text style={[styles.legalText, { fontSize: fontSizes.text - 1 }]}>
+                  By using HarmonyTi, you acknowledge that this tool provides estimates only.
+                  Dedola Global Logistics is not liable for decisions based solelyon these calculations.
+                  Users must independently verify all information with licensenced professional or
+                  official sources.
+                </Text>
+              </View>
+
+              <View style={styles.modalCheckboxRow}>
+                 <Switch
+                    value={agreed}
+                    onValueChange={(value) => {
+                      setAgreed(value);
+                      // Scroll to bottom when user toggles the switch on
+                      if (value) {
+                        setTimeout(() => {
+                          scrollViewRef.current?.scrollToEnd({ animated: true });
+                        }, 100);
+                      }
+                    }}
+                    trackColor={{ false: '#E1E1E1', true: '#2EAAF2' }}
+                    thumbColor="#fff"
+                    // Scale switch for tablets
+                    style={dimensions.isTablet ? { transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] } : {}}
+                 />
+                 <Text style={[styles.modalCheckboxLabel, { fontSize: fontSizes.checkbox }]}>
+                   I understand and accept these terms
+                 </Text>
+              </View>
+
+              <TouchableOpacity
+                 style={[
+                   styles.modalButton,
+                   !agreed && styles.modalButtonDisabled,
+                   // Adjust button height based on device
+                   { paddingVertical: dimensions.isTablet ? 16 : dimensions.isSmallPhone ? 10 : 12 }
+                 ]}
+                 onPress={handleAgree}
+                 disabled={!agreed}
+              >
+                 <Text style={[styles.modalButtonText, { fontSize: fontSizes.button }]}>
+                   Agree & Continue
+                 </Text>
+              </TouchableOpacity>
+            </ScrollView>
          </View>
       </View>
     </Modal>
@@ -68,10 +205,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
-    width: '90%',
     backgroundColor: '#F8F8F8', // lightGray
     borderRadius: 10,
-    padding: 20,
     borderColor: '#E1E1E1', // mediumGray
     borderWidth: 1,
     shadowColor: '#000',
@@ -80,13 +215,73 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  modalTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 12, color: '#0B2953' }, // darkBlue
-  modalText: { fontSize: 14, color: '#666666', marginBottom: 16, lineHeight: 20 }, // darkGray
-  modalCheckboxRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
-  modalCheckboxLabel: { marginLeft: 8, fontSize: 14, color: '#333333' }, // black
-  modalButton: { backgroundColor: '#2EAAF2', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
-  modalButtonDisabled: { opacity: 0.5 },
-  modalButtonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    marginBottom: 16,
+  },
+  modalTitle: {
+    fontWeight: 'bold',
+    marginBottom: 12,
+    color: '#0B2953', // darkBlue
+    textAlign: 'center',
+  },
+  modalSubtitle: {
+    fontWeight: '600',
+    marginBottom: 20,
+    color: '#2EAAF2', // electricBlue
+    textAlign: 'center',
+  },
+  modalText: {
+    color: '#666666', // darkGray
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  modalCheckboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 5,
+  },
+  modalCheckboxLabel: {
+    marginLeft: 8,
+    color: '#333333', // black
+    flex: 1,
+  },
+  modalButton: {
+    backgroundColor: '#2EAAF2',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonDisabled: {
+    opacity: 0.5,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  debugText: {
+    fontSize: 10,
+    color: '#999',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  legalNotice: {
+    backgroundColor: '#F0F0F0',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 20,
+    borderLeftWidth: 3,
+    borderLeftColor: '#2EAAF2',
+  },
+  legalText: {
+    color: '#555555',
+    lineHeight: 18,
+    fontSize: 12,
+    fontStyle: 'italic',
+  },
 });
 
 export default DisclaimerModal;

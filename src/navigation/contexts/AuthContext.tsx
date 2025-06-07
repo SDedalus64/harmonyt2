@@ -1,4 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppState, AppStateStatus } from 'react-native';
 import * as authService from '../../services/authService';
 
 export interface User {
@@ -21,49 +23,95 @@ export interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+// Storage keys
+const AUTH_TOKEN_KEY = '@tcalc_auth_token';
+const USER_PROFILE_KEY = '@tcalc_user_profile';
+const AUTH_STATE_KEY = '@tcalc_auth_state';
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userProfile, setUserProfile] = useState<User | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const appState = useRef(AppState.currentState);
 
-  useEffect(() => {
-    // Check for stored auth state
-    checkAuthState();
-  }, []);
-
-  const checkAuthState = async () => {
+  // Restore auth state from storage
+  const restoreAuthState = async () => {
     try {
-      setIsLoading(true);
-      setError(null);
+      const [authState, profileJson, token] = await Promise.all([
+        AsyncStorage.getItem(AUTH_STATE_KEY),
+        AsyncStorage.getItem(USER_PROFILE_KEY),
+        AsyncStorage.getItem(AUTH_TOKEN_KEY)
+      ]);
 
-      // Try to get stored user data
-      const storedUser = await authService.getUserData();
-      if (storedUser) {
-        // Verify token is still valid by making a test request
-        try {
-          await authService.authenticatedFetch('/auth/verify');
-          setUser(storedUser);
-        } catch (error) {
-          // If token is invalid, clear everything
-          await authService.clearTokens();
-          setUser(null);
-        }
+      if (authState === 'true' && profileJson && token) {
+        const profile = JSON.parse(profileJson);
+        setUserProfile(profile);
+        setIsLoggedIn(true);
       }
-    } catch (err) {
-      console.error('Auth state check error:', err);
-      setError('Failed to check authentication state');
-      setUser(null);
+    } catch (error) {
+      console.error('Error restoring auth state:', error);
     } finally {
-      setIsLoading(false);
+      setIsInitializing(false);
     }
   };
 
-  const login = async (email: string, password: string) => {
+  // Save auth state to storage
+  const saveAuthState = async (loggedIn: boolean) => {
+    try {
+      await AsyncStorage.setItem(AUTH_STATE_KEY, loggedIn.toString());
+    } catch (error) {
+      console.error('Error saving auth state:', error);
+    }
+  };
+
+  // Handle app state changes
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        // App has come to the foreground - restore auth state
+        restoreAuthState();
+      }
+      appState.current = nextAppState;
+    });
+
+    // Initial auth state restoration
+    restoreAuthState();
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  const login = async (email: string, password: string): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
-      const userData = await authService.login(email, password);
-      setUser(userData);
+
+      // For demo purposes, accept any login
+      console.log(`Mock login for: ${email}`);
+
+      // Create mock user data
+      const userData: User = {
+        id: 'mock-user-' + Date.now(),
+        email: email,
+        name: 'Demo User',
+        companyName: 'Demo Company',
+        receiveUpdates: true
+      };
+
+      // Save auth data
+      const mockToken = 'mock-auth-token-' + Date.now();
+      await Promise.all([
+        AsyncStorage.setItem(AUTH_TOKEN_KEY, mockToken),
+        AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(userData)),
+        AsyncStorage.setItem(AUTH_STATE_KEY, 'true')
+      ]);
+
+      setUserProfile(userData);
+      setIsLoggedIn(true);
+      await saveAuthState(true);
     } catch (err) {
       console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'Login failed');
@@ -73,18 +121,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
-      await authService.logout();
-      setUser(null);
+
+      // Clear all auth data
+      await Promise.all([
+        AsyncStorage.removeItem(AUTH_TOKEN_KEY),
+        AsyncStorage.removeItem(USER_PROFILE_KEY),
+        AsyncStorage.removeItem(AUTH_STATE_KEY)
+      ]);
+
+      setUserProfile(null);
+      setIsLoggedIn(false);
     } catch (err) {
       console.error('Logout error:', err);
       setError(err instanceof Error ? err.message : 'Logout failed');
-      // Still clear user state even if API call fails
-      setUser(null);
-      throw err;
+      // Still clear user state even if error occurs
+      setUserProfile(null);
+      setIsLoggedIn(false);
     } finally {
       setIsLoading(false);
     }
@@ -96,12 +152,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     name: string,
     companyName: string,
     receiveUpdates: boolean
-  ) => {
+  ): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
-      const userData = await authService.register(email, password, name, companyName, receiveUpdates);
-      setUser(userData);
+
+      // Mock registration
+      const userData: User = {
+        id: 'mock-user-' + Date.now(),
+        email: email,
+        name: name,
+        companyName: companyName,
+        receiveUpdates: receiveUpdates
+      };
+
+      // Save auth data
+      const mockToken = 'mock-auth-token-' + Date.now();
+      await Promise.all([
+        AsyncStorage.setItem(AUTH_TOKEN_KEY, mockToken),
+        AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(userData)),
+        AsyncStorage.setItem(AUTH_STATE_KEY, 'true')
+      ]);
+
+      setUserProfile(userData);
+      setIsLoggedIn(true);
+      await saveAuthState(true);
     } catch (err) {
       console.error('Registration error:', err);
       setError(err instanceof Error ? err.message : 'Registration failed');
@@ -111,9 +186,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const updateProfile = async (profile: Partial<User>): Promise<boolean> => {
+    try {
+      if (!userProfile) return false;
+
+      const updatedProfile = { ...userProfile, ...profile };
+      await AsyncStorage.setItem(USER_PROFILE_KEY, JSON.stringify(updatedProfile));
+      setUserProfile(updatedProfile);
+      return true;
+    } catch (error) {
+      console.error('Update profile error:', error);
+      return false;
+    }
+  };
+
+  const sendHistoryToEmail = async (email: string, receiveUpdates: boolean): Promise<boolean> => {
+    try {
+      const historyJson = await AsyncStorage.getItem('@tcalc_history');
+      const history = historyJson ? JSON.parse(historyJson) : [];
+
+      console.log('Sending history to backend:', { email, receiveUpdates, history });
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      return true;
+    } catch (error) {
+      console.error('Send history error:', error);
+      return false;
+    }
+  };
+
   const value: AuthContextValue = {
-    user,
-    isLoggedIn: !!user,
+    user: userProfile,
+    isLoggedIn,
     login,
     logout,
     register,
@@ -121,8 +225,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     error
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
