@@ -32,18 +32,56 @@ const COLORS = {
 
 type HistoryScreenNavigationProp = BottomTabNavigationProp<MainTabParamList, 'History'>;
 
-export default function HistoryScreen() {
+interface HistoryScreenProps {
+  onItemPress?: (item: HistoryItem) => void;
+  visible?: boolean;
+}
+
+export default function HistoryScreen({ onItemPress, visible = true }: HistoryScreenProps) {
   const navigation = useNavigation<HistoryScreenNavigationProp>();
   const { history, loadHistory, clearHistory } = useHistory();
   const insets = useSafeAreaInsets();
   const logoMarginTop = isTablet() ? 32 : insets.top + 8;
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  console.log('[HistoryScreen] Component rendered with history:', {
+    length: history.length,
+    onItemPress: !!onItemPress,
+    visible
+  });
+
+  // Reload history when visible prop changes to true
+  useEffect(() => {
+    if (visible) {
+      console.log('[HistoryScreen] Drawer opened, refreshing history...');
+      loadHistory();
+    }
+  }, [visible, loadHistory]);
 
   // Reload history every time the screen is focused
   useFocusEffect(
     React.useCallback(() => {
+      console.log('[HistoryScreen] Screen focused, loading history...');
       loadHistory();
+      return () => {
+        console.log('[HistoryScreen] Screen unfocused');
+      };
     }, [loadHistory])
   );
+
+  // Also reload on mount - especially important when used as a drawer
+  useEffect(() => {
+    console.log('[HistoryScreen] Component mounted, loading history...');
+    loadHistory();
+  }, [loadHistory]);
+
+  // Log when history changes
+  useEffect(() => {
+    console.log('[HistoryScreen] History state updated:', {
+      length: history.length,
+      items: history.map(h => ({ htsCode: h.htsCode, timestamp: h.timestamp }))
+    });
+  }, [history]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -78,6 +116,13 @@ export default function HistoryScreen() {
     });
   };
 
+  const handleRefresh = async () => {
+    console.log('[HistoryScreen] Manual refresh triggered');
+    setRefreshing(true);
+    await loadHistory();
+    setRefreshing(false);
+  };
+
   const handleClearHistory = () => {
     Alert.alert(
       'Clear History',
@@ -98,7 +143,13 @@ export default function HistoryScreen() {
   };
 
   const handleItemPress = (item: HistoryItem) => {
-    navigation.navigate('Lookup', { historyItem: item });
+    if (onItemPress) {
+      // When used as a drawer, use the callback
+      onItemPress(item);
+    } else {
+      // When used as a standalone screen, navigate normally
+      navigation.navigate('Lookup', { historyItem: item });
+    }
   };
 
   const renderItem = ({ item }: { item: HistoryItem }) => (
@@ -125,7 +176,7 @@ export default function HistoryScreen() {
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
       <Image
-        source={require('../../assets/logo470.png')}
+        source={require('../../assets/Harmony2x.png')}
         style={styles.emptyStateLogo}
         resizeMode="contain"
       />
@@ -144,29 +195,30 @@ export default function HistoryScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <View style={[styles.headerContainer, { paddingTop: 0 }]}>
-        <View style={styles.headerTitleContainer}>
-          <Image
-            source={require('../../assets/logo470.png')}
-            style={[styles.headerLogo, { marginTop: logoMarginTop }]}
-            resizeMode="contain"
-          />
-        </View>
-        {history.length > 0 && (
-          <TouchableOpacity
-            style={styles.clearButton}
-            onPress={handleClearHistory}
-          >
-            <Text style={styles.clearButtonText}>Clear All</Text>
-          </TouchableOpacity>
-        )}
-      </View>
       <FlatList
         data={history}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={[
+          styles.listContent,
+          { paddingTop: isTablet() ? 32 : insets.top + 16 } // Add top padding for status bar
+        ]}
         ListEmptyComponent={renderEmptyState}
+        ListHeaderComponent={
+          history.length > 0 ? (
+            <View style={styles.historyHeader}>
+              <Text style={styles.historyTitle}>History</Text>
+              <TouchableOpacity
+                style={styles.clearButton}
+                onPress={handleClearHistory}
+              >
+                <Text style={styles.clearButtonText}>Clear All</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null
+        }
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
       />
     </SafeAreaView>
   );
@@ -191,13 +243,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    minHeight: 80, // Ensure minimum height for proper button display
   },
   headerTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   headerLogo: {
-    width: 220,
+    width: 270, // Reduced by 25% from 360
+    height: 52.5, // Reduced by 25% from 70
   },
   header: {
     marginLeft: 8,
@@ -206,6 +260,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: COLORS.darkBlue,
+  },
+  historyHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 16,
+  },
+  historyTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: COLORS.darkBlue,
+  },
+  clearButtonContainer: {
+    alignItems: 'flex-end',
+    paddingHorizontal: 16,
+    paddingTop: 8, // Add some top padding for the clear button
+    paddingBottom: 16,
   },
   clearButton: {
     paddingHorizontal: 12,
@@ -255,8 +328,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },flexShrink: 0, // Add this line
-
+  },
   historyItemCountry: {
     fontSize: 14,
     fontWeight: '500',
@@ -279,9 +351,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 32,
+    paddingTop: 64, // Extra top padding to account for status bar space
   },
   emptyStateLogo: {
-    width: 220,
+    width: 270, // Reduced by 25% from 360
+    height: 52.5, // Reduced by 25% from 70
     marginBottom: 24,
     opacity: 0.8,
   },

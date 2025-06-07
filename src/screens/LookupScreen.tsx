@@ -12,40 +12,75 @@ import {
   Image,
   Keyboard,
   Switch,
+  Dimensions,
+  Animated,
+  ViewStyle,
+  Modal,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { MainTabParamList } from '../navigation/types';
 import CountryLookup from '../components/CountryLookup';
 import { useTariff } from '../hooks/useTariff';
 import { useHistory, HistoryItem } from '../hooks/useHistory';
+import { useSettings } from '../hooks/useSettings';
 import DisclaimerModal from './DisclaimerModal';
+import HistoryScreen from './HistoryScreen';
+import SettingsScreen from './SettingsScreen';
+import LinksScreen from './LinksScreen';
 import { isTablet } from '../platform/deviceUtils';
 import RightColumnContent from '../components/RightColumnContent';
+import { tariffSearchService } from '../services/tariffSearchService';
 import { TariffService } from '../services/tariffService';
+import { useFocusEffect } from '@react-navigation/native';
+import { preventScreenshot, allowScreenshot, addScreenshotListener, removeScreenshotListener } from '../utils/screenshotPrevention';
+import { AnimatedDrawer } from '../components/shared/AnimatedDrawer';
+import { DiagonalSection } from '../components/shared/DiagonalSection';
+import {
+  BRAND_COLORS,
+  BRAND_TYPOGRAPHY,
+  BRAND_SPACING,
+  BRAND_SHADOWS,
+  BRAND_LAYOUT,
+  BRAND_ANIMATIONS,
+  getTypographySize,
+  getSpacing,
+  getBorderRadius,
+  getDrawerConfig,
+  getFabConfig,
+  getInputConfig,
+  getButtonConfig,
+  getResponsiveValue,
+  isTablet as getIsTablet
+} from '../config/brandColors';
 
-const getLineItemLabel = (component: { label?: string; description?: string; type?: string }) => {
-  return component.label || component.description || component.type || '—';
-};
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-// Brand colors
+// Get tariff service instance
+const tariffService = TariffService.getInstance();
+
+// Legacy color mappings for backward compatibility
 const COLORS = {
-  darkBlue: '#023559',
-  lightBlue: '#4397EC',
-  orange: '#E67E23',
+  darkBlue: BRAND_COLORS.darkNavy,
+  lightBlue: BRAND_COLORS.electricBlue,
+  orange: BRAND_COLORS.orange,
   yellow: '#FFD800',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
+  white: BRAND_COLORS.white,
+  lightGray: BRAND_COLORS.lightGray,
+  mediumGray: BRAND_COLORS.mediumGray,
+  darkGray: BRAND_COLORS.darkGray,
   black: '#333333',
-  error: '#FF3B30',
+  error: BRAND_COLORS.error,
   sectionBg: '#F5F7FA',
   borderColor: '#D8E0E9',
-  saveButtonBlue: '#2E86C1', // New color for Save & Clear button
+  saveButtonBlue: BRAND_COLORS.mediumBlue,
 };
+
+// Constants
+const RECIPROCAL_TARIFF_TYPE = 'Reciprocal Tariff';
 
 type LookupScreenNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Lookup'>;
 type LookupScreenRouteProp = RouteProp<MainTabParamList, 'Lookup'>;
@@ -72,6 +107,13 @@ interface LookupResult {
   };
   effectiveDate?: string;
   expirationDate?: string;
+  unitCount?: string;
+  unitCalculations?: {
+    costPerUnitWithRT: number;
+    costPerUnitWithoutRT?: number;
+    additionalPerUnit?: number;
+    hasRT: boolean;
+  };
 }
 
 interface DutyComponent {
@@ -100,16 +142,30 @@ interface DutyCalculation {
 export default function LookupScreen() {
   const navigation = useNavigation<LookupScreenNavigationProp>();
   const route = useRoute<LookupScreenRouteProp>();
+
+  // Existing state
   const [htsCode, setHtsCode] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<LookupResult | null>(null);
   const [declaredValue, setDeclaredValue] = useState<string>('');
   const [formattedDeclaredValue, setFormattedDeclaredValue] = useState<string>('');
+  const [unitCount, setUnitCount] = useState<string>('');
+  const [formattedUnitCount, setFormattedUnitCount] = useState<string>('');
   const [showInput, setShowInput] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
-  const { findTariffEntry, calculateDuty, isLoading: isTariffLoading, error } = useTariff();
+  const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<number | null>(null);
+  const { findTariffEntry, findTariffEntryAsync, searchByPrefix, calculateDuty, isLoading: isTariffLoading, error } = useTariff();
   const { saveToHistory, history, loadHistory } = useHistory();
+  const { settings, isLoading: settingsLoading } = useSettings();
+
+  // Log settings when they change
+  useEffect(() => {
+    console.log('[LookupScreen] Settings loaded:', {
+      autoSaveToHistory: settings.autoSaveToHistory,
+      settingsLoading,
+    });
+  }, [settings, settingsLoading]);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [pendingHistoryLookup, setPendingHistoryLookup] = useState(false);
   const pendingHistoryItem = useRef<any>(null);
@@ -119,11 +175,151 @@ export default function LookupScreen() {
   const countryInputRef = useRef<TextInput>(null);
   const declaredValueInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
-  const [isReciprocalAdditive, setIsReciprocalAdditive] = useState(false);
+  const resultScrollViewRef = useRef<ScrollView>(null);
+  const [isReciprocalAdditive, setIsReciprocalAdditive] = useState(true);
+  const unitEntryRef = useRef<View>(null);
+  const [htsSuggestions, setHtsSuggestions] = useState<Array<{code: string; description: string}>>([]);
+  const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
+  const [htsSearchMessage, setHtsSearchMessage] = useState<string>('');
+  const [showUnitCalculations, setShowUnitCalculations] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState<string>('');
+  const [showLoadingModal, setShowLoadingModal] = useState(false);
+  const loadingSpinValue = useRef(new Animated.Value(0)).current;
+
+  // New drawer state
+  const [historyDrawerVisible, setHistoryDrawerVisible] = useState(false);
+  const [newsDrawerVisible, setNewsDrawerVisible] = useState(false);
+  const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
+  const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
+
+  // Navigation drawer states
+  const [mainHistoryDrawerVisible, setMainHistoryDrawerVisible] = useState(false);
+  const [settingsDrawerVisible, setSettingsDrawerVisible] = useState(false);
+  const [linksDrawerVisible, setLinksDrawerVisible] = useState(false);
+
+  // Main navigation FAB state
+  const [mainFabExpanded, setMainFabExpanded] = useState(false);
+
+  // Animation values for unified floating menu
+  const mainFabRotation = useRef(new Animated.Value(0)).current;
+  const menuFabScale = useRef(new Animated.Value(1)).current;
+  const menuFabOpacity = useRef(new Animated.Value(1)).current;
+
+  // Individual menu button animations for arc layout (6 buttons)
+  const recentFabTranslateX = useRef(new Animated.Value(0)).current;
+  const recentFabTranslateY = useRef(new Animated.Value(0)).current;
+  const historyFabTranslateX = useRef(new Animated.Value(0)).current;
+  const historyFabTranslateY = useRef(new Animated.Value(0)).current;
+  const linksFabTranslateX = useRef(new Animated.Value(0)).current;
+  const linksFabTranslateY = useRef(new Animated.Value(0)).current;
+  const newsFabTranslateX = useRef(new Animated.Value(0)).current;
+  const newsFabTranslateY = useRef(new Animated.Value(0)).current;
+  const statsFabTranslateX = useRef(new Animated.Value(0)).current;
+  const statsFabTranslateY = useRef(new Animated.Value(0)).current;
+  const settingsFabTranslateX = useRef(new Animated.Value(0)).current;
+  const settingsFabTranslateY = useRef(new Animated.Value(0)).current;
+
+  // Navigation drawer animations
+  const historyDrawerTranslateX = useRef(new Animated.Value(getResponsiveValue(SCREEN_WIDTH * 0.85, 400))).current;
+  const settingsDrawerTranslateX = useRef(new Animated.Value(-getResponsiveValue(SCREEN_WIDTH * 0.85, 400))).current;
+  const linksDrawerTranslateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+  const navDrawerOpacity = useRef(new Animated.Value(0)).current;
+
+
 
   useEffect(() => {
     loadHistory();
+    // Tariff data is now preloaded in App.tsx
   }, []);
+
+  // Animation effects for navigation drawers
+  useEffect(() => {
+    animateHistoryDrawer(mainHistoryDrawerVisible);
+  }, [mainHistoryDrawerVisible]);
+
+  useEffect(() => {
+    animateSettingsDrawer(settingsDrawerVisible);
+  }, [settingsDrawerVisible]);
+
+  useEffect(() => {
+    animateLinksDrawer(linksDrawerVisible);
+  }, [linksDrawerVisible]);
+
+  // Loading modal animation
+  useEffect(() => {
+    if (showLoadingModal) {
+      // Start spinning animation
+      Animated.loop(
+        Animated.timing(loadingSpinValue, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        })
+      ).start();
+    } else {
+      // Reset animation
+      loadingSpinValue.setValue(0);
+    }
+  }, [showLoadingModal]);
+
+  // Check if selected country has reciprocal tariffs
+  const hasReciprocalTariff = (countryCode: string): boolean => {
+    // Countries with reciprocal tariffs
+    const rtCountries = ['CN', 'CA', 'MX'];
+    return rtCountries.includes(countryCode);
+  };
+
+  // Update the search function to use async search
+  useEffect(() => {
+    const searchForSuggestions = async () => {
+      if (htsCode.length >= 3) {
+        setShowHtsSuggestions(true);
+        setHtsSearchMessage('Searching...');
+
+        try {
+          console.log('[Search] Searching for:', htsCode);
+          // Use the segmented search service for better performance
+          const results = await tariffSearchService.searchByPrefix(htsCode, 15);
+          console.log('[Search] Results:', results.length);
+
+          setHtsSuggestions(results);
+          if (results.length === 0) {
+            setHtsSearchMessage('');
+          } else {
+            setHtsSearchMessage(results.length === 15 ? 'Showing first 15 matches' : '');
+          }
+        } catch (error) {
+          console.error('[Search] Error:', error);
+          setHtsSuggestions([]);
+          setHtsSearchMessage('Error searching HTS codes');
+        }
+      } else {
+        setShowHtsSuggestions(false);
+        setHtsSuggestions([]);
+        setHtsSearchMessage('');
+      }
+    };
+
+    const debounceTimer = setTimeout(searchForSuggestions, 300);
+    return () => clearTimeout(debounceTimer);
+  }, [htsCode]);
+
+    // Collapse floating menu when form expands/contracts or drawers open
+  useEffect(() => {
+    const formHasContent = showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
+    const contentDrawersOpen = resultsDrawerVisible || historyDrawerVisible || newsDrawerVisible || analyticsDrawerVisible;
+    const navigationDrawersOpen = mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
+
+    // Collapse main FAB menu when form has content or any drawers are open
+    if (formHasContent || contentDrawersOpen || navigationDrawersOpen) {
+      closeMainFab();
+    }
+  }, [showHtsSuggestions, selectedCountry, declaredValue, resultsDrawerVisible, historyDrawerVisible, newsDrawerVisible, analyticsDrawerVisible, mainHistoryDrawerVisible, settingsDrawerVisible, linksDrawerVisible]);
+
+  const handleHtsSelection = (code: string) => {
+    setHtsCode(code);
+    setShowHtsSuggestions(false);
+  };
 
   // Format number with commas
   const formatNumberWithCommas = (value: string): string => {
@@ -149,6 +345,21 @@ export default function LookupScreen() {
 
     // Format the display value with commas
     setFormattedDeclaredValue(formatNumberWithCommas(value));
+  };
+
+  // Handle unit count change
+  const handleUnitCountChange = (value: string) => {
+    // Store the raw value for calculations
+    const numericValue = value.replace(/[^\d]/g, ''); // No decimals for unit count
+    setUnitCount(numericValue);
+
+    // Format the display value with commas
+    setFormattedUnitCount(formatNumberWithCommas(numericValue));
+
+    // Hide calculations when value changes (user must click Calc)
+    if (showUnitCalculations) {
+      setShowUnitCalculations(false);
+    }
   };
 
   // Handle navigation params
@@ -225,6 +436,15 @@ export default function LookupScreen() {
       setDeclaredValue(savedDeclaredValue);
       setFormattedDeclaredValue(formatNumberWithCommas(savedDeclaredValue));
 
+      // Restore unit count if available
+      if (historyItem.unitCount) {
+        setUnitCount(historyItem.unitCount);
+        setFormattedUnitCount(formatNumberWithCommas(historyItem.unitCount));
+      } else {
+        setUnitCount('');
+        setFormattedUnitCount('');
+      }
+
       setShowInput(false);
       pendingHistoryItem.current = historyItem;
 
@@ -241,7 +461,9 @@ export default function LookupScreen() {
           breakdown: historyItem.breakdown || [], // Add breakdown restoration
           specialRate: historyItem.specialRate, // Add special rate restoration
           components: historyItem.components,
-          fees: historyItem.fees
+          fees: historyItem.fees,
+          unitCount: historyItem.unitCount,
+          unitCalculations: historyItem.unitCalculations,
         });
 
         // No need for lookup if we have all the data
@@ -249,9 +471,13 @@ export default function LookupScreen() {
 
         // Mark as already saved since it came from history
         setIsSaved(true);
+        // Store the timestamp to prevent re-saving
+        setLoadedHistoryTimestamp(historyItem.timestamp);
       } else {
         // Fall back to the original approach if we don't have complete data
         setPendingHistoryLookup(true);
+        // Store the timestamp even if we need to do a lookup
+        setLoadedHistoryTimestamp(historyItem.timestamp);
       }
     }
   }, [route.params?.historyItem]);
@@ -263,6 +489,60 @@ export default function LookupScreen() {
       handleLookup();
     }
   }, [pendingHistoryLookup, htsCode, selectedCountry, declaredValue]);
+
+  // Scroll to bottom when results are displayed
+  useEffect(() => {
+    if (!showInput && result && resultScrollViewRef.current) {
+      setTimeout(() => {
+        // Scroll to the bottom to show the save buttons
+        // Since header now scrolls with content, we can go all the way down
+        resultScrollViewRef.current?.scrollToEnd({
+              animated: true
+            });
+      }, 300); // Delay to ensure content is rendered
+    }
+  }, [showInput, result]);
+
+  // Scroll to bottom when unit calculations are shown
+  useEffect(() => {
+    if (showUnitCalculations && resultScrollViewRef.current) {
+      setTimeout(() => {
+        resultScrollViewRef.current?.scrollToEnd({
+              animated: true
+            });
+      }, 100); // Small delay to ensure calculations are rendered
+          }
+  }, [showUnitCalculations]);
+
+  // Prevent screenshots when results are shown
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!showInput && result) {
+        preventScreenshot();
+      }
+
+      return () => {
+        allowScreenshot();
+      };
+    }, [showInput, result])
+  );
+
+  // Add screenshot detection
+  useEffect(() => {
+    if (!showInput && result) {
+      const listener = addScreenshotListener(() => {
+        Alert.alert(
+          'Screenshot Detected',
+          'Screenshots of duty calculations are not permitted for security reasons.',
+          [{ text: 'OK' }]
+        );
+      });
+
+      return () => {
+        removeScreenshotListener(listener);
+      };
+    }
+  }, [showInput, result]);
 
   const handleDisclaimerAgree = () => {
     setShowDisclaimer(false);
@@ -387,297 +667,388 @@ export default function LookupScreen() {
     });
   };
 
-  const handleLookup = async () => {
-    if (!htsCode.trim()) {
-      Alert.alert('Error', 'Please enter an HTS code');
-      return;
-    }
-    if (!selectedCountry) {
-      Alert.alert('Error', 'Please select a country');
-      return;
-    }
-    if (!declaredValue.trim()) {
-      Alert.alert('Error', 'Please enter a declared value');
-      return;
+  const getLineItemLabel = (component: { label?: string; description?: string; type?: string; rate?: number }) => {
+    let baseLabel = '';
+
+    // If the component has a label or description, use that
+    if (component.label || component.description) {
+      baseLabel = component.label || component.description || '';
+    } else {
+    // For the type, we'll use a more user-friendly label
+    // eslint-disable-next-line react-native/no-raw-text
+    if (component.type === RECIPROCAL_TARIFF_TYPE) {
+        baseLabel = RECIPROCAL_TARIFF_TYPE;
+      } else if (component.type === 'base_duty') {
+        baseLabel = 'Base Duty (MFN)';
+      } else {
+        baseLabel = component.type || '—';
+      }
     }
 
-    const value = parseFloat(declaredValue);
-    if (isNaN(value) || value <= 0) {
-      Alert.alert('Error', 'Please enter a valid declared value');
+    // Add rate to base duties for clarity
+    if (component.type === 'base_duty' && component.rate && component.rate > 0) {
+      baseLabel += ` - ${component.rate.toFixed(2)}%`;
+    }
+
+    return baseLabel;
+  };
+
+  // Update the handleLookup function to use async lookup with loading messages
+  const handleLookup = async () => {
+    if (!htsCode || !selectedCountry || !declaredValue) {
+      Alert.alert('Missing Information', 'Please enter HTS code, select a country, and enter a declared value.');
       return;
     }
 
     setIsLoading(true);
     setResult(null);
-    setIsSaved(false);
+    setShowLoadingModal(true);
 
     try {
-      const entry = findTariffEntry(htsCode);
+      // Show loading modal for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const entry = await findTariffEntryAsync(htsCode);
       if (!entry) {
-        Alert.alert('Error', 'HTS code not found');
+        setShowLoadingModal(false);
+        Alert.alert('Not Found', 'HTS code not found in tariff database.');
+        setIsLoading(false);
+        setLoadingMessage('');
         return;
       }
 
-      const dutyCalculation = calculateDuty(htsCode, value, selectedCountry.code, isReciprocalAdditive);
-
-      console.log('Duty calculation result:', {
-        htsCode: dutyCalculation.htsCode,
-        description: dutyCalculation.description,
-        effectiveDate: dutyCalculation.effectiveDate,
-        expirationDate: dutyCalculation.expirationDate
-      });
-
-      // Store the entry and calculation for later use when saving
       currentEntry.current = entry;
-      currentDutyCalculation.current = dutyCalculation;
 
-      const formattedBreakdown = dutyCalculation.breakdown.map(item => {
-        let formatted = item.replace(/\$(\d+(\.\d{2})?)/g, (match, amount) => {
-          return formatCurrency(parseFloat(amount));
-        });
-        formatted = formatted.replace(/(\d+(\.\d{2})?)%/g, (match, amount) => {
-          return `${formatNumber(parseFloat(amount))}%`;
-        });
-        return formatted;
-      });
-
-      // Extract component descriptions from breakdown data
-      const componentsWithLabels = extractComponentDescriptions(
-        dutyCalculation.components,
-        dutyCalculation.breakdown
+      const dutyCalculation = calculateDuty(
+        htsCode,
+        parseFloat(declaredValue),
+        selectedCountry.code,
+        isReciprocalAdditive
       );
 
-      // Extract special rate information if available
-      const specialRate = extractSpecialRate(dutyCalculation.breakdown, selectedCountry.name);
+      if (!dutyCalculation) {
+        setShowLoadingModal(false);
+        Alert.alert('Calculation Error', 'Unable to calculate duty for this combination.');
+        setIsLoading(false);
+        setLoadingMessage('');
+        return;
+      }
+
+      currentDutyCalculation.current = dutyCalculation;
 
       const lookupResult: LookupResult = {
         htsCode: dutyCalculation.htsCode,
         description: dutyCalculation.description,
         dutyRate: dutyCalculation.totalRate,
         totalAmount: dutyCalculation.amount,
-        breakdown: formattedBreakdown,
-        specialRate: specialRate,
-        components: componentsWithLabels,
+        breakdown: dutyCalculation.breakdown,
+        components: dutyCalculation.components,
         fees: dutyCalculation.fees,
         effectiveDate: dutyCalculation.effectiveDate,
         expirationDate: dutyCalculation.expirationDate,
       };
 
-      setResult(lookupResult);
-      setShowInput(false);
+      // Update the displayed HTS code with the result
+      setHtsCode(dutyCalculation.htsCode);
 
-      // Don't automatically save to history - wait for save button
+      // Hide loading modal before showing results
+      setShowLoadingModal(false);
+
+      setResult(lookupResult);
+      setResultsDrawerVisible(true);
+
+            // Handle auto-save
+      console.log('[handleLookup] Auto-save check:', {
+        autoSaveEnabled: settings.autoSaveToHistory,
+        hasResult: !!lookupResult,
+        loadedHistoryTimestamp,
+      });
+
+      if (settings.autoSaveToHistory && !loadedHistoryTimestamp) {
+        // Only auto-save if this is NOT a result loaded from history
+        console.log('[handleLookup] Auto-saving lookup result...');
+        const historyItem = {
+          htsCode: lookupResult.htsCode,
+          description: lookupResult.description,
+          countryCode: selectedCountry.code,
+          countryName: selectedCountry.name,
+          declaredValue: parseFloat(declaredValue),
+          totalAmount: lookupResult.totalAmount,
+          dutyRate: lookupResult.dutyRate,
+          breakdown: lookupResult.breakdown,
+          components: lookupResult.components,
+          fees: lookupResult.fees,
+          timestamp: Date.now(),
+          unitCount: unitCount || undefined,
+          unitCalculations: lookupResult.unitCalculations,
+        };
+
+        await saveToHistory(historyItem);
+        console.log('[handleLookup] Auto-save completed');
+        setIsSaved(true);
+      } else if (loadedHistoryTimestamp) {
+        // This is a result loaded from history, mark as already saved
+        console.log('[handleLookup] Skipping auto-save - result loaded from history with timestamp:', loadedHistoryTimestamp);
+        setIsSaved(true);
+      } else {
+        setIsSaved(false); // Reset saved state for manual save button
+      }
+
+      closeMainFab(); // Collapse the floating menu
+      closeAllNavigationDrawers();
     } catch (error) {
-      Alert.alert('Error', 'Failed to lookup HTS code');
       console.error('Lookup error:', error);
+      setShowLoadingModal(false);
+      Alert.alert('Error', 'An error occurred during lookup. Please try again.');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleSaveAndSearch = async () => {
-    if (!result || !selectedCountry || !declaredValue) {
-      Alert.alert('Error', 'No lookup result to save');
-      return;
-    }
-
-    try {
-      const value = parseFloat(declaredValue);
-      const entry = currentEntry.current;
-      const dutyCalculation = currentDutyCalculation.current;
-
-      if (!entry || !dutyCalculation) {
-        console.error('Missing entry or duty calculation data');
-        return;
-      }
-
-      // Save to history with complete data
-      await saveToHistory({
-        htsCode: result.htsCode,
-        countryCode: selectedCountry.code,
-        countryName: selectedCountry.name,
-        description: result.description,
-        dutyRate: dutyCalculation.totalRate,
-        declaredValue: value,
-        totalAmount: dutyCalculation.amount,
-        components: dutyCalculation.components,
-        fees: dutyCalculation.fees,
-        breakdown: result.breakdown,
-        specialRate: result.specialRate,
-      });
-
-      // Store the current HTS code before resetting
-      const currentHtsCode = htsCode;
-
-      // Reset the form but keep the HTS code
-      setSelectedCountry(undefined);
-      setDeclaredValue('');
-      setFormattedDeclaredValue('');
-      setResult(null);
-      setShowInput(true);
-      setIsSaved(false);
-      currentEntry.current = null;
-      currentDutyCalculation.current = null;
-      setHtsCode(currentHtsCode); // Restore the HTS code
-    } catch (error) {
-      Alert.alert('Error', 'Failed to save to history');
-      console.error('Save error:', error);
-    }
-  };
-
-  const handleSaveToHistory = async () => {
-    if (!result || !selectedCountry || !declaredValue) {
-      Alert.alert('Error', 'No lookup result to save');
-      return;
-    }
-
-    try {
-      const value = parseFloat(declaredValue);
-      const entry = currentEntry.current;
-      const dutyCalculation = currentDutyCalculation.current;
-
-      if (!entry || !dutyCalculation) {
-        console.error('Missing entry or duty calculation data');
-        return;
-      }
-
-      // Save to history with complete data
-      await saveToHistory({
-        htsCode: result.htsCode,
-        countryCode: selectedCountry.code,
-        countryName: selectedCountry.name,
-        description: result.description,
-        dutyRate: dutyCalculation.totalRate,
-        declaredValue: value,
-        totalAmount: dutyCalculation.amount,
-        components: dutyCalculation.components,
-        fees: dutyCalculation.fees,
-        breakdown: result.breakdown,
-        specialRate: result.specialRate,
-      });
-
-      // Mark as saved
-      setIsSaved(true);
-
-      // Reset the form
-      handleNewLookup();
-
-      // Focus the HTS code input
-      setTimeout(() => {
-        htsCodeInputRef.current?.focus();
-      }, 100);
-    } catch (error) {
-      Alert.alert('Error', 'Failed to save to history');
-      console.error('Save error:', error);
+      setLoadingMessage('');
+      setShowLoadingModal(false);
     }
   };
 
   const handleNewLookup = () => {
+    // If auto-save is on, save automatically
+    if (settings.autoSaveToHistory && result && !isSaved) {
+      handleSaveToHistory(false).then(() => {
+        handleClearAll();
+      });
+    } else if (!settings.autoSaveToHistory && result && !isSaved) {
+      // If auto-save is off and there's an unsaved result, show warning
+      Alert.alert(
+        'Unsaved Lookup',
+        'You have an unsaved lookup. Do you want to save it before starting a new one?',
+        [
+          {
+            text: 'Discard',
+            style: 'destructive',
+            onPress: () => handleClearAll(),
+          },
+          {
+            text: 'Save & New',
+            onPress: async () => {
+              await handleSaveToHistory(false); // Don't show alert
+              handleClearAll();
+            },
+          },
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ]
+      );
+    } else {
+      // No result or already saved, proceed directly
+      handleClearAll();
+    }
+  };
+
+
+
+  const handleSaveToHistory = async (showAlert = true) => {
+    console.log('[handleSaveToHistory] Called with:', {
+      hasResult: !!result,
+      hasCountry: !!selectedCountry,
+      isSaved,
+      showAlert,
+      loadedHistoryTimestamp,
+    });
+
+    if (!result || !selectedCountry || isSaved) {
+      console.log('[handleSaveToHistory] Skipping save - conditions not met');
+      return;
+    }
+
+    // Check if this is a result loaded from history
+    if (loadedHistoryTimestamp) {
+      console.log('[handleSaveToHistory] Skipping save - result was loaded from history with timestamp:', loadedHistoryTimestamp);
+      setIsSaved(true);
+      if (showAlert) {
+        Alert.alert('Already Saved', 'This lookup is already in your history.');
+      }
+      return;
+    }
+
+    try {
+      const historyItem = {
+        htsCode: result.htsCode,
+        description: result.description,
+        countryCode: selectedCountry.code,
+        countryName: selectedCountry.name,
+        declaredValue: parseFloat(declaredValue),
+        totalAmount: result.totalAmount,
+        dutyRate: result.dutyRate,
+        breakdown: result.breakdown,
+        components: result.components,
+        fees: result.fees,
+        timestamp: Date.now(),
+        unitCount: unitCount || undefined,
+        unitCalculations: result.unitCalculations,
+      };
+
+      await saveToHistory(historyItem);
+      setIsSaved(true);
+
+      // Show success feedback only if requested
+      if (showAlert) {
+        Alert.alert('Saved', 'Lookup saved to history successfully.');
+      }
+    } catch (error) {
+      console.error('Error saving to history:', error);
+      if (showAlert) {
+        Alert.alert('Error', 'Failed to save to history. Please try again.');
+      }
+    }
+  };
+
+  const handleClearAll = () => {
+    // Clear all fields for a completely new lookup
     setHtsCode('');
     setSelectedCountry(undefined);
     setDeclaredValue('');
     setFormattedDeclaredValue('');
+    setUnitCount('');
+    setFormattedUnitCount('');
     setResult(null);
-    setShowInput(true);
+    setResultsDrawerVisible(false);
     setIsSaved(false);
-    currentEntry.current = null;
-    currentDutyCalculation.current = null;
+    setShowUnitCalculations(false);
+    setLoadedHistoryTimestamp(null); // Reset the history timestamp
+
+    // Focus on HTS code input for new lookup
+    setTimeout(() => {
+      htsCodeInputRef.current?.focus();
+    }, 100);
   };
 
-  // Comparison Section calculations for China
-  let comparison = null;
-  if (selectedCountry?.code === 'CN' && htsCode && declaredValue) {
-    const value = parseFloat(declaredValue);
-    if (!isNaN(value) && value > 0) {
-      try {
-        // Use the TariffService to get dynamic comparison
-        const tariffService = TariffService.getInstance();
-        comparison = tariffService.calculateDutyDifferences(htsCode, value, selectedCountry.code);
-      } catch (e) {
-        console.error('Comparison calculation error:', e);
+  const handleRepeatLookup = () => {
+    // Keep the same HTS code, country, declared value, and unit count - just close results
+    setResult(null);
+    setResultsDrawerVisible(false);
+    setIsSaved(false);
+    setShowUnitCalculations(false);
+
+    // Focus on declared value input since all data is preserved
+    setTimeout(() => {
+    declaredValueInputRef.current?.focus();
+    }, 100);
+  };
+
+  const handleHistoryItemSelection = (historyItem: HistoryItem) => {
+    console.log('History item selected:', historyItem);
+    setHtsCode(historyItem.htsCode);
+
+    // Ensure we have both country code and name
+    let countryCode = historyItem.countryCode;
+    let countryName = historyItem.countryName;
+
+    // If those aren't available, fall back to the country field
+    if (!countryCode && historyItem.countryCode) {
+      countryCode = historyItem.countryCode;
+    }
+
+    if (!countryName && historyItem.countryCode) {
+      // Try to find the country name from our countries list
+      const countries = [
+        { code: 'AU', name: 'Australia' },
+        { code: 'BR', name: 'Brazil' },
+        { code: 'CA', name: 'Canada' },
+        { code: 'CH', name: 'Switzerland' },
+        { code: 'CL', name: 'Chile' },
+        { code: 'CN', name: 'China' },
+        { code: 'CU', name: 'Cuba' },
+        { code: 'DE', name: 'Germany' },
+        { code: 'EU', name: 'European Union' },
+        { code: 'FR', name: 'France' },
+        { code: 'GB', name: 'United Kingdom' },
+        { code: 'IL', name: 'Israel' },
+        { code: 'IN', name: 'India' },
+        { code: 'IT', name: 'Italy' },
+        { code: 'JP', name: 'Japan' },
+        { code: 'KP', name: 'North Korea' },
+        { code: 'KR', name: 'South Korea' },
+        { code: 'MX', name: 'Mexico' },
+        { code: 'MY', name: 'Malaysia' },
+        { code: 'NO', name: 'Norway' },
+        { code: 'NL', name: 'Netherlands' },
+        { code: 'NZ', name: 'New Zealand' },
+        { code: 'PE', name: 'Peru' },
+        { code: 'PH', name: 'Philippines' },
+        { code: 'RU', name: 'Russia' },
+        { code: 'SG', name: 'Singapore' },
+        { code: 'TH', name: 'Thailand' },
+        { code: 'TR', name: 'Turkey' },
+        { code: 'US', name: 'United States' },
+        { code: 'VN', name: 'Vietnam' },
+        { code: 'ZA', name: 'South Africa' },
+      ];
+
+      const foundCountry = countries.find(c => c.code === historyItem.countryCode);
+      if (foundCountry) {
+        countryName = foundCountry.name;
+      } else {
+        // If we can't find the name, use the code as the name
+        countryName = historyItem.countryCode;
       }
     }
-  }
 
-  const renderRecentHistory = () => null;
+    console.log('Setting country from history:', { code: countryCode, name: countryName });
 
-  const handleHistoryItemPress = (item: HistoryItem) => {
-    setHtsCode(item.htsCode);
     setSelectedCountry({
-      code: item.countryCode,
-      name: item.countryName
+      code: countryCode,
+      name: countryName
     });
-    setDeclaredValue(item.declaredValue.toString());
-    setFormattedDeclaredValue(formatNumberWithCommas(item.declaredValue.toString()));
-    setShowInput(false);
+
+    // Use the saved declared value instead of hardcoded value
+    const savedDeclaredValue = historyItem.declaredValue ? historyItem.declaredValue.toString() : '1000';
+    setDeclaredValue(savedDeclaredValue);
+    setFormattedDeclaredValue(formatNumberWithCommas(savedDeclaredValue));
+
+    // Restore unit count if available
+    if (historyItem.unitCount) {
+      setUnitCount(historyItem.unitCount);
+      setFormattedUnitCount(formatNumberWithCommas(historyItem.unitCount));
+    } else {
+      setUnitCount('');
+      setFormattedUnitCount('');
+    }
 
     // If we have complete result data, restore it directly
-    if (item.totalAmount !== undefined && item.description !== undefined) {
+    if (historyItem.totalAmount !== undefined &&
+        historyItem.description !== undefined) {
+
+      // Pre-populate the result state with saved data
       setResult({
-        htsCode: item.htsCode,
-        description: item.description,
-        dutyRate: item.dutyRate,
-        totalAmount: item.totalAmount,
-        breakdown: item.breakdown || [],
-        specialRate: item.specialRate,
-        components: item.components,
-        fees: item.fees
+        htsCode: historyItem.htsCode,
+        description: historyItem.description,
+        dutyRate: historyItem.dutyRate,
+        totalAmount: historyItem.totalAmount,
+        breakdown: historyItem.breakdown || [],
+        specialRate: historyItem.specialRate,
+        components: historyItem.components,
+        fees: historyItem.fees,
+        unitCount: historyItem.unitCount,
+        unitCalculations: historyItem.unitCalculations,
       });
+
+      // Mark as already saved since it came from history
       setIsSaved(true);
+      setResultsDrawerVisible(true);
     }
+
+    // Close any open drawers
+    closeAllNavigationDrawers();
   };
 
-  const handleHtsCodeSubmit = () => {
-    if (htsCode.trim()) {
-      countryInputRef.current?.focus();
-    }
-  };
-
-  const handleCountrySelect = () => {
-    declaredValueInputRef.current?.focus();
-  };
-
-  const handleDeclaredValueSubmit = () => {
-    if (declaredValue.trim() && selectedCountry) {
-      Keyboard.dismiss();
-      handleLookup();
-    }
-  };
-
-  const handleItemPress = (item: HistoryItem) => {
-    navigation.navigate('Lookup', { historyItem: item });
-  };
-
-  const renderItem = ({ item }: { item: HistoryItem }) => (
-    <TouchableOpacity
-      style={styles.historyItem}
-      onPress={() => handleItemPress(item)}
-    >
-      <View style={styles.historyItemHeader}>
-        <Text style={styles.historyItemHtsCode}>{item.htsCode}</Text>
-      </View>
-      <Text style={styles.historyItemDescription}>{item.description}</Text>
-      <View style={styles.historyItemDetails}>
-        <View style={styles.historyItemDetail}>
-          <Text style={styles.historyItemCountry}>{item.countryName}</Text>
-          {item.totalAmount !== undefined && (
-            <Text style={styles.historyItemValue}>{formatCurrency(item.totalAmount)}</Text>
-          )}
-        </View>
-        <Text style={styles.historyItemTimestamp}>{formatDate(item.timestamp)}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  // Add formatDate function
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
     const now = new Date();
-    const yesterday = new Date(now);
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
 
     // Check if the date is today
-    if (date.toDateString() === now.toDateString()) {
+    if (date.toDateString() === today.toDateString()) {
       return `Today ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     }
 
@@ -694,689 +1065,1609 @@ export default function LookupScreen() {
     });
   };
 
+  // New drawer content functions
+  const renderHistoryDrawerContent = () => (
+    <View style={styles.drawerContent}>
+      <View style={styles.drawerHeader}>
+        <Ionicons name="time" size={getResponsiveValue(20, 28)} color={BRAND_COLORS.electricBlue} />
+        <Text style={styles.drawerTitle}>Recent Lookups</Text>
+      </View>
+      <ScrollView style={styles.drawerScrollView}>
+        {history.slice(0, 10).map((item, index) => (
+          <TouchableOpacity
+            key={item.id}
+            style={styles.historyDrawerItem}
+            onPress={() => {
+              setHistoryDrawerVisible(false);
+              navigation.navigate('Lookup', { historyItem: item });
+            }}
+          >
+            <View style={styles.historyItemRow}>
+              <View style={styles.countryFlag}>
+                <Text style={styles.countryCode}>{item.countryCode}</Text>
+              </View>
+              <View style={styles.historyItemInfo}>
+                <Text style={styles.historyItemCode}>{item.htsCode}</Text>
+                <Text style={styles.historyItemDesc} numberOfLines={1}>
+                  {item.description}
+                </Text>
+                <Text style={styles.historyItemAmount}>
+                  {formatCurrency(item.totalAmount)}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
+  );
+
+  const renderNewsDrawerContent = () => (
+    <View style={[styles.drawerContent, { paddingTop: 100 }]}>
+      <View style={styles.drawerHeader}>
+        <Ionicons name="newspaper" size={getResponsiveValue(20, 28)} color={BRAND_COLORS.electricBlue} />
+        <Text style={styles.drawerTitle}>Tariff Updates</Text>
+      </View>
+      <ScrollView style={styles.drawerScrollView}>
+        {[
+          { title: 'Section 301 Updates', tag: 'China', color: BRAND_COLORS.error },
+          { title: 'USMCA Changes', tag: 'Mexico/Canada', color: BRAND_COLORS.success },
+          { title: 'GSP Renewals', tag: 'Developing', color: BRAND_COLORS.warning },
+          { title: 'Anti-Dumping', tag: 'Steel', color: BRAND_COLORS.info },
+        ].map((item, index) => (
+          <View key={index} style={styles.newsItem}>
+            <View style={[styles.newsTag, { backgroundColor: item.color }]}>
+              <Text style={styles.newsTagText}>{item.tag}</Text>
+            </View>
+            <Text style={styles.newsTitle}>{item.title}</Text>
+            <Text style={styles.newsDate}>2 days ago</Text>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
+
+  const renderAnalyticsDrawerContent = () => (
+    <View style={[styles.drawerContent, { paddingTop: 100 }]}>
+      <View style={styles.drawerHeader}>
+        <Ionicons name="analytics" size={getResponsiveValue(20, 28)} color={BRAND_COLORS.electricBlue} />
+        <Text style={styles.drawerTitle}>Trade Insights</Text>
+      </View>
+      <ScrollView style={styles.drawerScrollView}>
+        {[
+          { title: 'Top Searched HTS', value: '8471.30.01', trend: '+12%' },
+          { title: 'Avg Duty Rate', value: '7.2%', trend: '-0.3%' },
+          { title: 'Most Active Country', value: 'China', trend: '45%' },
+          { title: 'Weekly Lookups', value: '1,247', trend: '+8%' },
+        ].map((item, index) => (
+          <View key={index} style={styles.analyticsCard}>
+            <LinearGradient
+              colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
+              style={styles.analyticsGradient}
+            >
+              <Text style={styles.analyticsTitle}>{item.title}</Text>
+              <Text style={styles.analyticsValue}>{item.value}</Text>
+              <Text style={styles.analyticsTrend}>{item.trend}</Text>
+            </LinearGradient>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
+
+  // Results drawer content
+  const renderResultsDrawerContent = () => {
+    if (!result) return null;
+
+    const currentTimestamp = new Date().toLocaleString([], {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    return (
+      <View style={styles.resultsDrawerContent}>
+        {/* Header */}
+        <View style={styles.resultsDrawerHeader}>
+          <View style={styles.resultsHeaderLeft}>
+            <Text style={styles.resultsDrawerTitle}>Search Results</Text>
+            <Text style={styles.resultsDrawerSubtitle}>{result.htsCode} • {selectedCountry?.name}</Text>
+            <Text style={styles.resultsDrawerTimestamp}>{currentTimestamp}</Text>
+          </View>
+          <View style={styles.headerButtons}>
+            {settings.autoSaveToHistory ? (
+              <View style={[styles.headerButton, styles.autoSaveIndicator]}>
+                <Ionicons
+                  name="checkmark-circle"
+                  size={getResponsiveValue(16, 20)}
+                  color={BRAND_COLORS.success}
+                />
+                <Text style={styles.autoSaveText}>AutoSave On</Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={[styles.headerButton, styles.saveHeaderButton, isSaved && styles.savedHeaderButton]}
+                onPress={() => handleSaveToHistory()}
+                disabled={isSaved}
+              >
+                <Ionicons
+                  name={isSaved ? "checkmark-circle" : "bookmark-outline"}
+                  size={getResponsiveValue(16, 20)}
+                  color={isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue}
+                />
+                <Text style={[styles.headerButtonText, isSaved && styles.savedHeaderButtonText]}>
+                  {isSaved ? 'Saved' : 'Save'}
+                </Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              style={[styles.headerButton, styles.newHeaderButton]}
+              onPress={handleNewLookup}
+            >
+              <Ionicons name="add" size={getResponsiveValue(16, 20)} color={BRAND_COLORS.electricBlue} />
+              <Text style={styles.headerButtonText}>New</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <ScrollView style={styles.resultsScrollView} showsVerticalScrollIndicator={false}>
+          {/* Total Amount - Prominent Display */}
+          <View style={styles.totalAmountCard}>
+            <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
+            <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
+            <Text style={styles.totalAmountSubtext}>
+              on {formatCurrency(parseFloat(declaredValue))} declared value
+            </Text>
+          </View>
+
+          {/* Compact Breakdown */}
+          {result.components && result.components.length > 0 && (
+            <View style={styles.compactSection}>
+              <Text style={styles.compactSectionTitle}>Duty Breakdown</Text>
+              {result.components.map((component, index) => (
+                <View key={index} style={styles.compactRow}>
+                  <View style={styles.compactRowLeft}>
+                    <Text style={styles.compactLabel}>{getLineItemLabel(component)}</Text>
+                    {component.rate > 0 && (
+                      <Text style={styles.compactRate}>{component.rate.toFixed(2)}%</Text>
+                    )}
+                  </View>
+                  <Text style={styles.compactAmount}>{formatCurrency(component.amount)}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Compact Fees */}
+          {result.fees && (
+            <View style={styles.compactSection}>
+              <Text style={styles.compactSectionTitle}>Processing Fees</Text>
+              <View style={styles.compactRow}>
+                <View style={styles.compactRowLeft}>
+                  <Text style={styles.compactLabel}>MPF</Text>
+                  <Text style={styles.compactRate}>{result.fees.mpf.rate.toFixed(3)}%</Text>
+                </View>
+                <Text style={styles.compactAmount}>{formatCurrency(result.fees.mpf.amount)}</Text>
+              </View>
+              <View style={styles.compactRow}>
+                <View style={styles.compactRowLeft}>
+                  <Text style={styles.compactLabel}>HMF</Text>
+                  <Text style={styles.compactRate}>{result.fees.hmf.rate.toFixed(3)}%</Text>
+                </View>
+                <Text style={styles.compactAmount}>{formatCurrency(result.fees.hmf.amount)}</Text>
+              </View>
+            </View>
+          )}
+
+          {/* Compact Per Unit */}
+          {unitCount && parseFloat(unitCount) > 0 ? (
+            <View style={styles.compactSection}>
+              <Text style={styles.compactSectionTitle}>Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)</Text>
+              <View style={styles.compactRow}>
+                <Text style={styles.compactLabel}>Cost per unit (with duties)</Text>
+                <Text style={styles.compactAmount}>
+                  {formatCurrency((parseFloat(declaredValue) + result.totalAmount) / parseFloat(unitCount))}
+                </Text>
+              </View>
+              <View style={styles.compactRow}>
+                <Text style={styles.compactLabel}>Additional RT duty per unit</Text>
+                <Text style={styles.compactHighlight}>
+                  {formatCurrency(result.totalAmount / parseFloat(unitCount))}
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <View style={styles.compactMessageSection}>
+              <Ionicons name="information-circle-outline" size={getResponsiveValue(14, 18)} color={BRAND_COLORS.info} />
+              <Text style={styles.compactMessage}>Enter unit count for per unit calculations</Text>
+            </View>
+          )}
+
+
+        </ScrollView>
+      </View>
+    );
+  };
+
+
+
+
+
+  // Unified floating menu animations with arc layout
+  const toggleMainFab = () => {
+    const toValue = mainFabExpanded ? 0 : 1;
+    setMainFabExpanded(!mainFabExpanded);
+
+    // Close any open navigation drawers when toggling main FAB
+    if (!mainFabExpanded) {
+      closeAllNavigationDrawers();
+    }
+
+        // Arc radius and angles for positioning buttons above main FAB
+    const radius = getResponsiveValue(120, 173); // Increased radius for larger buttons on iPad (150 * 1.15 = 172.5 ≈ 173)
+    const centerAngle = -90; // Point straight up
+    const angleSpread = 120; // Total spread of 120 degrees for 6 buttons
+
+    // Calculate positions for 6 buttons in an arc (Recent, History, Links, News, Stats, Settings)
+    const recentAngle = (centerAngle - angleSpread/2) * (Math.PI / 180);
+    const historyAngle = (centerAngle - angleSpread/2 + angleSpread/5) * (Math.PI / 180);
+    const linksAngle = (centerAngle - angleSpread/2 + 2*angleSpread/5) * (Math.PI / 180);
+    const newsAngle = (centerAngle - angleSpread/2 + 3*angleSpread/5) * (Math.PI / 180);
+    const statsAngle = (centerAngle - angleSpread/2 + 4*angleSpread/5) * (Math.PI / 180);
+    const settingsAngle = (centerAngle + angleSpread/2) * (Math.PI / 180);
+
+    Animated.parallel([
+      // Rotate main FAB
+      Animated.timing(mainFabRotation, {
+        toValue,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      // Animate menu buttons in arc formation
+      Animated.stagger(50, [
+        // Recent button
+        Animated.parallel([
+          Animated.timing(recentFabTranslateX, {
+            toValue: toValue * radius * Math.cos(recentAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(recentFabTranslateY, {
+            toValue: toValue * radius * Math.sin(recentAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+        // History button
+        Animated.parallel([
+          Animated.timing(historyFabTranslateX, {
+            toValue: toValue * radius * Math.cos(historyAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(historyFabTranslateY, {
+            toValue: toValue * radius * Math.sin(historyAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+        // Links button
+        Animated.parallel([
+          Animated.timing(linksFabTranslateX, {
+            toValue: toValue * radius * Math.cos(linksAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(linksFabTranslateY, {
+            toValue: toValue * radius * Math.sin(linksAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+        // News button
+        Animated.parallel([
+          Animated.timing(newsFabTranslateX, {
+            toValue: toValue * radius * Math.cos(newsAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(newsFabTranslateY, {
+            toValue: toValue * radius * Math.sin(newsAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+        // Stats button
+        Animated.parallel([
+          Animated.timing(statsFabTranslateX, {
+            toValue: toValue * radius * Math.cos(statsAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(statsFabTranslateY, {
+            toValue: toValue * radius * Math.sin(statsAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+        // Settings button
+        Animated.parallel([
+          Animated.timing(settingsFabTranslateX, {
+            toValue: toValue * radius * Math.cos(settingsAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(settingsFabTranslateY, {
+            toValue: toValue * radius * Math.sin(settingsAngle),
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]),
+      // Scale and fade menu buttons
+      Animated.timing(menuFabScale, {
+        toValue: toValue,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(menuFabOpacity, {
+        toValue: toValue,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  // Close main FAB when other actions are taken
+  const closeMainFab = () => {
+    if (mainFabExpanded) {
+      toggleMainFab();
+    }
+  };
+
+  // Close all navigation drawers
+  const closeAllNavigationDrawers = () => {
+    setMainHistoryDrawerVisible(false);
+    setSettingsDrawerVisible(false);
+    setLinksDrawerVisible(false);
+  };
+
+  // Close all drawers (both content and navigation drawers)
+  const closeAllDrawers = () => {
+    // Close content drawers
+    setHistoryDrawerVisible(false);
+    setNewsDrawerVisible(false);
+    setAnalyticsDrawerVisible(false);
+    setResultsDrawerVisible(false);
+    // Close navigation drawers
+    setMainHistoryDrawerVisible(false);
+    setSettingsDrawerVisible(false);
+    setLinksDrawerVisible(false);
+  };
+
+  // Handle closing results drawer with auto-save
+  const handleCloseResultsDrawer = () => {
+    console.log('[handleCloseResultsDrawer] Called with:', {
+      autoSaveEnabled: settings.autoSaveToHistory,
+      hasResult: !!result,
+      isSaved,
+      loadedHistoryTimestamp,
+    });
+
+    if (settings.autoSaveToHistory && result && !isSaved && !loadedHistoryTimestamp) {
+      // Auto-save when closing drawer (but not if loaded from history)
+      console.log('[handleCloseResultsDrawer] Auto-saving...');
+      handleSaveToHistory(false).then(() => {
+        setResultsDrawerVisible(false);
+      });
+    } else if (!settings.autoSaveToHistory && result && !isSaved && !loadedHistoryTimestamp) {
+      // Show warning if auto-save is off
+      Alert.alert(
+        'Unsaved Lookup',
+        'You have an unsaved lookup. Do you want to save it before closing?',
+        [
+          {
+            text: 'Discard',
+            style: 'destructive',
+            onPress: () => setResultsDrawerVisible(false),
+          },
+          {
+            text: 'Save & Close',
+            onPress: async () => {
+              await handleSaveToHistory(false);
+              setResultsDrawerVisible(false);
+            },
+          },
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ]
+      );
+    } else {
+      // No unsaved changes or already saved
+      setResultsDrawerVisible(false);
+    }
+  };
+
+  // Navigation drawer animation functions
+  const animateHistoryDrawer = (show: boolean) => {
+    Animated.parallel([
+      Animated.timing(historyDrawerTranslateX, {
+        toValue: show ? 0 : getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(navDrawerOpacity, {
+        toValue: show ? 1 : 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const animateSettingsDrawer = (show: boolean) => {
+    Animated.parallel([
+      Animated.timing(settingsDrawerTranslateX, {
+        toValue: show ? 0 : -getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(navDrawerOpacity, {
+        toValue: show ? 1 : 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const animateLinksDrawer = (show: boolean) => {
+    Animated.parallel([
+      Animated.timing(linksDrawerTranslateY, {
+        toValue: show ? 0 : SCREEN_HEIGHT,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(navDrawerOpacity, {
+        toValue: show ? 1 : 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
+
+      {/* Loading Modal */}
+      <Modal
+        visible={showLoadingModal}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent={true}
+      >
+        <View style={styles.loadingModalOverlay}>
+          <View style={styles.loadingModalContent}>
+            <Animated.View style={[
+              styles.loadingSpinnerContainer,
+              {
+                transform: [{
+                  rotate: loadingSpinValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '360deg']
+                  })
+                }]
+              }
+            ]}>
+              <Ionicons name="time-outline" size={48} color={BRAND_COLORS.electricBlue} />
+            </Animated.View>
+            <Text style={styles.loadingModalText}>Calculating...</Text>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Main Content */}
       <View style={styles.content}>
-        <View style={styles.mainContent}>
-          {/* Header Section with Logo */}
-          <View style={styles.fixedHeader}>
-            <View style={styles.headerContent}>
+        {/* Diagonal Background Section */}
+        <DiagonalSection height={getResponsiveValue(SCREEN_HEIGHT * 0.2, SCREEN_HEIGHT * 0.25)} style={styles.heroSection}>
+          <View style={styles.logoContainer}>
               <Image
-                source={require('../../assets/logo470.png')}
-                style={styles.headerLogo}
+                source={require('../../assets/Harmony2x.png')}
+              style={styles.logo}
                 resizeMode="contain"
               />
             </View>
+          <View style={styles.dataSourceContainer}>
+            <Text style={styles.dataSourceText}>
+              Data Last Updated: {tariffService.getLastUpdated() || 'Loading...'}
+            </Text>
+            <Text style={styles.dataSourceText}>
+              Data Sources: U.S. International Trade Commission (HTS 2025 Revision 2),{'\n'}Federal Register Notices for Section 301 tariffs (Lists 1–4A).
+            </Text>
+          </View>
+        </DiagonalSection>
 
-            {/* Input Section */}
-            {showInput ? (
+        {/* Main Content Area */}
+        <ScrollView
+          ref={resultScrollViewRef}
+          style={styles.mainScrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Input Form - Always visible */}
+          <View style={styles.inputSection}>
+              <View style={styles.sectionTitleWrapper}>
+                <Text style={styles.sectionTitle}>HTS Code Search</Text>
+              </View>
+
               <View style={styles.inputContainer}>
                 <View style={styles.inputWrapper}>
                   <TextInput
                     ref={htsCodeInputRef}
-                    style={styles.input}
+                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    placeholder="Code (Enter 3-8 digits to search)"
+                    placeholderTextColor={BRAND_COLORS.darkGray}
                     value={htsCode}
-                    onChangeText={setHtsCode}
-                    placeholder="Enter HTS Code"
+                    onChangeText={(text) => {
+                      const cleanedText = text.replace(/\D/g, '').slice(0, 8);
+                      console.log('[HTS Input] Text changed:', text, '-> cleaned:', cleanedText);
+                      setHtsCode(cleanedText);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
                     keyboardType="number-pad"
-                    maxLength={12}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    returnKeyType="next"
-                    onSubmitEditing={handleHtsCodeSubmit}
-                    blurOnSubmit={false}
-                    autoFocus={true}
+                    maxLength={8}
                   />
+
+                  {/* HTS Suggestions */}
+                  {showHtsSuggestions && (
+                  <View style={styles.suggestionsContainer}>
+                      {htsSuggestions.length > 0 ? (
+                      <ScrollView style={styles.suggestionsScrollView} showsVerticalScrollIndicator={true}>
+                          {htsSuggestions.map((suggestion, index) => (
+                            <TouchableOpacity
+                              key={index}
+                              style={styles.suggestionItem}
+                              onPress={() => {
+                                handleHtsSelection(suggestion.code);
+                                closeMainFab();
+                                closeAllNavigationDrawers();
+                              }}
+                            >
+                              <Text style={styles.suggestionCode}>{suggestion.code}</Text>
+                              <Text style={styles.suggestionDescription} numberOfLines={3}>
+                                {suggestion.description}
+                              </Text>
+                            </TouchableOpacity>
+                          ))}
+                          {htsSuggestions.length > 5 && (
+                            <View style={styles.moreResultsIndicator}>
+                              <Ionicons name="chevron-down" size={getResponsiveValue(16, 20)} color={BRAND_COLORS.mediumGray} />
+                              <Text style={styles.moreResultsText}>
+                                {htsSuggestions.length - 5} more results - scroll to see all
+                              </Text>
+                            </View>
+                      )}
+                    </ScrollView>
+                      ) : (
+                        <View style={styles.notFoundContainer}>
+                          <Text style={styles.notFoundText}>Not found</Text>
+                        </View>
+                      )}
+                  </View>
+                )}
                 </View>
-
-                <CountryLookup
-                  ref={countryInputRef}
-                  selectedCountry={selectedCountry}
-                  onSelect={(country) => {
-                    setSelectedCountry(country);
-                    handleCountrySelect();
-                  }}
-                  onSubmitEditing={handleCountrySelect}
-                />
-
+                                 <View style={styles.inputWrapper}>
+                  <CountryLookup
+                    ref={countryInputRef}
+                    selectedCountry={selectedCountry}
+                    onSelect={(country) => {
+                      setSelectedCountry(country);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                  />
+                 </View>
                 <View style={styles.inputWrapper}>
                   <TextInput
                     ref={declaredValueInputRef}
-                    style={styles.input}
+                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
                     value={formattedDeclaredValue}
-                    onChangeText={handleDeclaredValueChange}
-                    placeholder="Enter Declared Value"
+                    onChangeText={(value) => {
+                      handleDeclaredValueChange(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    placeholder="Declared Value (USD)"
+                    placeholderTextColor={BRAND_COLORS.darkGray}
                     keyboardType="decimal-pad"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    returnKeyType="done"
-                    onSubmitEditing={handleDeclaredValueSubmit}
                   />
                 </View>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    value={formattedUnitCount}
+                    onChangeText={(value) => {
+                      handleUnitCountChange(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    placeholder="Unit Count (Optional - for per unit calculations)"
+                    placeholderTextColor={BRAND_COLORS.darkGray}
+                    keyboardType="number-pad"
+                  />
+                </View>
+                </View>
 
-                {/* Add Reciprocal Tariff Toggle */}
+                {selectedCountry && hasReciprocalTariff(selectedCountry.code) && (
+                <View style={styles.inputWrapper}>
                 <View style={styles.toggleContainer}>
                   <Text style={styles.toggleLabel}>Make Reciprocal Tariffs Additive</Text>
                   <Switch
                     value={isReciprocalAdditive}
-                    onValueChange={setIsReciprocalAdditive}
-                    trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-                    thumbColor={COLORS.white}
+                    onValueChange={(value) => {
+                      setIsReciprocalAdditive(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                      trackColor={{ false: BRAND_COLORS.mediumGray, true: BRAND_COLORS.electricBlue }}
+                      thumbColor={BRAND_COLORS.white}
                   />
+                  </View>
                 </View>
+                )}
 
                 <TouchableOpacity
-                  style={[styles.lookupButton, (isLoading || isTariffLoading) && styles.lookupButtonDisabled]}
+                style={[styles.searchButton, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
                   onPress={handleLookup}
                   disabled={isLoading || isTariffLoading}
                 >
                   {isLoading || isTariffLoading ? (
-                    <ActivityIndicator color={COLORS.white} />
+                  <ActivityIndicator color={BRAND_COLORS.white} />
                   ) : (
-                    <Text style={styles.lookupButtonText}>Search</Text>
+                  <>
+                    <Ionicons name="search" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
+                    <Text style={styles.searchButtonText}>Search</Text>
+                  </>
                   )}
                 </TouchableOpacity>
+
+                {/* Loading Message Display */}
+                {loadingMessage && (
+                  <View style={styles.loadingMessageContainer}>
+                    <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
               </View>
-            ) : (
-              <View style={styles.resultHeader}>
-                <View style={styles.resultSummary}>
-                  <Text style={styles.resultHtsCode}>{result?.htsCode}</Text>
-                  <Text style={styles.resultCountry}>{selectedCountry?.name}</Text>
+                )}
                 </View>
-                <View style={styles.resultHeaderButtons}>
+        </ScrollView>
+
+        {/* Unified Floating Menu System */}
+        <View style={styles.floatingMenuContainer}>
+          {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
+
+          {/* Recent Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.recentFab,
+              {
+                transform: [
+                  { translateX: recentFabTranslateX },
+                  { translateY: recentFabTranslateY },
+                  { scale: menuFabScale }
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
                   <TouchableOpacity
-                    style={[styles.actionButton, styles.saveSearchButton]}
-                    onPress={handleSaveAndSearch}
-                  >
-                    <Ionicons name="refresh" size={18} color={COLORS.white} />
-                    <Text style={styles.actionButtonText}>Save & Search</Text>
+              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.electricBlue }]}
+              onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setHistoryDrawerVisible(true);
+              }}
+            >
+              <Ionicons name="time" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
                   </TouchableOpacity>
-                  {!isSaved && (
+          </Animated.View>
+
+          {/* History Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.historyFab,
+              {
+                transform: [
+                  { translateX: historyFabTranslateX },
+                  { translateY: historyFabTranslateY },
+                  { scale: menuFabScale }
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
                     <TouchableOpacity
-                      style={[styles.actionButton, styles.saveClearButton, { marginTop: 8 }]}
-                      onPress={handleSaveToHistory}
-                    >
-                      <Text style={styles.actionButtonText}>Save & Clear</Text>
+              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.mediumBlue }]}
+              onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setMainHistoryDrawerVisible(true);
+              }}
+            >
+              <Ionicons name="library" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
                     </TouchableOpacity>
-                  )}
+          </Animated.View>
+
+          {/* Links Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.linksFab,
+              {
+                transform: [
+                  { translateX: linksFabTranslateX },
+                  { translateY: linksFabTranslateY },
+                  { scale: menuFabScale }
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+                    <TouchableOpacity
+              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.success }]}
+              onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setLinksDrawerVisible(true);
+              }}
+            >
+              <Ionicons name="link" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
+                    </TouchableOpacity>
+          </Animated.View>
+
+          {/* News Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.newsFab,
+              {
+                transform: [
+                  { translateX: newsFabTranslateX },
+                  { translateY: newsFabTranslateY },
+                  { scale: menuFabScale }
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.orange }]}
+              onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setNewsDrawerVisible(true);
+              }}
+            >
+              <Ionicons name="newspaper" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* Stats Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.statsFab,
+              {
+                transform: [
+                  { translateX: statsFabTranslateX },
+                  { translateY: statsFabTranslateY },
+                  { scale: menuFabScale }
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.info }]}
+              onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setAnalyticsDrawerVisible(true);
+              }}
+            >
+              <Ionicons name="analytics" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* Settings Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.settingsFab,
+              {
+                transform: [
+                  { translateX: settingsFabTranslateX },
+                  { translateY: settingsFabTranslateY },
+                  { scale: menuFabScale }
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+                    <TouchableOpacity
+              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.darkGray }]}
+                      onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setSettingsDrawerVisible(true);
+              }}
+            >
+              <Ionicons name="settings" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
+                    </TouchableOpacity>
+          </Animated.View>
+
+          {/* Main Floating Menu Button */}
+          <Animated.View
+            style={[
+              styles.mainFloatingFab,
+              {
+                transform: [
+                  {
+                    rotate: mainFabRotation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ['0deg', '45deg'],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.mainFloatingFabButton}
+              onPress={toggleMainFab}
+            >
+              <Ionicons name="menu" size={getResponsiveValue(24, 28)} color={BRAND_COLORS.white} />
+            </TouchableOpacity>
+          </Animated.View>
                 </View>
-              </View>
-            )}
-          </View>
 
-          {/* Results Section */}
-          {!showInput && result && (
-            <ScrollView style={styles.resultContainer}>
-              <Text style={styles.lookupResultsTitle}>Search Results</Text>
+      {/* Animated Drawers */}
+      <AnimatedDrawer
+        isVisible={historyDrawerVisible}
+        onClose={() => {
+          setHistoryDrawerVisible(false);
+        }}
+        position="bottom"
+      >
+        {renderHistoryDrawerContent()}
+      </AnimatedDrawer>
 
-              {/* Product Information Section */}
-              <View style={styles.sectionContainer}>
-                <View style={styles.gridRow}>
-                  <Text style={styles.gridLabel}>HTS Code:</Text>
-                  <Text style={styles.gridValue}>{result.htsCode}</Text>
-                </View>
+      <AnimatedDrawer
+        isVisible={newsDrawerVisible}
+        onClose={() => {
+          setNewsDrawerVisible(false);
+        }}
+        position="right"
+      >
+        {renderNewsDrawerContent()}
+      </AnimatedDrawer>
 
-                <View style={styles.gridRow}>
-                  <Text style={styles.gridLabel}>Description:</Text>
-                  <Text style={styles.gridValue}>{result.description}</Text>
-                </View>
+      <AnimatedDrawer
+        isVisible={analyticsDrawerVisible}
+        onClose={() => {
+          setAnalyticsDrawerVisible(false);
+        }}
+        position="left"
+      >
+        {renderAnalyticsDrawerContent()}
+      </AnimatedDrawer>
 
-                <View style={styles.gridRow}>
-                  <Text style={styles.gridLabel}>Origin Country:</Text>
-                  <Text style={styles.gridValue}>{selectedCountry?.name}</Text>
-                </View>
+      {/* Results Drawer */}
+      <AnimatedDrawer
+        isVisible={resultsDrawerVisible}
+        onClose={handleCloseResultsDrawer}
+        position="bottom"
+      >
+        {renderResultsDrawerContent()}
+      </AnimatedDrawer>
 
-                <View style={styles.gridRow}>
-                  <Text style={styles.gridLabel}>Entered Value:</Text>
-                  <Text style={styles.gridValue}>{formatCurrency(parseFloat(declaredValue))}</Text>
-                </View>
+            {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
+      {(mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible) && (
+                  <TouchableOpacity
+          style={styles.overlay}
+          activeOpacity={1}
+          onPress={() => {
+            setMainHistoryDrawerVisible(false);
+            setSettingsDrawerVisible(false);
+            setLinksDrawerVisible(false);
+          }}
+        >
+          <Animated.View style={[styles.overlayBackground, { opacity: navDrawerOpacity }]} />
+                  </TouchableOpacity>
+      )}
 
-                {/* Date Information */}
-                {result.effectiveDate && (
-                  <View style={styles.gridRow}>
-                    <Text style={styles.gridLabel}>Tariff Effective:</Text>
-                    <Text style={styles.gridValue}>{result.effectiveDate}</Text>
-                  </View>
-                )}
-
-                {result.expirationDate && (
-                  <View style={styles.gridRow}>
-                    <Text style={styles.gridLabel}>Tariff Expires:</Text>
-                    <Text style={styles.gridValue}>{result.expirationDate}</Text>
-                  </View>
-                )}
-              </View>
-
-              <View style={styles.divider} />
-
-              {/* Estimated Duties & Fees Section */}
-              <Text style={styles.sectionTitle}>Estimated Duties & Fees</Text>
-
-              <View style={styles.sectionContainer}>
-    {/* Table Header */}
-    <View style={styles.tableHeader}>
-      <Text style={styles.tableHeaderCell1}>Rate Line Item</Text>
-      <Text style={styles.tableHeaderCell2}>Duty/Fee Rate%</Text>
-      <Text style={styles.tableHeaderCell3}>Amount</Text>
-    </View>
-
-    {/* Table Rows */}
-    {result.components && result.components.map((component, index) => (
-      <View key={`component-${index}`} style={styles.tableRow}>
-  <Text style={styles.tableCell1} numberOfLines={1}>
-    {getLineItemLabel(component)}
-  </Text>
-  <Text style={styles.tableCell2} numberOfLines={1}>
-    {formatNumber(component.rate)}%
-  </Text>
-  <Text style={styles.tableCell3} numberOfLines={1}>
-    {formatCurrency(component.amount)}
-  </Text>
-</View>
-))}
-
-                {/* MPF Fee */}
-                {result.fees && result.fees.mpf && (
-                  <View style={styles.tableRow}>
-                    <Text style={styles.tableCell1}>Mdse. Processing (MPF)</Text>
-                    <Text style={styles.tableCell2}>{formatNumber(result.fees.mpf.rate, 4)}%</Text>
-                    <Text style={styles.tableCell3}>{formatCurrency(result.fees.mpf.amount)}</Text>
-                  </View>
-                )}
-
-                {/* HMF Fee */}
-                {result.fees && result.fees.hmf && (
-                  <View style={styles.tableRow}>
-                    <Text style={styles.tableCell1}>Harbor Maint. (HMF)</Text>
-                    <Text style={styles.tableCell2}>{formatNumber(result.fees.hmf.rate, 4)}%</Text>
-                    <Text style={styles.tableCell3}>{formatCurrency(result.fees.hmf.amount)}</Text>
-                  </View>
-                )}
-
-                {/* Total Row */}
-                <View style={styles.totalRow}>
-                  <Text style={styles.totalCell1}>Projected Total</Text>
-                  <Text style={styles.totalCell3}>{formatCurrency(result.totalAmount)}</Text>
-                </View>
-              </View>
-
-              {/* Comparison Section - Only for China */}
-              {selectedCountry?.code === 'CN' && comparison && (
-                <>
-                  <Text style={[styles.sectionTitle, {marginTop: 24}]}>Comparison</Text>
-                  <View style={styles.sectionContainer}>
-                    {/* Toggle ON (Additive): Both RT and 301 */}
-                    <View style={styles.tableRow}>
-                      <Text style={styles.tableCell1}>
-                        Toggle ON (Additive): Total with RT + 301
-                      </Text>
-                      <Text style={styles.tableCell2}>
-                        {formatCurrency(comparison.toggleOn.withRT)}
-                      </Text>
-                      <Text style={styles.tableCell3}>
-                        {(() => {
-                          // % Delta vs. 301 only (Toggle ON without RT)
-                          const base = comparison.toggleOn.withoutRT;
-                          const diff = comparison.toggleOn.withRT - base;
-                          const percent = base > 0 ? (diff / base) * 100 : 0;
-                          return `${percent >= 0 ? '+' : ''}${formatNumber(percent, 1)}% vs. 301 only`;
-                        })()}
-                      </Text>
-                    </View>
-                    {/* Toggle OFF: RT only vs. 301 only */}
-                    <View style={styles.tableRow}>
-                      <Text style={styles.tableCell1}>
-                        Toggle OFF: RT Only / 301 Only
-                      </Text>
-                      <Text style={styles.tableCell2}>
-                        {formatCurrency(comparison.toggleOff.withRT)} / {formatCurrency(comparison.toggleOff.withoutRT)}
-                      </Text>
-                      <Text style={styles.tableCell3}>
-                        {(() => {
-                          // % Delta between RT only and 301 only (Toggle OFF)
-                          const base = comparison.toggleOff.withoutRT;
-                          const diff = comparison.toggleOff.withRT - base;
-                          const percent = base > 0 ? (diff / base) * 100 : 0;
-                          return `${percent >= 0 ? '+' : ''}${formatNumber(percent, 1)}% vs. 301 only`;
-                        })()}
-                      </Text>
-                    </View>
-                  </View>
-                </>
-              )}
-
-              <View style={styles.disclaimerContainer}>
-                <Text style={styles.disclaimerText}>
-                  Disclaimer: Duty rates are estimates only and may not reflect all applicable trade programs or restrictions.
-                </Text>
-              </View>
-            </ScrollView>
-          )}
-
-          {/* Loading State */}
-          {isLoading && (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color={COLORS.lightBlue} />
-              <Text style={styles.loadingText}>Looking up HTS code...</Text>
+      {/* History Drawer */}
+                <Animated.View style={[
+            styles.drawer,
+            styles.rightDrawer,
+            {
+              transform: [{ translateX: historyDrawerTranslateX }],
+              pointerEvents: mainHistoryDrawerVisible ? 'auto' : 'none'
+            }
+          ]}>
+            <View style={styles.drawerScreenContainer}>
+                            <HistoryScreen
+                visible={mainHistoryDrawerVisible}
+                onItemPress={(item) => {
+                  // Close the history drawer
+                  setMainHistoryDrawerVisible(false);
+                  // Populate the form with the selected history item
+                  handleHistoryItemSelection(item);
+                }}
+              />
             </View>
-          )}
+          </Animated.View>
 
-          {/* Error State */}
-          {error && showInput && (
-            <View style={styles.errorContainer}>
-              <Ionicons name="warning-outline" size={48} color={COLORS.error} />
-              <Text style={styles.errorTitle}>Unable to Load Tariff Data</Text>
-              <Text style={styles.errorText}>
-                Please check your internet connection and try again.
-              </Text>
-              <Text style={styles.errorSubtext}>
-                The app needs to download tariff data to perform lookups.
-              </Text>
+      {/* Settings Drawer */}
+      <Animated.View style={[
+        styles.drawer,
+        styles.leftDrawer,
+        {
+          transform: [{ translateX: settingsDrawerTranslateX }],
+          pointerEvents: settingsDrawerVisible ? 'auto' : 'none'
+        }
+      ]}>
+        <View style={styles.drawerScreenContainer}>
+          <SettingsScreen />
             </View>
-          )}
-        </View>
-        {isTablet() && (
-          <View style={styles.rightColumn}>
-            <RightColumnContent />
+      </Animated.View>
+
+      {/* Links Drawer */}
+      <Animated.View style={[
+        styles.drawer,
+        styles.bottomDrawer,
+        {
+          transform: [{ translateY: linksDrawerTranslateY }],
+          pointerEvents: linksDrawerVisible ? 'auto' : 'none'
+        }
+      ]}>
+        <View style={styles.drawerScreenContainer}>
+          <LinksScreen />
           </View>
-        )}
+      </Animated.View>
       </View>
     </SafeAreaView>
   );
 }
 
+// Get responsive configs
+const fabConfig = getFabConfig();
+const inputConfig = getInputConfig();
+const buttonConfig = getButtonConfig();
+const drawerConfig = getDrawerConfig();
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: BRAND_COLORS.white,
   },
   content: {
     flex: 1,
-    flexDirection: isTablet() ? 'row' : 'column',
-    alignItems: 'stretch',
   },
-  mainContent: {
-    flex: 1,
-    padding: 16,
-    minWidth: 0, // Prevents overflow on tablets
-  },
-  fixedHeader: {
-    backgroundColor: COLORS.white,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.mediumGray,
-    paddingBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  headerContent: {
-    flexDirection: 'row',
+  heroSection: {
+    position: 'relative',
+    zIndex: 1,
+  } as ViewStyle,
+  logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 12,
+    paddingTop: getResponsiveValue(getSpacing('xxl'), getSpacing('md')), // More top padding on iPhone for Dynamic Island
+    paddingBottom: getSpacing('md'),
+    // Exclusion zone based on "H" symbol height - providing breathing room
+    paddingHorizontal: getResponsiveValue(60, 80), // Exclusion zone proportional to logo size
   },
-  headerLogo: {
-    width: 300,
+  logo: {
+    width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.6), // 50% larger on iPad (0.4 * 1.5 = 0.6)
+    height: getResponsiveValue((SCREEN_WIDTH * 0.6) * 0.3, (SCREEN_WIDTH * 0.6) * 0.3), // Maintain aspect ratio
+    maxWidth: getResponsiveValue(280, 600), // Increased maximum size for iPad (400 * 1.5 = 600)
+    maxHeight: getResponsiveValue(84, 180), // Increased maximum height for iPad (120 * 1.5 = 180)
   },
-  header: {
+  mainScrollView: {
     flex: 1,
+    marginTop: getResponsiveValue(-getSpacing('lg'), -getSpacing('xl')),
+    zIndex: 2,
   },
-  title: {
-    fontSize: isTablet() ? 32 : 26,
-    fontWeight: '700',
-    color: COLORS.darkBlue,
-    marginBottom: 4,
+  scrollContent: {
+    paddingHorizontal: getSpacing('md'),
+    paddingTop: getSpacing('lg'),
+    paddingBottom: getSpacing('xxxl'),
   },
-  subtitle: {
-    fontSize: isTablet() ? 19 : 15,
-    color: COLORS.darkGray,
+  inputSection: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius('lg'),
+    padding: getSpacing('lg'),
+    ...BRAND_SHADOWS.medium,
+    marginBottom: getSpacing('lg'),
   },
-  inputContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    gap: 16,
-  },
-  inputWrapper: {
-    backgroundColor: COLORS.lightGray,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORS.mediumGray,
-    paddingHorizontal: 12,
-    height: 48,
-    justifyContent: 'center',
-  },
-  input: {
-    fontSize: isTablet() ? 28 : 22,
-    color: COLORS.darkBlue,
-  },
-  lookupButton: {
-    backgroundColor: COLORS.orange,
-    borderRadius: 8,
-    width: 200,
-    alignSelf: 'center',
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  lookupButtonDisabled: {
-    opacity: 0.7,
-  },
-  lookupButtonText: {
-    color: COLORS.white,
-    fontSize: isTablet() ? 23 : 18,
-    fontWeight: '600',
-  },
-  resultHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  sectionTitleWrapper: {
+    paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
     alignItems: 'flex-start',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-  },
-  resultSummary: {
-    flex: 1,
-  },
-  resultHtsCode: {
-    fontSize: isTablet() ? 23 : 18,
-    fontWeight: '700',
-    color: COLORS.darkBlue,
-  },
-  resultCountry: {
-    fontSize: isTablet() ? 16 : 13,
-    color: COLORS.darkGray,
-  },
-  resultHeaderButtons: {
-    alignItems: 'flex-end',
-    minWidth: 160, // Set minimum width for button container
-  },
-  actionButton: {
-    flexDirection: 'row',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 160, // Fixed width for both buttons
-  },
-  saveSearchButton: {
-    backgroundColor: COLORS.orange,
-  },
-  saveClearButton: {
-    backgroundColor: COLORS.saveButtonBlue,
-  },
-  actionButtonText: {
-    color: COLORS.white,
-    fontSize: isTablet() ? 19 : 15,
-    fontWeight: '600',
-    marginLeft: 4,
-  },
-  resultContainer: {
-    flex: 1,
-    padding: 16,
-  },
-  lookupResultsTitle: {
-    fontSize: isTablet() ? 25 : 20,
-    fontWeight: '700',
-    color: COLORS.lightBlue,
-    marginBottom: 16,
-  },
-  sectionContainer: {
-    backgroundColor: COLORS.sectionBg,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORS.borderColor,
-    overflow: 'hidden',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  gridRow: {
-    flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.borderColor,
-  },
-  gridLabel: {
-    flex: 1,
-    fontSize: isTablet() ? 18 : 14,
-    color: COLORS.darkBlue,
-    fontWeight: '500',
-  },
-  gridValue: {
-    flex: 2,
-    fontSize: isTablet() ? 18 : 14,
-    color: COLORS.black,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: COLORS.darkGray,
-    marginVertical: 16,
+    width: '100%',
   },
   sectionTitle: {
-    fontSize: isTablet() ? 23 : 18,
-    fontWeight: '700',
-    color: COLORS.lightBlue,
-    marginBottom: 16,
-  },
-  // Table styles
-  tableHeader: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.darkGray,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    backgroundColor: COLORS.white,
-  },
-  tableHeaderCell1: {
-    flex: 3.5,
-    fontSize: isTablet() ? 18 : 14,
-    fontWeight: '600',
-    color: COLORS.darkBlue,
+    fontSize: getTypographySize('xl'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getSpacing('md'),
     textAlign: 'left',
-    flexShrink: 0, // Add this line
+    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
+    maxWidth: '100%',
   },
-  tableHeaderCell2: {
-    flex: 2,
-    fontSize: isTablet() ? 18 : 14,
-    fontWeight: '600',
-    color: COLORS.darkBlue,
-    textAlign: 'right',
-    paddingRight: 8,
-    flexShrink: 0, // Add this line
+  inputContainer: {
+    marginBottom: getSpacing('md'),
   },
-  tableHeaderCell3: {
-    flex: 2,
-    fontSize: isTablet() ? 18 : 14,
-    fontWeight: '600',
-    color: COLORS.darkBlue,
-    textAlign: 'right',
+  inputWrapper: {
+    width: '100%',
+    paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
+    alignItems: 'flex-start',
   },
-  tableRow: {
-    flexDirection: 'row',
+  input: {
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius('md'),
+    paddingHorizontal: getSpacing('md'),
+    paddingVertical: getSpacing('sm'),
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5), // 50% larger on iPad
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getSpacing('md'),
+    borderWidth: 1,
+    borderColor: BRAND_COLORS.mediumGray,
+    height: getInputConfig().height,
+    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
+    maxWidth: '100%',
+  },
+  suggestionsContainer: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius('md'),
+    ...BRAND_SHADOWS.small,
+    marginBottom: getSpacing('md'),
+    paddingVertical: getSpacing('xs'), // Reduced padding
+    minHeight: 0,
+    maxHeight: getResponsiveValue(325, 550), // Height for 5 items: 5 * (65/110) = 325/550
+    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
+    maxWidth: '100%',
+    alignSelf: 'flex-start',
+  },
+  suggestionsScrollView: {
+    maxHeight: getResponsiveValue(325, 550), // Match container height
+  },
+  suggestionItem: {
+    paddingVertical: getResponsiveValue(4, 8), // More padding on iPad for larger text
+    paddingHorizontal: getSpacing('sm'),
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.borderColor,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    borderBottomColor: BRAND_COLORS.lightGray,
+    maxHeight: getResponsiveValue(65, 110), // Increased height for larger text on iPad
+    width: '100%',
+    flexShrink: 1,
+  },
+  suggestionCode: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.75), // 75% larger on iPad
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.electricBlue,
+    marginBottom: 1,
+    flexShrink: 1,
+  },
+  suggestionDescription: {
+    fontSize: getResponsiveValue(10, 11 * 1.75), // 75% larger on iPad
+    color: BRAND_COLORS.darkGray,
+    lineHeight: getResponsiveValue(12, 13 * 1.75), // Proportional line height increase
+    marginTop: 0,
+    flexShrink: 1,
+    flexWrap: 'wrap',
+  },
+  moreResultsIndicator: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: getSpacing('sm'),
+    paddingHorizontal: getSpacing('md'),
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderTopWidth: 1,
+    borderTopColor: BRAND_COLORS.mediumGray,
   },
-  tableCell1: {
-    flex: 3.5,
-    fontSize: isTablet() ? 15 : 12,
-    color: COLORS.black,
-    textAlign: 'left',
-    flexShrink: 0, // Add this line
-  },
-  tableCell2: {
-    flex: 2,
-    fontSize: isTablet() ? 15 : 12,
-    color: COLORS.black,
-    textAlign: 'right',
-    paddingRight: 8,
-    flexShrink: 0, // Add this line
-  },
-  tableCell3: {
-    flex: 2,
-    fontSize: isTablet() ? 15 : 12,
-    color: COLORS.black,
-    textAlign: 'right',
-    flexShrink: 0, // Add this line
-  },
-  totalRow: {
-    flexDirection: 'row',
-    borderTopWidth: 2,
-    borderTopColor: COLORS.darkGray,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    backgroundColor: COLORS.white,
-  },
-  totalCell1: {
-    flex: 5.5,
-    fontSize: isTablet() ? 15 : 12,
-    fontWeight: '600',
-    color: COLORS.lightBlue,
-    textAlign: 'right',
-    paddingRight: 8,
-    flexShrink: 0, // Add this line
-  },
-  totalCell3: {
-    flex: 2,
-    fontSize: isTablet() ? 15 : 12,
-    fontWeight: '700',
-    color: COLORS.lightBlue,
-    textAlign: 'right',
-    flexShrink: 0, // Add this line
-  },
-  decreaseValue: {
-    flex: 2,
-    fontSize: isTablet() ? 15 : 12,
-    fontWeight: '700',
-    color: COLORS.lightBlue,
-    textAlign: 'right',
-    flexShrink: 0, // Add this line
-  },
-  disclaimerContainer: {
-    marginBottom: 24,
-  },
-  disclaimerText: {
-    fontSize: isTablet() ? 15 : 12,
-    color: COLORS.darkGray,
+  moreResultsText: {
+    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm')),
+    color: BRAND_COLORS.mediumGray,
+    marginLeft: getSpacing('xs'),
     fontStyle: 'italic',
-    textAlign: 'center',
   },
-  loadingContainer: {
-    flex: 1,
+  notFoundContainer: {
+    padding: getSpacing('md'),
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
   },
-  loadingText: {
-    fontSize: isTablet() ? 20 : 16,
-    color: COLORS.darkGray,
-    marginTop: 16,
-  },
-  rightColumn: {
-    width: 320,
-    borderLeftWidth: 1,
-    borderLeftColor: COLORS.mediumGray,
-    backgroundColor: COLORS.white,
-    height: '100%',
-    paddingVertical: 0,
-  },
-  historyItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.borderColor,
-  },
-  historyItemHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  historyItemHtsCode: {
-    fontSize: isTablet() ? 18 : 14,
-    fontWeight: '600',
-    color: COLORS.darkBlue,
-  },
-  historyItemDescription: {
-    fontSize: isTablet() ? 16 : 12,
-    color: COLORS.darkGray,
-    marginTop: 4,
-    flexShrink: 0, // Add this line
-  },
-  historyItemDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 4,
-    flexShrink: 0, // Add this line
-  },
-  historyItemDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  historyItemCountry: {
-    fontSize: isTablet() ? 14 : 12,
-    color: COLORS.darkGray,
-    marginRight: 8,
-  },
-  historyItemValue: {
-    fontSize: isTablet() ? 14 : 12,
-    color: COLORS.black,
-    flexShrink: 0, // Add this line
-  },
-  historyItemTimestamp: {
-    fontSize: isTablet() ? 14 : 12,
-    color: COLORS.darkGray,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  errorTitle: {
-    fontSize: isTablet() ? 24 : 20,
-    fontWeight: '700',
-    color: COLORS.error,
-    marginTop: 16,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  errorText: {
-    fontSize: isTablet() ? 18 : 16,
-    color: COLORS.darkGray,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  errorSubtext: {
-    fontSize: isTablet() ? 16 : 14,
-    color: COLORS.darkGray,
-    textAlign: 'center',
+  notFoundText: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')),
+    color: BRAND_COLORS.darkGray,
+    fontStyle: 'italic',
   },
   toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: COLORS.lightGray,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORS.mediumGray,
-    paddingHorizontal: 12,
-    height: 48,
-    marginBottom: 8,
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius('md'),
+    padding: getSpacing('md'),
+    marginBottom: getSpacing('md'),
+    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
+    maxWidth: '100%',
   },
   toggleLabel: {
-    fontSize: isTablet() ? 16 : 14,
-    color: COLORS.darkBlue,
-    fontWeight: '500',
+    fontSize: getTypographySize('md'), // Reverted to original size
+    color: BRAND_COLORS.darkNavy,
+    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    flex: 1,
+  },
+  searchButton: {
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderRadius: getBorderRadius('md'),
+    paddingVertical: getSpacing('md'),
+    paddingHorizontal: getSpacing('lg'),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...BRAND_SHADOWS.small,
+    height: Platform.OS === 'ios' && Platform.isPad ? getButtonConfig().height + 12 : getButtonConfig().height,
+    marginLeft: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
+    alignSelf: 'flex-start',
+  },
+  searchButtonDisabled: {
+    opacity: 0.6,
+  },
+  searchButtonText: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    marginLeft: getSpacing('sm'),
+    lineHeight: getTypographySize('md') * 1.4, // Adjusted line height for vertical centering
+  },
+  loadingMessageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: getSpacing('md'),
+    paddingHorizontal: getSpacing('lg'),
+    marginTop: getSpacing('md'),
+    marginLeft: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
+    alignSelf: 'flex-start',
+  },
+  loadingMessageText: {
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    color: BRAND_COLORS.electricBlue,
+    textAlign: 'center',
+  },
+
+  // Unified Floating Menu Styles
+  floatingMenuContainer: {
+    position: 'absolute',
+    bottom: getSpacing('xs'),
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 2000,
+  },
+  menuFab: {
+    position: 'absolute',
+    bottom: getResponsiveValue(28, 37), // Adjusted spacing for larger buttons on iPad
+    alignSelf: 'center',
+  },
+  menuFabButton: {
+    width: getResponsiveValue(48, 64), // 15% larger on iPad (56 * 1.15 = 64.4 ≈ 64)
+    height: getResponsiveValue(48, 64), // 15% larger on iPad
+    borderRadius: getResponsiveValue(24, 32), // Proportional border radius
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...BRAND_SHADOWS.medium,
+  },
+  recentFab: {},
+  historyFab: {},
+  linksFab: {},
+  newsFab: {},
+  statsFab: {},
+  settingsFab: {},
+  mainFloatingFab: {
+    position: 'relative',
+  },
+  mainFloatingFabButton: {
+    width: getResponsiveValue(56, 74), // 15% larger on iPad (64 * 1.15 = 73.6 ≈ 74)
+    height: getResponsiveValue(56, 74), // 15% larger on iPad
+    borderRadius: getResponsiveValue(28, 37), // Proportional border radius
+    backgroundColor: BRAND_COLORS.darkNavy,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...BRAND_SHADOWS.large,
+  },
+  // Drawer content styles
+  drawerContent: {
+    flex: 1,
+    padding: getSpacing('lg'),
+  },
+  drawerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: getSpacing('md'),
+    paddingBottom: getSpacing('md'),
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND_COLORS.lightGray,
+  },
+  drawerTitle: {
+    fontSize: getTypographySize('lg'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.darkNavy,
+    marginLeft: getSpacing('sm'),
+  },
+  drawerScrollView: {
+    flex: 1,
+  },
+  historyDrawerItem: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius('md'),
+    padding: getSpacing('md'),
+    marginBottom: getSpacing('sm'),
+    ...BRAND_SHADOWS.small,
+    minHeight: getResponsiveValue(60, 72),
+  },
+  historyItemRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  countryFlag: {
+    width: getResponsiveValue(36, 44),
+    height: getResponsiveValue(36, 44),
+    borderRadius: getResponsiveValue(18, 22),
+    backgroundColor: BRAND_COLORS.electricBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: getSpacing('sm'),
+  },
+  countryCode: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize('xs'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+  },
+  historyItemInfo: {
+    flex: 1,
+  },
+  historyItemCode: {
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
+  },
+  historyItemDesc: {
+    fontSize: getTypographySize('sm'),
+    color: BRAND_COLORS.darkGray,
+    marginVertical: 2,
+  },
+  historyItemAmount: {
+    fontSize: getTypographySize('sm'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.electricBlue,
+  },
+  newsItem: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius('md'),
+    padding: getSpacing('md'),
+    marginBottom: getSpacing('sm'),
+    ...BRAND_SHADOWS.small,
+  },
+  newsTag: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: getSpacing('sm'),
+    paddingVertical: getSpacing('xs'),
+    borderRadius: getBorderRadius('sm'),
+    marginBottom: getSpacing('sm'),
+  },
+  newsTagText: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize('xs'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+  },
+  newsTitle: {
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getSpacing('xs'),
+  },
+  newsDate: {
+    fontSize: getTypographySize('sm'),
+    color: BRAND_COLORS.darkGray,
+  },
+  analyticsCard: {
+    marginBottom: getSpacing('sm'),
+    borderRadius: getBorderRadius('md'),
+    overflow: 'hidden',
+    ...BRAND_SHADOWS.small,
+  },
+  analyticsGradient: {
+    padding: getSpacing('md'),
+  },
+  analyticsTitle: {
+    fontSize: getTypographySize('sm'),
+    color: BRAND_COLORS.white,
+    marginBottom: getSpacing('xs'),
+  },
+  analyticsValue: {
+    fontSize: getTypographySize('lg'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.white,
+    marginBottom: getSpacing('xs'),
+  },
+  analyticsTrend: {
+    fontSize: getTypographySize('sm'),
+    color: BRAND_COLORS.white,
+    opacity: 0.8,
+  },
+  // Compact Results Drawer Styles
+  resultsDrawerContent: {
+    flex: 1,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  resultsDrawerHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: getSpacing('md'),
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND_COLORS.lightGray,
+    backgroundColor: BRAND_COLORS.white,
+    minHeight: getResponsiveValue(60, 80),
+  },
+  resultsHeaderLeft: {
+    flex: 1,
+  },
+  resultsDrawerTitle: {
+    fontSize: getResponsiveValue(getTypographySize('lg'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.darkNavy,
+  },
+  resultsDrawerSubtitle: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    color: BRAND_COLORS.mediumGray,
+    marginTop: 2,
+  },
+  resultsDrawerTimestamp: {
+    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('xs') * 1.35),
+    color: BRAND_COLORS.darkGray,
+    marginTop: 4,
+    fontStyle: 'italic',
+  },
+  resultsScrollView: {
+    flex: 1,
+    padding: getResponsiveValue(getSpacing('md'), getSpacing('lg')), // More padding on iPad to use saved space
+    paddingBottom: getSpacing('xl'),
+  },
+  totalAmountCard: {
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderRadius: getBorderRadius('md'),
+    padding: getResponsiveValue(getSpacing('sm'), getSpacing('md')),
+    alignItems: 'center',
+    marginBottom: getSpacing('sm'),
+    ...BRAND_SHADOWS.medium,
+    minHeight: getResponsiveValue(70, 105), // 30% reduction iPhone (100→70), 25% reduction iPad (140→105)
+  },
+  totalAmountLabel: {
+    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    color: BRAND_COLORS.white,
+    opacity: 0.9,
+    marginBottom: getResponsiveValue(1, 2), // Reduced margin to save space
+  },
+  totalAmountValue: {
+    fontSize: getResponsiveValue(getTypographySize('xl'), getTypographySize('xxl') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.white,
+    marginBottom: getResponsiveValue(1, 2), // Reduced margin to save space
+    textAlign: 'center',
+  },
+  totalAmountSubtext: {
+    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    color: BRAND_COLORS.white,
+    opacity: 0.8,
+    textAlign: 'center',
+  },
+  compactSection: {
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius('md'),
+    padding: getResponsiveValue(getSpacing('md'), getSpacing('md')), // Reduced padding on iPad to save space
+    marginBottom: getResponsiveValue(getSpacing('md'), getSpacing('sm')), // Reduced margin on iPad to save space
+  },
+  compactSectionTitle: {
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getResponsiveValue(getSpacing('sm'), getSpacing('xs')), // Reduced margin on iPad to save space
+  },
+  compactRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: getResponsiveValue(getSpacing('xs'), getSpacing('xs')), // Reduced padding on iPad to save space
+    minHeight: getResponsiveValue(36, 40), // Reduced height on iPad to save space
+  },
+  compactRowLeft: {
+    flex: 1,
+    marginRight: getSpacing('md'),
+  },
+  compactLabel: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md') * 1.35), // 35% larger on iPad (reduced from 50%)
+    color: BRAND_COLORS.darkGray,
+    marginBottom: 1, // Reduced margin to save space
+    lineHeight: getResponsiveValue(18, 22 * 1.2), // Tighter line height on iPad to save space
+  },
+  compactRate: {
+    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    color: '#000000',
+  },
+  compactAmount: {
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
+  },
+  compactHighlight: {
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.electricBlue,
+  },
+  compactMessageSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: BRAND_COLORS.lightBlue,
+    borderRadius: getBorderRadius('md'),
+    padding: getResponsiveValue(getSpacing('md'), getSpacing('md')), // Reduced padding on iPad to save space
+    marginBottom: getResponsiveValue(getSpacing('md'), getSpacing('sm')), // Reduced margin on iPad to save space
+    minHeight: getResponsiveValue(44, 48), // Reduced height on iPad to save space
+  },
+  compactMessage: {
+    fontSize: getResponsiveValue(getTypographySize('sm') * 1.5, getTypographySize('md') * 1.35), // 35% larger font size on iPad (reduced from 50%)
+    color: BRAND_COLORS.white, // Changed to white
+    marginLeft: getSpacing('sm'),
+    flex: 1,
+    lineHeight: getResponsiveValue(18 * 1.5, 22 * 1.35), // Proportional line height increase
+  },
+
+  // Header button styles
+  headerButtons: {
+    flexDirection: 'row',
+    gap: getSpacing('sm'),
+  },
+  headerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: getSpacing('sm'),
+    paddingVertical: getSpacing('xs'),
+    borderRadius: getBorderRadius('md'),
+    borderWidth: 1,
+    gap: getSpacing('xs'),
+    minHeight: getResponsiveValue(32, 40),
+  },
+  saveHeaderButton: {
+    borderColor: BRAND_COLORS.electricBlue,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  savedHeaderButton: {
+    borderColor: BRAND_COLORS.success,
+    backgroundColor: BRAND_COLORS.lightGray,
+  },
+  newHeaderButton: {
+    borderColor: BRAND_COLORS.electricBlue,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  headerButtonText: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    color: BRAND_COLORS.electricBlue,
+  },
+  savedHeaderButtonText: {
+    color: BRAND_COLORS.success,
+  },
+  autoSaveIndicator: {
+    borderColor: BRAND_COLORS.success,
+    backgroundColor: BRAND_COLORS.lightGray,
+  },
+  autoSaveText: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35),
+    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    color: BRAND_COLORS.success,
+  },
+  dataSourceContainer: {
+    paddingHorizontal: getResponsiveValue(getSpacing('md'), getSpacing('lg')),
+    paddingBottom: getSpacing('sm'),
+    alignItems: 'center',
+  },
+  dataSourceText: {
+    fontSize: getResponsiveValue(getTypographySize('xs') * 0.8, getTypographySize('sm')), // Smaller font on iPhone
+    color: BRAND_COLORS.white,
+    textAlign: 'center',
+    opacity: 0.9,
+    lineHeight: getResponsiveValue(12, 18), // Reduced line height on iPhone
+    marginBottom: getSpacing('xs'),
+  },
+
+
+
+  // Drawer screen container
+  drawerScreenContainer: {
+    flex: 1,
+    backgroundColor: BRAND_COLORS.white,
+  },
+
+  // Custom drawer styles to avoid ScrollView nesting
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+  },
+  overlayBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(10, 26, 62, 0.5)',
+  },
+  drawer: {
+    position: 'absolute',
+    backgroundColor: BRAND_COLORS.white,
+    zIndex: 1001,
+    ...BRAND_SHADOWS.large,
+  },
+  leftDrawer: {
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
+    borderTopRightRadius: getBorderRadius('lg'),
+    borderBottomRightRadius: getBorderRadius('lg'),
+  },
+  rightDrawer: {
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
+    borderTopLeftRadius: getBorderRadius('lg'),
+    borderBottomLeftRadius: getBorderRadius('lg'),
+  },
+  bottomDrawer: {
+    left: 0,
+    right: 0,
+    top: 0, // Start from top to use full screen
+    bottom: 0,
+    borderTopLeftRadius: getBorderRadius('lg'),
+    borderTopRightRadius: getBorderRadius('lg'),
+  },
+
+  // Loading Modal Styles
+  loadingModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingModalContent: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius('lg'),
+    padding: getSpacing('xl'),
+    alignItems: 'center',
+    ...BRAND_SHADOWS.large,
+    minWidth: getResponsiveValue(200, 250),
+  },
+  loadingSpinnerContainer: {
+    marginBottom: getSpacing('md'),
+  },
+  loadingModalText: {
+    fontSize: getTypographySize('lg'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
   },
 });
