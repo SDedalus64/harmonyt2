@@ -6,6 +6,8 @@ export type RootStackParamList = {
   InAppWebView: { url: string; title?: string };
   Login: undefined;
   Registration: undefined;
+  CountrySelection: undefined;
+  Profile: undefined;
 };
 
 export type AuthStackParamList = {

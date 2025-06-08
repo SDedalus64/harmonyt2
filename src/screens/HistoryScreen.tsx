@@ -160,12 +160,12 @@ export default function HistoryScreen({ onItemPress, visible = true }: HistorySc
       <View style={styles.historyItemHeader}>
         <Text style={styles.historyItemHtsCode}>{item.htsCode}</Text>
       </View>
-      <Text style={styles.historyItemDescription} numberOfLines={1}>{item.description}</Text>
+      <Text style={styles.historyItemDescription}>{item.description}</Text>
       <View style={styles.historyItemDetails}>
         <View style={styles.historyItemDetail}>
           <Text style={styles.historyItemCountry}>{item.countryName}</Text>
           {item.totalAmount !== undefined && (
-          <Text style={styles.historyItemValue} numberOfLines={1}>{formatCurrency(item.totalAmount)}</Text>
+          <Text style={styles.historyItemValue}>{formatCurrency(item.totalAmount)}</Text>
           )}
         </View>
         <Text style={styles.historyItemTimestamp}>{formatDate(item.timestamp)}</Text>
@@ -318,11 +318,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.darkBlue,
     marginBottom: 8,
-    flexShrink: 0, // Add this line
   },
   historyItemDetails: {
     marginTop: 4,
-    flexShrink: 0, // Add this line
   },
   historyItemDetail: {
     flexDirection: 'row',
@@ -338,7 +336,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: COLORS.darkBlue,
-    flexShrink: 0, // Add this line
   },
   historyItemTimestamp: {
     fontSize: 12,

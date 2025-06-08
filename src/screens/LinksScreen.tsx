@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Platform, Linking, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Platform, Linking, ActivityIndicator, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
-import { getResponsiveValue, getSpacing } from '../config/brandColors';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  getResponsiveValue,
+  getSpacing,
+  BRAND_COLORS,
+  BRAND_TYPOGRAPHY,
+  BRAND_SHADOWS,
+  getTypographySize,
+  getBorderRadius
+} from '../config/brandColors';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/types';
+import { DiagonalSection } from '../components/shared/DiagonalSection';
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const DEDOLA_LOGO = 'https://dedola.com/wp-content/uploads/2025/04/DedolaLogo2025.png';
 
@@ -49,7 +60,6 @@ type LinksScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 const LinksScreen = () => {
   const navigation = useNavigation<LinksScreenNavigationProp>();
   const insets = useSafeAreaInsets();
-  const logoMarginTop = isTablet() ? 32 : insets.top + 32;
 
   // Start with empty posts array
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
@@ -229,18 +239,16 @@ const LinksScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Scrollable Content with Logo and Social Icons at Top */}
-      <ScrollView
-        style={styles.blogScrollView}
-        contentContainerStyle={styles.blogScrollContent}
-        showsVerticalScrollIndicator={true}
-        nestedScrollEnabled={true}
-      >
-        {/* Logo and Social Icons at Top of Content */}
-        <View style={styles.topContent}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <View style={styles.content}>
+        {/* Diagonal Background Section with Logo */}
+        <DiagonalSection height={getResponsiveValue(SCREEN_HEIGHT * 0.2, SCREEN_HEIGHT * 0.25)} style={styles.heroSection}>
           <View style={styles.logoContainer}>
-            <Image source={{ uri: DEDOLA_LOGO }} style={styles.logoImage} resizeMode="contain" />
+            <Image
+              source={require('../../assets/Dedola_White.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
           </View>
           <View style={styles.socialIconsRow}>
             {recentSocialPosts.map((post) => (
@@ -251,283 +259,262 @@ const LinksScreen = () => {
                 accessibilityLabel={post.title}
               >
                 <Ionicons
-                  name={getPlatformIcon(post.platform)}
-                  size={32}
-                  color={getPlatformColor(post.platform)}
+                  name={getPlatformIcon(post.platform) as any}
+                  size={getResponsiveValue(28, 32)}
+                  color={BRAND_COLORS.white}
                 />
               </TouchableOpacity>
             ))}
           </View>
-        </View>
+        </DiagonalSection>
 
-        {/* Blog Section Header */}
-        <View style={styles.blogSectionHeader}>
-          <Text style={styles.sectionTitle}>2025 Blog Posts</Text>
-          {blogPosts.length > 0 && (
-            <View style={styles.dataSourceBadge}>
-              <Text style={styles.dataSourceText}>🔄 Live</Text>
+        {/* Main Content Area */}
+        <ScrollView
+          style={styles.mainScrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Blog Section */}
+          <View style={styles.blogSection}>
+            <View style={styles.sectionTitleWrapper}>
+              <Text style={styles.sectionTitle}>2025 Blog Posts</Text>
+              {blogPosts.length > 0 && (
+                <View style={styles.dataSourceBadge}>
+                  <Text style={styles.dataSourceText}>🔄 Live</Text>
+                </View>
+              )}
             </View>
-          )}
-        </View>
-        {loading ? (
-          <ActivityIndicator size="large" color="#217DB2" style={styles.loader} />
-        ) : error ? (
-          <View style={styles.errorContainer}>
-            <Ionicons name="cloud-offline-outline" size={48} color="#999" />
-            <Text style={styles.errorText}>Unable to Load Posts</Text>
-            <Text style={styles.errorDetail}>{error}</Text>
-            <TouchableOpacity
-              style={styles.retryButton}
-              onPress={retry}
-            >
-              <Text style={styles.retryText}>Try Again</Text>
-            </TouchableOpacity>
-          </View>
-        ) : blogPosts.length === 0 ? (
-          <View style={[styles.emptyContainer, { paddingHorizontal: getResponsiveValue(20, 28) }]}>
-            <Ionicons name="newspaper-outline" size={48} color="#999" />
-            <Text style={styles.emptyText}>No blog posts available</Text>
-            <Text style={styles.emptyDetail}>Check back later for updates</Text>
-          </View>
-        ) : (
-          <View style={styles.blogListContainer}>
-            {blogPosts.map((post) => {
-              // Use featured image or fallback to logo
-              let image = post.featuredImage || DEDOLA_LOGO;
-              return (
+
+            {loading ? (
+              <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color={BRAND_COLORS.electricBlue} />
+              </View>
+            ) : error ? (
+              <View style={styles.errorContainer}>
+                <Ionicons name="cloud-offline-outline" size={48} color={BRAND_COLORS.darkGray} />
+                <Text style={styles.errorText}>Unable to Load Posts</Text>
+                <Text style={styles.errorDetail}>{error}</Text>
                 <TouchableOpacity
-                  key={post.id}
-                  style={styles.blogCard}
-                  onPress={() => handleBlogPress(post.links[0]?.url || post.id, post.title)}
-                  accessibilityLabel={post.title}
+                  style={styles.retryButton}
+                  onPress={retry}
                 >
-                  <Image source={{ uri: image }} style={styles.blogImageLarge} resizeMode="cover" />
-                  <View style={styles.blogTextContent}>
-                    <Text style={styles.blogTitle}>{post.title}</Text>
-                    <Text style={styles.blogExcerpt} numberOfLines={2}>
-                      {post.description}
-                    </Text>
-                    <Text style={styles.blogDate}>
-                      {new Date(post.published).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
-                    </Text>
-                                    </View>
+                  <Text style={styles.retryText}>Try Again</Text>
                 </TouchableOpacity>
-              );
-            })}
+              </View>
+            ) : blogPosts.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Ionicons name="newspaper-outline" size={48} color={BRAND_COLORS.darkGray} />
+                <Text style={styles.emptyText}>No blog posts available</Text>
+                <Text style={styles.emptyDetail}>Check back later for updates</Text>
+              </View>
+            ) : (
+              <View style={styles.blogListContainer}>
+                {blogPosts.map((post) => {
+                  // Use featured image or fallback to logo
+                  let image = post.featuredImage || DEDOLA_LOGO;
+                  return (
+                    <TouchableOpacity
+                      key={post.id}
+                      style={styles.blogCard}
+                      onPress={() => handleBlogPress(post.links[0]?.url || post.id, post.title)}
+                      accessibilityLabel={post.title}
+                    >
+                      <Image source={{ uri: image }} style={styles.blogImage} resizeMode="cover" />
+                      <View style={styles.blogTextContent}>
+                        <Text style={styles.blogTitle}>{post.title}</Text>
+                        <Text style={styles.blogExcerpt} numberOfLines={2}>
+                          {post.description}
+                        </Text>
+                        <Text style={styles.blogDate}>
+                          {new Date(post.published).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            )}
           </View>
-        )}
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: BRAND_COLORS.white,
   },
-  topContent: {
-    backgroundColor: '#fff',
-    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
-    paddingTop: getResponsiveValue(60, 80), // Extra top padding for full screen (safe area)
-    paddingBottom: getResponsiveValue(20, 24), // Increased bottom padding
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+  content: {
+    flex: 1,
   },
-  scrollContent: {
-    padding: 16,
+  heroSection: {
+    position: 'relative',
+    zIndex: 1,
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: getResponsiveValue(24, 32), // Increased margin for better spacing
+    justifyContent: 'center',
+    paddingTop: getResponsiveValue(getSpacing('xxl'), getSpacing('md')),
+    paddingBottom: getSpacing('md'),
+    paddingHorizontal: getResponsiveValue(60, 80),
   },
-  logoImage: {
-    width: 180,
-    height: 60,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#217DB2',
-  },
-  blogSectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
-    paddingVertical: getResponsiveValue(16, 20), // Increased vertical padding
-    backgroundColor: '#F8F8F8',
-    marginBottom: getResponsiveValue(20, 24), // Increased margin
-  },
-  blogScrollView: {
-    flex: 1,
-  },
-  blogScrollContent: {
-    paddingBottom: getResponsiveValue(80, 100), // Adequate bottom padding for full screen
-  },
-  socialCard: {
-    backgroundColor: '#F8F8F8',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 10,
-  },
-  socialHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  socialIcon: {
-    marginRight: 8,
-  },
-  platformName: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#217DB2',
-    flex: 1,
-  },
-  postPreview: {
-    fontSize: 13,
-    color: '#666',
-    lineHeight: 18,
-  },
-  blogCard: {
-    backgroundColor: '#F8F8F8',
-    borderRadius: getResponsiveValue(8, 12), // Responsive border radius
-    padding: getResponsiveValue(16, 20), // Increased padding
-    marginBottom: getResponsiveValue(14, 18), // Increased margin between cards
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  blogContent: {
-    flex: 1,
-  },
-  blogTextContent: {
-    flex: 1,
-    paddingLeft: getResponsiveValue(16, 20), // Increased left padding for better spacing
-  },
-  blogImageLarge: {
-    width: isTablet() ? 80 : 60,
-    height: isTablet() ? 80 : 60,
-    borderRadius: 4,
-    backgroundColor: '#fff',
-  },
-  blogHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  blogImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 4,
-    marginRight: 12,
-    backgroundColor: '#fff',
-  },
-  blogTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#217DB2',
-    flex: 1,
-  },
-  blogDate: {
-    fontSize: 12,
-    color: '#999',
-    marginTop: 4,
-  },
-  cachedIndicator: {
-    fontSize: 11,
-    color: '#999',
-    marginTop: 4,
-    fontStyle: 'italic',
-  },
-  blogExcerpt: {
-    fontSize: 14,
-    color: '#666',
-    lineHeight: 20,
-    marginTop: 8,
-    marginBottom: 8,
+  logo: {
+    width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.6),
+    height: getResponsiveValue((SCREEN_WIDTH * 0.6) * 0.3, (SCREEN_WIDTH * 0.6) * 0.3),
+    maxWidth: getResponsiveValue(280, 600),
+    maxHeight: getResponsiveValue(84, 180),
   },
   socialIconsRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: getResponsiveValue(28, 36), // Increased margin for better spacing
-    gap: getResponsiveValue(18, 24), // Increased gap between icons
+    gap: getResponsiveValue(12, 16),
   },
   socialIconButton: {
-    marginHorizontal: getResponsiveValue(8, 12), // Increased horizontal margin
-    padding: getResponsiveValue(10, 14), // Increased padding for better touch targets
-    borderRadius: getResponsiveValue(24, 28), // Responsive border radius
-    backgroundColor: '#F8F8F8',
+    width: getResponsiveValue(44, 52),
+    height: getResponsiveValue(44, 52),
+    borderRadius: getResponsiveValue(22, 26),
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
+    ...BRAND_SHADOWS.small,
   },
-  blogListContainer: {
-    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
-    marginBottom: getResponsiveValue(32, 40), // Increased bottom margin for more space
+  mainScrollView: {
+    flex: 1,
   },
-  loader: {
-    marginVertical: getResponsiveValue(24, 32), // Increased margin for better spacing
+  scrollContent: {
+    flexGrow: 1,
   },
-  errorContainer: {
-    padding: getResponsiveValue(24, 32), // Increased padding
-    paddingHorizontal: getResponsiveValue(20, 28), // Increased horizontal padding
+  blogSection: {
+    flex: 1,
+  },
+  sectionTitleWrapper: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: getSpacing('md'),
+    paddingVertical: getSpacing('md'),
+    backgroundColor: BRAND_COLORS.white,
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND_COLORS.mediumGray,
   },
-  errorText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FF0000',
-    marginBottom: 8,
-  },
-  errorDetail: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  retryButton: {
-    backgroundColor: '#217DB2',
-    paddingHorizontal: getResponsiveValue(24, 32), // Increased horizontal padding
-    paddingVertical: getResponsiveValue(12, 16), // Increased vertical padding
-    borderRadius: getResponsiveValue(8, 12), // Responsive border radius
-  },
-  retryText: {
-    color: '#fff',
-    fontWeight: '600',
+  sectionTitle: {
+    fontSize: getTypographySize('xl'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.darkNavy,
   },
   dataSourceBadge: {
-    backgroundColor: '#F0F0F0',
-    paddingHorizontal: getResponsiveValue(12, 16), // Increased horizontal padding
-    paddingVertical: getResponsiveValue(6, 8), // Increased vertical padding
-    borderRadius: getResponsiveValue(12, 16), // Responsive border radius
+    backgroundColor: BRAND_COLORS.lightGray,
+    paddingHorizontal: getSpacing('sm'),
+    paddingVertical: getSpacing('xs'),
+    borderRadius: getBorderRadius('sm'),
   },
   dataSourceText: {
-    fontSize: 12,
-    color: '#666',
-    fontWeight: '600',
+    fontSize: getTypographySize('xs'),
+    color: BRAND_COLORS.darkGray,
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
   },
-  emptyContainer: {
-    minHeight: getResponsiveValue(200, 300), // Use minHeight instead of flex: 1
+  loaderContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: getResponsiveValue(40, 60),
+    paddingVertical: getSpacing('xxl'),
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: getSpacing('xl'),
+  },
+  errorText: {
+    fontSize: getTypographySize('lg'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.error,
+    marginTop: getSpacing('md'),
+    marginBottom: getSpacing('sm'),
+  },
+  errorDetail: {
+    fontSize: getTypographySize('md'),
+    color: BRAND_COLORS.darkGray,
+    textAlign: 'center',
+    marginBottom: getSpacing('lg'),
+  },
+  retryButton: {
+    backgroundColor: BRAND_COLORS.electricBlue,
+    paddingHorizontal: getSpacing('lg'),
+    paddingVertical: getSpacing('md'),
+    borderRadius: getBorderRadius('md'),
+    ...BRAND_SHADOWS.small,
+  },
+  retryText: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: getSpacing('xl'),
   },
   emptyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#666',
-    marginTop: 10,
+    fontSize: getTypographySize('lg'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkGray,
+    marginTop: getSpacing('md'),
+    marginBottom: getSpacing('sm'),
   },
   emptyDetail: {
-    fontSize: 14,
-    color: '#999',
+    fontSize: getTypographySize('md'),
+    color: BRAND_COLORS.darkGray,
     textAlign: 'center',
+  },
+  blogListContainer: {
+    padding: getSpacing('md'),
+  },
+  blogCard: {
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius('md'),
+    padding: getSpacing('md'),
+    marginBottom: getSpacing('md'),
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderLeftWidth: 4,
+    borderLeftColor: BRAND_COLORS.electricBlue,
+    ...BRAND_SHADOWS.small,
+  },
+  blogImage: {
+    width: getResponsiveValue(60, 80),
+    height: getResponsiveValue(60, 80),
+    borderRadius: getBorderRadius('sm'),
+    backgroundColor: BRAND_COLORS.white,
+  },
+  blogTextContent: {
+    flex: 1,
+    paddingLeft: getSpacing('md'),
+  },
+  blogTitle: {
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getSpacing('xs'),
+  },
+  blogExcerpt: {
+    fontSize: getTypographySize('sm'),
+    color: BRAND_COLORS.darkGray,
+    lineHeight: getTypographySize('sm') * 1.5,
+    marginBottom: getSpacing('xs'),
+  },
+  blogDate: {
+    fontSize: getTypographySize('xs'),
+    color: BRAND_COLORS.darkGray,
+    opacity: 0.8,
   },
 });
 

@@ -299,10 +299,13 @@ const styles = StyleSheet.create({
   countryName: {
     fontSize: isTablet() ? 21.6 : 14.4, // 10% reduction: 24 * 0.9 = 21.6, 16 * 0.9 = 14.4
     color: '#333',
+    flex: 1,
+    marginRight: 8,
   },
   countryCode: {
     fontSize: isTablet() ? 18.9 : 12.6, // 10% reduction: 21 * 0.9 = 18.9, 14 * 0.9 = 12.6
     color: '#666',
+    flexShrink: 0,
   },
   selectedText: {
     color: '#0066CC',

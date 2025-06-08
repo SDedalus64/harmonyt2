@@ -27,6 +27,7 @@ import CountryLookup from '../components/CountryLookup';
 import { useTariff } from '../hooks/useTariff';
 import { useHistory, HistoryItem } from '../hooks/useHistory';
 import { useSettings } from '../hooks/useSettings';
+import { getCountryName } from '../utils/countries';
 import DisclaimerModal from './DisclaimerModal';
 import HistoryScreen from './HistoryScreen';
 import SettingsScreen from './SettingsScreen';
@@ -145,7 +146,7 @@ export default function LookupScreen() {
 
   // Existing state
   const [htsCode, setHtsCode] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
+      const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<LookupResult | null>(null);
   const [declaredValue, setDeclaredValue] = useState<string>('');
@@ -166,6 +167,16 @@ export default function LookupScreen() {
       settingsLoading,
     });
   }, [settings, settingsLoading]);
+
+  // Initialize selected country with default from settings
+  useEffect(() => {
+    if (!selectedCountry && settings?.defaultCountry && !route.params?.historyItem) {
+      setSelectedCountry({
+        code: settings.defaultCountry,
+        name: getCountryName(settings.defaultCountry)
+      });
+    }
+  }, [settings?.defaultCountry, selectedCountry, route.params?.historyItem]);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [pendingHistoryLookup, setPendingHistoryLookup] = useState(false);
   const pendingHistoryItem = useRef<any>(null);
@@ -1088,7 +1099,7 @@ export default function LookupScreen() {
               </View>
               <View style={styles.historyItemInfo}>
                 <Text style={styles.historyItemCode}>{item.htsCode}</Text>
-                <Text style={styles.historyItemDesc} numberOfLines={1}>
+                <Text style={styles.historyItemDesc}>
                   {item.description}
                 </Text>
                 <Text style={styles.historyItemAmount}>
@@ -1638,7 +1649,7 @@ export default function LookupScreen() {
                               }}
                             >
                               <Text style={styles.suggestionCode}>{suggestion.code}</Text>
-                              <Text style={styles.suggestionDescription} numberOfLines={3}>
+                              <Text style={styles.suggestionDescription}>
                                 {suggestion.description}
                               </Text>
                             </TouchableOpacity>
@@ -2149,7 +2160,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: getSpacing('sm'),
     borderBottomWidth: 1,
     borderBottomColor: BRAND_COLORS.lightGray,
-    maxHeight: getResponsiveValue(65, 110), // Increased height for larger text on iPad
     width: '100%',
     flexShrink: 1,
   },

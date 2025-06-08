@@ -3,13 +3,24 @@ import { useState, useCallback, useEffect } from 'react';
 
 export interface AppSettings {
   autoSaveToHistory: boolean;
-  // Add other settings here as needed
+  showUnitCalculations: boolean;
+  notifications: boolean;
+  hapticFeedback: boolean;
+  darkMode: boolean;
+  cellularData: boolean;
+  defaultCountry: string;
 }
 
 const SETTINGS_STORAGE_KEY = '@harmony_settings';
 
 const DEFAULT_SETTINGS: AppSettings = {
   autoSaveToHistory: true, // Default to on
+  showUnitCalculations: false,
+  notifications: true,
+  hapticFeedback: true,
+  darkMode: false,
+  cellularData: true,
+  defaultCountry: 'CN', // China as default
 };
 
 export function useSettings() {

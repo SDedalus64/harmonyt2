@@ -6,7 +6,7 @@ import { BRAND_COLORS } from '../../config/brandColors';
 interface DiagonalSectionProps {
   children?: React.ReactNode;
   style?: ViewStyle;
-  gradientColors?: string[];
+  gradientColors?: readonly [string, string, ...string[]];
   angle?: number;
   height?: number;
 }
@@ -14,7 +14,7 @@ interface DiagonalSectionProps {
 export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
   children,
   style,
-  gradientColors = [BRAND_COLORS.gradientStart, BRAND_COLORS.gradientEnd],
+  gradientColors = [BRAND_COLORS.gradientStart, BRAND_COLORS.gradientEnd] as const,
   angle = 45,
   height = 200,
 }) => {
