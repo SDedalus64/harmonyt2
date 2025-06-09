@@ -151,6 +151,8 @@ export default function LookupScreen() {
   const [result, setResult] = useState<LookupResult | null>(null);
   const [declaredValue, setDeclaredValue] = useState<string>('');
   const [formattedDeclaredValue, setFormattedDeclaredValue] = useState<string>('');
+  const [freightCost, setFreightCost] = useState<string>('');
+  const [formattedFreightCost, setFormattedFreightCost] = useState<string>('');
   const [unitCount, setUnitCount] = useState<string>('');
   const [formattedUnitCount, setFormattedUnitCount] = useState<string>('');
   const [showInput, setShowInput] = useState(true);
@@ -185,6 +187,7 @@ export default function LookupScreen() {
   const [showRecentHistory, setShowRecentHistory] = useState(isTablet());
   const countryInputRef = useRef<TextInput>(null);
   const declaredValueInputRef = useRef<TextInput>(null);
+  const freightCostInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
   const resultScrollViewRef = useRef<ScrollView>(null);
   const [isReciprocalAdditive, setIsReciprocalAdditive] = useState(true);
@@ -358,6 +361,16 @@ export default function LookupScreen() {
     setFormattedDeclaredValue(formatNumberWithCommas(value));
   };
 
+  // Handle freight cost change
+  const handleFreightCostChange = (value: string) => {
+    // Store the raw value for calculations
+    const numericValue = value.replace(/[^\d.]/g, '');
+    setFreightCost(numericValue);
+
+    // Format the display value with commas
+    setFormattedFreightCost(formatNumberWithCommas(value));
+  };
+
   // Handle unit count change
   const handleUnitCountChange = (value: string) => {
     // Store the raw value for calculations
@@ -463,6 +476,15 @@ export default function LookupScreen() {
       const savedDeclaredValue = historyItem.declaredValue ? historyItem.declaredValue.toString() : '1000';
       setDeclaredValue(savedDeclaredValue);
       setFormattedDeclaredValue(formatNumberWithCommas(savedDeclaredValue));
+
+      // Restore freight cost if available
+      if (historyItem.freightCost) {
+        setFreightCost(historyItem.freightCost.toString());
+        setFormattedFreightCost(formatNumberWithCommas(historyItem.freightCost.toString()));
+      } else {
+        setFreightCost('');
+        setFormattedFreightCost('');
+      }
 
       // Restore unit count if available
       if (historyItem.unitCount) {
@@ -747,9 +769,12 @@ export default function LookupScreen() {
 
       currentEntry.current = entry;
 
+      // Calculate total value (declared value + freight cost)
+      const totalValue = parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0);
+
       const dutyCalculation = calculateDuty(
         htsCode,
-        parseFloat(declaredValue),
+        totalValue,
         selectedCountry.code,
         isReciprocalAdditive
       );
@@ -801,6 +826,7 @@ export default function LookupScreen() {
           countryCode: selectedCountry.code,
           countryName: selectedCountry.name,
           declaredValue: parseFloat(declaredValue),
+          freightCost: freightCost ? parseFloat(freightCost) : undefined,
           totalAmount: lookupResult.totalAmount,
           dutyRate: lookupResult.dutyRate,
           breakdown: lookupResult.breakdown,
@@ -904,6 +930,7 @@ export default function LookupScreen() {
         countryCode: selectedCountry.code,
         countryName: selectedCountry.name,
         declaredValue: parseFloat(declaredValue),
+        freightCost: freightCost ? parseFloat(freightCost) : undefined,
         totalAmount: result.totalAmount,
         dutyRate: result.dutyRate,
         breakdown: result.breakdown,
@@ -935,6 +962,8 @@ export default function LookupScreen() {
     setSelectedCountry(undefined);
     setDeclaredValue('');
     setFormattedDeclaredValue('');
+    setFreightCost('');
+    setFormattedFreightCost('');
     setUnitCount('');
     setFormattedUnitCount('');
     setResult(null);
@@ -1048,6 +1077,15 @@ export default function LookupScreen() {
     const savedDeclaredValue = historyItem.declaredValue ? historyItem.declaredValue.toString() : '1000';
     setDeclaredValue(savedDeclaredValue);
     setFormattedDeclaredValue(formatNumberWithCommas(savedDeclaredValue));
+
+    // Restore freight cost if available
+    if (historyItem.freightCost) {
+      setFreightCost(historyItem.freightCost.toString());
+      setFormattedFreightCost(formatNumberWithCommas(historyItem.freightCost.toString()));
+    } else {
+      setFreightCost('');
+      setFormattedFreightCost('');
+    }
 
     // Restore unit count if available
     if (historyItem.unitCount) {
@@ -1263,7 +1301,12 @@ export default function LookupScreen() {
             <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
             <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
             <Text style={styles.totalAmountSubtext}>
-              on {formatCurrency(parseFloat(declaredValue))} declared value
+              on {formatCurrency(parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0))} total value
+              {freightCost && parseFloat(freightCost) > 0 && (
+                <Text style={styles.totalAmountBreakdown}>
+                  {'\n'}({formatCurrency(parseFloat(declaredValue))} declared + {formatCurrency(parseFloat(freightCost))} freight)
+                </Text>
+              )}
             </Text>
           </View>
 
@@ -1313,7 +1356,7 @@ export default function LookupScreen() {
               <View style={styles.compactRow}>
                 <Text style={styles.compactLabel}>Cost per unit (with duties)</Text>
                 <Text style={styles.compactAmount}>
-                  {formatCurrency((parseFloat(declaredValue) + result.totalAmount) / parseFloat(unitCount))}
+                  {formatCurrency((parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0) + result.totalAmount) / parseFloat(unitCount))}
                 </Text>
               </View>
               <View style={styles.compactRow}>
@@ -1727,6 +1770,21 @@ export default function LookupScreen() {
                       closeAllNavigationDrawers();
                     }}
                     placeholder="Declared Value (USD)"
+                    placeholderTextColor={BRAND_COLORS.darkGray}
+                    keyboardType="decimal-pad"
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    ref={freightCostInputRef}
+                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    value={formattedFreightCost}
+                    onChangeText={(value) => {
+                      handleFreightCostChange(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    placeholder="Freight Cost (USD) - Optional"
                     placeholderTextColor={BRAND_COLORS.darkGray}
                     keyboardType="decimal-pad"
                   />
@@ -2520,6 +2578,12 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.white,
     opacity: 0.8,
     textAlign: 'center',
+  },
+  totalAmountBreakdown: {
+    fontSize: getResponsiveValue(getTypographySize('xs') * 0.9, getTypographySize('sm') * 1.2), // Slightly smaller than subtext
+    color: BRAND_COLORS.white,
+    opacity: 0.7,
+    fontStyle: 'italic',
   },
   compactSection: {
     backgroundColor: BRAND_COLORS.lightGray,

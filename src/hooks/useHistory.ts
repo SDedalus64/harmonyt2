@@ -10,6 +10,7 @@ export interface HistoryItem {
   description: string;
   dutyRate: number;
   declaredValue: number;
+  freightCost?: number;
   totalAmount: number;
   // Added special rate information
   specialRate?: {
