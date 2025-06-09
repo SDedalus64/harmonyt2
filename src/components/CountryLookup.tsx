@@ -55,6 +55,7 @@ const countries: Country[] = [
   { code: 'LA', name: 'Laos' },
   { code: 'LK', name: 'Sri Lanka' },
   { code: 'MM', name: 'Myanmar' },
+  { code: 'MO', name: 'Macau' },
   { code: 'MX', name: 'Mexico' },
   { code: 'MY', name: 'Malaysia' },
   { code: 'NO', name: 'Norway' },
