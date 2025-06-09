@@ -10,6 +10,8 @@ export const COUNTRIES: Country[] = [
   { code: 'CH', name: 'Switzerland' },
   { code: 'CL', name: 'Chile' },
   { code: 'CN', name: 'China' },
+  { code: 'HK', name: 'Hong Kong' },
+  { code: 'MO', name: 'Macau' },
   { code: 'CU', name: 'Cuba' },
   { code: 'DE', name: 'Germany' },
   { code: 'EU', name: 'European Union' },

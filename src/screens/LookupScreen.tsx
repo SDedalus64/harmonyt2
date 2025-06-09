@@ -276,7 +276,7 @@ export default function LookupScreen() {
   // Check if selected country has reciprocal tariffs
   const hasReciprocalTariff = (countryCode: string): boolean => {
     // Countries with reciprocal tariffs
-    const rtCountries = ['CN', 'CA', 'MX'];
+    const rtCountries = ['CN', 'CA', 'MX', 'HK', 'MO'];
     return rtCountries.includes(countryCode);
   };
 
@@ -399,6 +399,8 @@ export default function LookupScreen() {
           { code: 'CH', name: 'Switzerland' },
           { code: 'CL', name: 'Chile' },
           { code: 'CN', name: 'China' },
+          { code: 'HK', name: 'Hong Kong' },
+          { code: 'MO', name: 'Macau' },
           { code: 'CU', name: 'Cuba' },
           { code: 'DE', name: 'Germany' },
           { code: 'EU', name: 'European Union' },
@@ -967,6 +969,8 @@ export default function LookupScreen() {
         { code: 'CH', name: 'Switzerland' },
         { code: 'CL', name: 'Chile' },
         { code: 'CN', name: 'China' },
+        { code: 'HK', name: 'Hong Kong' },
+        { code: 'MO', name: 'Macau' },
         { code: 'CU', name: 'Cuba' },
         { code: 'DE', name: 'Germany' },
         { code: 'EU', name: 'European Union' },

@@ -42,6 +42,7 @@ const countries: Country[] = [
   { code: 'FR', name: 'France' },
   { code: 'GB', name: 'United Kingdom' },
   { code: 'HK', name: 'Hong Kong' },
+  { code: 'MO', name: 'Macau' },
   { code: 'ID', name: 'Indonesia' },
   { code: 'IL', name: 'Israel' },
   { code: 'IN', name: 'India' },

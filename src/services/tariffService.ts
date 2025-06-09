@@ -459,6 +459,8 @@ export class TariffService {
       };
     }
 
+    const countryCodeForTariffs = ['HK', 'MO'].includes(countryCode) ? 'CN' : countryCode;
+
     const entry = this.findTariffEntry(htsCode);
     if (!entry) {
       return {
@@ -696,12 +698,12 @@ export class TariffService {
       console.log('Found additive duties:', entry.additive_duties);
       for (const duty of entry.additive_duties) {
         // Check if this duty applies to the current country
-        if (duty.countries === 'all' || (Array.isArray(duty.countries) && duty.countries.includes(countryCode))) {
+        if (duty.countries === 'all' || (Array.isArray(duty.countries) && duty.countries.includes(countryCodeForTariffs))) {
           console.log('Duty applies to country:', duty);
 
           // For Section 301, handle based on toggle and reciprocal tariff settings
           if (duty.type === 'section_301') {
-            const hasReciprocalTariff = entry.reciprocal_tariffs?.some(rt => rt.country === countryCode);
+            const hasReciprocalTariff = entry.reciprocal_tariffs?.some(rt => rt.country === countryCodeForTariffs);
             console.log('Section 301 decision:', {
               duty,
               isReciprocalAdditive,
@@ -747,16 +749,16 @@ export class TariffService {
         let dutyType = "Additional Duty";
 
         // Customize label based on country and content
-        if (countryCode === 'CN' && entry.additional_duty.toLowerCase().includes('301')) {
+        if (countryCodeForTariffs === 'CN' && entry.additional_duty.toLowerCase().includes('301')) {
           console.log('Found Section 301 in legacy field:', {
             additionalRate,
             countryCode,
-            hasReciprocalTariff: entry.reciprocal_tariffs?.some(rt => rt.country === countryCode),
+            hasReciprocalTariff: entry.reciprocal_tariffs?.some(rt => rt.country === countryCodeForTariffs),
             isReciprocalAdditive
           });
 
           // Use the same logic as above for legacy Section 301
-          const hasReciprocalTariff = entry.reciprocal_tariffs?.some(rt => rt.country === countryCode);
+          const hasReciprocalTariff = entry.reciprocal_tariffs?.some(rt => rt.country === countryCodeForTariffs);
           if (isReciprocalAdditive || !hasReciprocalTariff) {
             dutyLabel = "Section 301";
             dutyType = "Section 301";
@@ -789,7 +791,7 @@ export class TariffService {
     // 4. Apply reciprocal tariffs
     if (entry.reciprocal_tariffs && !excludeReciprocalTariff) {  // Only apply RT if not excluded
       for (const reciprocalTariff of entry.reciprocal_tariffs) {
-        if (reciprocalTariff.country === countryCode) {
+        if (reciprocalTariff.country === countryCodeForTariffs) {
           // Check if it's still active (if expires date is provided)
           if (reciprocalTariff.expires) {
             const expiresDate = new Date(reciprocalTariff.expires);
