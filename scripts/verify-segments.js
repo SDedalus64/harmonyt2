@@ -3,8 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const segmentIndex = require('../src/data/tariff-segments/segment-index.json');
-const originalData = require('../src/data/tariff_processed.json');
+// Get the filename from command line argument
+const inputFile = process.argv[2];
+if (!inputFile) {
+  console.error('Usage: node verify-segments.js <input-json-file>');
+  process.exit(1);
+}
+
+const segmentIndex = require('./data/tariff-segments/segment-index.json');
+const originalData = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
 
 console.log('=== Segment Verification ===\n');
 console.log('Original file entry count:', originalData.tariffs.length);
@@ -17,7 +24,7 @@ const segmentCounts = {};
 // Count single-digit segments
 console.log('\nSingle-digit segments:');
 Object.entries(segmentIndex.singleDigitSegments).forEach(([digit, file]) => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/tariff-segments', file)));
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
   totalInSegments += data.count;
   segmentCounts[file] = data.count;
   console.log(`  ${digit}x (${file}): ${data.count} entries`);
@@ -26,7 +33,7 @@ Object.entries(segmentIndex.singleDigitSegments).forEach(([digit, file]) => {
 // Count two-digit segments
 console.log('\nTwo-digit segments:');
 Object.entries(segmentIndex.twoDigitSegments).forEach(([digits, file]) => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/tariff-segments', file)));
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
   totalInSegments += data.count;
   segmentCounts[file] = data.count;
   console.log(`  ${digits} (${file}): ${data.count} entries`);
@@ -47,14 +54,14 @@ const segmentCodes = new Set();
 
 // Collect all codes from segments
 Object.values(segmentIndex.singleDigitSegments).forEach(file => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/tariff-segments', file)));
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
   data.entries.forEach(entry => {
     segmentCodes.add(entry.hts8 || entry.normalizedCode || '');
   });
 });
 
 Object.values(segmentIndex.twoDigitSegments).forEach(file => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/tariff-segments', file)));
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
   data.entries.forEach(entry => {
     segmentCodes.add(entry.hts8 || entry.normalizedCode || '');
   });

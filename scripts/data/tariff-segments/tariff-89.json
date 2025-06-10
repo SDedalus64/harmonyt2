@@ -1,0 +1,4515 @@
+{
+  "segment": "89",
+  "description": "HTS codes 89000000 - 89999999",
+  "count": 32,
+  "entries": [
+    {
+      "hts8": "89031100",
+      "brief_description": "Vessels, inflatable, w/ motor, unladen weight not over 100kg",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "2.40%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.024,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff (25%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89031200",
+      "brief_description": "Vessels, inflatable, w/o motor, unladen weight not over 100kg",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "2.40%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.024,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff (25%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89031900",
+      "brief_description": "Vessels, inflatable, unladen weight over 100kg",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "2.40%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.024,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff (25%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89032100",
+      "brief_description": "Sailboats, o/t inflatable, length not over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1.50%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.015,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89032200",
+      "brief_description": "Sailboats, o/t inflatable, length over 7.5m but not over 24m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1.50%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.015,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89032300",
+      "brief_description": "Sailboats, o/t inflatable, length over 24m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1.50%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.015,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89033100",
+      "brief_description": "Motorboats, o/t inflatable, length not over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1.50%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.015,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89033200",
+      "brief_description": "Motorboats, o/t inflatable, length over 7.5m but not over 24m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1.50%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.015,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89033300",
+      "brief_description": "Motorboats, o/t inflatable, length over 24m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1.50%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.015,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039305",
+      "brief_description": "Canoes, of a length not over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "35%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.35,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 35,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (35.0%)",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039315",
+      "brief_description": "Row boats, o/t canoes, length not over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "2.70%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "45%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.027,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (45.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039320",
+      "brief_description": "Outboard motorboats, length not over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.01,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039390",
+      "brief_description": "Other vessels, o/t inflatable, sailboats, motorboats, canoes, row boats or outboard motorboats, nesoi, length not over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.01,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039906",
+      "brief_description": "Canoes, of a length over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "35%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.35,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 35,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (35.0%)",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039916",
+      "brief_description": "Row boats, o/t canoes, length over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "2.70%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "45%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.027,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (45.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039921",
+      "brief_description": "Outboard motorboats, length over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.01,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89039991",
+      "brief_description": "Other vessels, o/t inflatable, sailboats, motorboats, canoes, row boats or outboard motorboats, nesoi, length over 7.5m",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "1%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "30%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/27/22",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0.01,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.3,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 30,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (30.0%)",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0",
+      "jordan_specific_rate": "0",
+      "jordan_other_rate": "0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0",
+      "singapore_specific_rate": "0",
+      "singapore_other_rate": "0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0",
+      "chile_specific_rate": "0",
+      "chile_other_rate": "0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0",
+      "morocco_specific_rate": "0",
+      "morocco_other_rate": "0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0",
+      "australia_specific_rate": "0",
+      "australia_other_rate": "0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0",
+      "bahrain_other_rate": "0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0",
+      "dr_cafta_other_rate": "0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0",
+      "oman_specific_rate": "0",
+      "oman_other_rate": "0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0",
+      "peru_specific_rate": "0",
+      "peru_other_rate": "0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0",
+      "korea_specific_rate": "0",
+      "korea_other_rate": "0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0",
+      "colombia_specific_rate": "0",
+      "colombia_other_rate": "0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0",
+      "panama_other_rate": "0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0",
+      "usmca_specific_rate": "0",
+      "usmca_other_rate": "0",
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89061000",
+      "brief_description": "Warships",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/10/02",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89069000",
+      "brief_description": "Vessels (including lifeboats other than row boats), nesoi",
+      "is_chapter_99": false,
+      "quantity_1_code": "NA",
+      "quantity_2_code": "NA",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/10/02",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89059010",
+      "brief_description": "Floating docks",
+      "is_chapter_99": false,
+      "quantity_1_code": "T",
+      "quantity_2_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "35%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/1/99",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.35,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 35,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (35.0%)",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89071000",
+      "brief_description": "Inflatable rafts (o/than used for pleasure or sports of 8901.10)",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "45%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/1/99",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (45.0%)",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89079000",
+      "brief_description": "Floating structures nesoi (for example, rafts, other than inflatable rafts, tanks, cofferdams, landing stages, buoys and beacons)",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "45%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1/1/99",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff (45.0%)",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89052000",
+      "brief_description": "Floating or submersible drilling or production platforms",
+      "is_chapter_99": false,
+      "quantity_1_code": "T",
+      "quantity_2_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/90",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89011000",
+      "brief_description": "Vessels, designed for the transport of persons, cruise ships, excursion boats and similar vessels; ferry boats of all kinds",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "7/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89012000",
+      "brief_description": "Vessels, designed for the transport of goods, tankers",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89013000",
+      "brief_description": "Vessels, designed for the transport of goods, refrigerated vessels (o/than tankers)",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89019000",
+      "brief_description": "Vessels, designed for the transport of goods or for the transport of both persons and goods, nesoi",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89020000",
+      "brief_description": "Vessels, fishing; factory ships and other vessels for processing or preserving fishery products",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89040000",
+      "brief_description": "Vessels, tugs and pusher craft",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89051000",
+      "brief_description": "Vessels, dredgers",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89059050",
+      "brief_description": "Vessels, light-vessels, fire-floats, floating cranes, & other vessels nesoi, the navigability of which is subsidiary to their main function",
+      "is_chapter_99": false,
+      "quantity_1_code": "NO",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "89080000",
+      "brief_description": "Vessels and other floating structures for breaking up (scrapping)",
+      "is_chapter_99": false,
+      "quantity_1_code": "T",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "Free",
+      "col2_rate_type_code": "0",
+      "begin_effect_date": "1/1/89",
+      "end_effective_date": "12/31/50",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "type": "section_301",
+          "name": "Section 301 - China Trade",
+          "rate": 25,
+          "countries": [
+            "CN"
+          ],
+          "label": "Section 301 (25.0%)"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China (10%)",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China (20%)",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico (25%)",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    }
+  ]
+}

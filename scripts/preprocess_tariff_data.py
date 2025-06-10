@@ -50,54 +50,188 @@ COUNTRY_TO_PROGRAMS = {
 # Active US Additive Duties as of May 31, 2025
 ADDITIVE_DUTIES = {
     'section_301': {
-        'name': 'Section 301 Tariffs',
+        'name': 'Section 301 - China Trade',
         'countries': ['CN'],
         'lists': {
             'list_1': {'rate': 0.25, 'effective': '2018-07-06'},
             'list_2': {'rate': 0.25, 'effective': '2018-08-23'},
             'list_3': {'rate': 0.25, 'effective': '2018-09-24'},
             'list_4a': {'rate': 0.075, 'effective': '2019-09-01'}
+        },
+        'exclusions': {
+            '9903.88.69': {'expires': '2025-08-31'},
+            '9903.88.70': {'expires': '2025-09-01'}
         }
     },
     'section_232_steel': {
         'name': 'Section 232 - Steel',
         'countries': 'global',
         'chapters': ['72', '73'],
-        'rate': 0.50,  # Increased to 50% as of June 4, 2025
+        'rate': 0.50,  # 50% for all countries except UK
+        'rate_uk': 0.25,  # 25% for UK only
         'effective': '2018-03-23',
-        'note': 'Increased from 25% to 50% on June 4, 2025'
+        'uk_effective': '2025-06-04',
+        'note': 'Increased from 25% to 50% on June 4, 2025 (except UK remains at 25%)',
+        'uk_codes': ['9903.80.05', '9903.80.06', '9903.80.07', '9903.80.08']
     },
     'section_232_aluminum': {
         'name': 'Section 232 - Aluminum',
         'countries': 'global',
         'chapters': ['76'],
-        'rate': 0.50,  # Increased to 50% as of June 4, 2025
+        'rate': 0.50,  # 50% for all countries except UK
+        'rate_uk': 0.25,  # 25% for UK only
         'effective': '2018-03-23',
-        'note': 'Increased from 25% to 50% on June 4, 2025'
+        'uk_effective': '2025-06-04',
+        'note': 'Increased from 25% to 50% on June 4, 2025 (except UK remains at 25%)',
+        'uk_codes': ['9903.85.12', '9903.85.13', '9903.85.14', '9903.85.15']
     },
     'reciprocal_china': {
-        'name': 'Reciprocal Tariff - China (Temporary)',
+        'name': 'Reciprocal Tariff - China',
         'countries': ['CN'],
-        'rate': 0.30,  # 10% reciprocal + 20% fentanyl-related
+        'rate': 0.10,  # 10% reciprocal tariff
         'effective': '2025-05-14',
         'expires': '2025-08-12',
-        'note': 'Temporary 90-day reduction from 145%'
+        'note': 'Temporary 90-day agreement'
     },
-    'reciprocal_canada': {
-        'name': 'Reciprocal Tariff - Canada',
+    'fentanyl_china': {
+        'name': 'Fentanyl Anti-Trafficking Tariff - China',
+        'countries': ['CN'],
+        'rate': 0.20,  # 20% fentanyl anti-trafficking tariff
+        'effective': '2025-03-04',  # Same as other IEEPA tariffs
+        'expires': None,  # No expiration - permanent
+        'note': 'Anti-trafficking measure'
+    },
+    'ieepa_canada': {
+        'name': 'IEEPA Tariff - Canada',
         'countries': ['CA'],
-        'rate': 0.25,
+        'rate': 0.25,  # 25% standard rate
+        'rate_energy_potash': 0.10,  # 10% for energy and potash
         'effective': '2025-03-04',
-        'note': 'USMCA-origin goods exempt as of March 7, 2025'
+        'note': 'USMCA-origin goods exempt; Does not stack with Section 232',
+        'legal_status': 'Under judicial review, currently in effect'
     },
-    'reciprocal_mexico': {
-        'name': 'Reciprocal Tariff - Mexico',
+    'ieepa_mexico': {
+        'name': 'IEEPA Tariff - Mexico',
         'countries': ['MX'],
-        'rate': 0.25,
+        'rate': 0.25,  # 25% standard rate
+        'rate_potash': 0.10,  # 10% for potash only
         'effective': '2025-03-04',
-        'note': 'USMCA-origin goods exempt as of March 7, 2025'
+        'note': 'USMCA-origin goods exempt; Does not stack with Section 232',
+        'legal_status': 'Under judicial review, currently in effect'
     }
 }
+
+# Reciprocal Tariff Exemptions
+# These HTS codes are exempt from reciprocal tariffs
+RECIPROCAL_TARIFF_EXEMPTIONS = {
+    'china': {
+        # Pharmaceutical products
+        'chapters': ['30'],
+        # Medical devices and equipment
+        'hts_prefixes': ['9018', '9019', '9020', '9021', '9022'],
+        # Semiconductors (Chapter 85 specific codes would need to be added)
+        'hts_prefixes_semiconductors': ['8541', '8542'],  # Diodes, transistors, integrated circuits
+        # Essential food products
+        'specific_codes': [],
+        # Note: Annex II specific codes would need to be added here
+    },
+    'canada': {
+        # Energy products
+        'chapters': ['27'],  # Mineral fuels, oils
+        # Agricultural products under specific programs
+        'hts_prefixes': [],
+        'specific_codes': [],
+    },
+    'mexico': {
+        # Energy products
+        'chapters': ['27'],  # Mineral fuels, oils
+        # Agricultural products under specific programs
+        'hts_prefixes': [],
+        'specific_codes': [],
+    }
+}
+
+# Fentanyl Tariff Exemptions - Much more limited
+FENTANYL_TARIFF_EXEMPTIONS = {
+    'china': {
+        # Chapter 98 - U.S. goods returned, personal exemptions
+        'chapters': ['98'],
+        # Humanitarian goods - would need specific HTS codes
+        'hts_prefixes': [],
+        # Personal-use items - typically small quantities, not commercial
+        'specific_codes': [],
+    }
+}
+
+def is_exempt_from_reciprocal_tariff(hts_code: str, country: str) -> bool:
+    """Check if an HTS code is exempt from reciprocal tariffs for a specific country"""
+    # Normalize country code to handle both 'CN' and 'china', 'CA' and 'canada', etc.
+    country_mapping = {
+        'CN': 'china',
+        'CA': 'canada',
+        'MX': 'mexico',
+        'china': 'china',
+        'canada': 'canada',
+        'mexico': 'mexico'
+    }
+
+    country_key = country_mapping.get(country, country.lower())
+    if country_key not in RECIPROCAL_TARIFF_EXEMPTIONS:
+        return False
+
+    exemptions = RECIPROCAL_TARIFF_EXEMPTIONS[country_key]
+
+    # Check chapter exemptions
+    chapter = hts_code[:2] if len(hts_code) >= 2 else ''
+    if chapter in exemptions.get('chapters', []):
+        return True
+
+    # Check HTS prefix exemptions
+    for prefix in exemptions.get('hts_prefixes', []):
+        if hts_code.startswith(prefix):
+            return True
+
+    # Check semiconductor exemptions for China
+    if country_key == 'china':
+        for prefix in exemptions.get('hts_prefixes_semiconductors', []):
+            if hts_code.startswith(prefix):
+                return True
+
+    # Check specific code exemptions
+    if hts_code in exemptions.get('specific_codes', []):
+        return True
+
+    return False
+
+def is_exempt_from_fentanyl_tariff(hts_code: str, country: str) -> bool:
+    """Check if an HTS code is exempt from fentanyl tariffs - much more restrictive"""
+    # Normalize country code
+    country_mapping = {
+        'CN': 'china',
+        'china': 'china'
+    }
+
+    country_key = country_mapping.get(country, country.lower())
+    if country_key not in FENTANYL_TARIFF_EXEMPTIONS:
+        return False
+
+    exemptions = FENTANYL_TARIFF_EXEMPTIONS[country_key]
+
+    # Check chapter exemptions (mainly Chapter 98)
+    chapter = hts_code[:2] if len(hts_code) >= 2 else ''
+    if chapter in exemptions.get('chapters', []):
+        return True
+
+    # Check HTS prefix exemptions
+    for prefix in exemptions.get('hts_prefixes', []):
+        if hts_code.startswith(prefix):
+            return True
+
+    # Check specific code exemptions
+    if hts_code in exemptions.get('specific_codes', []):
+        return True
+
+    return False
 
 def parse_additional_duty_text(duty_text: str) -> Optional[float]:
     """Extract percentage from duty text like 'The duty provided in the applicable subheading + 25%'"""
@@ -130,26 +264,45 @@ def is_aluminum_product(hts_code: str) -> bool:
     """Check if HTS code is for aluminum products (Chapter 76)"""
     return hts_code.startswith('76')
 
+def is_energy_product(hts_code: str) -> bool:
+    """Check if HTS code is for energy products (Chapter 27 - mineral fuels, oils)"""
+    return hts_code.startswith('27')
+
+def is_potash_product(hts_code: str) -> bool:
+    """Check if HTS code is for potash products"""
+    # Potash is typically classified under:
+    # 3104.20 - Potassium chloride
+    # 3105.20 - Mineral or chemical fertilizers containing potassium
+    return hts_code.startswith('310420') or hts_code.startswith('310520')
+
 def determine_additive_duties(hts_code: str, entry: Dict[str, Any]) -> Dict[str, Any]:
     """Determine which additive duties apply to this HTS code"""
     additive_duties = []
 
-    # Check for Section 232 duties (global application)
+    # Check for Section 232 duties (global application with UK exemption)
     if is_steel_product(hts_code):
+        steel_info = ADDITIVE_DUTIES.get('section_232_steel', {})
         additive_duties.append({
             'type': 'section_232',
             'name': 'Section 232 - Steel Tariff',
-            'rate': 50.0,  # 50% as of June 4, 2025
+            'rate': steel_info.get('rate', 0.50) * 100,  # 50% default
+            'rate_uk': steel_info.get('rate_uk', 0.25) * 100,  # 25% for UK
             'countries': 'all',  # Applies globally
-            'label': 'Section 232 Steel (50%)'
+            'countries_reduced': ['GB', 'UK'],  # UK gets reduced rate
+            'label': 'Section 232 Steel (50%, UK 25%)',
+            'uk_codes': steel_info.get('uk_codes', [])
         })
     elif is_aluminum_product(hts_code):
+        aluminum_info = ADDITIVE_DUTIES.get('section_232_aluminum', {})
         additive_duties.append({
             'type': 'section_232',
             'name': 'Section 232 - Aluminum Tariff',
-            'rate': 50.0,  # 50% as of June 4, 2025
+            'rate': aluminum_info.get('rate', 0.50) * 100,  # 50% default
+            'rate_uk': aluminum_info.get('rate_uk', 0.25) * 100,  # 25% for UK
             'countries': 'all',  # Applies globally
-            'label': 'Section 232 Aluminum (50%)'
+            'countries_reduced': ['GB', 'UK'],  # UK gets reduced rate
+            'label': 'Section 232 Aluminum (50%, UK 25%)',
+            'uk_codes': aluminum_info.get('uk_codes', [])
         })
 
     # Check for Section 301 duties (China-specific)
@@ -385,49 +538,91 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
         # Initialize reciprocal tariff fields
         entry['reciprocal_tariffs'] = []
 
-        # China reciprocal tariff (temporary reduced rate)
+        # China tariffs
         if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
             # Steel and aluminum have their own Section 232 duties
-            entry['reciprocal_tariffs'].append({
-                'country': 'CN',
-                'rate': 30.0,  # 10% reciprocal + 20% fentanyl-related
-                'label': 'Reciprocal Tariff - China (30%)',
-                'note': 'Temporary reduction from 145% (expires Aug 12, 2025)',
-                'effective': '2025-05-14',
-                'expires': '2025-08-12'
+
+            # Add temporary reciprocal tariff (10%) - has more exemptions
+            if not is_exempt_from_reciprocal_tariff(hts_code, 'CN'):
+                entry['reciprocal_tariffs'].append({
+                    'country': 'CN',
+                    'rate': 10.0,  # 10% reciprocal tariff
+                    'label': 'Reciprocal Tariff - China (10%)',
+                    'note': 'Temporary 90-day agreement',
+                    'effective': '2025-05-14',
+                    'expires': '2025-08-12'
+                })
+
+            # Add permanent fentanyl anti-trafficking tariff (20%) - very limited exemptions
+            if not is_exempt_from_fentanyl_tariff(hts_code, 'CN'):
+                entry['reciprocal_tariffs'].append({
+                    'country': 'CN',
+                    'rate': 20.0,  # 20% fentanyl anti-trafficking tariff
+                    'label': 'Fentanyl Anti-Trafficking Tariff - China (20%)',
+                    'note': 'Anti-trafficking measure',
+                    'effective': '2025-03-04',  # Same as IEEPA effective date
+                    'expires': None  # No expiration
+                })
+
+    # Add IEEPA tariffs for Canada and Mexico (separate from reciprocal tariffs)
+    if not entry.get('is_chapter_99'):
+        if 'ieepa_tariffs' not in entry:
+            entry['ieepa_tariffs'] = []
+
+        # Canada IEEPA tariff - does not apply to steel/aluminum (they have Section 232)
+        if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
+            # Determine the rate based on product type
+            if is_energy_product(hts_code) or is_potash_product(hts_code):
+                rate = 10.0  # Reduced rate for energy and potash
+                label = 'IEEPA Tariff - Canada (10% - Energy/Potash)'
+            else:
+                rate = 25.0  # Standard rate
+                label = 'IEEPA Tariff - Canada (25%)'
+
+            entry['ieepa_tariffs'].append({
+                'country': 'CA',
+                'rate': rate,
+                'label': label,
+                'note': 'USMCA-origin goods exempt; Does not stack with Section 232',
+                'effective': '2025-03-04',
+                'legal_status': 'Under judicial review, currently in effect'
             })
 
-        # Canada reciprocal tariff
-        entry['reciprocal_tariffs'].append({
-            'country': 'CA',
-            'rate': 25.0,
-            'label': 'Reciprocal Tariff - Canada (25%)',
-            'note': 'USMCA-origin goods exempt',
-            'effective': '2025-03-04'
-        })
+        # Mexico IEEPA tariff - does not apply to steel/aluminum (they have Section 232)
+        if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
+            # Determine the rate based on product type
+            if is_potash_product(hts_code):
+                rate = 10.0  # Reduced rate for potash only
+                label = 'IEEPA Tariff - Mexico (10% - Potash)'
+            else:
+                rate = 25.0  # Standard rate (no energy exemption for Mexico)
+                label = 'IEEPA Tariff - Mexico (25%)'
 
-        # Mexico reciprocal tariff
-        entry['reciprocal_tariffs'].append({
-            'country': 'MX',
-            'rate': 25.0,
-            'label': 'Reciprocal Tariff - Mexico (25%)',
-            'note': 'USMCA-origin goods exempt',
-            'effective': '2025-03-04'
-        })
+            entry['ieepa_tariffs'].append({
+                'country': 'MX',
+                'rate': rate,
+                'label': label,
+                'note': 'USMCA-origin goods exempt; Does not stack with Section 232',
+                'effective': '2025-03-04',
+                'legal_status': 'Under judicial review, currently in effect'
+            })
 
     return entry
 
 def main():
     """Main processing function"""
 
-    if len(sys.argv) != 3:
-        print("Usage: python preprocess_tariff_data.py <input_csv> <output_json>")
+    if len(sys.argv) < 3 or len(sys.argv) > 4:
+        print("Usage: python preprocess_tariff_data.py <input_csv> <output_json> [hts_revision]")
+        print("Example: python preprocess_tariff_data.py input.csv output.json 'Revision 11'")
         sys.exit(1)
 
     input_file = sys.argv[1]
     output_file = sys.argv[2]
+    hts_revision = sys.argv[3] if len(sys.argv) == 4 else 'Unknown'
 
     print(f"Processing {input_file}...")
+    print(f"HTS Revision: {hts_revision}")
 
     entries = []
     chapter_99_count = 0
@@ -474,6 +669,7 @@ def main():
     # Create output structure
     output_data = {
         'data_last_updated': datetime.now().strftime('%Y-%m-%d'),
+        'hts_revision': hts_revision,
         'tariffs': entries,
         'metadata': {
             'total_entries': len(entries),
@@ -484,6 +680,8 @@ def main():
             'section_232_entries': section_232_count,
             'trade_action_entries': trade_action_count,
             'preprocessing_version': '2.0',
+            'hts_revision': hts_revision,
+            'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'additive_duties_info': ADDITIVE_DUTIES
         },
         'country_programs': COUNTRY_TO_PROGRAMS

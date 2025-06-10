@@ -130,12 +130,14 @@ export function useTariff() {
     htsCode: string,
     declaredValue: number,
     countryCode: string,
-    isReciprocalAdditive: boolean = true  // Always treat reciprocal tariffs as additive
+    isReciprocalAdditive: boolean = true,  // Always treat reciprocal tariffs as additive
+    excludeReciprocalTariff: boolean = false,
+    isUSMCAOrigin: boolean = false
   ): DutyCalculation => {
     if (!service) {
       throw new Error('Tariff service not initialized');
     }
-    return service.calculateDuty(htsCode, declaredValue, countryCode, isReciprocalAdditive);
+    return service.calculateDuty(htsCode, declaredValue, countryCode, isReciprocalAdditive, excludeReciprocalTariff, isUSMCAOrigin);
   }, [service]);
 
   return {

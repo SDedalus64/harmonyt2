@@ -3,11 +3,18 @@
 const fs = require('fs');
 const path = require('path');
 
+// Get the filename from command line argument
+const inputFile = process.argv[2];
+if (!inputFile) {
+  console.error('Usage: node segment-tariff-data.js <input-json-file>');
+  process.exit(1);
+}
+
 // Read the main tariff data
-const tariffData = require('../src/data/tariff_processed.json');
+const tariffData = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
 
 // Create output directory
-const outputDir = path.join(__dirname, '../src/data/tariff-segments');
+const outputDir = path.join(__dirname, './data/tariff-segments');
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }

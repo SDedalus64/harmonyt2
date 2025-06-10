@@ -198,6 +198,7 @@ export default function LookupScreen() {
   const [loadingMessage, setLoadingMessage] = useState<string>('');
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const loadingSpinValue = useRef(new Animated.Value(0)).current;
+  const [isUSMCAOrigin, setIsUSMCAOrigin] = useState(false);
 
   // New drawer state
   const [historyDrawerVisible, setHistoryDrawerVisible] = useState(false);
@@ -212,6 +213,7 @@ export default function LookupScreen() {
 
   // Main navigation FAB state
   const [mainFabExpanded, setMainFabExpanded] = useState(false);
+  const [userClosedFab, setUserClosedFab] = useState(false);
 
   // Animation values for unified floating menu
   const mainFabRotation = useRef(new Animated.Value(0)).current;
@@ -571,6 +573,8 @@ export default function LookupScreen() {
     }, [showInput, result])
   );
 
+
+
   // Add screenshot detection
   useEffect(() => {
     if (!showInput && result) {
@@ -747,6 +751,7 @@ export default function LookupScreen() {
     setIsLoading(true);
     setResult(null);
     setShowLoadingModal(true);
+    setLoadedHistoryTimestamp(null); // Clear history timestamp for new lookups
 
     try {
       // Show loading modal for 2 seconds
@@ -770,7 +775,9 @@ export default function LookupScreen() {
         htsCode,
         totalValue,
         selectedCountry.code,
-        true // Always treat reciprocal tariffs as additive
+        true, // Always treat reciprocal tariffs as additive
+        false, // Don't exclude reciprocal tariffs
+        isUSMCAOrigin // Pass USMCA origin status
       );
 
       if (!dutyCalculation) {
@@ -839,6 +846,7 @@ export default function LookupScreen() {
         console.log('[handleLookup] Skipping auto-save - result loaded from history with timestamp:', loadedHistoryTimestamp);
         setIsSaved(true);
       } else {
+        console.log('[handleLookup] Auto-save disabled, marking as unsaved');
         setIsSaved(false); // Reset saved state for manual save button
       }
 
@@ -856,6 +864,12 @@ export default function LookupScreen() {
   };
 
   const handleNewLookup = () => {
+    console.log('[handleNewLookup] Called with:', {
+      autoSaveEnabled: settings.autoSaveToHistory,
+      hasResult: !!result,
+      isSaved,
+    });
+
     // If auto-save is on, save automatically
     if (settings.autoSaveToHistory && result && !isSaved) {
       handleSaveToHistory(false).then(() => {
@@ -965,6 +979,7 @@ export default function LookupScreen() {
     setIsSaved(false);
     setShowUnitCalculations(false);
     setLoadedHistoryTimestamp(null); // Reset the history timestamp
+    setIsUSMCAOrigin(false); // Reset USMCA origin
 
     // Focus on HTS code input for new lookup
     setTimeout(() => {
@@ -1155,8 +1170,43 @@ export default function LookupScreen() {
             key={item.id}
             style={styles.historyDrawerItem}
             onPress={() => {
-              setHistoryDrawerVisible(false);
-              navigation.navigate('Lookup', { historyItem: item });
+              const closeAndNavigate = () => {
+                setHistoryDrawerVisible(false);
+                navigation.navigate('Lookup', { historyItem: item });
+                // Open FAB after selecting history item
+                setTimeout(() => {
+                  setUserClosedFab(false);
+                  openMainFab();
+                }, 300);
+              };
+
+              // Check for unsaved results before navigating
+              if (!settings.autoSaveToHistory && result && !isSaved) {
+                Alert.alert(
+                  'Unsaved Lookup',
+                  'You have an unsaved lookup. Do you want to save it before loading this history item?',
+                  [
+                    {
+                      text: 'Discard',
+                      style: 'destructive',
+                      onPress: closeAndNavigate,
+                    },
+                    {
+                      text: 'Save & Load',
+                      onPress: async () => {
+                        await handleSaveToHistory(false);
+                        closeAndNavigate();
+                      },
+                    },
+                    {
+                      text: 'Cancel',
+                      style: 'cancel',
+                    },
+                  ]
+                );
+              } else {
+                closeAndNavigate();
+              }
             }}
           >
             <View style={styles.historyItemRow}>
@@ -1328,14 +1378,14 @@ export default function LookupScreen() {
               <Text style={styles.compactSectionTitle}>Processing Fees</Text>
               <View style={styles.compactRow}>
                 <View style={styles.compactRowLeft}>
-                  <Text style={styles.compactLabel}>MPF</Text>
-                  <Text style={styles.compactRate}>{result.fees.mpf.rate.toFixed(3)}%</Text>
+                  <Text style={styles.compactLabel}>Merchandise Processing Fee</Text>
+                  <Text style={styles.compactRate}>{result.fees.mpf.rate.toFixed(4)}%</Text>
                 </View>
                 <Text style={styles.compactAmount}>{formatCurrency(result.fees.mpf.amount)}</Text>
               </View>
               <View style={styles.compactRow}>
                 <View style={styles.compactRowLeft}>
-                  <Text style={styles.compactLabel}>HMF</Text>
+                  <Text style={styles.compactLabel}>Harbor Maintenance Fee</Text>
                   <Text style={styles.compactRate}>{result.fees.hmf.rate.toFixed(3)}%</Text>
                 </View>
                 <Text style={styles.compactAmount}>{formatCurrency(result.fees.hmf.amount)}</Text>
@@ -1391,7 +1441,13 @@ export default function LookupScreen() {
   // Unified floating menu animations with arc layout
   const toggleMainFab = () => {
     const toValue = mainFabExpanded ? 0 : 1;
+    const isClosing = mainFabExpanded;
     setMainFabExpanded(!mainFabExpanded);
+
+    // Track if user is manually closing the FAB
+    if (isClosing) {
+      setUserClosedFab(true);
+    }
 
     // Close any open navigation drawers when toggling main FAB
     if (!mainFabExpanded) {
@@ -1520,6 +1576,13 @@ export default function LookupScreen() {
     }
   };
 
+  // Open main FAB
+  const openMainFab = () => {
+    if (!mainFabExpanded) {
+      toggleMainFab();
+    }
+  };
+
   // Close all navigation drawers
   const closeAllNavigationDrawers = () => {
     setMainHistoryDrawerVisible(false);
@@ -1549,14 +1612,23 @@ export default function LookupScreen() {
       loadedHistoryTimestamp,
     });
 
+    const closeAndOpenFab = () => {
+      setResultsDrawerVisible(false);
+      // Open FAB after closing results
+      setTimeout(() => {
+        setUserClosedFab(false);
+        openMainFab();
+      }, 300);
+    };
+
     if (settings.autoSaveToHistory && result && !isSaved && !loadedHistoryTimestamp) {
       // Auto-save when closing drawer (but not if loaded from history)
       console.log('[handleCloseResultsDrawer] Auto-saving...');
       handleSaveToHistory(false).then(() => {
-        setResultsDrawerVisible(false);
+        closeAndOpenFab();
       });
-    } else if (!settings.autoSaveToHistory && result && !isSaved && !loadedHistoryTimestamp) {
-      // Show warning if auto-save is off
+    } else if (!settings.autoSaveToHistory && result && !isSaved) {
+      // Show warning if auto-save is off and there's an unsaved result
       Alert.alert(
         'Unsaved Lookup',
         'You have an unsaved lookup. Do you want to save it before closing?',
@@ -1564,13 +1636,13 @@ export default function LookupScreen() {
           {
             text: 'Discard',
             style: 'destructive',
-            onPress: () => setResultsDrawerVisible(false),
+            onPress: () => closeAndOpenFab(),
           },
           {
             text: 'Save & Close',
             onPress: async () => {
               await handleSaveToHistory(false);
-              setResultsDrawerVisible(false);
+              closeAndOpenFab();
             },
           },
           {
@@ -1581,7 +1653,7 @@ export default function LookupScreen() {
       );
     } else {
       // No unsaved changes or already saved
-      setResultsDrawerVisible(false);
+      closeAndOpenFab();
     }
   };
 
@@ -1675,10 +1747,10 @@ export default function LookupScreen() {
             </View>
           <View style={styles.dataSourceContainer}>
             <Text style={styles.dataSourceText}>
-              Data Last Updated: {tariffService.getLastUpdated() || 'Loading...'}
+              Data Last Updated: {tariffService.getLastUpdated() || 'Loading...'} | HTS {tariffService.getHtsRevision() || 'Loading...'}
             </Text>
             <Text style={styles.dataSourceText}>
-              Data Sources: U.S. International Trade Commission (HTS 2025 Revision 2),{'\n'}Federal Register Notices for Section 301 tariffs (Lists 1–4A).
+              Data Sources: U.S. International Trade Commission,{'\n'}Federal Register Notices for Section 301 tariffs (Lists 1–4A).
             </Text>
           </View>
         </DiagonalSection>
@@ -1708,6 +1780,7 @@ export default function LookupScreen() {
                       const cleanedText = text.replace(/\D/g, '').slice(0, 8);
                       console.log('[HTS Input] Text changed:', text, '-> cleaned:', cleanedText);
                       setHtsCode(cleanedText);
+                      setUserClosedFab(false); // Reset when user interacts
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
@@ -1759,6 +1832,7 @@ export default function LookupScreen() {
                     selectedCountry={selectedCountry}
                     onSelect={(country) => {
                       setSelectedCountry(country);
+                      setUserClosedFab(false); // Reset when user interacts
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
@@ -1808,6 +1882,25 @@ export default function LookupScreen() {
                     keyboardType="number-pad"
                   />
                 </View>
+
+                {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
+                {selectedCountry && (selectedCountry.code === 'CA' || selectedCountry.code === 'MX') && (
+                <View style={styles.inputWrapper}>
+                <View style={styles.toggleContainer}>
+                      <Text style={styles.toggleLabel}>USMCA Origin Certificate</Text>
+                  <Switch
+                        value={isUSMCAOrigin}
+                    onValueChange={(value) => {
+                          setIsUSMCAOrigin(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                      trackColor={{ false: BRAND_COLORS.mediumGray, true: BRAND_COLORS.electricBlue }}
+                      thumbColor={BRAND_COLORS.white}
+                  />
+                  </View>
+                </View>
+                )}
                 </View>
 
 
@@ -2032,6 +2125,11 @@ export default function LookupScreen() {
         isVisible={historyDrawerVisible}
         onClose={() => {
           setHistoryDrawerVisible(false);
+          // Open FAB after closing history drawer
+          setTimeout(() => {
+            setUserClosedFab(false);
+            openMainFab();
+          }, 300);
         }}
         position="bottom"
       >
@@ -2073,9 +2171,17 @@ export default function LookupScreen() {
           style={styles.overlay}
           activeOpacity={1}
           onPress={() => {
+            const wasHistoryOpen = mainHistoryDrawerVisible;
             setMainHistoryDrawerVisible(false);
             setSettingsDrawerVisible(false);
             setLinksDrawerVisible(false);
+            // Open FAB if history drawer was open
+            if (wasHistoryOpen) {
+              setTimeout(() => {
+                setUserClosedFab(false);
+                openMainFab();
+              }, 300);
+            }
           }}
         >
           <Animated.View style={[styles.overlayBackground, { opacity: navDrawerOpacity }]} />
@@ -2099,6 +2205,11 @@ export default function LookupScreen() {
                   setMainHistoryDrawerVisible(false);
                   // Populate the form with the selected history item
                   handleHistoryItemSelection(item);
+                  // Open FAB after selecting history item
+                  setTimeout(() => {
+                    setUserClosedFab(false);
+                    openMainFab();
+                  }, 300);
                 }}
               />
             </View>

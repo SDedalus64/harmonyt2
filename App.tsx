@@ -14,6 +14,25 @@ import { SettingsProvider } from './src/hooks/useSettings';
 // First launch key for AsyncStorage
 const FIRST_LAUNCH_KEY = '@HarmonyTi:firstLaunch';
 
+// Start preloading tariff data immediately when the app module loads
+// This happens before any React components are rendered
+console.log('🚀 App module loaded - starting tariff data preload...');
+
+// Initialize search service (for autocomplete)
+if (!tariffSearchService.isInitialized()) {
+  tariffSearchService.initialize()
+    .then(() => console.log('✅ Search service initialized'))
+    .catch((error) => console.warn('⚠️ Search service initialization failed:', error));
+}
+
+// Initialize main tariff service
+const tariffService = TariffService.getInstance();
+if (!tariffService.isInitialized()) {
+  tariffService.initialize()
+    .then(() => console.log('✅ Main tariff data preloaded'))
+    .catch((error) => console.warn('⚠️ Main tariff data preload failed:', error));
+}
+
 function AppContent() {
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
@@ -23,38 +42,7 @@ function AppContent() {
   useEffect(() => {
     async function initializeApp() {
       try {
-        console.log('App initializing...');
-
-        // First, initialize the search service for segmented data
-        // This is used for autocomplete as users type
-        if (!tariffSearchService.isInitialized()) {
-          console.log('🔍 Starting search service initialization (priority)...');
-          tariffSearchService.initialize().then(() => {
-            console.log('✅ Search service initialized - autocomplete ready');
-
-            // After search service is ready, start loading the main tariff data
-            const tariffService = TariffService.getInstance();
-            if (!tariffService.isInitialized()) {
-              console.log('🚀 Starting main tariff data preload in background...');
-              tariffService.initialize().then(() => {
-                console.log('✅ Main tariff data preload completed');
-              }).catch((error) => {
-                console.warn('⚠️ Main tariff data preload failed:', error);
-              });
-            }
-          }).catch((error) => {
-            console.warn('⚠️ Search service initialization failed:', error);
-
-            // Even if search fails, try to load main data
-            const tariffService = TariffService.getInstance();
-            if (!tariffService.isInitialized()) {
-              console.log('🚀 Starting main tariff data preload (fallback)...');
-              tariffService.initialize().catch((err) => {
-                console.warn('⚠️ Main tariff data preload also failed:', err);
-              });
-            }
-          });
-        }
+        console.log('App component initializing...');
 
         // Check first launch
         const hasLaunched = await AsyncStorage.getItem(FIRST_LAUNCH_KEY);
@@ -103,7 +91,7 @@ export default function App() {
     <SafeAreaProvider>
       <AuthProvider>
         <SettingsProvider>
-          <AppContent />
+        <AppContent />
         </SettingsProvider>
       </AuthProvider>
     </SafeAreaProvider>

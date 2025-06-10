@@ -131,6 +131,21 @@ export function useHistory() {
       const existingHistory = await AsyncStorage.getItem(HISTORY_STORAGE_KEY);
       const historyItems: HistoryItem[] = existingHistory ? JSON.parse(existingHistory) : [];
 
+      // Check for duplicates based on key fields (regardless of when it was saved)
+      const isDuplicate = historyItems.some(existingItem => {
+        // Check if it's the same lookup (same HTS, country, value, freight, and units)
+        return existingItem.htsCode === item.htsCode &&
+          existingItem.countryCode === item.countryCode &&
+          existingItem.declaredValue === item.declaredValue &&
+          existingItem.freightCost === item.freightCost &&
+          existingItem.unitCount === item.unitCount;
+      });
+
+      if (isDuplicate) {
+        console.log('[saveToHistory] Duplicate detected, skipping save');
+        return;
+      }
+
       // Create new history item
       const newItem: HistoryItem = {
         ...item,

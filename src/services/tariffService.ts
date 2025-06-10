@@ -6,6 +6,7 @@ import { AZURE_CONFIG, getAzureUrls } from '../config/azure.config';
 
 export interface TariffData {
   data_last_updated?: string;
+  hts_revision?: string;
   tariffs: TariffEntry[];
   tariff_truce?: TariffTruce;
   metadata?: any;
@@ -69,8 +70,11 @@ export interface TariffEntry {
     type: string;
     name: string;
     rate: number;
+    rate_uk?: number; // UK-specific rate for Section 232
     countries: string[] | 'all';
+    countries_reduced?: string[]; // Countries that get reduced rate
     label: string;
+    uk_codes?: string[]; // UK-specific HTS codes
   }>;
 
   // Reciprocal tariff fields
@@ -94,6 +98,15 @@ export interface TariffEntry {
   begin_effect_date?: string;
   end_effective_date?: string;
   footnote_comment?: string;
+
+  // IEEPA tariffs
+  ieepa_tariffs?: Array<{
+    country: string;
+    rate: number;
+    label: string;
+    note?: string;
+    legal_status?: string;
+  }>;
 }
 
 export interface TariffTruce {
@@ -211,6 +224,7 @@ export class TariffService {
       console.log(`⏱️  Load time: ${loadTime}ms`);
       console.log('📊 Total tariff entries loaded:', this.tariffData?.tariffs?.length || 0);
       console.log('📅 Data last updated:', this.tariffData?.data_last_updated || 'Unknown');
+      console.log('📑 HTS Revision:', this.tariffData?.hts_revision || 'Unknown');
 
       // Log metadata if available
       if (this.tariffData?.metadata) {
@@ -297,6 +311,10 @@ export class TariffService {
 
   getLastUpdated(): string {
     return this.tariffData?.data_last_updated || 'Unknown';
+  }
+
+  getHtsRevision(): string {
+    return this.tariffData?.hts_revision || this.tariffData?.metadata?.hts_revision || 'Unknown';
   }
 
   findTariffEntry(htsCode: string): TariffEntry | undefined {
@@ -419,7 +437,8 @@ export class TariffService {
     declaredValue: number,
     countryCode: string,
     isReciprocalAdditive: boolean = true,  // Always treat reciprocal tariffs as additive
-    excludeReciprocalTariff: boolean = false  // New parameter to control RT inclusion
+    excludeReciprocalTariff: boolean = false,  // New parameter to control RT inclusion
+    isUSMCAOrigin: boolean = false  // New parameter to specify USMCA origin
   ): {
     amount: number;
     dutyOnly: number;
@@ -527,13 +546,29 @@ export class TariffService {
 
         // Calculate fees
         const dutyOnly = declaredValue * additionalRate / 100;
-        const mpf = this.calculateMPF(declaredValue);
+        let mpf = 0;
+        let mpfExempt = false;
+
+        // MPF is exempt for USMCA-qualified goods from Canada/Mexico
+        if ((countryCode === 'CA' || countryCode === 'MX') && isUSMCAOrigin) {
+          mpfExempt = true;
+        } else {
+          mpf = this.calculateMPF(declaredValue);
+        }
+
         const hmf = this.calculateHMF(declaredValue);
         const totalAmount = dutyOnly + mpf + hmf;
 
         breakdown.push(`Base Duty Amount: $${dutyOnly.toFixed(2)}`);
-        breakdown.push(`MPF (${(MPF_RATE * 100).toFixed(4)}%): $${mpf.toFixed(2)}`);
-        breakdown.push(`HMF (${(HMF_RATE * 100).toFixed(4)}%): $${hmf.toFixed(2)}`);
+
+        if (mpfExempt) {
+          breakdown.push(`Merchandise Processing Fee: $0.00 (Exempt - USMCA origin)`);
+        } else {
+          const mpfRateFormatted = Number((MPF_RATE * 100).toFixed(4)).toString();
+          breakdown.push(`Merchandise Processing Fee (${mpfRateFormatted}%): $${mpf.toFixed(2)}`);
+        }
+
+        breakdown.push(`Harbor Maintenance Fee (${(HMF_RATE * 100).toFixed(4)}%): $${hmf.toFixed(2)}`);
         breakdown.push(`Total Duty & Fees: $${totalAmount.toFixed(2)}`);
 
         return {
@@ -543,7 +578,7 @@ export class TariffService {
           components,
           breakdown,
           fees: {
-            mpf: { rate: MPF_RATE * 100, amount: mpf },
+            mpf: { rate: mpfExempt ? 0 : MPF_RATE * 100, amount: mpf },
             hmf: { rate: HMF_RATE * 100, amount: hmf }
           },
           htsCode: entry.hts8,
@@ -662,9 +697,22 @@ export class TariffService {
         const adValField = `${program}_ad_val_rate`;
         const indicatorField = `${program}_indicator`;
 
+        // For USMCA, only use the rate if the goods are USMCA-origin
+        if ((program === 'usmca' || program === 'nafta_canada' || program === 'nafta_mexico') && !isUSMCAOrigin) {
+          continue; // Skip USMCA rates if not USMCA origin
+        }
+
         if (entry[indicatorField] && entry[adValField] !== undefined) {
           ftaRate = parseFloat(String(entry[adValField])) * 100; // Convert to percentage
-          ftaProgram = program.toUpperCase().replace('_', ' ');
+          ftaProgram = program.toUpperCase().replace(/_/g, ' ');
+          // Make USMCA label clearer
+          if (program === 'usmca') {
+            ftaProgram = 'USMCA';
+          } else if (program === 'nafta_canada') {
+            ftaProgram = 'NAFTA Canada';
+          } else if (program === 'nafta_mexico') {
+            ftaProgram = 'NAFTA Mexico';
+          }
           break;
         }
       }
@@ -704,16 +752,35 @@ export class TariffService {
           // Always add all additive duties (Section 301, Section 232, etc.)
           if (duty.type === 'section_301') {
             console.log('Adding Section 301:', duty);
+              components.push({
+                type: duty.type,
+                rate: duty.rate,
+                amount: declaredValue * duty.rate / 100,
+                label: duty.label
+              });
+              totalRate += duty.rate;
+              breakdown.push(`${duty.label}: +${duty.rate}%`);
+          } else if (duty.type === 'section_232') {
+            // Handle Section 232 with UK-specific rates
+            let section232Rate = duty.rate;
+            let section232Label = duty.label;
+
+            // Check if UK gets reduced rate
+            if ((countryCode === 'GB' || countryCode === 'UK') && duty.rate_uk !== undefined) {
+              section232Rate = duty.rate_uk;
+              section232Label = duty.label.replace('50%', '25%').replace('UK 25%', 'UK rate applied');
+            }
+
             components.push({
               type: duty.type,
-              rate: duty.rate,
-              amount: declaredValue * duty.rate / 100,
-              label: duty.label
+              rate: section232Rate,
+              amount: declaredValue * section232Rate / 100,
+              label: section232Label
             });
-            totalRate += duty.rate;
-            breakdown.push(`${duty.label}: +${duty.rate}%`);
+            totalRate += section232Rate;
+            breakdown.push(`${section232Label}: +${section232Rate}%`);
           } else {
-            // For all other duties (like Section 232), always add them
+            // For all other duties, always add them
             components.push({
               type: duty.type,
               rate: duty.rate,
@@ -744,17 +811,17 @@ export class TariffService {
           });
 
           // Always add Section 301
-          dutyLabel = "Section 301";
-          dutyType = "Section 301";
+            dutyLabel = "Section 301";
+            dutyType = "Section 301";
 
-          components.push({
-            type: dutyType,
-            rate: additionalRate,
-            amount: declaredValue * additionalRate / 100,
-            label: dutyLabel
-          });
-          totalRate += additionalRate;
-          breakdown.push(`${dutyLabel}: +${additionalRate}%`);
+            components.push({
+              type: dutyType,
+              rate: additionalRate,
+              amount: declaredValue * additionalRate / 100,
+              label: dutyLabel
+            });
+            totalRate += additionalRate;
+            breakdown.push(`${dutyLabel}: +${additionalRate}%`);
         } else if (countryCode === 'CA') {
           dutyLabel = "Canadian Lumber Tariff";
           dutyType = "Additional Duty";
@@ -775,7 +842,7 @@ export class TariffService {
     if (entry.reciprocal_tariffs && !excludeReciprocalTariff) {  // Only apply RT if not excluded
       for (const reciprocalTariff of entry.reciprocal_tariffs) {
         if (reciprocalTariff.country === countryCodeForTariffs) {
-          // Check if it's still active (if expires date is provided)
+          // Check if it's still active (only if expires date is provided)
           if (reciprocalTariff.expires) {
             const expiresDate = new Date(reciprocalTariff.expires);
             const now = new Date();
@@ -785,19 +852,32 @@ export class TariffService {
             }
           }
 
-          // Always add reciprocal tariffs
-          console.log('Applying reciprocal tariff:', {
-            tariff: reciprocalTariff
-          });
-
           // Check for USMCA exemption for Canada/Mexico
           if ((countryCode === 'CA' || countryCode === 'MX') &&
-              reciprocalTariff.note?.includes('USMCA-origin goods exempt')) {
-            breakdown.push(`Note: ${reciprocalTariff.note}`);
+            reciprocalTariff.note?.includes('USMCA-origin goods exempt') &&
+            isUSMCAOrigin) {
+            console.log('Skipping reciprocal tariff due to USMCA origin exemption:', {
+              tariff: reciprocalTariff,
+              isUSMCAOrigin
+            });
+            breakdown.push(`${reciprocalTariff.label}: Exempt (USMCA origin)`);
+            continue; // Skip this reciprocal tariff
+          }
+
+          // Apply reciprocal tariffs
+          console.log('Applying reciprocal tariff:', {
+            tariff: reciprocalTariff,
+            isUSMCAOrigin
+          });
+
+          // Determine the type based on the label
+          let tariffType = "Reciprocal Tariff";
+          if (reciprocalTariff.label?.includes('Fentanyl')) {
+            tariffType = "Fentanyl Anti-Trafficking Tariff";
           }
 
           components.push({
-            type: "Reciprocal Tariff",
+            type: tariffType,
             rate: reciprocalTariff.rate,
             amount: declaredValue * reciprocalTariff.rate / 100,
             label: reciprocalTariff.label
@@ -805,8 +885,58 @@ export class TariffService {
           totalRate += reciprocalTariff.rate;
           breakdown.push(`${reciprocalTariff.label}: +${reciprocalTariff.rate}%`);
 
-          if (reciprocalTariff.note) {
+          if (reciprocalTariff.note && !isUSMCAOrigin) {
             breakdown.push(`  (${reciprocalTariff.note})`);
+          }
+        }
+      }
+    }
+
+    // 5. Apply IEEPA tariffs (Canada/Mexico)
+    if (entry.ieepa_tariffs && !excludeReciprocalTariff) {  // Use same exclusion flag for now
+      for (const ieepaTariff of entry.ieepa_tariffs) {
+        if (ieepaTariff.country === countryCodeForTariffs) {
+          // Check for USMCA exemption
+          if ((countryCode === 'CA' || countryCode === 'MX') && isUSMCAOrigin) {
+            console.log('Skipping IEEPA tariff due to USMCA origin exemption:', {
+              tariff: ieepaTariff,
+              isUSMCAOrigin
+            });
+            breakdown.push(`${ieepaTariff.label}: Exempt (USMCA origin)`);
+            continue; // Skip this IEEPA tariff
+          }
+
+          // IEEPA tariffs do not stack with Section 232
+          const hasSection232 = components.some(c => c.type === 'section_232');
+          if (hasSection232) {
+            console.log('Skipping IEEPA tariff - does not stack with Section 232:', {
+              tariff: ieepaTariff,
+              hasSection232
+            });
+            breakdown.push(`${ieepaTariff.label}: Not applied (Section 232 takes precedence)`);
+            continue;
+          }
+
+          // Apply IEEPA tariff
+          console.log('Applying IEEPA tariff:', {
+            tariff: ieepaTariff,
+            isUSMCAOrigin
+          });
+
+          components.push({
+            type: "IEEPA Tariff",
+            rate: ieepaTariff.rate,
+            amount: declaredValue * ieepaTariff.rate / 100,
+            label: ieepaTariff.label
+          });
+          totalRate += ieepaTariff.rate;
+          breakdown.push(`${ieepaTariff.label}: +${ieepaTariff.rate}%`);
+
+          if (ieepaTariff.note) {
+            breakdown.push(`  (${ieepaTariff.note})`);
+          }
+          if (ieepaTariff.legal_status) {
+            breakdown.push(`  (${ieepaTariff.legal_status})`);
           }
         }
       }
@@ -816,29 +946,77 @@ export class TariffService {
     dutyOnly = declaredValue * totalRate / 100;
     breakdown.push(`Base Duty Amount: $${dutyOnly.toFixed(2)}`);
 
-    // 6. Add MPF
-    const mpf = this.calculateMPF(declaredValue);
-    const mpfRateFormatted = Number((MPF_RATE * 100).toFixed(4)).toString();
-    breakdown.push(`MPF (${mpfRateFormatted}%): $${mpf.toFixed(2)}`);
+    // 6. Add MPF (check for USMCA exemption)
+    let mpf = 0;
+    let mpfExempt = false;
 
-    // 7. Add HMF
+    // MPF is exempt for USMCA-qualified goods from Canada/Mexico
+    if ((countryCode === 'CA' || countryCode === 'MX') && isUSMCAOrigin) {
+      mpfExempt = true;
+      breakdown.push(`Merchandise Processing Fee: $0.00 (Exempt - USMCA origin)`);
+    } else {
+      mpf = this.calculateMPF(declaredValue);
+      const mpfRateFormatted = Number((MPF_RATE * 100).toFixed(4)).toString();
+      breakdown.push(`Merchandise Processing Fee (${mpfRateFormatted}%): $${mpf.toFixed(2)}`);
+    }
+
+    // 7. Add HMF (always applies, even for USMCA goods)
     const hmf = this.calculateHMF(declaredValue);
     const hmfRateFormatted = Number((HMF_RATE * 100).toFixed(4)).toString();
-    breakdown.push(`HMF (${hmfRateFormatted}%): $${hmf.toFixed(2)}`);
+    breakdown.push(`Harbor Maintenance Fee (${hmfRateFormatted}%): $${hmf.toFixed(2)}`);
 
     // 8. Calculate total
     const totalAmount = dutyOnly + mpf + hmf;
     breakdown.push(`Total Duty & Fees: $${totalAmount.toFixed(2)}`);
 
+    // Sort components in the specified order
+    const sortComponents = (components: Array<{
+      type: string;
+      rate: number;
+      amount: number;
+      label?: string;
+    }>): Array<{
+      type: string;
+      rate: number;
+      amount: number;
+      label?: string;
+    }> => {
+      const order = [
+        'MFN',  // Most Favored Nation (base HTS duty)
+        'FTA',  // Free Trade Agreement rate
+        'Column 2',  // Column 2 rate
+        'Trade Action',  // Trade Action rate
+        'section_301',  // Section 301
+        'section_232',  // Section 232
+        'Fentanyl Anti-Trafficking Tariff',  // Fentanyl tariffs
+        'Reciprocal Tariff',  // Reciprocal Tariff
+        'IEEPA Tariff',  // IEEPA Tariff (Canada/Mexico)
+      ];
+
+      return components.sort((a, b) => {
+        const aIndex = order.indexOf(a.type);
+        const bIndex = order.indexOf(b.type);
+
+        // If type not found in order array, put it at the end
+        const aOrder = aIndex === -1 ? order.length : aIndex;
+        const bOrder = bIndex === -1 ? order.length : bIndex;
+
+        return aOrder - bOrder;
+      });
+    };
+
+    // Sort components before returning
+    const sortedComponents = sortComponents(components);
+
     return {
       amount: totalAmount,
       dutyOnly,
       totalRate,
-      components,
+      components: sortedComponents,
       breakdown,
       fees: {
         mpf: {
-          rate: MPF_RATE * 100,
+          rate: mpfExempt ? 0 : MPF_RATE * 100,
           amount: mpf
         },
         hmf: {
@@ -857,7 +1035,8 @@ export class TariffService {
   calculateDutyDifferences(
     htsCode: string,
     declaredValue: number,
-    countryCode: string
+    countryCode: string,
+    isUSMCAOrigin: boolean = false
   ): {
     toggleOff: {
       withRT: number;
@@ -893,10 +1072,10 @@ export class TariffService {
     breakdown: string[];
   } {
     // Calculate duties for all scenarios
-    const toggleOffWithRT = this.calculateDuty(htsCode, declaredValue, countryCode, false, false);
-    const toggleOffWithoutRT = this.calculateDuty(htsCode, declaredValue, countryCode, false, true);
-    const toggleOnWithRT = this.calculateDuty(htsCode, declaredValue, countryCode, true, false);
-    const toggleOnWithoutRT = this.calculateDuty(htsCode, declaredValue, countryCode, true, true);
+    const toggleOffWithRT = this.calculateDuty(htsCode, declaredValue, countryCode, false, false, isUSMCAOrigin);
+    const toggleOffWithoutRT = this.calculateDuty(htsCode, declaredValue, countryCode, false, true, isUSMCAOrigin);
+    const toggleOnWithRT = this.calculateDuty(htsCode, declaredValue, countryCode, true, false, isUSMCAOrigin);
+    const toggleOnWithoutRT = this.calculateDuty(htsCode, declaredValue, countryCode, true, true, isUSMCAOrigin);
 
     // Debug logging for diagnosis
     console.log('--- calculateDutyDifferences Debug ---');
@@ -907,10 +1086,20 @@ export class TariffService {
     console.log('toggleOnWithoutRT:', toggleOnWithoutRT.amount, toggleOnWithoutRT.components);
 
     // Extract RT and Section 301 amounts for each scenario
-    const getTariffAmounts = (components: Array<{ type: string; amount: number }>) => ({
-      rtAmount: components.find(c => c.type === 'Reciprocal Tariff')?.amount || 0,
-      section301Amount: components.find(c => c.type === 'section_301')?.amount || 0
-    });
+    const getTariffAmounts = (components: Array<{ type: string; amount: number }>) => {
+      // Sum up all reciprocal-type tariffs (including fentanyl and IEEPA)
+      const rtAmount = components
+        .filter(c => c.type === 'Reciprocal Tariff' ||
+                     c.type === 'Fentanyl Anti-Trafficking Tariff' ||
+                     c.type === 'IEEPA Tariff')
+        .reduce((sum, c) => sum + c.amount, 0);
+
+      const section301Amount = components
+        .filter(c => c.type === 'section_301')
+        .reduce((sum, c) => sum + c.amount, 0);
+
+      return { rtAmount, section301Amount };
+    };
 
     const toggleOffWithRTAmounts = getTariffAmounts(toggleOffWithRT.components);
     const toggleOffWithoutRTAmounts = getTariffAmounts(toggleOffWithoutRT.components);

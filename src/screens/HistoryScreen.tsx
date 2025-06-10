@@ -184,12 +184,6 @@ export default function HistoryScreen({ onItemPress, visible = true }: HistorySc
       <Text style={styles.emptyStateText}>
         Your lookup history will appear here. Start by looking up an HTS code.
       </Text>
-      <TouchableOpacity
-        style={styles.emptyStateButton}
-        onPress={() => navigation.navigate('Lookup', {})}
-      >
-        <Text style={styles.emptyStateButtonText}>Go to Lookup</Text>
-      </TouchableOpacity>
     </View>
   );
 
@@ -367,16 +361,5 @@ const styles = StyleSheet.create({
     color: COLORS.darkGray,
     textAlign: 'center',
     marginBottom: 24,
-  },
-  emptyStateButton: {
-    backgroundColor: COLORS.orange,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  emptyStateButtonText: {
-    color: COLORS.white,
-    fontSize: 16,
-    fontWeight: '600',
   },
 });

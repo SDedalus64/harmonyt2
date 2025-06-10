@@ -3,8 +3,8 @@ export const AZURE_CONFIG = {
   // Base URL for the Azure Blob Storage
   baseUrl: 'https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data',
 
-  // Main tariff data file
-  mainDataFile: 'tariff_processed.json',
+  // Main tariff data file - now with date stamp
+  mainDataFile: 'tariff_processed_06062025.json',
 
   // Segment files directory
   segmentsPath: 'tariff-segments',
