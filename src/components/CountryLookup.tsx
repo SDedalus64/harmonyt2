@@ -7,9 +7,19 @@ import {
   FlatList,
   Modal,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
+import {
+  BRAND_COLORS,
+  BRAND_TYPOGRAPHY,
+  getTypographySize,
+  getSpacing,
+  getBorderRadius,
+  getInputConfig,
+  getResponsiveValue
+} from '../config/brandColors';
 
 interface Country {
   code: string;
@@ -153,7 +163,7 @@ const CountryLookup = forwardRef<CountryLookupRef, CountryLookupProps>(
               <Text style={styles.selectedCountryText}>
                 {selectedCountry.name} ({selectedCountry.code})
               </Text>
-              <Ionicons name="chevron-down" size={20} color="#666" />
+              <Ionicons name="chevron-down" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.darkGray} />
             </View>
           </TouchableOpacity>
         ) : (
@@ -161,7 +171,7 @@ const CountryLookup = forwardRef<CountryLookupRef, CountryLookupProps>(
             style={styles.searchButton}
             onPress={() => setIsExpanded(true)}
           >
-            <Ionicons name="globe-outline" size={20} color="#666" />
+            <Ionicons name="globe-outline" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.darkGray} />
             <Text style={styles.searchButtonText}>Select Country of Origin</Text>
           </TouchableOpacity>
         )}
@@ -182,7 +192,7 @@ const CountryLookup = forwardRef<CountryLookupRef, CountryLookupProps>(
                       onPress={() => setIsExpanded(false)}
                       style={styles.closeButton}
                     >
-                      <Ionicons name="close" size={24} color="#666" />
+                      <Ionicons name="close" size={getResponsiveValue(24, 28)} color={BRAND_COLORS.darkGray} />
                     </TouchableOpacity>
             </View>
             <FlatList
@@ -227,14 +237,19 @@ export default CountryLookup;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: getSpacing('md'),
+    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
+    maxWidth: '100%',
   },
   selectedCountry: {
     borderWidth: 1,
-    borderColor: '#E1E1E1',
-    borderRadius: 12,
-    backgroundColor: '#F8F8F8',
-    padding: 16,
+    borderColor: BRAND_COLORS.mediumGray,
+    borderRadius: getBorderRadius('md'),
+    backgroundColor: BRAND_COLORS.lightGray,
+    paddingHorizontal: getSpacing('md'),
+    paddingVertical: getSpacing('sm'),
+    height: getInputConfig().height,
+    justifyContent: 'center',
   },
   selectedCountryContent: {
     flexDirection: 'row',
@@ -242,37 +257,42 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   selectedCountryText: {
-    fontSize: isTablet() ? 21.6 : 14.4, // 10% reduction: 24 * 0.9 = 21.6, 16 * 0.9 = 14.4
-    color: '#333',
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
+    color: BRAND_COLORS.darkNavy,
+    flex: 1,
+    marginRight: getSpacing('sm'),
   },
   searchButton: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E1E1E1',
-    borderRadius: 12,
-    backgroundColor: '#F8F8F8',
-    padding: 16,
+    borderColor: BRAND_COLORS.mediumGray,
+    borderRadius: getBorderRadius('md'),
+    backgroundColor: BRAND_COLORS.lightGray,
+    paddingHorizontal: getSpacing('md'),
+    paddingVertical: getSpacing('sm'),
+    height: getInputConfig().height,
   },
   searchButtonText: {
-    marginLeft: 8,
-    fontSize: isTablet() ? 21.6 : 14.4, // 10% reduction: 24 * 0.9 = 21.6, 16 * 0.9 = 14.4
-    color: '#666',
+    marginLeft: getSpacing('sm'),
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
+    color: BRAND_COLORS.darkGray,
+    flex: 1,
   },
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: getSpacing('lg'),
   },
   dropdown: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius('lg'),
     width: '100%',
-    maxWidth: isTablet() ? 600 : 400,
+    maxWidth: getResponsiveValue(400, 600),
     maxHeight: '80%',
-    shadowColor: '#000',
+    shadowColor: BRAND_COLORS.darkNavy,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -285,47 +305,47 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: getSpacing('md'),
     borderBottomWidth: 1,
-    borderBottomColor: '#E1E1E1',
+    borderBottomColor: BRAND_COLORS.lightGray,
   },
   dropdownTitle: {
-    fontSize: isTablet() ? 24.3 : 16.2, // 10% reduction: 27 * 0.9 = 24.3, 18 * 0.9 = 16.2
-    fontWeight: '600',
-    color: '#333',
+    fontSize: getResponsiveValue(getTypographySize('lg'), getTypographySize('lg') * 1.2), // 20% larger on iPad
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    color: BRAND_COLORS.darkNavy,
   },
   closeButton: {
-    padding: 4,
+    padding: getSpacing('xs'),
   },
   list: {
-    maxHeight: isTablet() ? 500 : 400,
+    maxHeight: getResponsiveValue(400, 500),
   },
   countryItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingVertical: getSpacing('sm'),
+    paddingHorizontal: getSpacing('md'),
     borderBottomWidth: 1,
-    borderBottomColor: '#E1E1E1',
-    minHeight: 44, // Minimum height for touch targets
+    borderBottomColor: BRAND_COLORS.lightGray,
+    minHeight: getResponsiveValue(48, 56), // Larger touch targets
   },
   selectedItem: {
     backgroundColor: '#E8F4FD',
   },
   countryName: {
-    fontSize: isTablet() ? 21.6 : 14.4, // 10% reduction: 24 * 0.9 = 21.6, 16 * 0.9 = 14.4
-    color: '#333',
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
+    color: BRAND_COLORS.darkNavy,
     flex: 1,
-    marginRight: 8,
+    marginRight: getSpacing('sm'),
   },
   countryCode: {
-    fontSize: isTablet() ? 18.9 : 12.6, // 10% reduction: 21 * 0.9 = 18.9, 14 * 0.9 = 12.6
-    color: '#666',
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.2), // 20% larger on iPad
+    color: BRAND_COLORS.darkGray,
     flexShrink: 0,
   },
   selectedText: {
-    color: '#0066CC',
-    fontWeight: '600',
+    color: BRAND_COLORS.electricBlue,
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
   },
 });

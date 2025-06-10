@@ -1695,7 +1695,7 @@ export default function LookupScreen() {
                 <View style={styles.inputWrapper}>
                   <TextInput
                     ref={htsCodeInputRef}
-                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    style={styles.input}
                     placeholder="Code (Enter 3-8 digits to search)"
                     placeholderTextColor={BRAND_COLORS.darkGray}
                     value={htsCode}
@@ -1762,7 +1762,7 @@ export default function LookupScreen() {
                 <View style={styles.inputWrapper}>
                   <TextInput
                     ref={declaredValueInputRef}
-                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    style={styles.input}
                     value={formattedDeclaredValue}
                     onChangeText={(value) => {
                       handleDeclaredValueChange(value);
@@ -1777,28 +1777,28 @@ export default function LookupScreen() {
                 <View style={styles.inputWrapper}>
                   <TextInput
                     ref={freightCostInputRef}
-                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    style={styles.input}
                     value={formattedFreightCost}
                     onChangeText={(value) => {
                       handleFreightCostChange(value);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    placeholder="Freight Cost (USD) - Optional"
+                    placeholder="Freight Cost in USD (Optional)"
                     placeholderTextColor={BRAND_COLORS.darkGray}
                     keyboardType="decimal-pad"
                   />
                 </View>
                 <View style={styles.inputWrapper}>
                   <TextInput
-                    style={[styles.input, { fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5) }]}
+                    style={styles.input}
                     value={formattedUnitCount}
                     onChangeText={(value) => {
                       handleUnitCountChange(value);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    placeholder="Unit Count (Optional - for per unit calculations)"
+                    placeholder="Unit Count (Optional)"
                     placeholderTextColor={BRAND_COLORS.darkGray}
                     keyboardType="number-pad"
                   />
@@ -2223,7 +2223,7 @@ const styles = StyleSheet.create({
     borderRadius: getBorderRadius('md'),
     paddingHorizontal: getSpacing('md'),
     paddingVertical: getSpacing('sm'),
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.5), // 50% larger on iPad
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
     color: BRAND_COLORS.darkNavy,
     marginBottom: getSpacing('md'),
     borderWidth: 1,
@@ -2308,7 +2308,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   toggleLabel: {
-    fontSize: getTypographySize('md'), // Reverted to original size
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
     color: BRAND_COLORS.darkNavy,
     fontWeight: BRAND_TYPOGRAPHY.weights.medium,
     flex: 1,
