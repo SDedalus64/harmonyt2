@@ -190,7 +190,6 @@ export default function LookupScreen() {
   const freightCostInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
   const resultScrollViewRef = useRef<ScrollView>(null);
-  const [isReciprocalAdditive, setIsReciprocalAdditive] = useState(true);
   const unitEntryRef = useRef<View>(null);
   const [htsSuggestions, setHtsSuggestions] = useState<Array<{code: string; description: string}>>([]);
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
@@ -276,12 +275,7 @@ export default function LookupScreen() {
     }
   }, [showLoadingModal]);
 
-  // Check if selected country has reciprocal tariffs
-  const hasReciprocalTariff = (countryCode: string): boolean => {
-    // Countries with reciprocal tariffs
-    const rtCountries = ['CN', 'CA', 'MX', 'HK', 'MO'];
-    return rtCountries.includes(countryCode);
-  };
+
 
   // Update the search function to use async search
   useEffect(() => {
@@ -776,7 +770,7 @@ export default function LookupScreen() {
         htsCode,
         totalValue,
         selectedCountry.code,
-        isReciprocalAdditive
+        true // Always treat reciprocal tariffs as additive
       );
 
       if (!dutyCalculation) {
@@ -1354,17 +1348,28 @@ export default function LookupScreen() {
             <View style={styles.compactSection}>
               <Text style={styles.compactSectionTitle}>Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)</Text>
               <View style={styles.compactRow}>
-                <Text style={styles.compactLabel}>Cost per unit (with duties)</Text>
+                <Text style={styles.compactLabel}>Duty Cost</Text>
                 <Text style={styles.compactAmount}>
-                  {formatCurrency((parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0) + result.totalAmount) / parseFloat(unitCount))}
-                </Text>
-              </View>
-              <View style={styles.compactRow}>
-                <Text style={styles.compactLabel}>Additional RT duty per unit</Text>
-                <Text style={styles.compactHighlight}>
                   {formatCurrency(result.totalAmount / parseFloat(unitCount))}
                 </Text>
               </View>
+              {(() => {
+                // Show RT cost separately if applicable
+                if (result.components) {
+                  const rtComponent = result.components.find(c => c.type === RECIPROCAL_TARIFF_TYPE);
+                  if (rtComponent && rtComponent.amount > 0) {
+                    return (
+              <View style={styles.compactRow}>
+                        <Text style={styles.compactLabel}>Addl RT cost</Text>
+                <Text style={styles.compactHighlight}>
+                          {formatCurrency(rtComponent.amount / parseFloat(unitCount))}
+                </Text>
+              </View>
+                    );
+                  }
+                }
+                return null;
+              })()}
             </View>
           ) : (
             <View style={styles.compactMessageSection}>
@@ -1697,7 +1702,7 @@ export default function LookupScreen() {
                     ref={htsCodeInputRef}
                     style={styles.input}
                     placeholder="Code (Enter 3-8 digits to search)"
-                    placeholderTextColor={BRAND_COLORS.darkGray}
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
                     value={htsCode}
                     onChangeText={(text) => {
                       const cleanedText = text.replace(/\D/g, '').slice(0, 8);
@@ -1770,7 +1775,7 @@ export default function LookupScreen() {
                       closeAllNavigationDrawers();
                     }}
                     placeholder="Declared Value (USD)"
-                    placeholderTextColor={BRAND_COLORS.darkGray}
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
                     keyboardType="decimal-pad"
                   />
                 </View>
@@ -1785,7 +1790,7 @@ export default function LookupScreen() {
                       closeAllNavigationDrawers();
                     }}
                     placeholder="Freight Cost in USD (Optional)"
-                    placeholderTextColor={BRAND_COLORS.darkGray}
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
                     keyboardType="decimal-pad"
                   />
                 </View>
@@ -1799,29 +1804,13 @@ export default function LookupScreen() {
                       closeAllNavigationDrawers();
                     }}
                     placeholder="Unit Count (Optional)"
-                    placeholderTextColor={BRAND_COLORS.darkGray}
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
                     keyboardType="number-pad"
                   />
                 </View>
                 </View>
 
-                {selectedCountry && hasReciprocalTariff(selectedCountry.code) && (
-                <View style={styles.inputWrapper}>
-                <View style={styles.toggleContainer}>
-                  <Text style={styles.toggleLabel}>Make Reciprocal Tariffs Additive</Text>
-                  <Switch
-                    value={isReciprocalAdditive}
-                    onValueChange={(value) => {
-                      setIsReciprocalAdditive(value);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                      trackColor={{ false: BRAND_COLORS.mediumGray, true: BRAND_COLORS.electricBlue }}
-                      thumbColor={BRAND_COLORS.white}
-                  />
-                  </View>
-                </View>
-                )}
+
 
                 <TouchableOpacity
                 style={[styles.searchButton, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
@@ -2537,7 +2526,7 @@ const styles = StyleSheet.create({
   },
   resultsDrawerSubtitle: {
     fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
-    color: BRAND_COLORS.mediumGray,
+    color: BRAND_COLORS.electricBlue,
     marginTop: 2,
   },
   resultsDrawerTimestamp: {
@@ -2610,13 +2599,13 @@ const styles = StyleSheet.create({
   },
   compactLabel: {
     fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md') * 1.35), // 35% larger on iPad (reduced from 50%)
-    color: BRAND_COLORS.darkGray,
+    color: BRAND_COLORS.darkNavy,
     marginBottom: 1, // Reduced margin to save space
     lineHeight: getResponsiveValue(18, 22 * 1.2), // Tighter line height on iPad to save space
   },
   compactRate: {
     fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
-    color: '#000000',
+    color: BRAND_COLORS.darkNavy,
   },
   compactAmount: {
     fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)

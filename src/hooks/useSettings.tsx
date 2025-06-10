@@ -1,5 +1,5 @@
+import React, { useState, useCallback, useEffect, useContext, createContext, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useCallback, useEffect } from 'react';
 
 export interface AppSettings {
   autoSaveToHistory: boolean;
@@ -23,7 +23,16 @@ const DEFAULT_SETTINGS: AppSettings = {
   defaultCountry: 'CN', // China as default
 };
 
-export function useSettings() {
+interface SettingsContextValue {
+  settings: AppSettings;
+  isLoading: boolean;
+  updateSetting: <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => Promise<void>;
+  saveSettings: (newSettings: Partial<AppSettings>) => Promise<void>;
+}
+
+const SettingsContext = createContext<SettingsContextValue | undefined>(undefined);
+
+export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -66,10 +75,17 @@ export function useSettings() {
     loadSettings();
   }, [loadSettings]);
 
-  return {
-    settings,
-    isLoading,
-    updateSetting,
-    saveSettings,
-  };
+  return (
+    <SettingsContext.Provider value={{ settings, isLoading, updateSetting, saveSettings }}>
+      {children}
+    </SettingsContext.Provider>
+  );
+};
+
+export function useSettings() {
+  const context = useContext(SettingsContext);
+  if (!context) {
+    throw new Error('useSettings must be used within a SettingsProvider');
+  }
+  return context;
 }

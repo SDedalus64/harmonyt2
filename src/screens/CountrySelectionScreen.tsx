@@ -36,7 +36,13 @@ export default function CountrySelectionScreen() {
   const { settings, updateSetting } = useSettings();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredCountries = COUNTRIES.filter(country =>
+  // Add "None" option to the beginning of the countries list
+  const countriesWithNone = [
+    { code: '', name: 'None' },
+    ...COUNTRIES
+  ];
+
+  const filteredCountries = countriesWithNone.filter(country =>
     country.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     country.code.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -46,15 +52,17 @@ export default function CountrySelectionScreen() {
     navigation.goBack();
   };
 
-  const renderCountryItem = ({ item }: { item: typeof COUNTRIES[0] }) => {
-    const isSelected = settings.defaultCountry === item.code;
+  const renderCountryItem = ({ item }: { item: Country }) => {
+    const isSelected = item.code === ''
+      ? !settings.defaultCountry || settings.defaultCountry === ''
+      : settings.defaultCountry === item.code;
 
     return (
       <TouchableOpacity
         style={[styles.countryItem, isSelected && styles.selectedCountryItem]}
         onPress={() => handleCountrySelect(item.code)}
       >
-        <Text style={[styles.countryName, isSelected && styles.selectedText]}>
+        <Text style={[styles.countryName, isSelected && styles.selectedText, item.code === '' && styles.noneOption]}>
           {item.name}
         </Text>
         {isSelected && (
@@ -160,5 +168,9 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: COLORS.mediumGray,
     marginHorizontal: 16,
+  },
+  noneOption: {
+    fontStyle: 'italic',
+    color: COLORS.darkGray,
   },
 });

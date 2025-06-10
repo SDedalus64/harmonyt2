@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from './src/navigation/contexts/AuthContext';
 import { View, ActivityIndicator, AppState } from 'react-native';
 import { TariffService } from './src/services/tariffService';
 import { tariffSearchService } from './src/services/tariffSearchService';
+import { SettingsProvider } from './src/hooks/useSettings';
 
 // First launch key for AsyncStorage
 const FIRST_LAUNCH_KEY = '@HarmonyTi:firstLaunch';
@@ -101,7 +102,9 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaProvider>
       <AuthProvider>
-        <AppContent />
+        <SettingsProvider>
+          <AppContent />
+        </SettingsProvider>
       </AuthProvider>
     </SafeAreaProvider>
     </GestureHandlerRootView>

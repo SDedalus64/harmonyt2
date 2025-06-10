@@ -171,7 +171,7 @@ const CountryLookup = forwardRef<CountryLookupRef, CountryLookupProps>(
             style={styles.searchButton}
             onPress={() => setIsExpanded(true)}
           >
-            <Ionicons name="globe-outline" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.darkGray} />
+            <Ionicons name="globe-outline" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.electricBlue} />
             <Text style={styles.searchButtonText}>Select Country of Origin</Text>
           </TouchableOpacity>
         )}
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   searchButtonText: {
     marginLeft: getSpacing('sm'),
     fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
-    color: BRAND_COLORS.darkGray,
+    color: BRAND_COLORS.electricBlue,
     flex: 1,
   },
   modalOverlay: {

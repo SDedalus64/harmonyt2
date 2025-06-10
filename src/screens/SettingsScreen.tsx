@@ -133,7 +133,7 @@ export default function SettingsScreen() {
               await updateSetting('darkMode', false);
               await updateSetting('cellularData', true);
               await updateSetting('showUnitCalculations', false);
-              await updateSetting('defaultCountry', 'CN');
+              await updateSetting('defaultCountry', '');
               await updateSetting('hapticFeedback', true);
             } catch (error) {
               console.error('Clear all data error:', error);
@@ -275,8 +275,8 @@ export default function SettingsScreen() {
               <Text style={styles.settingItemText}>Default Country</Text>
             </View>
             <View style={styles.settingValue}>
-              <Text style={styles.settingValueText}>
-                {getCountryName(settings.defaultCountry || 'CN')}
+              <Text style={[styles.settingValueText, (!settings.defaultCountry || settings.defaultCountry === '') && styles.noneText]}>
+                {settings.defaultCountry && settings.defaultCountry !== '' ? getCountryName(settings.defaultCountry) : 'None'}
               </Text>
               <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
             </View>
@@ -471,6 +471,10 @@ const styles = StyleSheet.create({
   },
   copyrightText: {
     fontSize: 12,
+    color: COLORS.darkGray,
+  },
+  noneText: {
+    fontStyle: 'italic',
     color: COLORS.darkGray,
   },
 });

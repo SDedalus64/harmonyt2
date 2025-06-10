@@ -130,7 +130,7 @@ export function useTariff() {
     htsCode: string,
     declaredValue: number,
     countryCode: string,
-    isReciprocalAdditive: boolean = false
+    isReciprocalAdditive: boolean = true  // Always treat reciprocal tariffs as additive
   ): DutyCalculation => {
     if (!service) {
       throw new Error('Tariff service not initialized');

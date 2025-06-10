@@ -418,7 +418,7 @@ export class TariffService {
     htsCode: string,
     declaredValue: number,
     countryCode: string,
-    isReciprocalAdditive: boolean = false,
+    isReciprocalAdditive: boolean = true,  // Always treat reciprocal tariffs as additive
     excludeReciprocalTariff: boolean = false  // New parameter to control RT inclusion
   ): {
     amount: number;
@@ -701,29 +701,17 @@ export class TariffService {
         if (duty.countries === 'all' || (Array.isArray(duty.countries) && duty.countries.includes(countryCodeForTariffs))) {
           console.log('Duty applies to country:', duty);
 
-          // For Section 301, handle based on toggle and reciprocal tariff settings
+          // Always add all additive duties (Section 301, Section 232, etc.)
           if (duty.type === 'section_301') {
-            const hasReciprocalTariff = entry.reciprocal_tariffs?.some(rt => rt.country === countryCodeForTariffs);
-            console.log('Section 301 decision:', {
-              duty,
-              isReciprocalAdditive,
-              hasReciprocalTariff,
-              shouldAdd: isReciprocalAdditive || !hasReciprocalTariff
+            console.log('Adding Section 301:', duty);
+            components.push({
+              type: duty.type,
+              rate: duty.rate,
+              amount: declaredValue * duty.rate / 100,
+              label: duty.label
             });
-
-            // Add Section 301 if:
-            // 1. Toggle is ON (isReciprocalAdditive is true), OR
-            // 2. Toggle is OFF and there is no reciprocal tariff (RT takes precedence)
-            if (isReciprocalAdditive || !hasReciprocalTariff) {
-              components.push({
-                type: duty.type,
-                rate: duty.rate,
-                amount: declaredValue * duty.rate / 100,
-                label: duty.label
-              });
-              totalRate += duty.rate;
-              breakdown.push(`${duty.label}: +${duty.rate}%`);
-            }
+            totalRate += duty.rate;
+            breakdown.push(`${duty.label}: +${duty.rate}%`);
           } else {
             // For all other duties (like Section 232), always add them
             components.push({
@@ -752,26 +740,21 @@ export class TariffService {
         if (countryCodeForTariffs === 'CN' && entry.additional_duty.toLowerCase().includes('301')) {
           console.log('Found Section 301 in legacy field:', {
             additionalRate,
-            countryCode,
-            hasReciprocalTariff: entry.reciprocal_tariffs?.some(rt => rt.country === countryCodeForTariffs),
-            isReciprocalAdditive
+            countryCode
           });
 
-          // Use the same logic as above for legacy Section 301
-          const hasReciprocalTariff = entry.reciprocal_tariffs?.some(rt => rt.country === countryCodeForTariffs);
-          if (isReciprocalAdditive || !hasReciprocalTariff) {
-            dutyLabel = "Section 301";
-            dutyType = "Section 301";
+          // Always add Section 301
+          dutyLabel = "Section 301";
+          dutyType = "Section 301";
 
-            components.push({
-              type: dutyType,
-              rate: additionalRate,
-              amount: declaredValue * additionalRate / 100,
-              label: dutyLabel
-            });
-            totalRate += additionalRate;
-            breakdown.push(`${dutyLabel}: +${additionalRate}%`);
-          }
+          components.push({
+            type: dutyType,
+            rate: additionalRate,
+            amount: declaredValue * additionalRate / 100,
+            label: dutyLabel
+          });
+          totalRate += additionalRate;
+          breakdown.push(`${dutyLabel}: +${additionalRate}%`);
         } else if (countryCode === 'CA') {
           dutyLabel = "Canadian Lumber Tariff";
           dutyType = "Additional Duty";
@@ -802,34 +785,28 @@ export class TariffService {
             }
           }
 
-          // For reciprocal tariffs, add them if:
-          // 1. Toggle is ON (isReciprocalAdditive is true), OR
-          // 2. Toggle is OFF (RT takes precedence over Section 301)
-          if (isReciprocalAdditive || true) {  // Always add RT when toggle is OFF
-            console.log('Applying reciprocal tariff:', {
-              tariff: reciprocalTariff,
-              isReciprocalAdditive,
-              hasSection301: components.some(c => c.type === 'section_301')
-            });
+          // Always add reciprocal tariffs
+          console.log('Applying reciprocal tariff:', {
+            tariff: reciprocalTariff
+          });
 
-            // Check for USMCA exemption for Canada/Mexico
-            if ((countryCode === 'CA' || countryCode === 'MX') &&
-                reciprocalTariff.note?.includes('USMCA-origin goods exempt')) {
-              breakdown.push(`Note: ${reciprocalTariff.note}`);
-            }
+          // Check for USMCA exemption for Canada/Mexico
+          if ((countryCode === 'CA' || countryCode === 'MX') &&
+              reciprocalTariff.note?.includes('USMCA-origin goods exempt')) {
+            breakdown.push(`Note: ${reciprocalTariff.note}`);
+          }
 
-            components.push({
-              type: "Reciprocal Tariff",
-              rate: reciprocalTariff.rate,
-              amount: declaredValue * reciprocalTariff.rate / 100,
-              label: reciprocalTariff.label
-            });
-            totalRate += reciprocalTariff.rate;
-            breakdown.push(`${reciprocalTariff.label}: +${reciprocalTariff.rate}%`);
+          components.push({
+            type: "Reciprocal Tariff",
+            rate: reciprocalTariff.rate,
+            amount: declaredValue * reciprocalTariff.rate / 100,
+            label: reciprocalTariff.label
+          });
+          totalRate += reciprocalTariff.rate;
+          breakdown.push(`${reciprocalTariff.label}: +${reciprocalTariff.rate}%`);
 
-            if (reciprocalTariff.note) {
-              breakdown.push(`  (${reciprocalTariff.note})`);
-            }
+          if (reciprocalTariff.note) {
+            breakdown.push(`  (${reciprocalTariff.note})`);
           }
         }
       }
