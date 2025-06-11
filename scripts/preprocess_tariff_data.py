@@ -322,7 +322,7 @@ def determine_additive_duties(hts_code: str, entry: Dict[str, Any]) -> Dict[str,
                 'name': 'Section 301 - China Trade',
                 'rate': rate,
                 'countries': ['CN'],
-                'label': f'Section 301 ({rate}%)'
+                'label': 'Section 301'
             })
 
     return additive_duties
@@ -547,7 +547,7 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
                 entry['reciprocal_tariffs'].append({
                     'country': 'CN',
                     'rate': 10.0,  # 10% reciprocal tariff
-                    'label': 'Reciprocal Tariff - China (10%)',
+                    'label': 'Reciprocal Tariff - China',
                     'note': 'Temporary 90-day agreement',
                     'effective': '2025-05-14',
                     'expires': '2025-08-12'
@@ -558,7 +558,7 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
                 entry['reciprocal_tariffs'].append({
                     'country': 'CN',
                     'rate': 20.0,  # 20% fentanyl anti-trafficking tariff
-                    'label': 'Fentanyl Anti-Trafficking Tariff - China (20%)',
+                    'label': 'Fentanyl Anti-Trafficking Tariff - China',
                     'note': 'Anti-trafficking measure',
                     'effective': '2025-03-04',  # Same as IEEPA effective date
                     'expires': None  # No expiration

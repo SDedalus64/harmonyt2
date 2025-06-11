@@ -2356,16 +2356,16 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   suggestionCode: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.75), // 75% larger on iPad
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md') * 1.2), // Match input field size on iPad
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.electricBlue,
     marginBottom: 1,
     flexShrink: 1,
   },
   suggestionDescription: {
-    fontSize: getResponsiveValue(10, 11 * 1.75), // 75% larger on iPad
+    fontSize: getResponsiveValue(10, getTypographySize('sm') * 1.1), // Slightly smaller on iPad
     color: BRAND_COLORS.darkGray,
-    lineHeight: getResponsiveValue(12, 13 * 1.75), // Proportional line height increase
+    lineHeight: getResponsiveValue(12, getTypographySize('sm') * 1.3), // Proportional line height
     marginTop: 0,
     flexShrink: 1,
     flexWrap: 'wrap',
