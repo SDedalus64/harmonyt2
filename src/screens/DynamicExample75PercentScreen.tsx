@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, ScaledSize } from 'react-native';
+import { BRAND_COLORS as COLORS } from '../config/brandColors';
 
 const DynamicExample75PercentScreen = () => {
   const [dimensions, setDimensions] = useState(() => {
@@ -58,10 +59,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: COLORS.lightGray,
   },
   container75: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   },
   subText: {
     fontSize: 14,
-    color: '#666',
+    color: COLORS.darkGray,
     marginVertical: 5,
     textAlign: 'center',
   },

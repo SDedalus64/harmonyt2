@@ -15,20 +15,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { MainTabParamList } from '../navigation/types';
 import { useHistory, HistoryItem } from '../hooks/useHistory';
 import { isTablet } from '../platform/deviceUtils';
-
-// Brand colors
-const COLORS = {
-  darkBlue: '#0B2953',
-  lightBlue: '#4397EC',
-  orange: '#E67E23',
-  yellow: '#FFD800',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
-  black: '#333333',
-  error: '#FF3B30',
-};
+import { BRAND_COLORS as COLORS } from '../config/brandColors';
 
 type HistoryScreenNavigationProp = BottomTabNavigationProp<MainTabParamList, 'History'>;
 

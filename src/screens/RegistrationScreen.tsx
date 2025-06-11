@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
+import { BRAND_COLORS as COLORS } from '../config/brandColors';
 
 // Storage key to track if user has previously signed in
 const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';
@@ -158,7 +159,7 @@ export default function RegistrationScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email</Text>
               <View style={[styles.inputWrapper, errors.email ? styles.inputError : null]}>
-                <Ionicons name="mail-outline" size={20} color="#666" style={styles.inputIcon} />
+                <Ionicons name="mail-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={email}
@@ -176,7 +177,7 @@ export default function RegistrationScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Password</Text>
               <View style={[styles.inputWrapper, errors.password ? styles.inputError : null]}>
-                <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
+                <Ionicons name="lock-closed-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={password}
@@ -190,7 +191,7 @@ export default function RegistrationScreen() {
                   <Ionicons
                     name={showPassword ? "eye-off-outline" : "eye-outline"}
                     size={20}
-                    color="#666"
+                    color={COLORS.darkGray}
                   />
                 </TouchableOpacity>
               </View>
@@ -201,7 +202,7 @@ export default function RegistrationScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Confirm Password</Text>
               <View style={[styles.inputWrapper, errors.confirmPassword ? styles.inputError : null]}>
-                <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
+                <Ionicons name="lock-closed-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={confirmPassword}
@@ -219,7 +220,7 @@ export default function RegistrationScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Full Name</Text>
               <View style={[styles.inputWrapper, errors.name ? styles.inputError : null]}>
-                <Ionicons name="person-outline" size={20} color="#666" style={styles.inputIcon} />
+                <Ionicons name="person-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={name}
@@ -235,7 +236,7 @@ export default function RegistrationScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Company Name</Text>
               <View style={[styles.inputWrapper, errors.companyName ? styles.inputError : null]}>
-                <Ionicons name="business-outline" size={20} color="#666" style={styles.inputIcon} />
+                <Ionicons name="business-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={companyName}
@@ -252,8 +253,8 @@ export default function RegistrationScreen() {
               <Switch
                 value={receiveUpdates}
                 onValueChange={setReceiveUpdates}
-                trackColor={{ false: '#E1E1E1', true: '#2EAAF2' }}
-                thumbColor={receiveUpdates ? '#fff' : '#fff'}
+                trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
+                thumbColor={receiveUpdates ? COLORS.white : COLORS.white}
               />
               <Text style={styles.switchLabel}>
                 Yes, I'd like to receive updates and offers from Dedola Global Logistics.
@@ -267,7 +268,7 @@ export default function RegistrationScreen() {
               disabled={isLoading}
             >
               {isLoading ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color={COLORS.white} />
               ) : (
                 <Text style={styles.registerButtonText}>Create Account</Text>
               )}
@@ -290,7 +291,7 @@ export default function RegistrationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -306,12 +307,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#217DB2',
+    color: COLORS.darkBlue,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: COLORS.darkGray,
   },
   form: {
     gap: 20,
@@ -322,21 +323,21 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: COLORS.black,
     marginBottom: 8,
   },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E1E1E1',
+    borderColor: COLORS.mediumGray,
     borderRadius: 12,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: COLORS.lightGray,
     paddingHorizontal: 16,
     height: 56,
   },
   inputError: {
-    borderColor: '#FF3B30',
+    borderColor: COLORS.error,
   },
   inputIcon: {
     marginRight: 12,
@@ -344,10 +345,10 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: '#333',
+    color: COLORS.black,
   },
   errorText: {
-    color: '#FF3B30',
+    color: COLORS.error,
     fontSize: 14,
     marginTop: 4,
   },
@@ -360,15 +361,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 12,
     fontSize: 14,
-    color: '#666',
+    color: COLORS.darkGray,
   },
   registerButton: {
-    backgroundColor: '#2EAAF2',
+    backgroundColor: COLORS.lightBlue,
     height: 56,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#2EAAF2',
+    shadowColor: COLORS.lightBlue,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   registerButtonText: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: 18,
     fontWeight: '600',
   },
@@ -394,12 +395,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: 16,
-    color: '#666',
+    color: COLORS.darkGray,
   },
   loginLink: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#2EAAF2',
+    color: COLORS.lightBlue,
     marginLeft: 4,
   },
 });

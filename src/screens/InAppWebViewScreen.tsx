@@ -4,17 +4,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, TouchableOpacity, Text }
 import { WebView } from 'react-native-webview';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
-
-// Brand colors
-const COLORS = {
-  darkBlue: '#0B2953',
-  lightBlue: '#4397EC',
-  orange: '#E67E23',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
-};
+import { BRAND_COLORS as COLORS } from '../config/brandColors';
 
 type InAppWebViewScreenRouteProp = RouteProp<RootStackParamList, 'InAppWebView'>;
 

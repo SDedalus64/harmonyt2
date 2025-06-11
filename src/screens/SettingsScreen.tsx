@@ -21,21 +21,7 @@ import { useSettings } from '../hooks/useSettings';
 import { useHistory } from '../hooks/useHistory';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getCountryName } from '../utils/countries';
-
-// Brand colors
-const COLORS = {
-  darkBlue: '#0B2953',
-  lightBlue: '#4397EC',
-  orange: '#E67E23',
-  yellow: '#FFD800',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
-  black: '#333333',
-  error: '#FF3B30',
-  success: '#34C759',
-};
+import { BRAND_COLORS as COLORS } from '../config/brandColors';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
