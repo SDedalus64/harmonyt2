@@ -39,3 +39,19 @@ For new developers, start with:
 
 Always refer to documentation in `/build-guides` and `/development` for current information.
 Files in `/archive` are kept for historical reference only.
+
+## TODO
+Ensure expo is in dependencies
+Add App Store URLs to SettingsScreen
+Review previous tasks for dependencies
+Clarify setup for dedola.com sub pages
+Add Jest test for tariff data integrity
+Delete and commit eas.json file removal
+Add jest and update package manifests
+Update README with dev dependencies and test steps
+Update searchByPrefix behavior based on segment loading
+Add Jest dependencies and verify tests
+Create tests for lookup errors
+Update tariffs lookup for Hong Kong and Macau
+…ex/update-tariffs-lookup-for-hong-kong-and-macau
+Review project for inconsistencies and improvements
