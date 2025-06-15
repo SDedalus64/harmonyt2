@@ -51,7 +51,7 @@ Files in `/archive` are kept for historical reference only.
 5. Update README with dev dependencies and test steps
 4. Update searchByPrefix behavior based on segment loading
 3. Add Jest dependencies and verify tests
-Create tests for lookup errors
+3a. Create tests for lookup errors
 2. Update tariffs lookup for Hong Kong and Macau
-…ex/update-tariffs-lookup-for-hong-kong-and-macau
+2a. …ex/update-tariffs-lookup-for-hong-kong-and-macau
 1. Review project for inconsistencies and improvements
