@@ -1,3 +1,12 @@
+# Workaround for missing get_folly_config method in Expo SDK 53
+module Pod
+  def self.get_folly_config
+    return {
+      :compiler_flags => '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1'
+    }
+  end
+end
+
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 
