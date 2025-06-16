@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -38,6 +38,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   enableSwipeToClose = true,
   borderRadius = 20,
 }) => {
+  const [visible, setVisible] = useState(isOpen);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
 
@@ -111,6 +112,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
 
   useEffect(() => {
     if (isOpen) {
+      setVisible(true);
       Animated.parallel([
         Animated.spring(animatedValue, {
           toValue: 1,
@@ -136,7 +138,9 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           duration: animationDuration,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start(() => {
+        setVisible(false);
+      });
     }
   }, [isOpen]);
 
@@ -219,7 +223,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     return baseStyles;
   };
 
-  if (!isOpen) {
+  if (!visible) {
     return null;
   }
 
@@ -234,7 +238,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
             backgroundColor: overlayColor,
           },
         ]}
-        pointerEvents={isOpen ? 'auto' : 'none'}
+        pointerEvents={visible ? 'auto' : 'none'}
       >
         <TouchableWithoutFeedback onPress={onClose}>
           <View style={StyleSheet.absoluteFillObject} />

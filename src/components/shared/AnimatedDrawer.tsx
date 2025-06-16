@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -27,6 +27,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   position,
   title,
 }) => {
+  const [visible, setVisible] = useState(isVisible);
   const translateX = useRef(new Animated.Value(getInitialTranslateValue())).current;
   const translateY = useRef(new Animated.Value(getInitialTranslateValue())).current;
   const opacity = useRef(new Animated.Value(0)).current;
@@ -46,6 +47,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
 
   useEffect(() => {
     if (isVisible) {
+      setVisible(true);
       Animated.parallel([
         Animated.spring(position === 'bottom' ? translateY : translateX, {
           toValue: 0,
@@ -70,7 +72,9 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           duration: BRAND_ANIMATIONS.timing.duration,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start(() => {
+        setVisible(false);
+      });
     }
   }, [isVisible]);
 
@@ -127,7 +131,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     }
   };
 
-  if (!isVisible) return null;
+  if (!visible) return null;
 
   return (
     <>
