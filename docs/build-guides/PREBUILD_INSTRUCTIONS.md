@@ -33,8 +33,14 @@ rm -rf $TMPDIR/react-*
 ### 3. Run Prebuild
 ```bash
 # Generate fresh native projects
+/Harmony
 npx expo prebuild
 
+/Harmony
+git checkout ios/Podfile
+
+cd ios
+pod install
 # If you see "directory not empty" errors, use:
 rm -rf ios android && npx expo prebuild
 ```
@@ -43,6 +49,7 @@ rm -rf ios android && npx expo prebuild
 **This is the most important step that fixes all Xcode warnings and permissions**
 ```bash
 # Make the script executable (only needed once)
+cd ..
 chmod +x fix-xcode-warnings.sh
 
 # Run the fix script
