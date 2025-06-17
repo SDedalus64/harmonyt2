@@ -106,6 +106,13 @@ watchman watch-del-all
 npx expo start --clear
 ```
 
+### Quick Commands: Port 8081 In Use
+```bash
+lsof -i :8081
+kill -9 $(lsof -t -i :8081)
+npm start
+```
+
 ### Issue: Pod installation fails
 **Solution**:
 ```bash
