@@ -62,7 +62,7 @@ Wait for the script to complete. You should see:
 ### 5. Fix Sandbox Permissions
 ```bash
 # Ensure expo configure script is executable
-chmod +x "ios/Pods/Target Support Files/Pods-HarmonyTi/expo-configure-project.sh"
+open
 ```
 
 ### 6. Open in Xcode
