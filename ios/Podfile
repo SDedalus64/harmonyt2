@@ -27,6 +27,13 @@ target 'HarmonyTi' do
     :hermes_enabled => true
   )
 
+  # Ensure React-jsinspector exposes a module map when building as a static
+  # library. Without modular headers enabled CocoaPods refuses to integrate the
+  # Swift pod ExpoModulesCore which depends on React-jsinspector.
+  pod 'React-jsinspector',
+      :path => '../node_modules/react-native/ReactCommon/jsinspector-modern',
+      :modular_headers => true
+
   post_install do |installer|
     react_native_post_install(installer)
 
