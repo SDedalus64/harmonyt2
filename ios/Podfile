@@ -60,5 +60,20 @@ target 'HarmonyTi' do
         end
       end
     end
+
+    # Patch ExpoModulesCore header to import missing React types
+    header = File.join(installer.sandbox.pod_dir('ExpoModulesCore'),
+                      'ExpoModulesCore',
+                      'ReactDelegates',
+                      'EXReactRootViewFactory.h')
+    if File.exist?(header) &&
+       !File.readlines(header).grep(/RCTRootViewFactory.h/).any?
+      text = File.read(header)
+      updated = text.sub(
+        '#import <ExpoModulesCore/RCTAppDelegateUmbrella.h>',
+        "#import <ExpoModulesCore/RCTAppDelegateUmbrella.h>\n#import <React/RCTRootViewFactory.h>"
+      )
+      File.write(header, updated)
+    end
   end
 end
