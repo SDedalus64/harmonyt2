@@ -1,0 +1,17 @@
+diff --git a/ExpoModulesCore.podspec b/ExpoModulesCore.podspec
+index 8c8a2c8ff5a1909b90f382ea30b6fe60395f77ef..33b85cc3f5b85fa4cd83a4d0e7e50896729b1ed6 100644
+--- a/ExpoModulesCore.podspec
++++ b/ExpoModulesCore.podspec
+@@ -20,7 +20,11 @@ reactNativeTargetVersion = reactNativeVersion.split('.')[1].to_i
+ use_hermes = ENV['USE_HERMES'] == nil || ENV['USE_HERMES'] == '1'
+ new_arch_enabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+ new_arch_compiler_flags = '-DRCT_NEW_ARCH_ENABLED'
+-compiler_flags = get_folly_config()[:compiler_flags] + ' ' + "-DREACT_NATIVE_TARGET_VERSION=#{reactNativeTargetVersion}"
++compiler_flags = (
++  defined?(get_folly_config) ?
++    get_folly_config()[:compiler_flags] :
++    '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1'
++) + ' ' + "-DREACT_NATIVE_TARGET_VERSION=#{reactNativeTargetVersion}"
+ 
+ if use_hermes
+   compiler_flags << ' -DUSE_HERMES'
