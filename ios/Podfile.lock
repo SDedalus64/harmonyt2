@@ -13,12 +13,15 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (14.0.3):
     - ExpoModulesCore
-  - ExpoModulesCore (1.11.10):
+  - ExpoModulesCore (2.0.2):
     - glog
+    - hermes-engine
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
+    - React-jsinspector
     - React-NativeModulesApple
     - React-RCTAppDelegate
+    - React-RCTFabric
     - ReactCommon/turbomodule/core
   - FBLazyVector (0.73.6)
   - FBReactNativeSpec (0.73.6):
@@ -1263,7 +1266,7 @@ SPEC CHECKSUMS:
   ExpoFileSystem: 42d363d3b96f9afab980dcef60d5657a4443c655
   ExpoFont: f354e926f8feae5e831ec8087f36652b44a0b188
   ExpoKeepAwake: b0171a73665bfcefcfcc311742a72a956e6aa680
-  ExpoModulesCore: b9a252265020f73792703087ed74d4029702d3d8
+  ExpoModulesCore: 83a6c07fd4d307675b9c4615df10cce07da42c66
   FBLazyVector: f64d1e2ea739b4d8f7e4740cde18089cd97fe864
   FBReactNativeSpec: 9f2b8b243131565335437dba74923a8d3015e780
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
@@ -1314,6 +1317,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 805bf71192903b20fc14babe48080582fee65a80
 
-PODFILE CHECKSUM: bac75d646e6fcf0f18c745697d4eef2c807bc0ce
+PODFILE CHECKSUM: 1701085109d143c0dfa0f3fa9a3edae0c77fb9ea
 
 COCOAPODS: 1.16.2
