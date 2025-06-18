@@ -34,6 +34,7 @@ For new developers, start with:
 1. `/build-guides/PREBUILD_INSTRUCTIONS.md` - How to build the project
 2. `/development/BACKEND_REQUIREMENTS.md` - Understanding the API needs
 3. `/cheatsheets/` - Quick command references
+4. Run `npm install` to install dependencies
 
 ## 📝 Note
 
