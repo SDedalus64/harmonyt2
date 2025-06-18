@@ -39,3 +39,13 @@ For new developers, start with:
 
 Always refer to documentation in `/build-guides` and `/development` for current information.
 Files in `/archive` are kept for historical reference only.
+
+## ✅ Commit Messages
+
+Keep commit messages short and descriptive. The first line should summarize what changed using an imperative tone.
+
+Good:
+- "Remove unused TypeScript preset"
+- "Update README introduction"
+
+Avoid vague messages like "Applying previous commit". See `COMMIT_MESSAGES.md` for details.
