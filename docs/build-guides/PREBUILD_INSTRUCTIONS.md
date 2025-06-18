@@ -68,6 +68,7 @@ open
 ### 6. Open in Xcode
 ```bash
 # Open the workspace (NOT the .xcodeproj)
+cd ios
 open ios/HarmonyTi.xcworkspace
 ```
 
