@@ -4594,6 +4594,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-file-system@npm:^15.0.0":
+  version: 15.9.0
+  resolution: "expo-file-system@npm:15.9.0"
+  dependencies:
+    uuid: "npm:^3.4.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/f154189558da71ae0569af131efb9433eea8cc97670bf8bfe303bb8c08507b98a7db0c00bf0b598b29deb81e9487eddbb74096d5e9d86fee8228c76715584e4c
+  languageName: node
+  linkType: hard
+
 "expo-file-system@npm:~18.0.3":
   version: 18.0.12
   resolution: "expo-file-system@npm:18.0.12"
@@ -4652,6 +4663,15 @@ __metadata:
   dependencies:
     invariant: "npm:^2.2.4"
   checksum: 10c0/d5b8116147b93f7ad4163934c4fd414a42f5ad24daef5dfbdb49243db66c586cd5049bf46333aa81e52e24ff539148e916822b8700dd7de41c1328ec02b2132f
+  languageName: node
+  linkType: hard
+
+"expo-modules-core@patch:expo-modules-core@npm%3A2.0.2#~/.yarn/patches/expo-modules-core-npm-2.0.2-4519b568fe.patch":
+  version: 2.0.2
+  resolution: "expo-modules-core@patch:expo-modules-core@npm%3A2.0.2#~/.yarn/patches/expo-modules-core-npm-2.0.2-4519b568fe.patch::version=2.0.2&hash=ca9056"
+  dependencies:
+    invariant: "npm:^2.2.4"
+  checksum: 10c0/5b0b6597b78f118298f52578455276bda5e2eb7197d3e856dcb8fd51d9b5b28dcd6eb250ef8515202dce7f8c9708bc19f8280c086353ab79e119f4e7fa99e713
   languageName: node
   linkType: hard
 
@@ -5174,7 +5194,8 @@ __metadata:
     "@types/react-native": "npm:^0.72.0"
     cd: "npm:^0.3.3"
     expo: "npm:^52.0.6"
-    expo-modules-core: "npm:2.0.2"
+    expo-file-system: "npm:^15.0.0"
+    expo-modules-core: "patch:expo-modules-core@npm%3A2.0.2#~/.yarn/patches/expo-modules-core-npm-2.0.2-4519b568fe.patch"
     ios: "npm:^0.0.1"
     jest: "npm:^29.0.0"
     react: "npm:^18.2.0"
@@ -9661,6 +9682,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10c0/02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "uuid@npm:3.4.0"
+  bin:
+    uuid: ./bin/uuid
+  checksum: 10c0/1c13950df865c4f506ebfe0a24023571fa80edf2e62364297a537c80af09c618299797bbf2dbac6b1f8ae5ad182ba474b89db61e0e85839683991f7e08795347
   languageName: node
   linkType: hard
 
