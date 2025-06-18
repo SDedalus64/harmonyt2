@@ -4,7 +4,7 @@ export const AZURE_CONFIG = {
   baseUrl: 'https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data',
 
   // Main tariff data file
-  mainDataFile: 'tariff_processed.json',
+  mainDataFile: 'tariff_processed_06062025.json',
 
   // Segment files directory
   segmentsPath: 'tariff-segments',

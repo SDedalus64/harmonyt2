@@ -44,7 +44,7 @@ node scripts/performance-test.js
 - **Console logs to watch for**:
   ```
   🚀 Loading tariff data from Azure Blob Storage (no local fallback)...
-  📡 Fetching from: https://harmonytariff.blob.core.windows.net/...
+  📡 Fetching from: https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data/...
   ✅ Successfully loaded tariff data from Azure
   ⏱️  Load time: XXXXms
   📊 Total tariff entries loaded: XXXXX
@@ -126,7 +126,7 @@ npx expo start --clear --reset-cache
 ### Azure Loading Fails
 1. Check internet connection
 2. Verify Azure URLs in console
-3. Test Azure endpoint: https://harmonytariff.blob.core.windows.net/tariff-data/tariff_processed.json
+3. Test Azure endpoint: https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data/tariff_processed_06062025.json
 
 ### Performance Issues
 1. Check network speed
@@ -150,7 +150,7 @@ App initializing without tariff data preloading...
 App initialization complete - tariff data will load on first lookup
 🔄 Initializing tariff service for on-demand Azure loading...
 🚀 Loading tariff data from Azure Blob Storage (no local fallback)...
-📡 Fetching from: https://harmonytariff.blob.core.windows.net/tariff-data/tariff_processed.json
+📡 Fetching from: https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data/tariff_processed_06062025.json
 ✅ Successfully loaded tariff data from Azure
 ⏱️  Load time: 1247ms
 📊 Total tariff entries loaded: 19847
