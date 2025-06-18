@@ -15,8 +15,7 @@
   "dependencies": {
     "cd": "^0.3.3",
     "expo": "^52.0.6",
-    "expo-file-system": "^15.0.0",
-    "expo-modules-core": "patch:expo-modules-core@npm%3A2.0.2#~/.yarn/patches/expo-modules-core-npm-2.0.2-4519b568fe.patch",
+    "expo-modules-core": "2.0.2",
     "ios": "^0.0.1",
     "react": "^18.2.0",
     "react-native": "^0.73.6"
@@ -31,8 +30,5 @@
     "ts-jest": "^29.0.0",
     "typescript": "^5.0.0"
   },
-  "packageManager": "yarn@2.4.3",
-  "resolutions": {
-    "expo-modules-core@npm:2.0.2": "patch:expo-modules-core@npm%3A2.0.2#~/.yarn/patches/expo-modules-core-npm-2.0.2-4519b568fe.patch"
-  }
+  "packageManager": "yarn@2.4.3"
 }
