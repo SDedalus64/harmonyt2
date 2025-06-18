@@ -1,57 +1,59 @@
-# Workaround for missing get_folly_config method in Expo SDK 53
-# Expo SDK 53 expects a global `get_folly_config` helper that no longer ships
-# with React Native.  Define it here so the Expo pods can evaluate their
-# podspecs without errors.
-module Kernel
-  def get_folly_config
-    {
-      :compiler_flags => '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1'
-    }
-  end
-end
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/expo/scripts/autolinking'
+require 'json'
+podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
-platform :ios, '15.1'
+ENV['RCT_NEW_ARCH_ENABLED'] = podfile_properties['newArchEnabled'] == 'true' ? '1' : '0'
+ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] = podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
 
-# Enable modular headers globally to fix Swift pod integration
-use_modular_headers!
+platform :ios, podfile_properties['ios.deploymentTarget'] || '15.1'
+install! 'cocoapods',
+  :deterministic_uuids => false
+
+prepare_react_native_project!
 
 target 'HarmonyTi' do
-  config = use_native_modules!
   use_expo_modules!
+
+  if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
+    config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];
+  else
+    config_command = [
+      'node',
+      '--no-warnings',
+      '--eval',
+      'require(require.resolve(\'expo-modules-autolinking\', { paths: [require.resolve(\'expo/package.json\')] }))(process.argv.slice(1))',
+      'react-native-config',
+      '--json',
+      '--platform',
+      'ios'
+    ]
+  end
+
+  config = use_native_modules!(config_command)
+
+  use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
+  use_frameworks! :linkage => ENV['USE_FRAMEWORKS'].to_sym if ENV['USE_FRAMEWORKS']
 
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => true
+    :hermes_enabled => podfile_properties['expo.jsEngine'] == nil || podfile_properties['expo.jsEngine'] == 'hermes',
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
   )
 
-  # Ensure React-jsinspector exposes a module map when building as a static
-  # library. Without modular headers enabled CocoaPods refuses to integrate the
-  # Swift pod ExpoModulesCore which depends on React-jsinspector.
-  pod 'React-jsinspector',
-      :path => '../node_modules/react-native/ReactCommon/jsinspector-modern',
-      :modular_headers => true
-
   post_install do |installer|
-    react_native_post_install(installer)
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false,
+      :ccache_enabled => podfile_properties['apple.ccacheEnabled'] == 'true',
+    )
 
-    # Fix for Xcode Beta precompiled modules issue
-    installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-        # Disable precompiled modules for all pods
-        config.build_settings['ENABLE_MODULE_VERIFIER'] = 'NO'
-        config.build_settings['ENABLE_PRECOMPILED_MODULES'] = 'NO'
-
-        # Additional settings for Swift pods
-        if target.name == 'ExpoModulesCore'
-          config.build_settings['SWIFT_EMIT_MODULE_INTERFACE'] = 'NO'
-          config.build_settings['SWIFT_INSTALL_MODULE'] = 'NO'
-        end
-      end
-    end
-
+    # This is necessary for Xcode 14, because it signs resource bundles by default
+    # when building for devices.
     installer.target_installation_results.pod_target_installation_results
       .each do |pod_name, target_installation_result|
       target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
@@ -59,21 +61,6 @@ target 'HarmonyTi' do
           config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
         end
       end
-    end
-
-    # Patch ExpoModulesCore header to import missing React types
-    header = File.join(installer.sandbox.pod_dir('ExpoModulesCore'),
-                      'ExpoModulesCore',
-                      'ReactDelegates',
-                      'EXReactRootViewFactory.h')
-    if File.exist?(header) &&
-       !File.readlines(header).grep(/RCTRootViewFactory.h/).any?
-      text = File.read(header)
-      updated = text.sub(
-        '#import <ExpoModulesCore/RCTAppDelegateUmbrella.h>',
-        "#import <ExpoModulesCore/RCTAppDelegateUmbrella.h>\n#import <React/RCTRootViewFactory.h>"
-      )
-      File.write(header, updated)
     end
   end
 end
