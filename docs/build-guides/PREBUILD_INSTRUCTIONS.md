@@ -33,16 +33,15 @@ rm -rf $TMPDIR/react-*
 ### 3. Run Prebuild
 ```bash
 # Generate fresh native projects
-/Harmony
-npx expo prebuild
+npx expo prebuild --clean
 
-/Harmony
+# Restore the tracked Podfile after prebuild
 git checkout ios/Podfile
 
 cd ios
 pod install
 # If you see "directory not empty" errors, use:
-rm -rf ios android && npx expo prebuild
+rm -rf ios android && npx expo prebuild --clean
 ```
 
 ### 4. Run the Fix Script (CRITICAL STEP!)
@@ -62,7 +61,7 @@ Wait for the script to complete. You should see:
 ### 5. Fix Sandbox Permissions
 ```bash
 # Ensure expo configure script is executable
-open
+chmod +x "ios/Pods/Target Support Files/Pods-HarmonyTi/expo-configure-project.sh"
 ```
 
 ### 6. Open in Xcode
@@ -135,7 +134,7 @@ cd ..
 - [ ] Xcode is closed before starting
 - [ ] Git changes are committed (recommended)
 - [ ] Removed old ios/android directories
-- [ ] Ran `npx expo prebuild`
+- [ ] Ran `npx expo prebuild --clean`
 - [ ] **Ran `./fix-xcode-warnings.sh` script**
 - [ ] Fixed sandbox permissions
 - [ ] Opened .xcworkspace (not .xcodeproj)
@@ -168,7 +167,7 @@ rm -rf ios android
 rm -rf ~/Library/Developer/Xcode/DerivedData
 
 # 2. Prebuild
-npx expo prebuild
+npx expo prebuild --clean
 
 # 3. Fix warnings (CRITICAL!)
 ./fix-xcode-warnings.sh
@@ -197,5 +196,5 @@ If you encounter issues not covered here:
 3. Check the React Native upgrade helper
 4. Review recent changes in git log
 
-Last updated: December 2024
+Last updated: June 2025
 Version: 1.0
