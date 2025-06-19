@@ -6,7 +6,7 @@ This document provides step-by-step instructions for performing a clean prebuild
 ## Prerequisites
 - Xcode installed (latest stable version)
 - Node.js and npm installed
-- CocoaPods installed (`sudo gem install cocoapods`)
+- CocoaPods installed **in ios directory (`sudo gem install cocoapods`)
 - All changes committed to git (recommended)
 
 ## Step-by-Step Prebuild Process
