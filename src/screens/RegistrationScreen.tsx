@@ -5,8 +5,6 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
   Platform,
   Switch,
   ActivityIndicator,
@@ -20,7 +18,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-import { BRAND_COLORS as COLORS } from '../config/brandColors';
+// Using local COLORS constant defined below
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { BRAND_COLORS } from '../config/brandColors';
+
+// Colors mapped from brand palette plus extras needed for this screen
+const COLORS = {
+  darkBlue: BRAND_COLORS.darkNavy,
+  lightBlue: BRAND_COLORS.lightBlue,
+  orange: BRAND_COLORS.orange,
+  yellow: '#FFD800',
+  white: BRAND_COLORS.white,
+  lightGray: BRAND_COLORS.lightGray,
+  mediumGray: BRAND_COLORS.mediumGray,
+  darkGray: BRAND_COLORS.darkGray,
+  black: '#333333',
+  error: BRAND_COLORS.error,
+};
 
 // Storage key to track if user has previously signed in
 const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';
@@ -135,155 +149,151 @@ export default function RegistrationScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingView}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        enableOnAndroid={true}
+        extraScrollHeight={Platform.OS === 'ios' ? 20 : 30}
+        extraHeight={Platform.OS === 'ios' ? 20 : 30}
+        keyboardDismissMode="on-drag"
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          bounces={true}
-          keyboardDismissMode="on-drag"
-        >
-          <View style={styles.header}>
-            <Text style={styles.title}>Create Account</Text>
-            <Text style={styles.subtitle}>
-              Register to save your lookups and receive tariff insights
+        <View style={styles.header}>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>
+            Register to save your lookups and receive tariff insights
+          </Text>
+        </View>
+
+        <View style={styles.form}>
+          {/* Email Input */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Email</Text>
+            <View style={[styles.inputWrapper, errors.email ? styles.inputError : null]}>
+              <Ionicons name="mail-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+            {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          </View>
+
+          {/* Password Input */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password</Text>
+            <View style={[styles.inputWrapper, errors.password ? styles.inputError : null]}>
+              <Ionicons name="lock-closed-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Create a password"
+                secureTextEntry={!showPassword}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={20}
+                  color={COLORS.darkGray}
+                />
+              </TouchableOpacity>
+            </View>
+            {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+          </View>
+
+          {/* Confirm Password Input */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Confirm Password</Text>
+            <View style={[styles.inputWrapper, errors.confirmPassword ? styles.inputError : null]}>
+              <Ionicons name="lock-closed-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                placeholder="Confirm your password"
+                secureTextEntry={!showPassword}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+            {errors.confirmPassword ? <Text style={styles.errorText}>{errors.confirmPassword}</Text> : null}
+          </View>
+
+          {/* Name Input */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Full Name</Text>
+            <View style={[styles.inputWrapper, errors.name ? styles.inputError : null]}>
+              <Ionicons name="person-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                placeholder="Enter your full name"
+                autoCorrect={false}
+              />
+            </View>
+            {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
+          </View>
+
+          {/* Company Name Input */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Company Name</Text>
+            <View style={[styles.inputWrapper, errors.companyName ? styles.inputError : null]}>
+              <Ionicons name="business-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
+              <TextInput
+                style={styles.input}
+                value={companyName}
+                onChangeText={setCompanyName}
+                placeholder="Enter your company name"
+                autoCorrect={false}
+              />
+            </View>
+            {errors.companyName ? <Text style={styles.errorText}>{errors.companyName}</Text> : null}
+          </View>
+
+          {/* Marketing Preferences */}
+          <View style={styles.switchContainer}>
+            <Switch
+              value={receiveUpdates}
+              onValueChange={setReceiveUpdates}
+              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
+              thumbColor={receiveUpdates ? COLORS.white : COLORS.white}
+            />
+            <Text style={styles.switchLabel}>
+              Yes, I'd like to receive updates and offers from Dedola Global Logistics.
             </Text>
           </View>
 
-          <View style={styles.form}>
-            {/* Email Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Email</Text>
-              <View style={[styles.inputWrapper, errors.email ? styles.inputError : null]}>
-                <Ionicons name="mail-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholder="Enter your email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-              </View>
-              {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
-            </View>
+          {/* Register Button */}
+          <TouchableOpacity
+            style={[styles.registerButton, isLoading && styles.registerButtonDisabled]}
+            onPress={handleRegister}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color={COLORS.white} />
+            ) : (
+              <Text style={styles.registerButtonText}>Create Account</Text>
+            )}
+          </TouchableOpacity>
 
-            {/* Password Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Password</Text>
-              <View style={[styles.inputWrapper, errors.password ? styles.inputError : null]}>
-                <Ionicons name="lock-closed-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="Create a password"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                  <Ionicons
-                    name={showPassword ? "eye-off-outline" : "eye-outline"}
-                    size={20}
-                    color={COLORS.darkGray}
-                  />
-                </TouchableOpacity>
-              </View>
-              {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
-            </View>
-
-            {/* Confirm Password Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Confirm Password</Text>
-              <View style={[styles.inputWrapper, errors.confirmPassword ? styles.inputError : null]}>
-                <Ionicons name="lock-closed-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  placeholder="Confirm your password"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-              </View>
-              {errors.confirmPassword ? <Text style={styles.errorText}>{errors.confirmPassword}</Text> : null}
-            </View>
-
-            {/* Name Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Full Name</Text>
-              <View style={[styles.inputWrapper, errors.name ? styles.inputError : null]}>
-                <Ionicons name="person-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={name}
-                  onChangeText={setName}
-                  placeholder="Enter your full name"
-                  autoCorrect={false}
-                />
-              </View>
-              {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
-            </View>
-
-            {/* Company Name Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Company Name</Text>
-              <View style={[styles.inputWrapper, errors.companyName ? styles.inputError : null]}>
-                <Ionicons name="business-outline" size={20} color={COLORS.darkGray} style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={companyName}
-                  onChangeText={setCompanyName}
-                  placeholder="Enter your company name"
-                  autoCorrect={false}
-                />
-              </View>
-              {errors.companyName ? <Text style={styles.errorText}>{errors.companyName}</Text> : null}
-            </View>
-
-            {/* Marketing Preferences */}
-            <View style={styles.switchContainer}>
-              <Switch
-                value={receiveUpdates}
-                onValueChange={setReceiveUpdates}
-                trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-                thumbColor={receiveUpdates ? COLORS.white : COLORS.white}
-              />
-              <Text style={styles.switchLabel}>
-                Yes, I'd like to receive updates and offers from Dedola Global Logistics.
-              </Text>
-            </View>
-
-            {/* Register Button */}
-            <TouchableOpacity
-              style={[styles.registerButton, isLoading && styles.registerButtonDisabled]}
-              onPress={handleRegister}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color={COLORS.white} />
-              ) : (
-                <Text style={styles.registerButtonText}>Create Account</Text>
-              )}
+          {/* Login Link */}
+          <View style={styles.loginLinkContainer}>
+            <Text style={styles.loginText}>Already have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.loginLink}>Log In</Text>
             </TouchableOpacity>
-
-            {/* Login Link */}
-            <View style={styles.loginLinkContainer}>
-              <Text style={styles.loginText}>Already have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.loginLink}>Log In</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
@@ -292,9 +302,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-  },
-  keyboardAvoidingView: {
-    flex: 1,
   },
   scrollContent: {
     padding: 24,

@@ -214,7 +214,7 @@ export default function LookupScreen() {
   const [linksDrawerVisible, setLinksDrawerVisible] = useState(false);
 
   // Main navigation FAB state
-  const [mainFabExpanded, setMainFabExpanded] = useState(true); // Open FABs by default
+  const [mainFabExpanded, setMainFabExpanded] = useState(false); // start closed, will open on mount
   const [userClosedFab, setUserClosedFab] = useState(false);
 
   // Animation values for unified floating menu
@@ -242,7 +242,7 @@ export default function LookupScreen() {
   const linksDrawerTranslateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const navDrawerOpacity = useRef(new Animated.Value(0)).current;
 
-
+  const [contentHeight, setContentHeight] = useState(0);
 
   useEffect(() => {
     loadHistory();
@@ -1457,7 +1457,7 @@ export default function LookupScreen() {
       closeAllNavigationDrawers();
     }
 
-        // Arc radius and angles for positioning buttons above main FAB
+    // Arc radius and angles for positioning buttons above main FAB
     const radius = getResponsiveValue(120, 173); // Increased radius for larger buttons on iPad (150 * 1.15 = 172.5 ≈ 173)
     const centerAngle = -90; // Point straight up
     const angleSpread = 120; // Total spread of 120 degrees for 6 buttons
@@ -1469,6 +1469,33 @@ export default function LookupScreen() {
     const newsAngle = (centerAngle - angleSpread/2 + 3*angleSpread/5) * (Math.PI / 180);
     const statsAngle = (centerAngle - angleSpread/2 + 4*angleSpread/5) * (Math.PI / 180);
     const settingsAngle = (centerAngle + angleSpread/2) * (Math.PI / 180);
+
+    // Determine if we should switch to a compact layout when there isn't enough room above the main FAB
+    const freeSpace = SCREEN_HEIGHT - contentHeight - insets.bottom;
+
+    const horizontalGap = getResponsiveValue(65, 85); // gap between buttons in horizontal row
+    const needCompact = freeSpace < radius + getSpacing('lg');
+
+    // Prepare targets object
+    const targets: { [key: string]: { x: number; y: number } } = {};
+
+    if (needCompact) {
+      // Lay out buttons in a horizontal row extending leftward from the main FAB
+      // Arrange in order: settings stats news links history recent (furthest left)
+      const buttons = ['settings','stats','news','links','history','recent'];
+      buttons.forEach((name, idx) => {
+        targets[name] = { x: -(horizontalGap * (idx + 1)), y: 0 };
+      });
+    } else {
+      const offsetY = radius * 0.4;   // 40 % of the original radius
+
+      targets.recent   = { x: radius * Math.cos(recentAngle),   y: radius * Math.sin(recentAngle)   + offsetY };
+      targets.history  = { x: radius * Math.cos(historyAngle),  y: radius * Math.sin(historyAngle)  + offsetY };
+      targets.links    = { x: radius * Math.cos(linksAngle),    y: radius * Math.sin(linksAngle)    + offsetY };
+      targets.news     = { x: radius * Math.cos(newsAngle),     y: radius * Math.sin(newsAngle)     + offsetY };
+      targets.stats    = { x: radius * Math.cos(statsAngle),    y: radius * Math.sin(statsAngle)    + offsetY };
+      targets.settings = { x: radius * Math.cos(settingsAngle), y: radius * Math.sin(settingsAngle) + offsetY };
+    }
 
     Animated.parallel([
       // Rotate main FAB
@@ -1482,12 +1509,12 @@ export default function LookupScreen() {
         // Recent button
         Animated.parallel([
           Animated.timing(recentFabTranslateX, {
-            toValue: toValue * radius * Math.cos(recentAngle),
+            toValue: toValue * targets.recent.x,
             duration: 300,
             useNativeDriver: true,
           }),
           Animated.timing(recentFabTranslateY, {
-            toValue: toValue * radius * Math.sin(recentAngle),
+            toValue: toValue * targets.recent.y,
             duration: 300,
             useNativeDriver: true,
           }),
@@ -1495,12 +1522,12 @@ export default function LookupScreen() {
         // History button
         Animated.parallel([
           Animated.timing(historyFabTranslateX, {
-            toValue: toValue * radius * Math.cos(historyAngle),
+            toValue: toValue * targets.history.x,
             duration: 300,
             useNativeDriver: true,
           }),
           Animated.timing(historyFabTranslateY, {
-            toValue: toValue * radius * Math.sin(historyAngle),
+            toValue: toValue * targets.history.y,
             duration: 300,
             useNativeDriver: true,
           }),
@@ -1508,12 +1535,12 @@ export default function LookupScreen() {
         // Links button
         Animated.parallel([
           Animated.timing(linksFabTranslateX, {
-            toValue: toValue * radius * Math.cos(linksAngle),
+            toValue: toValue * targets.links.x,
             duration: 300,
             useNativeDriver: true,
           }),
           Animated.timing(linksFabTranslateY, {
-            toValue: toValue * radius * Math.sin(linksAngle),
+            toValue: toValue * targets.links.y,
             duration: 300,
             useNativeDriver: true,
           }),
@@ -1521,12 +1548,12 @@ export default function LookupScreen() {
         // News button
         Animated.parallel([
           Animated.timing(newsFabTranslateX, {
-            toValue: toValue * radius * Math.cos(newsAngle),
+            toValue: toValue * targets.news.x,
             duration: 300,
             useNativeDriver: true,
           }),
           Animated.timing(newsFabTranslateY, {
-            toValue: toValue * radius * Math.sin(newsAngle),
+            toValue: toValue * targets.news.y,
             duration: 300,
             useNativeDriver: true,
           }),
@@ -1534,12 +1561,12 @@ export default function LookupScreen() {
         // Stats button
         Animated.parallel([
           Animated.timing(statsFabTranslateX, {
-            toValue: toValue * radius * Math.cos(statsAngle),
+            toValue: toValue * targets.stats.x,
             duration: 300,
             useNativeDriver: true,
           }),
           Animated.timing(statsFabTranslateY, {
-            toValue: toValue * radius * Math.sin(statsAngle),
+            toValue: toValue * targets.stats.y,
             duration: 300,
             useNativeDriver: true,
           }),
@@ -1547,12 +1574,12 @@ export default function LookupScreen() {
         // Settings button
         Animated.parallel([
           Animated.timing(settingsFabTranslateX, {
-            toValue: toValue * radius * Math.cos(settingsAngle),
+            toValue: toValue * targets.settings.x,
             duration: 300,
             useNativeDriver: true,
           }),
           Animated.timing(settingsFabTranslateY, {
-            toValue: toValue * radius * Math.sin(settingsAngle),
+            toValue: toValue * targets.settings.y,
             duration: 300,
             useNativeDriver: true,
           }),
@@ -1729,6 +1756,9 @@ export default function LookupScreen() {
     }
   };
 
+  // Apply 50 px upward shift on phones; keep original on tablets
+  const fabOffset = getResponsiveValue(-50, 0);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -1787,6 +1817,7 @@ export default function LookupScreen() {
           style={styles.mainScrollView}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
+          onContentSizeChange={(_, h) => setContentHeight(h)}
         >
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
@@ -1956,7 +1987,7 @@ export default function LookupScreen() {
         </ScrollView>
 
         {/* Unified Floating Menu System */}
-        <View style={[styles.floatingMenuContainer, { bottom: insets.bottom + getSpacing('xs') }]}>
+        <View style={[styles.floatingMenuContainer, { bottom: insets.bottom + getSpacing('xs') + fabOffset }]}>
           {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
 
           {/* Recent Button */}
@@ -1964,7 +1995,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.recentFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) + fabOffset,
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
@@ -1991,7 +2022,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.historyFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) + fabOffset,
                 transform: [
                   { translateX: historyFabTranslateX },
                   { translateY: historyFabTranslateY },
@@ -2018,7 +2049,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.linksFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) + fabOffset,
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
@@ -2045,7 +2076,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.newsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) + fabOffset,
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
@@ -2072,7 +2103,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.statsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) + fabOffset,
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
@@ -2099,7 +2130,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.settingsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) + fabOffset,
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },

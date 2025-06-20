@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -40,6 +40,9 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
+
+  // Local visibility state so we can keep component mounted during closing animation
+  const [visible, setVisible] = useState(isOpen);
 
   // Calculate dimensions
   const drawerHeight = height || SCREEN_HEIGHT * 0.7;
@@ -109,6 +112,13 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     })
   ).current;
 
+  // When prop opens, ensure visible
+  useEffect(() => {
+    if (isOpen) {
+      setVisible(true);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       Animated.parallel([
@@ -136,7 +146,10 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           duration: animationDuration,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start(() => {
+        // After closing animation completes, unmount content
+        setVisible(false);
+      });
     }
   }, [isOpen]);
 
@@ -219,7 +232,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     return baseStyles;
   };
 
-  if (!isOpen) {
+  if (!visible) {
     return null;
   }
 

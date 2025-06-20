@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Switch, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { BRAND_COLORS } from '../config/brandColors';
 
 interface DisclaimerModalProps {
   visible: boolean;
@@ -35,6 +37,11 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
   const [dimensions, setDimensions] = useState(getModalDimensions());
   const scrollViewRef = useRef<ScrollView>(null);
 
+  // Scroll-cue state
+  const [containerHeight, setContainerHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(0);
+  const [showScrollCue, setShowScrollCue] = useState(false);
+
   useEffect(() => {
     if (visible) {
       Keyboard.dismiss();
@@ -51,6 +58,13 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
 
     return () => subscription?.remove();
   }, []);
+
+  // Update cue visibility whenever sizes change
+  useEffect(() => {
+    if (containerHeight === 0) return;
+    const canScroll = contentHeight > containerHeight + 5;
+    setShowScrollCue(canScroll);
+  }, [containerHeight, contentHeight]);
 
   const handleAgree = () => {
     if (agreed) {
@@ -111,6 +125,18 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollContent}
               bounces={false}
+              onLayout={(e) => {
+                setContainerHeight(e.nativeEvent.layout.height);
+              }}
+              onContentSizeChange={(_, h) => {
+                setContentHeight(h);
+              }}
+              onScroll={(e) => {
+                const { layoutMeasurement, contentOffset, contentSize } = e.nativeEvent;
+                const reachedBottom = contentOffset.y + layoutMeasurement.height >= contentSize.height - 20;
+                setShowScrollCue(!reachedBottom && contentSize.height > layoutMeasurement.height + 5);
+              }}
+              scrollEventThrottle={16}
             >
               <Text style={[styles.modalTitle, { fontSize: fontSizes.title }]}>Welcome to HarmonyTi</Text>
 
@@ -191,6 +217,13 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
                  </Text>
               </TouchableOpacity>
             </ScrollView>
+
+            {/* Scroll cue indicator */}
+            {showScrollCue && (
+              <View style={styles.scrollCueContainer} pointerEvents="none">
+                <Ionicons name="chevron-down" size={24} color={BRAND_COLORS.lightBlue} />
+              </View>
+            )}
          </View>
       </View>
     </Modal>
@@ -281,6 +314,14 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontSize: 12,
     fontStyle: 'italic',
+  },
+  scrollCueContainer: {
+    position: 'absolute',
+    bottom: 8,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    opacity: 0.7,
   },
 });
 
