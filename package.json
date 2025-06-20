@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "react-native bundle --entry-file index.ts --platform ios --dev false --bundle-output build/main.jsbundle --assets-dest build",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "bump": "node scripts/increment-build.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",

@@ -208,15 +208,17 @@ cd ..
 - [ ] Selected "Any iOS Device (arm64)"
 
 ## Build Numbers
-Remember to increment build numbers before archiving:
+Remember to increment build numbers **before archiving** (and ideally before running prebuild so they are embedded automatically).
+
 ```bash
-# Automatic increment
+# Automatic bump (updates iOS buildNumber and Android versionCode in app.json)
 npm run bump
 
-# Or manual increment in app.json:
-# iOS: "buildNumber"
-# Android: "versionCode"
+# If you also need to change the marketing version, edit app.json manually:
+#   "version": "2.6.0"
 ```
+
+> The `npm run bump` script increments the numeric `expo.ios.buildNumber` and `expo.android.versionCode` fields in `app.json`. Commit the change, then re-run the pre-build steps. If you skip this, you can still edit the Build field directly in Xcode, but keeping it in `app.json` ensures consistency across local and CI builds.
 
 ## For CI/CD or Automated Builds
 
