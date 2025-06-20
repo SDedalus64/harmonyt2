@@ -19,7 +19,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Storage key to track if user has previously signed in
 const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';

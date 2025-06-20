@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -87,7 +87,7 @@ function AppContent() {
 
   return (
     <NavigationContainer>
-      <StatusBar style="light" />
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
       <AppNavigator
         isAuthenticated={isLoggedIn}
         isFirstLaunch={isFirstLaunch}
@@ -98,12 +98,8 @@ function AppContent() {
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-    <SafeAreaProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <View style={{ flex: 1 }}>
+     {/* <TestSvgImport /> */}
+    </View>
   );
 }
