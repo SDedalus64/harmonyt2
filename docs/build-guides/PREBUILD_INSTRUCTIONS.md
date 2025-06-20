@@ -63,6 +63,13 @@ rm -rf $TMPDIR/haste-*
 rm -rf $TMPDIR/react-*
 ```
 
+### 2 b. Bump Build Number (optional but recommended)
+Run this if you need a new internal build number (most releases):
+```bash
+npm run bump   # updates expo.ios.buildNumber and expo.android.versionCode
+```
+> If you also need to change the marketing version (`expo.version`), edit `app.json` manually and then commit both changes.
+
 ### 3. Install JavaScript Dependencies & Verify Metro Config (NEW)
 Before touching any native code, make sure all JS dependencies are installed **and** that Metro is configured correctly.
 ```bash
