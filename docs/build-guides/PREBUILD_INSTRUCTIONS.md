@@ -28,10 +28,19 @@ rm -rf $TMPDIR/haste-*
 rm -rf $TMPDIR/react-*
 ```
 
-### 3. Run Prebuild
+### 3. Install CocoaPods Dependencies (NEW)
+After cleaning, install or update iOS pods **before** running the Expo prebuild so that the native project is created with all required pods in place.
 ```bash
-# Generate fresh native projects
-npx expo prebuild --clean
+# From the project root
+npx pod-install ios
+```
+
+> This step downloads and links all native iOS dependencies declared in `package.json`. It is safe to re-run at any time.
+
+### 4. Run Prebuild
+```bash
+# Generate /ios and /android native projects (non-interactive)
+EXPO_NO_INTERACTIVE=1 npx expo prebuild --platform ios --no-install
 
 # Restore the tracked Podfile after prebuild
 git checkout ios/Podfile
@@ -42,7 +51,7 @@ pod install
 rm -rf ios android && npx expo prebuild --clean
 ```
 
-### 4. Run the Fix Script (CRITICAL STEP!)
+### 5. Run the Fix Script (CRITICAL STEP!)
 **This is the most important step that fixes all Xcode warnings and permissions**
 ```bash
 # Make the script executable (only needed once)
@@ -56,20 +65,20 @@ chmod +x fix-xcode-warnings.sh
 Wait for the script to complete. You should see:
 - ✅ Done! Common warning fixes applied.
 
-### 5. Fix Sandbox Permissions
+### 6. Fix Sandbox Permissions
 ```bash
 # Ensure expo configure script is executable
 chmod +x "ios/Pods/Target Support Files/Pods-HarmonyTi/expo-configure-project.sh"
 ```
 
-### 6. Open in Xcode
+### 7. Open in Xcode
 ```bash
 # Open the workspace (NOT the .xcodeproj)
 cd ios
 open ios/HarmonyTi.xcworkspace
 ```
 
-### 7. Xcode Setup
+### 8. Xcode Setup
 1. **Wait for indexing** to complete (progress bar at top)
 2. **Clean Build Folder**: Product → Clean Build Folder (Cmd+Shift+K)
 3. **Select Team**:
@@ -80,7 +89,7 @@ open ios/HarmonyTi.xcworkspace
    - If asked about "uncommitted changes", click "Continue"
    - If asked about "recommended settings", click "Perform Changes"
 
-### 8. Build and Archive
+### 9. Build and Archive
 1. **Select Device**: Choose "Any iOS Device (arm64)" from the device selector
 2. **Archive**: Product → Archive
 3. **Wait**: The build process may take 5-10 minutes
