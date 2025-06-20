@@ -16,12 +16,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.sdedola.tcalcmobile",
       "buildNumber": "33",
+      "appleTeamId": "2QFN2YCBAZ",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "UIBackgroundModes": [
           "fetch",
           "remote-notification"
-        ]
+        ],
+        "LSApplicationCategoryType": "public.app-category.business"
       }
     },
     "android": {
