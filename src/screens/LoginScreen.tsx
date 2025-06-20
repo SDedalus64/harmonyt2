@@ -98,85 +98,85 @@ export default function LoginScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
-        contentContainerStyle={styles.scrollViewContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         enableOnAndroid={true}
         extraScrollHeight={Platform.OS === 'ios' ? 20 : 30}
         extraHeight={Platform.OS === 'ios' ? 20 : 30}
-      >
-        <View style={styles.contentContainer}>
-          <View style={styles.logoContainer}>
-            <Image
-              source={require('../../assets/Harmony2x.png')}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </View>
-
-          <View style={styles.formContainer}>
-            <Text style={styles.welcomeText}>
-              {hasSignedInBefore ? 'Welcome Back' : 'Welcome'}
-            </Text>
-
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                autoCorrect={false}
-                returnKeyType="next"
+        >
+          <View style={styles.contentContainer}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require('../../assets/Harmony2x.png')}
+                style={styles.logo}
+                resizeMode="contain"
               />
             </View>
 
-            <View style={styles.inputContainer}>
-              <View style={styles.passwordWrapper}>
-              <TextInput
-                  style={styles.passwordInput}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
-                autoCapitalize="none"
-                autoCorrect={false}
-                returnKeyType="done"
-              />
-                <TouchableOpacity
-                  style={styles.eyeIcon}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Ionicons
-                    name={showPassword ? "eye-off-outline" : "eye-outline"}
-                    size={22}
-                    color={COLORS.darkGray}
-                  />
-                </TouchableOpacity>
+            <View style={styles.formContainer}>
+              <Text style={styles.welcomeText}>
+                {hasSignedInBefore ? 'Welcome Back' : 'Welcome'}
+              </Text>
+
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoCorrect={false}
+                  returnKeyType="next"
+                />
               </View>
+
+              <View style={styles.inputContainer}>
+                <View style={styles.passwordWrapper}>
+                <TextInput
+                    style={styles.passwordInput}
+                  placeholder="Password"
+                  value={password}
+                  onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType="done"
+                />
+                  <TouchableOpacity
+                    style={styles.eyeIcon}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-off-outline" : "eye-outline"}
+                      size={22}
+                      color={COLORS.darkGray}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+                onPress={handleLogin}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ActivityIndicator color={COLORS.white} />
+                ) : (
+                  <Text style={styles.loginButtonText}>Log In</Text>
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.signUpButton}
+                onPress={handleSignUp}
+              >
+                <Text style={styles.signUpButtonText}>Sign Up</Text>
+              </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
-              onPress={handleLogin}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color={COLORS.white} />
-              ) : (
-                <Text style={styles.loginButtonText}>Log In</Text>
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.signUpButton}
-              onPress={handleSignUp}
-            >
-              <Text style={styles.signUpButtonText}>Sign Up</Text>
-            </TouchableOpacity>
           </View>
-        </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );

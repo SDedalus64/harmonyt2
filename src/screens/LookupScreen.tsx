@@ -1457,7 +1457,7 @@ export default function LookupScreen() {
       closeAllNavigationDrawers();
     }
 
-    // Arc radius and angles for positioning buttons above main FAB
+        // Arc radius and angles for positioning buttons above main FAB
     const radius = getResponsiveValue(120, 173); // Increased radius for larger buttons on iPad (150 * 1.15 = 172.5 ≈ 173)
     const centerAngle = -90; // Point straight up
     const angleSpread = 120; // Total spread of 120 degrees for 6 buttons
