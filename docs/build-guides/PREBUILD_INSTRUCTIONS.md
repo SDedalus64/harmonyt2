@@ -20,10 +20,8 @@ ps aux | grep Xcode
 
 ### 2. Clean Previous Builds
 ```bash
-# Remove old native directories
+# Remove old native directories and # Clear all caches
 rm -rf ios android
-
-# Clear all caches
 rm -rf ~/Library/Developer/Xcode/DerivedData
 rm -rf $TMPDIR/metro-*
 rm -rf $TMPDIR/haste-*
