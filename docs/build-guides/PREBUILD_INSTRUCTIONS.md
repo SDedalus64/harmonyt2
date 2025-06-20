@@ -75,7 +75,10 @@ node -e "const cfg=require('./metro.config');\
   console.log('✅ Metro config loaded from expo/metro-config');\
   console.log('   SVG enabled:', cfg.resolver.sourceExts.includes('svg'));"
 ```
+
+
 If you see a *MODULE_NOT_FOUND* error for `react-native-svg-transformer`, install it:
+
 ```bash
 npm install --save-dev react-native-svg-transformer
 ```
