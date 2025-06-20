@@ -9,6 +9,41 @@ This document provides step-by-step instructions for performing a clean prebuild
 - CocoaPods installed (`sudo gem install cocoapods`)
 - All changes committed to git (recommended)
 
+## Prerequisites - One-Time Environment Setup
+Before you run **any** of the pre-build steps below, make sure your macOS environment is ready. You normally do this once per machine.
+
+1. **Install Xcode** (from the Mac App Store or https://developer.apple.com/xcode/) and launch it once to accept the licence:
+   ```bash
+   # opens Xcode; you may be prompted to accept the licence
+   open -a Xcode
+   ```
+2. **Install Xcode Command-Line Tools** (required by Homebrew, CocoaPods, etc.):
+   ```bash
+   xcode-select --install   # only if they are not already installed
+   ```
+3. **Install Homebrew** (skip if already installed):
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   brew update
+   ```
+4. **Install Node + npm** (use the LTS version):
+   ```bash
+   brew install node   # or use nvm if you prefer
+   node -v             # verify
+   npm -v
+   ```
+5. **Install CocoaPods** (Ruby gem):
+   ```bash
+   sudo gem install cocoapods
+   pod --version        # verify
+   ```
+6. **Prepare your Git workspace** – commit or stash any outstanding changes before running the pre-build process:
+   ```bash
+   git status           # make sure the working tree is clean
+   ```
+
+> Once the above are in place, proceed to the **Step-by-Step Prebuild Process** below every time you need a fresh native project.
+
 ## Step-by-Step Prebuild Process
 
 ### 1. Close Xcode
