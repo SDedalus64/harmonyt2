@@ -57,6 +57,7 @@ import {
   getResponsiveValue,
   isTablet as getIsTablet
 } from '../config/brandColors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -143,6 +144,7 @@ interface DutyCalculation {
 export default function LookupScreen() {
   const navigation = useNavigation<LookupScreenNavigationProp>();
   const route = useRoute<LookupScreenRouteProp>();
+  const insets = useSafeAreaInsets();
 
   // Existing state
   const [htsCode, setHtsCode] = useState('');
@@ -212,7 +214,7 @@ export default function LookupScreen() {
   const [linksDrawerVisible, setLinksDrawerVisible] = useState(false);
 
   // Main navigation FAB state
-  const [mainFabExpanded, setMainFabExpanded] = useState(false);
+  const [mainFabExpanded, setMainFabExpanded] = useState(true); // Open FABs by default
   const [userClosedFab, setUserClosedFab] = useState(false);
 
   // Animation values for unified floating menu
@@ -594,6 +596,7 @@ export default function LookupScreen() {
 
   const handleDisclaimerAgree = () => {
     setShowDisclaimer(false);
+    openMainFab();
   };
 
   const formatCurrency = (amount: number) => {
@@ -1703,6 +1706,29 @@ export default function LookupScreen() {
     ]).start();
   };
 
+  useEffect(() => {
+    openMainFab();
+  }, []);
+
+  const anyDrawerOpen = historyDrawerVisible || newsDrawerVisible || analyticsDrawerVisible || resultsDrawerVisible || mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
+
+  const handleMainFabPress = () => {
+    if (anyDrawerOpen) {
+      // Close all drawers and return to main Lookup screen
+      closeAllDrawers();
+      setMainHistoryDrawerVisible(false);
+      setSettingsDrawerVisible(false);
+      setLinksDrawerVisible(false);
+      setHistoryDrawerVisible(false);
+      setNewsDrawerVisible(false);
+      setAnalyticsDrawerVisible(false);
+      setResultsDrawerVisible(false);
+      // Optionally scroll to top or reset state here
+    } else {
+      toggleMainFab();
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -1930,7 +1956,7 @@ export default function LookupScreen() {
         </ScrollView>
 
         {/* Unified Floating Menu System */}
-        <View style={styles.floatingMenuContainer}>
+        <View style={[styles.floatingMenuContainer, { bottom: insets.bottom + getSpacing('xs') }]}>
           {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
 
           {/* Recent Button */}
@@ -1938,7 +1964,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.recentFab,
-              {
+              { bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
@@ -1965,7 +1991,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.historyFab,
-              {
+              { bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: historyFabTranslateX },
                   { translateY: historyFabTranslateY },
@@ -1992,7 +2018,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.linksFab,
-              {
+              { bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
@@ -2019,7 +2045,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.newsFab,
-              {
+              { bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
@@ -2046,7 +2072,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.statsFab,
-              {
+              { bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
@@ -2073,7 +2099,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.settingsFab,
-              {
+              { bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },
@@ -2113,7 +2139,7 @@ export default function LookupScreen() {
           >
             <TouchableOpacity
               style={styles.mainFloatingFabButton}
-              onPress={toggleMainFab}
+              onPress={handleMainFabPress}
             >
               <Ionicons name="menu" size={getResponsiveValue(24, 28)} color={BRAND_COLORS.white} />
             </TouchableOpacity>
