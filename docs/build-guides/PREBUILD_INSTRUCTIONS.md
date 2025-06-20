@@ -70,6 +70,7 @@ Before touching any native code, make sure all JS dependencies are installed **a
 npm install
 
 # QUICK CHECK ‑ Metro config should load without errors and report SVG support
+Run:
 node -e "const cfg=require('./metro.config');\
   console.log('✅ Metro config loaded from expo/metro-config');\
   console.log('   SVG enabled:', cfg.resolver.sourceExts.includes('svg'));"
