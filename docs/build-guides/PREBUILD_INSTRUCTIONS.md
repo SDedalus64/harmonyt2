@@ -81,16 +81,7 @@ npm install --save-dev react-native-svg-transformer
 ```
 > The check above prevents the `Serializer did not return expected format` error during native builds.
 
-### 4. Install CocoaPods Dependencies (NEW)
-After cleaning, install or update iOS pods **before** running the Expo prebuild so that the native project is created with all required pods in place.
-```bash
-# From the project root
-npx pod-install ios
-```
-
-> This step downloads and links all native iOS dependencies declared in `package.json`. It is safe to re-run at any time.
-
-### 5. Run Prebuild
+### 4. Run Prebuild
 ```bash
 # Generate /ios and /android native projects (non-interactive)
 EXPO_NO_INTERACTIVE=1 npx expo prebuild --platform ios --no-install
@@ -103,6 +94,14 @@ pod install
 # If you see "directory not empty" errors, use:
 rm -rf ios android && npx expo prebuild --clean
 ```
+
+### 5. Install CocoaPods Dependencies
+After `expo prebuild` has created/updated the native `ios` directory, install or update iOS pods:
+```bash
+# From the project root
+npx pod-install ios
+```
+> This step will run `pod install` inside `ios/` and link all native iOS dependencies declared in `package.json`.
 
 ### 6. Run the Fix Script (CRITICAL STEP!)
 **This is the most important step that fixes all Xcode warnings and permissions**
@@ -239,22 +238,3 @@ echo "✅ Prebuild complete! Open ios/HarmonyTi.xcworkspace in Xcode"
 ```
 
 Make it executable: `chmod +x prebuild-complete.sh`
-Then just run: `./prebuild-complete.sh`
-
-## Important Notes
-
-1. **Always run the fix script** - This is the most critical step that resolves 90% of build issues
-2. **Use the workspace** - Always open .xcworkspace, never .xcodeproj
-3. **Be patient** - Let Xcode fully index before building
-4. **Commit first** - Always commit your changes before prebuild in case you need to revert
-
-## Support
-
-If you encounter issues not covered here:
-1. Check the Expo documentation
-2. Run `expo doctor` to diagnose issues
-3. Check the React Native upgrade helper
-4. Review recent changes in git log
-
-Last updated: June 2025
-Version: 1.0
