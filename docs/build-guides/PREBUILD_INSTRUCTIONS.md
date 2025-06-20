@@ -128,9 +128,12 @@ chmod +x "ios/Pods/Target Support Files/Pods-HarmonyTi/expo-configure-project.sh
 
 ### 8. Open in Xcode
 ```bash
-# Open the workspace (NOT the .xcodeproj)
-cd ios
+# Option A – from project root
 open ios/HarmonyTi.xcworkspace
+
+# Option B – if you are already inside the ios directory
+cd ios
+open HarmonyTi.xcworkspace
 ```
 
 ### 9. Xcode Setup
