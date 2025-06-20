@@ -28,7 +28,24 @@ rm -rf $TMPDIR/haste-*
 rm -rf $TMPDIR/react-*
 ```
 
-### 3. Install CocoaPods Dependencies (NEW)
+### 3. Install JavaScript Dependencies & Verify Metro Config (NEW)
+Before touching any native code, make sure all JS dependencies are installed **and** that Metro is configured correctly.
+```bash
+# Install / update node modules (use `yarn` if you prefer)
+npm install
+
+# QUICK CHECK ‑ Metro config should load without errors and report SVG support
+node -e "const cfg=require('./metro.config');\
+  console.log('✅ Metro config loaded from expo/metro-config');\
+  console.log('   SVG enabled:', cfg.resolver.sourceExts.includes('svg'));"
+```
+If you see a *MODULE_NOT_FOUND* error for `react-native-svg-transformer`, install it:
+```bash
+npm install --save-dev react-native-svg-transformer
+```
+> The check above prevents the `Serializer did not return expected format` error during native builds.
+
+### 4. Install CocoaPods Dependencies (NEW)
 After cleaning, install or update iOS pods **before** running the Expo prebuild so that the native project is created with all required pods in place.
 ```bash
 # From the project root
@@ -37,7 +54,7 @@ npx pod-install ios
 
 > This step downloads and links all native iOS dependencies declared in `package.json`. It is safe to re-run at any time.
 
-### 4. Run Prebuild
+### 5. Run Prebuild
 ```bash
 # Generate /ios and /android native projects (non-interactive)
 EXPO_NO_INTERACTIVE=1 npx expo prebuild --platform ios --no-install
@@ -51,7 +68,7 @@ pod install
 rm -rf ios android && npx expo prebuild --clean
 ```
 
-### 5. Run the Fix Script (CRITICAL STEP!)
+### 6. Run the Fix Script (CRITICAL STEP!)
 **This is the most important step that fixes all Xcode warnings and permissions**
 ```bash
 # Make the script executable (only needed once)
@@ -65,20 +82,20 @@ chmod +x fix-xcode-warnings.sh
 Wait for the script to complete. You should see:
 - ✅ Done! Common warning fixes applied.
 
-### 6. Fix Sandbox Permissions
+### 7. Fix Sandbox Permissions
 ```bash
 # Ensure expo configure script is executable
 chmod +x "ios/Pods/Target Support Files/Pods-HarmonyTi/expo-configure-project.sh"
 ```
 
-### 7. Open in Xcode
+### 8. Open in Xcode
 ```bash
 # Open the workspace (NOT the .xcodeproj)
 cd ios
 open ios/HarmonyTi.xcworkspace
 ```
 
-### 8. Xcode Setup
+### 9. Xcode Setup
 1. **Wait for indexing** to complete (progress bar at top)
 2. **Clean Build Folder**: Product → Clean Build Folder (Cmd+Shift+K)
 3. **Select Team**:
@@ -89,7 +106,7 @@ open ios/HarmonyTi.xcworkspace
    - If asked about "uncommitted changes", click "Continue"
    - If asked about "recommended settings", click "Perform Changes"
 
-### 9. Build and Archive
+### 10. Build and Archive
 1. **Select Device**: Choose "Any iOS Device (arm64)" from the device selector
 2. **Archive**: Product → Archive
 3. **Wait**: The build process may take 5-10 minutes
