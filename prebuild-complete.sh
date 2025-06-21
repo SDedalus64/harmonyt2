@@ -1,16 +1,12 @@
-THIS SHOULD BE A LINTER ERROR#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # -----------------------------------------------------------------------------
 #  prebuild-complete.sh
 # -----------------------------------------------------------------------------
-# Automates the entire pre-build sequence documented in
-# docs/build-guides/PREBUILD_INSTRUCTIONS.md so you can go from a clean repo to
-# an Xcode-ready workspace with one command.
-#
+# Automates the full pre-build workflow defined in docs/build-guides/PREBUILD_INSTRUCTIONS.md.
+# Run from project root:
 #   chmod +x prebuild-complete.sh
 #   ./prebuild-complete.sh
-#
-# The script is intentionally idempotent and safe to re-run.
 # -----------------------------------------------------------------------------
 set -euo pipefail
 
@@ -20,9 +16,9 @@ warn() { printf "\033[33m[WARN]\033[0m %s\n" "$1"; }
 
 bold "🚀  Starting complete pre-build process …"
 
-git_status=$(git status --porcelain || true)
-if [[ -n "$git_status" ]]; then
-  warn "Uncommitted changes detected. It's recommended to commit or stash before continuing."
+# Warn when there are uncommitted changes
+if [[ -n $(git status --porcelain || true) ]]; then
+  warn "Uncommitted changes detected. Consider committing or stashing before continuing."
 fi
 
 ###############################################################################
@@ -30,32 +26,30 @@ fi
 ###############################################################################
 if [[ "$OSTYPE" == "darwin"* ]]; then
   if pgrep -xq "Xcode"; then
-    warn "Xcode appears to be running. Please close it to avoid file-lock issues."
-    read -rp "Continue anyway? [y/N] " REPLY
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      info "Aborting pre-build."; exit 1; fi
+    warn "Xcode appears to be running. Please close it first to avoid file-lock issues."
+    read -rp "Continue anyway? [y/N] " confirm
+    [[ $confirm =~ ^[Yy]$ ]] || { info "Aborting."; exit 1; }
   fi
 fi
 
 ###############################################################################
-# 2. Clean existing native directories & caches
+# 2. Clean native directories and caches
 ###############################################################################
-info "Removing existing ios/ and android/ directories …"
+info "Removing ios/ and android/ directories …"
 rm -rf ios android || true
 
-info "Clearing DerivedData & Metro caches …"
+info "Clearing DerivedData and Metro caches …"
 rm -rf ~/Library/Developer/Xcode/DerivedData || true
 rm -rf "${TMPDIR:-/tmp}"/metro-* "${TMPDIR:-/tmp}"/haste-* "${TMPDIR:-/tmp}"/react-* 2>/dev/null || true
 
 ###############################################################################
-# 3. expo prebuild (fresh native projects)
+# 3. Expo prebuild
 ###############################################################################
-info "Running \"expo prebuild --clean\" — this may take several minutes."
-
+info "Running expo prebuild --clean (this may take a while) …"
 npx expo prebuild --clean
 
 ###############################################################################
-# 4. Restore tracked Podfile (expo prebuild may overwrite it)
+# 4. Restore tracked Podfile (prebuild can overwrite it)
 ###############################################################################
 if [[ -f ios/Podfile ]]; then
   info "Restoring tracked Podfile …"
@@ -63,13 +57,13 @@ if [[ -f ios/Podfile ]]; then
 fi
 
 ###############################################################################
-# 5. CocoaPods install
+# 5. Install pods
 ###############################################################################
-info "Installing pods …"
+info "Installing CocoaPods dependencies …"
 ( cd ios && pod install --repo-update )
 
 ###############################################################################
-# 6. Run fix-xcode-warnings.sh (critical)
+# 6. Run warnings-fix script (critical)
 ###############################################################################
 info "Running fix-xcode-warnings.sh …"
 chmod +x fix-xcode-warnings.sh
@@ -83,8 +77,5 @@ if [[ -f "$SANDBOX_SCRIPT" ]]; then
   chmod +x "$SANDBOX_SCRIPT"
 fi
 
-###############################################################################
-# Done
-###############################################################################
 bold "✅  Pre-build complete!"
-info "Open ios/HarmonyTi.xcworkspace in Xcode and follow remaining build steps (select team, clean build folder, archive)."
+info "Open ios/HarmonyTi.xcworkspace in Xcode, select your team, clean build folder, then archive."
