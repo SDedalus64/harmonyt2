@@ -106,7 +106,7 @@ Be consistent with your commercial invoice. CBP can reject values that appear ar
   💡 Pro Tip
   
   If your invoice doesn't break out freight, Customs may count it as dutiable. Use clear terms like FOB or CIF to avoid unnecessary duties.`,
-  },  
+  },
   units: {
     title: '📦 Units – Optional, but Powerful',
     body: `🧾 Why We Ask for It
@@ -192,24 +192,24 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
   return (
     <AnimatedDrawer isVisible={isOpen} onClose={onClose} position="left">
       <View style={styles.gradientContainer}>
-        <LinearGradient
-          colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
+      <LinearGradient
+        colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={StyleSheet.absoluteFillObject}
         />
 
         <View style={containerStyles}>
-          <TouchableOpacity style={styles.pullTab} onPress={onClose} activeOpacity={0.8}>
-            <Ionicons name="information-circle-outline" size={22} color={BRAND_COLORS.white} />
-          </TouchableOpacity>
-          <Text style={styles.title}>{content.title}</Text>
+        <TouchableOpacity style={styles.pullTab} onPress={onClose} activeOpacity={0.8}>
+          <Ionicons name="information-circle-outline" size={22} color={BRAND_COLORS.white} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{content.title}</Text>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContent}
           >
             {renderBody(content.body)}
-          </ScrollView>
+        </ScrollView>
         </View>
       </View>
     </AnimatedDrawer>

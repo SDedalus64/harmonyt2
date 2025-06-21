@@ -1421,10 +1421,10 @@ export default function LookupScreen() {
               <View style={styles.totalAmountRow}>
                 {/* Duties */}
                 <View style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}>
-                  <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
-                  <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
+            <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
+            <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
                   <Text style={styles.totalAmountSubtext}>on {formatCurrency(dutiableValue)} dutiable value</Text>
-                </View>
+          </View>
                 {/* Landed Cost */}
                 <View style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}>
                   <Text style={styles.totalAmountLabel}>Landed Cost</Text>
@@ -2406,12 +2406,12 @@ export default function LookupScreen() {
           pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
           style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
         >
-          <RNTouchableOpacity
+        <RNTouchableOpacity
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-            onPress={() => setInfoDrawerVisible(true)}
-          >
-            <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
-          </RNTouchableOpacity>
+          onPress={() => setInfoDrawerVisible(true)}
+        >
+          <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
+        </RNTouchableOpacity>
         </Animated.View>
       )}
     </SafeAreaView>
