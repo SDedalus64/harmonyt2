@@ -99,10 +99,7 @@ EXPO_NO_INTERACTIVE=1 npx expo prebuild --platform ios --no-install
 # Restore the tracked Podfile after prebuild
 git checkout ios/Podfile
 
-cd ios
-pod install
-# If you see "directory not empty" errors, use:
-rm -rf ios android && npx expo prebuild --clean
+
 ```
 
 ### 5. Install CocoaPods Dependencies
@@ -111,6 +108,8 @@ After `expo prebuild` has created/updated the native `ios` directory, install or
 # From the project root
 cd .. (if in ios)
 npx pod-install ios
+
+rm -rf ios android && npx expo prebuild --clean
 ```
 > This step will run `pod install` inside `ios/` and link all native iOS dependencies declared in `package.json`.
 
@@ -143,9 +142,13 @@ open HarmonyTi.xcworkspace
 ### 8 b. (Optional) Start the Metro Bundler
 For **debug / simulator** runs you will need Metro running in a separate terminal.
 ```bash
-# From project root
-npm start        # or: npx expo start -c
+# From project root (clears cache every time you start)
+npm start
+#   or
+npx expo start -c
 ```
+Do **not** include the `# ...` comments above when you copy-paste; they're just explanations and will cause `command not found: #` errors.
+
 *When you press the ▶︎ button in Xcode, it will also try to spawn its own Metro instance; starting it yourself gives you faster logs and lets you reset the cache with `-c`.*
 
 > You **do not** need Metro running when you use **Product → Archive** to create an App Store build; the native code is already bundled by Xcode in that case.
