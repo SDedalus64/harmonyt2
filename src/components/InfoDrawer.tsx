@@ -70,54 +70,92 @@ const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, { title: string; body: 
 Be consistent with your commercial invoice. CBP can reject values that appear artificially low.`,
   },
   freight: {
-    title: "📦 What's Included in the Dutiable Value?",
-    body: `The dutiable value is based on the price paid for the goods plus certain freight-related costs.
-
-✅ Included (Dutiable)
-• 🚚 Freight within the export country (e.g., factory to port)
-• ⛴️ Ocean freight if bundled in the price (CIF, DDP with no breakdown)
-• 🏗️ Handling/loading fees before export
-
-⸻
-
-❌ Excluded (Non-Dutiable)
-• 🌊 Ocean freight if itemized separately
-• 🛡️ Insurance (if clearly stated)
-• 🇺🇸 U.S. domestic freight (port to warehouse)
-• 🧾 U.S. duties, brokerage, harbor fees
-
-⸻
-
-⚠️ Pro Tip
-
-If the invoice doesn't separate freight and insurance, CBP may include it all in the dutiable value. Be clear with terms like FOB or CIF.`,
-  },
+    title: "🚚 Freight Cost – What's Dutiable & Why It Matters",
+    body: `⸻
+  
+  ✅ When Freight Is Included in the Price
+  
+  These freight charges become part of your dutiable value:
+  • 🚛 Freight within the export country (e.g. factory to port)
+  • ⛴️ International freight if bundled in the product price
+  • 🏗️ Loading and handling fees before export
+  
+  ⸻
+  
+  ❌ When Freight Is Separately Listed
+  
+  These costs are not dutiable if they appear clearly on your invoice:
+  • 🌊 International freight (listed separately)
+  • 🛡️ Insurance (if itemized)
+  • 🇺🇸 Domestic freight in the U.S.
+  • 🧾 Duties, brokerage, and port fees
+  
+  ⸻
+  
+  📊 Why We Ask for Freight
+  
+  By entering your freight cost, you can:
+  • Estimate your landed cost with more precision
+  • Understand your true cost per unit
+  • Make smarter pricing and purchasing decisions
+  
+  It helps you stay in control—especially when evaluating quotes or planning margins.
+  
+  ⸻
+  
+  💡 Pro Tip
+  
+  If your invoice doesn't break out freight, Customs may count it as dutiable. Use clear terms like FOB or CIF to avoid unnecessary duties.`,
+  },  
   units: {
-    title: 'Unit Count',
-    body:
-      'Optional. Enter the number of individual units in the shipment to see duties and fees expressed on a per-unit basis.',
+    title: '📦 Units – Optional, but Powerful',
+    body: `🧾 Why We Ask for It
+• The number of units in the shipment helps us tie your declared value and freight costs to a per-unit basis
+• This gives you clear, actionable insight into:
+• 💰 Cost per unit
+• 📈 Estimated margin per unit
+• 🧮 Better quotes and pricing strategies
+
+⸻
+
+🧩 What It Enables
+• 🔍 Estimate landed cost per unit
+• 🧠 Evaluate customer margin targets
+• 📊 Improve forecasting by aligning profit with volume
+
+⸻
+
+📝 Totally Optional
+• You can leave it blank — your freight and duty estimates will still work
+• But adding unit count unlocks better business visibility, especially for:
+• Product managers
+• Sales teams
+• Margin-sensitive clients
+
+⸻
+
+💡 Pro Tip
+
+Entering units helps tie costs to each item—especially useful when you’re shipping similar products again.`,
   },
 };
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
-export default function InfoDrawer({ isOpen, onClose, field }: InfoDrawerProps) {
+const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
   if (!field) return null;
   const content = FIELD_CONTENT[field];
   const insets = useSafeAreaInsets();
+  const containerStyles = [
+    styles.container,
+    {
+      paddingTop: insets.top + getSpacing('lg'),
+    },
+  ];
+
   return (
     <AnimatedDrawer isVisible={isOpen} onClose={onClose} position="left">
       <LinearGradient
         colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
-        style={[
-          styles.container,
-          {
-            paddingTop: insets.top + getSpacing('lg'),
-            height: SCREEN_HEIGHT * 0.8,
-            borderTopRightRadius: getBorderRadius('lg'),
-            borderBottomRightRadius: getBorderRadius('lg'),
-          },
-        ]}
+        style={containerStyles}
       >
         <TouchableOpacity style={styles.pullTab} onPress={onClose} activeOpacity={0.8}>
           <Ionicons name="information-circle-outline" size={22} color={BRAND_COLORS.white} />
@@ -129,7 +167,7 @@ export default function InfoDrawer({ isOpen, onClose, field }: InfoDrawerProps) 
       </LinearGradient>
     </AnimatedDrawer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -138,7 +176,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: getResponsiveValue(20, 26),
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: BRAND_COLORS.white,
     marginBottom: getSpacing('md'),
   },
@@ -158,4 +196,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-}); 
+});
+
+export default InfoDrawer;

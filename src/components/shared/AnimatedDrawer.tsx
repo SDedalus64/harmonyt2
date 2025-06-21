@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1000,
+    zIndex: 3000,
   },
   overlayBackground: {
     flex: 1,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   drawer: {
     position: 'absolute',
     backgroundColor: BRAND_COLORS.white,
-    zIndex: 1001,
+    zIndex: 3001,
     borderRadius: BRAND_LAYOUT.borderRadius.lg,
   },
   drawerContent: {

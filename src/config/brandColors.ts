@@ -223,7 +223,7 @@ export const BRAND_LAYOUT = {
     itemHeight: 60,
     // Responsive versions
     mobile: {
-      width: 320,
+      width: 360,
       headerHeight: 100,
       itemHeight: 56,
       maxHeight: '85%',
