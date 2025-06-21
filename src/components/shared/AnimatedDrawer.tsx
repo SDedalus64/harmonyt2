@@ -27,22 +27,34 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   position,
   title,
 }) => {
+  const drawerConfig = getDrawerConfig();
+
   const translateX = useRef(new Animated.Value(getInitialTranslateValue())).current;
   const translateY = useRef(new Animated.Value(getInitialTranslateValue())).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
+  // Track whether we should render drawer to allow close animation
+  const [shouldRender, setShouldRender] = React.useState(isVisible);
+
   function getInitialTranslateValue() {
     switch (position) {
       case 'left':
-        return -BRAND_LAYOUT.drawer.width;
+        return -drawerConfig.width;
       case 'right':
-        return BRAND_LAYOUT.drawer.width;
+        return drawerConfig.width;
       case 'bottom':
         return SCREEN_HEIGHT;
       default:
         return 0;
     }
   }
+
+  useEffect(() => {
+    if (isVisible) {
+      // ensure it's rendered
+      setShouldRender(true);
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     if (isVisible) {
@@ -58,7 +70,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           useNativeDriver: true,
         }),
       ]).start();
-    } else {
+    } else if (shouldRender) {
       Animated.parallel([
         Animated.spring(position === 'bottom' ? translateY : translateX, {
           toValue: getInitialTranslateValue(),
@@ -70,7 +82,10 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           duration: BRAND_ANIMATIONS.timing.duration,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start(() => {
+        // after animation complete unmount
+        setShouldRender(false);
+      });
     }
   }, [isVisible]);
 
@@ -100,7 +115,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           left: 0,
           top: 0,
           bottom: 0,
-          width: BRAND_LAYOUT.drawer.width,
+          width: drawerConfig.width,
         };
       case 'right':
         return {
@@ -109,10 +124,9 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           right: 0,
           top: 0,
           bottom: 0,
-          width: BRAND_LAYOUT.drawer.width,
+          width: drawerConfig.width,
         };
       case 'bottom':
-        const drawerConfig = getDrawerConfig();
         const maxHeightPercent = parseFloat(drawerConfig.maxHeight.replace('%', '')) / 100;
         return {
           ...baseStyle,
@@ -127,7 +141,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     }
   };
 
-  if (!isVisible) return null;
+  if (!shouldRender) return null;
 
   return (
     <>

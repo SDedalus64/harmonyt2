@@ -217,7 +217,7 @@ export default function LookupScreen() {
   const [linksDrawerVisible, setLinksDrawerVisible] = useState(false);
 
   // Main navigation FAB state
-  const [mainFabExpanded, setMainFabExpanded] = useState(true); // Open FABs by default
+  const [mainFabExpanded, setMainFabExpanded] = useState(false); // closed by default until disclaimer accepted
   const [userClosedFab, setUserClosedFab] = useState(false);
 
   // Animation values for unified floating menu
@@ -1735,9 +1735,7 @@ export default function LookupScreen() {
     ]).start();
   };
 
-  useEffect(() => {
-    openMainFab();
-  }, []);
+  // Removed automatic open; will open after disclaimer acceptance
 
   const anyDrawerOpen = historyDrawerVisible || newsDrawerVisible || analyticsDrawerVisible || resultsDrawerVisible || mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
 
