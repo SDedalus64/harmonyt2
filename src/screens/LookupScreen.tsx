@@ -62,6 +62,9 @@ import FieldWithInfo from '../components/FieldWithInfo';
 import InfoDrawer, { InfoFieldKey } from '../components/InfoDrawer';
 import { TouchableOpacity as RNTouchableOpacity } from 'react-native';
 
+// Keyboard-aware scrolling
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 // Get tariff service instance
@@ -194,7 +197,8 @@ export default function LookupScreen() {
   const declaredValueInputRef = useRef<TextInput>(null);
   const freightCostInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
-  const resultScrollViewRef = useRef<ScrollView>(null);
+  // Use generic ref to support both ScrollView and KeyboardAwareScrollView
+  const resultScrollViewRef = useRef<any>(null);
   const unitEntryRef = useRef<View>(null);
   const [htsSuggestions, setHtsSuggestions] = useState<Array<{code: string; description: string}>>([]);
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
@@ -1882,11 +1886,12 @@ export default function LookupScreen() {
         </DiagonalSection>
 
         {/* Main Content Area */}
-        <ScrollView
+        <KeyboardAwareScrollView
           ref={resultScrollViewRef}
           style={styles.mainScrollView}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
+          extraScrollHeight={20}
         >
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
@@ -2075,7 +2080,7 @@ export default function LookupScreen() {
               </View>
                 )}
                 </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
 
         {/* Unified Floating Menu System */}
         <View style={[

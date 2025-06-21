@@ -5,6 +5,7 @@ export const BRAND_COLORS = {
   // Primary brand colors from Dedola templates
   electricBlue: '#0099FF',    // Primary brand blue
   darkNavy: '#0A1A3E',       // Dark backgrounds and text
+  darkBlue: '#023559',       // Additional dark blue for headings
   white: '#FFFFFF',
 
   // Supporting colors
@@ -16,6 +17,7 @@ export const BRAND_COLORS = {
   lightGray: '#F8F8F8',
   mediumGray: '#E1E1E1',
   darkGray: '#666666',
+  black: '#333333',
 
   // Gradient colors for diagonal sections
   gradientStart: '#0099FF',

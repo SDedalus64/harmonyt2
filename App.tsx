@@ -71,7 +71,7 @@ function AppContent() {
   }, []);
 
   // Show loading state while auth is being initialized
-  if (isInitializing || dataInitializing || isFirstLaunch === null) {
+  if (isInitializing || isFirstLaunch === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#0A99F2" />

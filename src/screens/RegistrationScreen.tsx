@@ -5,7 +5,6 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
   KeyboardAvoidingView,
   Platform,
   Switch,
@@ -21,6 +20,7 @@ import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { BRAND_COLORS as COLORS } from '../config/brandColors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Storage key to track if user has previously signed in
 const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';
@@ -140,12 +140,13 @@ export default function RegistrationScreen() {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
     >
       <SafeAreaView style={styles.container} edges={['bottom']}>
-        <ScrollView
+        <KeyboardAwareScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           bounces={true}
           keyboardDismissMode="on-drag"
+          extraScrollHeight={20}
         >
           <View style={styles.header}>
             <Text style={styles.title}>Create Account</Text>
@@ -282,7 +283,7 @@ export default function RegistrationScreen() {
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );

@@ -92,18 +92,35 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
 
   const fontSizes = getFontSizes();
 
+  /**
+   * Show the "Scroll for agreement" hint ONLY if the Agree toggle is not yet
+   * visible to the user.  Using a larger threshold (~80 px) means the entire
+   * checkbox row must be out of view before the hint appears.
+   */
   const handleScroll = (event: any) => {
     if (!contentScrollable) return; // No hint logic if not scrollable
+
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-    const isAtBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
-    setShowScrollHint(!isAtBottom);
+
+    // When we are within ~80px of the bottom we consider the Agree toggle row
+    // visible and therefore hide the hint.
+    const isAgreeVisible =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 80;
+
+    setShowScrollHint(!isAgreeVisible);
   };
 
   const handleContentSizeChange = (contentWidth: number, contentHeight: number) => {
     // Determine if scrolling is needed
-    const scrollable = contentHeight > dimensions.modalHeight - (dimensions.isTablet ? 60 : dimensions.isSmallPhone ? 30 : 40); // approximate padding
+    const scrollable = contentHeight >
+      dimensions.modalHeight - (dimensions.isTablet ? 60 : dimensions.isSmallPhone ? 30 : 40); // approximate padding
+
     setContentScrollable(scrollable);
-    setShowScrollHint(scrollable); // show hint initially only if scrollable
+
+    // Only show the hint if the Agree toggle starts off-screen (i.e. there is
+    // at least ~80px more content than fits in view).
+    const needsHint = scrollable && contentHeight - (dimensions.modalHeight) > 80;
+    setShowScrollHint(needsHint);
   };
 
   return (
@@ -313,7 +330,7 @@ const styles = StyleSheet.create({
   },
   scrollHintOverlay: {
     position: 'absolute',
-    bottom: 7,
+    bottom: 9, // nudged 2 px lower for better spacing
     left: 0,
     right: 0,
     alignItems: 'center',
