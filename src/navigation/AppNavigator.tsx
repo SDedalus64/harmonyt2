@@ -198,7 +198,7 @@ function AuthNavigator() {
       <AuthStack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ headerBackVisible: false }}
+        options={{ headerBackVisible: false, headerShown: false }}
       />
       <AuthStack.Screen
         name="Registration"
