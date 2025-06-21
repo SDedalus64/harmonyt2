@@ -2295,7 +2295,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: getResponsiveValue(getSpacing('xxl'), getSpacing('md')), // More top padding on iPhone for Dynamic Island
-    paddingBottom: getSpacing('md'),
+    paddingBottom: getResponsiveValue(getSpacing('xs'), getSpacing('md')), // Tighter gap under the logo on phones, original spacing retained on iPad
     // Exclusion zone based on "H" symbol height - providing breathing room
     paddingHorizontal: getResponsiveValue(60, 80), // Exclusion zone proportional to logo size
   },
@@ -2307,7 +2307,8 @@ const styles = StyleSheet.create({
   },
   mainScrollView: {
     flex: 1,
-    marginTop: getResponsiveValue(-getSpacing('lg'), -getSpacing('xl')),
+    // Move main content slightly lower on iPhone to expose more of the blue hero backdrop
+    marginTop: getResponsiveValue(-getSpacing('sm'), -getSpacing('xl')), // -8 on phone instead of -20
     zIndex: 2,
   },
   scrollContent: {

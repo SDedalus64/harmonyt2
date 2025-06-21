@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     minHeight: 220,
     justifyContent: 'center',
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 3,
   },
   formContainer: {
     backgroundColor: 'transparent',
@@ -341,6 +341,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: COLORS.mediumGray,
+    width: isTablet() ? '50%' : '100%',
+    alignSelf: isTablet() ? 'center' : 'stretch',
   },
   input: {
     fontSize: 16,
@@ -353,6 +355,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 16,
+    width: isTablet() ? '50%' : '100%',
+    alignSelf: isTablet() ? 'center' : 'stretch',
   },
   loginButtonDisabled: {
     opacity: 0.7,
@@ -367,6 +371,8 @@ const styles = StyleSheet.create({
     height: 56,
     justifyContent: 'center',
     alignItems: 'center',
+    width: isTablet() ? '50%' : '100%',
+    alignSelf: isTablet() ? 'center' : 'stretch',
   },
   signUpButtonText: {
     color: COLORS.lightBlue,
