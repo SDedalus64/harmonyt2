@@ -203,6 +203,8 @@ export default function LookupScreen() {
   const [htsSuggestions, setHtsSuggestions] = useState<Array<{code: string; description: string}>>([]);
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
   const [htsSearchMessage, setHtsSearchMessage] = useState<string>('');
+  const [_dupShowNoResults] = useState(false);
+  const [_dupTimer] = [null];
   const [showUnitCalculations, setShowUnitCalculations] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState<string>('');
   const [showLoadingModal, setShowLoadingModal] = useState(false);
@@ -1833,6 +1835,10 @@ export default function LookupScreen() {
     }
   };
 
+  // Delay "Not found" feedback
+  const [showNoResults, setShowNoResults] = useState(false);
+  const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -1952,9 +1958,11 @@ export default function LookupScreen() {
                       )}
                     </ScrollView>
                       ) : (
-                        <View style={styles.notFoundContainer}>
-                          <Text style={styles.notFoundText}>Not found</Text>
-                        </View>
+                        showNoResults ? (
+                          <View style={styles.notFoundContainer}>
+                            <Text style={styles.notFoundText}>Not found</Text>
+                          </View>
+                        ) : null
                       )}
                   </View>
                 )}
