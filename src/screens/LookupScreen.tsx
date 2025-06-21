@@ -58,6 +58,9 @@ import {
   isTablet as getIsTablet
 } from '../config/brandColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import FieldWithInfo from '../components/FieldWithInfo';
+import InfoDrawer, { InfoFieldKey } from '../components/InfoDrawer';
+import { TouchableOpacity as RNTouchableOpacity } from 'react-native';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -242,7 +245,33 @@ export default function LookupScreen() {
   const linksDrawerTranslateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const navDrawerOpacity = useRef(new Animated.Value(0)).current;
 
+  // after other state declarations add:
+  const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
+  const [activeField, setActiveField] = useState<InfoFieldKey>(null);
+  const [tabY, setTabY] = useState<number>(0);
 
+  const fieldRefs = {
+    code: useRef<View>(null),
+    declared: useRef<View>(null),
+    freight: useRef<View>(null),
+    units: useRef<View>(null),
+  } as const;
+
+  const handleFieldFocus = (field: InfoFieldKey) => {
+    setActiveField(field);
+    // measure position
+    const ref = fieldRefs[field as keyof typeof fieldRefs];
+    if (ref && ref.current) {
+      ref.current.measureInWindow((_x, y, _w, h) => {
+        setTabY(y + h / 2 - 20); // align center assuming tab height 40
+      });
+    }
+  };
+
+  const handleInfoPress = (field: InfoFieldKey) => {
+    setActiveField(field);
+    setInfoDrawerVisible(true);
+  };
 
   useEffect(() => {
     loadHistory();
@@ -1795,23 +1824,23 @@ export default function LookupScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <View style={styles.inputWrapper}>
-                  <TextInput
-                    ref={htsCodeInputRef}
-                    style={styles.input}
+                <View style={styles.inputWrapper} ref={fieldRefs.code}>
+                  <FieldWithInfo
                     placeholder="Code (Enter 3-8 digits to search)"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
                     value={htsCode}
                     onChangeText={(text) => {
                       const cleanedText = text.replace(/\D/g, '').slice(0, 8);
-                      console.log('[HTS Input] Text changed:', text, '-> cleaned:', cleanedText);
                       setHtsCode(cleanedText);
-                      setUserClosedFab(false); // Reset when user interacts
+                      setUserClosedFab(false);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
+                    inputRef={htsCodeInputRef}
                     keyboardType="number-pad"
                     maxLength={8}
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={styles.input}
+                    onFocus={() => handleFieldFocus('code')}
                   />
 
                   {/* HTS Suggestions */}
@@ -1852,60 +1881,63 @@ export default function LookupScreen() {
                   </View>
                 )}
                 </View>
-                                 <View style={styles.inputWrapper}>
+                <View style={styles.inputWrapper}>
                   <CountryLookup
                     ref={countryInputRef}
                     selectedCountry={selectedCountry}
                     onSelect={(country) => {
                       setSelectedCountry(country);
-                      setUserClosedFab(false); // Reset when user interacts
+                      setUserClosedFab(false);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
                   />
-                 </View>
-                <View style={styles.inputWrapper}>
-                  <TextInput
-                    ref={declaredValueInputRef}
-                    style={styles.input}
+                </View>
+                                 <View style={styles.inputWrapper} ref={fieldRefs.declared}>
+                  <FieldWithInfo
+                    placeholder="Declared Value (USD)"
                     value={formattedDeclaredValue}
                     onChangeText={(value) => {
                       handleDeclaredValueChange(value);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    placeholder="Declared Value (USD)"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    inputRef={declaredValueInputRef}
                     keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={styles.input}
+                    onFocus={() => handleFieldFocus('declared')}
                   />
                 </View>
-                <View style={styles.inputWrapper}>
-                  <TextInput
-                    ref={freightCostInputRef}
-                    style={styles.input}
+                <View style={styles.inputWrapper} ref={fieldRefs.freight}>
+                  <FieldWithInfo
+                    placeholder="Freight Cost in USD (Optional)"
                     value={formattedFreightCost}
                     onChangeText={(value) => {
                       handleFreightCostChange(value);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    placeholder="Freight Cost in USD (Optional)"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    inputRef={freightCostInputRef}
                     keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={styles.input}
+                    onFocus={() => handleFieldFocus('freight')}
                   />
                 </View>
-                <View style={styles.inputWrapper}>
-                  <TextInput
-                    style={styles.input}
+                <View style={styles.inputWrapper} ref={fieldRefs.units}>
+                  <FieldWithInfo
+                    placeholder="Unit Count (Optional)"
                     value={formattedUnitCount}
                     onChangeText={(value) => {
                       handleUnitCountChange(value);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    placeholder="Unit Count (Optional)"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
                     keyboardType="number-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={styles.input}
+                    onFocus={() => handleFieldFocus('units')}
                   />
                 </View>
 
@@ -2280,6 +2312,19 @@ export default function LookupScreen() {
           </View>
       </Animated.View>
       </View>
+      <InfoDrawer
+        isOpen={infoDrawerVisible}
+        onClose={() => setInfoDrawerVisible(false)}
+        field={activeField}
+      />
+      {activeField && !infoDrawerVisible && (
+        <RNTouchableOpacity
+          style={[styles.infoTab, { top: tabY }]}
+          onPress={() => setInfoDrawerVisible(true)}
+        >
+          <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
+        </RNTouchableOpacity>
+      )}
     </SafeAreaView>
   );
 }
@@ -2940,5 +2985,19 @@ const styles = StyleSheet.create({
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     marginLeft: getSpacing('sm'),
     lineHeight: getTypographySize('md') * 1.4, // Adjusted line height for vertical centering
+  },
+  infoTab: {
+    position: 'absolute',
+    left: 0,
+    width: 40,
+    height: 40,
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...BRAND_SHADOWS.medium,
+    zIndex: 3000,
+    elevation: 30,
   },
 });

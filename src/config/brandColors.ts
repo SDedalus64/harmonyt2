@@ -229,7 +229,7 @@ export const BRAND_LAYOUT = {
       maxHeight: '85%',
     },
     tablet: {
-      width: 420,
+      width: 520,
       headerHeight: 120,
       itemHeight: 72,
       maxHeight: '90%',
