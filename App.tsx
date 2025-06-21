@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -14,29 +14,13 @@ import { SettingsProvider } from './src/hooks/useSettings';
 // First launch key for AsyncStorage
 const FIRST_LAUNCH_KEY = '@HarmonyTi:firstLaunch';
 
-// Start preloading tariff data immediately when the app module loads
-// This happens before any React components are rendered
-console.log('🚀 App module loaded - starting tariff data preload...');
-
-// Initialize search service (for autocomplete)
-if (!tariffSearchService.isInitialized()) {
-  tariffSearchService.initialize()
-    .then(() => console.log('✅ Search service initialized'))
-    .catch((error) => console.warn('⚠️ Search service initialization failed:', error));
-}
-
-// Initialize main tariff service
+// Keep a singleton instance reference at module level
 const tariffService = TariffService.getInstance();
-if (!tariffService.isInitialized()) {
-  tariffService.initialize()
-    .then(() => console.log('✅ Main tariff data preloaded'))
-    .catch((error) => console.warn('⚠️ Main tariff data preload failed:', error));
-}
 
 function AppContent() {
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
-  const [authChecked, setAuthChecked] = useState(false);
+  const [dataInitializing, setDataInitializing] = useState(true);
   const { isLoggedIn } = useAuth();
 
   useEffect(() => {
@@ -63,10 +47,31 @@ function AppContent() {
     }
 
     initializeApp();
+
+    // Initialize heavy data services AFTER basic app state is ready
+    async function initDataServices() {
+      try {
+        console.log('📦 Initializing data services...');
+
+        // Fire both initializations in parallel
+        await Promise.all([
+          tariffSearchService.isInitialized() ? Promise.resolve() : tariffSearchService.initialize(),
+          tariffService.isInitialized() ? Promise.resolve() : tariffService.initialize(),
+        ]);
+
+        console.log('✅ Data services ready');
+      } catch (err) {
+        console.warn('⚠️ Failed to initialize data services:', err);
+      } finally {
+        setDataInitializing(false);
+      }
+    }
+
+    initDataServices();
   }, []);
 
   // Show loading state while auth is being initialized
-  if (isInitializing || isFirstLaunch === null) {
+  if (isInitializing || dataInitializing || isFirstLaunch === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#0A99F2" />
