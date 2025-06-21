@@ -17,6 +17,8 @@ declare module 'react-native-keyboard-aware-scroll-view' {
     viewIsInsideTabBar?: boolean;
     onKeyboardWillShow?: (frames: object) => void;
     onKeyboardWillHide?: (frames: object) => void;
+    // Accept any other prop (fallback)
+    [key: string]: any;
   }
 
   export const KeyboardAwareScrollView: ComponentType<KeyboardAwareScrollViewProps>;
