@@ -263,7 +263,7 @@ export default function LookupScreen() {
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
       ref.current.measureInWindow((_x, y, _w, h) => {
-        setTabY(y + h / 2 - 20); // align center assuming tab height 40
+        setTabY(y + h / 2 - 20 - getSpacing('sm')); // align center assuming tab height 40
       });
     }
   };
@@ -1826,6 +1826,8 @@ export default function LookupScreen() {
                   <FieldWithInfo
                     placeholder="Code (Enter 3-8 digits to search)"
                     value={htsCode}
+                    fieldKey="code"
+                    onInfoPress={handleInfoPress}
                     onChangeText={(text) => {
                       const cleanedText = text.replace(/\D/g, '').slice(0, 8);
                       setHtsCode(cleanedText);
@@ -1895,6 +1897,8 @@ export default function LookupScreen() {
                   <FieldWithInfo
                     placeholder="Declared Value (USD)"
                     value={formattedDeclaredValue}
+                    fieldKey="declared"
+                    onInfoPress={handleInfoPress}
                     onChangeText={(value) => {
                       handleDeclaredValueChange(value);
                       closeMainFab();
@@ -1911,6 +1915,8 @@ export default function LookupScreen() {
                   <FieldWithInfo
                     placeholder="Freight Cost in USD (Optional)"
                     value={formattedFreightCost}
+                    fieldKey="freight"
+                    onInfoPress={handleInfoPress}
                     onChangeText={(value) => {
                       handleFreightCostChange(value);
                       closeMainFab();
@@ -1927,6 +1933,8 @@ export default function LookupScreen() {
                   <FieldWithInfo
                     placeholder="Unit Count (Optional)"
                     value={formattedUnitCount}
+                    fieldKey="units"
+                    onInfoPress={handleInfoPress}
                     onChangeText={(value) => {
                       handleUnitCountChange(value);
                       closeMainFab();
@@ -1997,7 +2005,10 @@ export default function LookupScreen() {
         </ScrollView>
 
         {/* Unified Floating Menu System */}
-        <View style={[styles.floatingMenuContainer, { bottom: insets.bottom - 30 }]}>
+        <View style={[
+          styles.floatingMenuContainer,
+          { bottom: (isTablet() ? insets.bottom - 30 : insets.bottom - 20) }
+        ]}>
           {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
 
           {/* Recent Button */}
@@ -2005,7 +2016,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.recentFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
@@ -2031,10 +2042,10 @@ export default function LookupScreen() {
           <Animated.View
             style={[
               styles.menuFab,
-              styles.historyFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
+              styles.historyFab,0,
                 transform: [
                   { translateX: historyFabTranslateX },
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70
                   { translateY: historyFabTranslateY },
                   { scale: menuFabScale }
                 ],
@@ -2059,7 +2070,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.linksFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
+          { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
@@ -2086,7 +2097,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.newsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
@@ -2113,7 +2124,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.statsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
@@ -2140,7 +2151,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.settingsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },
@@ -2315,7 +2326,7 @@ export default function LookupScreen() {
         onClose={() => setInfoDrawerVisible(false)}
         field={activeField}
       />
-      {activeField && !infoDrawerVisible && (
+      {activeField && !infoDrawerVisible && !isTablet() && (
         <RNTouchableOpacity
           style={[styles.infoTab, { top: tabY }]}
           onPress={() => setInfoDrawerVisible(true)}
