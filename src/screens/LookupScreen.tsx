@@ -807,8 +807,8 @@ export default function LookupScreen() {
 
       currentEntry.current = entry;
 
-      // Calculate total value (declared value + freight cost)
-      const totalValue = parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0);
+      // Dutiable value is declared value ONLY (freight excluded)
+      const totalValue = parseFloat(declaredValue);
 
       const dutyCalculation = calculateDuty(
         htsCode,
@@ -1381,15 +1381,16 @@ export default function LookupScreen() {
         <ScrollView style={styles.resultsScrollView} showsVerticalScrollIndicator={false}>
           {/* Duties vs Landed Cost */}
           {(() => {
-            const merchandiseValue = parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0);
-            const landedCost = merchandiseValue + result.totalAmount;
+            const dutiableValue = parseFloat(declaredValue);
+            const merchandiseValueForLanded = dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
+            const landedCost = merchandiseValueForLanded + result.totalAmount;
             return (
               <View style={styles.totalAmountRow}>
                 {/* Duties */}
                 <View style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}>
                   <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
                   <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
-                  <Text style={styles.totalAmountSubtext}>on {formatCurrency(merchandiseValue)} dutiable value</Text>
+                  <Text style={styles.totalAmountSubtext}>on {formatCurrency(dutiableValue)} dutiable value</Text>
                 </View>
                 {/* Landed Cost */}
                 <View style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}>

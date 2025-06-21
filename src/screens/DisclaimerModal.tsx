@@ -202,12 +202,14 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
                  </Text>
               </TouchableOpacity>
 
-              {showScrollHint && (
-                 <View style={styles.scrollHintContainer}> 
-                   <Ionicons name="chevron-down" size={28} color={BRAND_COLORS.orange} />
-                   <Text style={[styles.scrollHintText, { color: BRAND_COLORS.orange }]}>Scroll for agreement</Text>
-                 </View>) }
             </ScrollView>
+
+            {showScrollHint && (
+              <View style={styles.scrollHintOverlay} pointerEvents="none"> 
+                <Ionicons name="chevron-down" size={28} color={BRAND_COLORS.orange} />
+                <Text style={[styles.scrollHintText, { color: BRAND_COLORS.orange }]}>Scroll for agreement</Text>
+              </View>
+            )}
          </View>
       </View>
     </Modal>
@@ -299,9 +301,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontStyle: 'italic',
   },
-  scrollHintContainer: {
+  scrollHintOverlay: {
     position: 'absolute',
-    bottom: 8,
+    bottom: 7,
     left: 0,
     right: 0,
     alignItems: 'center',
