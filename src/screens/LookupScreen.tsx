@@ -64,6 +64,7 @@ import { TouchableOpacity as RNTouchableOpacity } from 'react-native';
 
 // Keyboard-aware scrolling
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -1839,6 +1840,17 @@ export default function LookupScreen() {
   const [showNoResults, setShowNoResults] = useState(false);
   const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
 
+  // ----------------------
+  // Gesture: drag info tab to open drawer (iPhone)
+  // ----------------------
+  const handleInfoTabDrag = (event: PanGestureHandlerGestureEvent) => {
+    const { translationX } = event.nativeEvent;
+    // Detect a rightward drag of ~50px to trigger opening
+    if (translationX > 50 && !infoDrawerVisible) {
+      setInfoDrawerVisible(true);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -2415,17 +2427,19 @@ export default function LookupScreen() {
       />
       {/* Info tab for iPhone fades in/out */}
       {!isTablet() && (
-        <Animated.View
-          pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
-          style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
-        >
-        <RNTouchableOpacity
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          onPress={() => setInfoDrawerVisible(true)}
-        >
-          <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
-        </RNTouchableOpacity>
-        </Animated.View>
+        <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={shouldShowInfoTab}>
+          <Animated.View
+            pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
+            style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
+          >
+            <RNTouchableOpacity
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+              onPress={() => setInfoDrawerVisible(true)}
+            >
+              <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
+            </RNTouchableOpacity>
+          </Animated.View>
+        </PanGestureHandler>
       )}
     </SafeAreaView>
   );
