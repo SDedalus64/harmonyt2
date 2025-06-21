@@ -21,6 +21,7 @@ import { AuthStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/contexts/AuthContext';
 import { isTablet } from '../platform/deviceUtils';
 import { Ionicons } from '@expo/vector-icons';
+import { BRAND_COLORS, BRAND_TYPOGRAPHY, getTypographySize, getResponsiveValue } from '../config/brandColors';
 
 // Get screen dimensions
 const { width: screenWidth } = Dimensions.get('window');
@@ -209,8 +210,8 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   logo: {
-    width: isTablet() ? 600 : screenWidth * 0.7,
-    height: isTablet() ? 120 : 80,
+    width: isTablet() ? 1200 : screenWidth * 0.7,
+    height: isTablet() ? 240 : 80,
   },
   formContainer: {
     backgroundColor: COLORS.lightGray,
@@ -223,9 +224,9 @@ const styles = StyleSheet.create({
     borderTopColor: COLORS.mediumGray,
   },
   welcomeText: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: COLORS.darkBlue,
+    fontSize: getResponsiveValue(getTypographySize('xl'), getTypographySize('xxxl')),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    color: BRAND_COLORS.darkNavy,
     marginBottom: 32,
     textAlign: 'center',
   },

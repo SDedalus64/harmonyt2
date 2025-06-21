@@ -1764,7 +1764,7 @@ export default function LookupScreen() {
       <View style={styles.content}>
         {/* Diagonal Background Section */}
         <DiagonalSection height={getResponsiveValue(SCREEN_HEIGHT * 0.2, SCREEN_HEIGHT * 0.25)} style={styles.heroSection}>
-          <View style={styles.logoContainer}>
+          <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
               <Image
                 source={require('../../assets/Harmony2x.png')}
               style={styles.logo}
@@ -1956,7 +1956,7 @@ export default function LookupScreen() {
         </ScrollView>
 
         {/* Unified Floating Menu System */}
-        <View style={[styles.floatingMenuContainer, { bottom: insets.bottom + getSpacing('xs') }]}>
+        <View style={[styles.floatingMenuContainer, { bottom: insets.bottom - 30 }]}>
           {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
 
           {/* Recent Button */}
@@ -1964,7 +1964,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.recentFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
@@ -1991,7 +1991,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.historyFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
                 transform: [
                   { translateX: historyFabTranslateX },
                   { translateY: historyFabTranslateY },
@@ -2018,7 +2018,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.linksFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
@@ -2045,7 +2045,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.newsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
@@ -2072,7 +2072,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.statsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
@@ -2099,7 +2099,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.settingsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37),
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - 60,
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },
