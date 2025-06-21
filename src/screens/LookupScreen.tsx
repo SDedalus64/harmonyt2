@@ -63,76 +63,7 @@ import InfoDrawer, { InfoFieldKey } from '../components/InfoDrawer';
 
 // Keyboard-aware scrolling
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-// 1️⃣  Re-import TouchableOpacity alias
-import { TouchableOpacity as RNTouchableOpacity } from 'react-native';
-
-// 2. Delete the entire custom PanResponder block (const infoTabPanResponder ...) and its unused references
-// ... existing code ...
--  // PanResponder for swipe-to-open info tab (iPhone only)
--  const infoTabPanResponder = useRef(
--    PanResponder.create({
--      onStartShouldSetPanResponder: () => false,
--      onPanResponderGrant: () => {
--        console.log('[InfoTab] pan grant');
--      },
--      onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > Math.abs(g.dy) && g.dx < -5,
--      onPanResponderTerminationRequest: () => false,
--      onPanResponderRelease: (_, g) => {
--        const movedLeft = g.dx < -25 && Math.abs(g.dx) > Math.abs(g.dy);
--        const tap = Math.abs(g.dx) < 5 && Math.abs(g.dy) < 5;
--        if (movedLeft || tap) {
--          Keyboard.dismiss();
--          setInfoDrawerVisible(true);
--        }
--      },
--    })
--  ).current;
-+  // --- Swipeable handler for info tab (tap & swipe) ---
-+  const handleInfoTabOpen = () => {
-+    Keyboard.dismiss();
-+    setInfoDrawerVisible(true);
-+  };
- 
-// 3. Replace info tab JSX wrapper
--        <Animated.View
--          pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
--          style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
--          {...infoTabPanResponder.panHandlers}
--        >
--          <RNTouchableOpacity
--            activeOpacity={0.8}
--            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
--            onPress={() => {
--              Keyboard.dismiss();
--              setInfoDrawerVisible(true);
--            }}
--            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
--            {...infoTabPanResponder.panHandlers}
--          >
--            <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
--          </RNTouchableOpacity>
--        </Animated.View>
-+        <Swipeable
-+          enabled={shouldShowInfoTab}
-+          overshootRight={false}
-+          containerStyle={{ position: 'absolute', top: tabY, left: 0, opacity: infoTabOpacity, zIndex: 3000 }}
-+          renderRightActions={() => null}
-+          onSwipeableRightOpen={handleInfoTabOpen}
-+        >
-+          <Animated.View style={[styles.infoTab]}>
-+            <RNTouchableOpacity
-+              activeOpacity={0.8}
-+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-+              onPress={handleInfoTabOpen}
-+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-+            >
-+              <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
-+            </RNTouchableOpacity>
-+          </Animated.View>
-+        </Swipeable>
-
-// 4. Remove any remaining {...infoTabPanResponder.panHandlers} occurrences elsewhere
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -1905,13 +1836,18 @@ export default function LookupScreen() {
   };
 
   // Delay "Not found" feedback
-  // const [showNoResults, setShowNoResults] = useState(false);
-  // const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
+  const [showNoResults, setShowNoResults] = useState(false);
+  const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // --- Swipeable handler for info tab (tap & swipe) ---
-  const handleInfoTabOpen = () => {
-    Keyboard.dismiss();
-    setInfoDrawerVisible(true);
+  // ----------------------
+  // Gesture: drag info tab to open drawer (iPhone)
+  // ----------------------
+  const handleInfoTabDrag = (event: PanGestureHandlerGestureEvent) => {
+    const { translationX } = event.nativeEvent;
+    // Detect a rightward drag of ~50px to trigger opening
+    if (translationX > 50 && !infoDrawerVisible) {
+      setInfoDrawerVisible(true);
+    }
   };
 
   return (
@@ -2486,24 +2422,19 @@ export default function LookupScreen() {
       />
       {/* Info tab for iPhone fades in/out */}
       {!isTablet() && (
-        <Swipeable
-          enabled={shouldShowInfoTab}
-          overshootRight={false}
-          containerStyle={{ position: 'absolute', top: tabY, left: 0, opacity: infoTabOpacity, zIndex: 3000 }}
-          renderRightActions={() => null}
-          onSwipeableRightOpen={handleInfoTabOpen}
-        >
-          <Animated.View style={[styles.infoTab]}>
+        <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={shouldShowInfoTab}>
+          <Animated.View
+            pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
+            style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
+          >
             <RNTouchableOpacity
-              activeOpacity={0.8}
               style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-              onPress={handleInfoTabOpen}
-              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              onPress={() => setInfoDrawerVisible(true)}
             >
               <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
             </RNTouchableOpacity>
           </Animated.View>
-        </Swipeable>
+        </PanGestureHandler>
       )}
     </SafeAreaView>
   );
