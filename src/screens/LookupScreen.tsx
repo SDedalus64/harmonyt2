@@ -1931,20 +1931,31 @@ export default function LookupScreen() {
 
 
 
-                <TouchableOpacity
-                style={[styles.searchButton, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
-                  onPress={handleLookup}
-                  disabled={isLoading || isTariffLoading}
-                >
-                  {isLoading || isTariffLoading ? (
-                  <ActivityIndicator color={BRAND_COLORS.white} />
-                  ) : (
-                  <>
-                    <Ionicons name="search" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
-                    <Text style={styles.searchButtonText}>Search</Text>
-                  </>
-                  )}
-                </TouchableOpacity>
+                {/* Action Buttons Row */}
+                <View style={styles.actionButtonsRow}>
+                  <TouchableOpacity
+                    style={[styles.searchButton, { marginLeft: 0 }, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
+                    onPress={handleLookup}
+                    disabled={isLoading || isTariffLoading}
+                  >
+                    {isLoading || isTariffLoading ? (
+                      <ActivityIndicator color={BRAND_COLORS.white} />
+                    ) : (
+                      <>
+                        <Ionicons name="search" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
+                        <Text style={styles.searchButtonText}>Search</Text>
+                      </>
+                    )}
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.clearButton}
+                    onPress={handleClearAll}
+                  >
+                    <Ionicons name="backspace-outline" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
+                    <Text style={styles.clearButtonText}>Clear</Text>
+                  </TouchableOpacity>
+                </View>
 
                 {/* Loading Message Display */}
                 {loadingMessage && (
@@ -2904,5 +2915,30 @@ const styles = StyleSheet.create({
     fontSize: getTypographySize('lg'),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.darkNavy,
+  },
+  actionButtonsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: getSpacing('md'),
+    paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
+  },
+  clearButton: {
+    backgroundColor: BRAND_COLORS.orange,
+    borderRadius: getBorderRadius('md'),
+    paddingVertical: getSpacing('md'),
+    paddingHorizontal: getSpacing('lg'),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...BRAND_SHADOWS.small,
+    height: Platform.OS === 'ios' && Platform.isPad ? getButtonConfig().height + 12 : getButtonConfig().height,
+  },
+  clearButtonText: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize('md'),
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    marginLeft: getSpacing('sm'),
+    lineHeight: getTypographySize('md') * 1.4, // Adjusted line height for vertical centering
   },
 });
