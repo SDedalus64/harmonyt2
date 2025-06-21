@@ -55,3 +55,7 @@ Files in `/archive` are kept for historical reference only.
 2. Update tariffs lookup for Hong Kong and Macau
 2a. …ex/update-tariffs-lookup-for-hong-kong-and-macau
 1. Review project for inconsistencies and improvements
++0. Improve iPhone Info Tab animation: ensure smooth single fade in/out when switching fields (eliminate "double-wink").
++0a. Tablet info icons: show only on active field focus without breaking drawer trigger.
++0b. Refactor FieldWithInfo to support focus-dependent visibility (tablet) without losing drawer functionality.
++0c. Verify full-height gradient stays after future edits.
