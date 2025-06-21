@@ -256,13 +256,31 @@ export default function LookupScreen() {
   // Determine if tab should be visible
   const shouldShowInfoTab = !!activeField && !infoDrawerVisible && !isTablet();
 
-  // Animate tab opacity on visibility change
+  // Animate tab opacity with fade-out then fade-in when field changes or visibility toggles (iPhone)
+  const prevVisibleRef = useRef(false);
+
   useEffect(() => {
-    Animated.timing(infoTabOpacity, {
-      toValue: shouldShowInfoTab ? 1 : 0,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
+    if (isTablet()) return;
+
+    const wasVisible = prevVisibleRef.current;
+
+    if (shouldShowInfoTab && !wasVisible) {
+      // Fade in once when becoming visible
+      Animated.timing(infoTabOpacity, {
+        toValue: 1,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    } else if (!shouldShowInfoTab && wasVisible) {
+      // Fade out when hiding
+      Animated.timing(infoTabOpacity, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    prevVisibleRef.current = shouldShowInfoTab;
   }, [shouldShowInfoTab]);
 
   const fieldRefs = {
