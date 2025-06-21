@@ -7,33 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B4B9021620484CB11C363C0 /* libPods-HarmonyTi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD72F878186C68DFE7586558 /* libPods-HarmonyTi.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		60CE4AC79C356AD51355F339 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F8865501DC010FEDD10C3072 /* PrivacyInfo.xcprivacy */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
-		B62C3A67243A4EE6883E83F9 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFFF17D95C4FAF83D3AEF1 /* noop-file.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C7A38A2CC38BC5F99AE31793 /* libPods-HarmonyTi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C34E74EE24A5AAADFE3E5A20 /* libPods-HarmonyTi.a */; };
+		DA519F2C6EC8DDB30257E80E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E2AC4F7640E418BB4DFE2F19 /* PrivacyInfo.xcprivacy */; };
+		E9BBC8BA9C9E45E18EB80BB1 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88953D69C9AD463EBFBF1FC6 /* noop-file.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04CCDFCD97B24A9A9CC8A947 /* HarmonyTi-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "HarmonyTi-Bridging-Header.h"; path = "HarmonyTi/HarmonyTi-Bridging-Header.h"; sourceTree = "<group>"; };
+		0BF34634626C46338ECF6828 /* HarmonyTi-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "HarmonyTi-Bridging-Header.h"; path = "HarmonyTi/HarmonyTi-Bridging-Header.h"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* HarmonyTi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HarmonyTi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = HarmonyTi/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = HarmonyTi/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = HarmonyTi/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = HarmonyTi/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = HarmonyTi/main.m; sourceTree = "<group>"; };
-		710A839DCD5C544004779655 /* Pods-HarmonyTi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.debug.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.debug.xcconfig"; sourceTree = "<group>"; };
+		5A1A403200573D04202E5494 /* Pods-HarmonyTi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.debug.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.debug.xcconfig"; sourceTree = "<group>"; };
+		88953D69C9AD463EBFBF1FC6 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "HarmonyTi/noop-file.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = HarmonyTi/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B66F98515E5E08C066210756 /* Pods-HarmonyTi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.release.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.release.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BBEFFF17D95C4FAF83D3AEF1 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "HarmonyTi/noop-file.swift"; sourceTree = "<group>"; };
-		C34E74EE24A5AAADFE3E5A20 /* libPods-HarmonyTi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HarmonyTi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB5C91D02817CEADF54473AA /* Pods-HarmonyTi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.release.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.release.xcconfig"; sourceTree = "<group>"; };
+		CD72F878186C68DFE7586558 /* libPods-HarmonyTi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HarmonyTi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2AC4F7640E418BB4DFE2F19 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = HarmonyTi/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F8865501DC010FEDD10C3072 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = HarmonyTi/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-HarmonyTi/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -42,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7A38A2CC38BC5F99AE31793 /* libPods-HarmonyTi.a in Frameworks */,
+				0B4B9021620484CB11C363C0 /* libPods-HarmonyTi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,9 +59,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				BBEFFF17D95C4FAF83D3AEF1 /* noop-file.swift */,
-				04CCDFCD97B24A9A9CC8A947 /* HarmonyTi-Bridging-Header.h */,
-				F8865501DC010FEDD10C3072 /* PrivacyInfo.xcprivacy */,
+				88953D69C9AD463EBFBF1FC6 /* noop-file.swift */,
+				0BF34634626C46338ECF6828 /* HarmonyTi-Bridging-Header.h */,
+				E2AC4F7640E418BB4DFE2F19 /* PrivacyInfo.xcprivacy */,
 			);
 			name = HarmonyTi;
 			sourceTree = "<group>";
@@ -70,7 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				C34E74EE24A5AAADFE3E5A20 /* libPods-HarmonyTi.a */,
+				CD72F878186C68DFE7586558 /* libPods-HarmonyTi.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -125,8 +125,8 @@
 		D65327D7A22EEC0BE12398D9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				710A839DCD5C544004779655 /* Pods-HarmonyTi.debug.xcconfig */,
-				DB5C91D02817CEADF54473AA /* Pods-HarmonyTi.release.xcconfig */,
+				5A1A403200573D04202E5494 /* Pods-HarmonyTi.debug.xcconfig */,
+				B66F98515E5E08C066210756 /* Pods-HarmonyTi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -146,14 +146,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "HarmonyTi" */;
 			buildPhases = (
-				C2C4099F5E23B03C81C5A996 /* [CP] Check Pods Manifest.lock */,
-				EADEF7CED200062E904F9AA2 /* [Expo] Configure project */,
+				3D5FA55CE64C6D7ACFA2CD10 /* [CP] Check Pods Manifest.lock */,
+				C9A9508901EBF231F4BA3E1D /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				A69CBB3742C060C31193A18E /* [CP] Embed Pods Frameworks */,
-				9C698C47C753E2C2DA0597BA /* [CP] Copy Pods Resources */,
+				6998E8D9751623CF22F2E4C7 /* [CP] Embed Pods Frameworks */,
+				9B5F42D9BC1EAEFAA6A87560 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,7 +170,8 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1250;
@@ -203,7 +204,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				60CE4AC79C356AD51355F339 /* PrivacyInfo.xcprivacy in Resources */,
+				DA519F2C6EC8DDB30257E80E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +226,47 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 		};
-		9C698C47C753E2C2DA0597BA /* [CP] Copy Pods Resources */ = {
+		3D5FA55CE64C6D7ACFA2CD10 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HarmonyTi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6998E8D9751623CF22F2E4C7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B5F42D9BC1EAEFAA6A87560 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -259,47 +300,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A69CBB3742C060C31193A18E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C2C4099F5E23B03C81C5A996 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HarmonyTi-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EADEF7CED200062E904F9AA2 /* [Expo] Configure project */ = {
+		C9A9508901EBF231F4BA3E1D /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -328,7 +329,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				B62C3A67243A4EE6883E83F9 /* noop-file.swift in Sources */,
+				E9BBC8BA9C9E45E18EB80BB1 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,25 +338,25 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 710A839DCD5C544004779655 /* Pods-HarmonyTi.debug.xcconfig */;
+			baseConfigurationReference = 5A1A403200573D04202E5494 /* Pods-HarmonyTi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HarmonyTi/HarmonyTi.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2QFN2YCBAZ;
+				CURRENT_PROJECT_VERSION = 34;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = HarmonyTi/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.5.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -374,20 +375,20 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB5C91D02817CEADF54473AA /* Pods-HarmonyTi.release.xcconfig */;
+			baseConfigurationReference = B66F98515E5E08C066210756 /* Pods-HarmonyTi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HarmonyTi/HarmonyTi.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2QFN2YCBAZ;
+				CURRENT_PROJECT_VERSION = 34;
 				INFOPLIST_FILE = HarmonyTi/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.5.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -426,6 +427,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -433,8 +435,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 2QFN2YCBAZ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -489,6 +493,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -496,8 +501,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 2QFN2YCBAZ;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -516,6 +523,7 @@
 				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
