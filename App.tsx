@@ -20,17 +20,19 @@ console.log('🚀 App module loaded - starting tariff data preload...');
 
 // Initialize search service (for autocomplete)
 if (!tariffSearchService.isInitialized()) {
-  tariffSearchService.initialize()
+  tariffSearchService
+    .initialize()
     .then(() => console.log('✅ Search service initialized'))
-    .catch((error) => console.warn('⚠️ Search service initialization failed:', error));
+    .catch((error) => console.error('Search service init error:', error));
 }
 
 // Initialize main tariff service
 const tariffService = TariffService.getInstance();
 if (!tariffService.isInitialized()) {
-  tariffService.initialize()
+  tariffService
+    .initialize()
     .then(() => console.log('✅ Main tariff data preloaded'))
-    .catch((error) => console.warn('⚠️ Main tariff data preload failed:', error));
+    .catch((error) => console.error('Main tariff preload error:', error));
 }
 
 function AppContent() {
@@ -41,6 +43,11 @@ function AppContent() {
 
   useEffect(() => {
     async function initializeApp() {
+      const failSafeTimeout = setTimeout(() => {
+        console.warn('Initialization timeout – continuing without data');
+        setIsInitializing(false);
+      }, 8000);
+
       try {
         console.log('App component initializing...');
 
@@ -58,6 +65,7 @@ function AppContent() {
         console.error('Error during app initialization:', error);
         setIsFirstLaunch(false);
       } finally {
+        clearTimeout(failSafeTimeout);
         setIsInitializing(false);
       }
     }
