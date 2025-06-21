@@ -151,27 +151,38 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
     },
   ];
 
-  // Converts body string into structured JSX with aligned bullet icons
+  /**
+   * Converts the raw multiline body string into nicely-formatted JSX.
+   *
+   * Rules:
+   *   • Empty line  → small vertical spacer
+   *   • "⸻"        → horizontal separator
+   *   • "• …" lines → treat the first real symbol (emoji/shape) **after** the bullet as the icon
+   *   • Any other   → first token becomes the icon (✅, 🚫, etc.)
+   */
   const renderBody = (bodyString: string) => {
-    const lines = bodyString.split('\n');
-    return lines.map((line, idx) => {
-      const trimmed = line.trim();
+    return bodyString.split('\n').map((raw, idx) => {
+      const trimmed = raw.trim();
 
-      // Empty line → small spacer
-      if (trimmed.length === 0) {
+      // 1. Blank line ➜ spacer
+      if (!trimmed) {
         return <View key={idx} style={{ height: 4 }} />;
       }
 
-      // Divider line
+      // 2. Divider line
       if (trimmed === '⸻') {
         return <View key={idx} style={styles.separator} />;
       }
 
-      // Detect leading token (emoji, bullet, etc.)
-      const tokenMatch = trimmed.match(/^([^\s]+)\s+(.*)$/);
-      if (tokenMatch) {
-        const icon = tokenMatch[1];
-        const text = tokenMatch[2];
+      // 3. Bullet lines starting with "•"
+      if (trimmed.startsWith('•')) {
+        const rest = trimmed.slice(1).trim(); // remove leading bullet char
+
+        // If another token (emoji/symbol) follows, use it as the icon; otherwise keep "•".
+        const subMatch = rest.match(/^([^\s]+)\s+(.*)$/);
+        const icon = subMatch ? subMatch[1] : '•';
+        const text = subMatch ? subMatch[2] : rest;
+
         return (
           <View key={idx} style={styles.bulletRow}>
             <Text style={styles.bulletIcon}>{icon}</Text>
@@ -180,11 +191,22 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
         );
       }
 
-      // Default paragraph
+      // 4. Generic "ICON text" pattern
+      const match = trimmed.match(/^([^\s]+)\s+(.*)$/);
+      if (match) {
+        const icon = match[1];
+        const text = match[2];
+        return (
+          <View key={idx} style={styles.bulletRow}>
+            <Text style={styles.bulletIcon}>{icon}</Text>
+            <Text style={styles.bulletText}>{text}</Text>
+          </View>
+        );
+      }
+
+      // 5. Fallback paragraph
       return (
-        <Text key={idx} style={[styles.bodyText, { marginBottom: 4 }]}>
-          {trimmed}
-        </Text>
+        <Text key={idx} style={[styles.bodyText, { marginBottom: 4 }]}> {trimmed} </Text>
       );
     });
   };
@@ -253,7 +275,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bulletIcon: {
-    width: 22,
+    width: 26, // a little wider so long emojis don't push text
     fontSize: getResponsiveValue(14, 18),
     color: BRAND_COLORS.white,
   },
