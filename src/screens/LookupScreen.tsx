@@ -203,8 +203,6 @@ export default function LookupScreen() {
   const [htsSuggestions, setHtsSuggestions] = useState<Array<{code: string; description: string}>>([]);
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
   const [htsSearchMessage, setHtsSearchMessage] = useState<string>('');
-  const [_dupShowNoResults] = useState(false);
-  const [_dupTimer] = [null];
   const [showUnitCalculations, setShowUnitCalculations] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState<string>('');
   const [showLoadingModal, setShowLoadingModal] = useState(false);
@@ -2427,12 +2425,12 @@ export default function LookupScreen() {
             pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
             style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
           >
-            <RNTouchableOpacity
+            <TouchableOpacity
               style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
               onPress={() => setInfoDrawerVisible(true)}
             >
               <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
-            </RNTouchableOpacity>
+            </TouchableOpacity>
           </Animated.View>
         </PanGestureHandler>
       )}
