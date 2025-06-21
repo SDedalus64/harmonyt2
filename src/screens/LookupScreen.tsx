@@ -775,6 +775,11 @@ export default function LookupScreen() {
 
   // Update the handleLookup function to use async lookup with loading messages
   const handleLookup = async () => {
+    // Hide any floating info tabs or drawers as soon as the user initiates a search
+    setActiveField(null);
+    setInfoDrawerVisible(false);
+    setShowHtsSuggestions(false);
+
     if (!htsCode || !selectedCountry || !declaredValue) {
       Alert.alert('Missing Information', 'Please enter HTS code, select a country, and enter a declared value.');
       return;
@@ -2042,12 +2047,13 @@ export default function LookupScreen() {
           <Animated.View
             style={[
               styles.menuFab,
-              styles.historyFab,0,
+              styles.historyFab,
+              {
+                bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
                 transform: [
                   { translateX: historyFabTranslateX },
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70
                   { translateY: historyFabTranslateY },
-                  { scale: menuFabScale }
+                  { scale: menuFabScale },
                 ],
                 opacity: menuFabOpacity,
               },
