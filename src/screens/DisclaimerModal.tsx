@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Switch, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { BRAND_COLORS } from '../config/brandColors';
 
 interface DisclaimerModalProps {
   visible: boolean;
@@ -34,6 +36,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
   const [agreed, setAgreed] = useState(false);
   const [dimensions, setDimensions] = useState(getModalDimensions());
   const scrollViewRef = useRef<ScrollView>(null);
+  const [showScrollHint, setShowScrollHint] = useState(true);
 
   useEffect(() => {
     if (visible) {
@@ -88,6 +91,12 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
 
   const fontSizes = getFontSizes();
 
+  const handleScroll = (event: any) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    const isAtBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+    setShowScrollHint(!isAtBottom);
+  };
+
   return (
     <Modal
       transparent={true}
@@ -111,6 +120,8 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollContent}
               bounces={false}
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
             >
               <Text style={[styles.modalTitle, { fontSize: fontSizes.title }]}>Welcome to HarmonyTi</Text>
 
@@ -190,6 +201,12 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
                    Agree & Continue
                  </Text>
               </TouchableOpacity>
+
+              {showScrollHint && (
+                 <View style={styles.scrollHintContainer}> 
+                   <Ionicons name="chevron-down" size={28} color={BRAND_COLORS.orange} />
+                   <Text style={[styles.scrollHintText, { color: BRAND_COLORS.orange }]}>Scroll for agreement</Text>
+                 </View>) }
             </ScrollView>
          </View>
       </View>
@@ -281,6 +298,17 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontSize: 12,
     fontStyle: 'italic',
+  },
+  scrollHintContainer: {
+    position: 'absolute',
+    bottom: 8,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  scrollHintText: {
+    fontSize: 12,
+    marginTop: 2,
   },
 });
 

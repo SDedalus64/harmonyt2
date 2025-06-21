@@ -258,6 +258,8 @@ export default function LookupScreen() {
   } as const;
 
   const handleFieldFocus = (field: InfoFieldKey) => {
+    // User is interacting with the form – collapse FABs
+    closeMainFab();
     setActiveField(field);
     // measure position
     const ref = fieldRefs[field as keyof typeof fieldRefs];
@@ -1377,19 +1379,27 @@ export default function LookupScreen() {
         </View>
 
         <ScrollView style={styles.resultsScrollView} showsVerticalScrollIndicator={false}>
-          {/* Total Amount - Prominent Display */}
-          <View style={styles.totalAmountCard}>
-            <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
-            <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
-            <Text style={styles.totalAmountSubtext}>
-              on {formatCurrency(parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0))} total value
-              {freightCost && parseFloat(freightCost) > 0 && (
-                <Text style={styles.totalAmountBreakdown}>
-                  {'\n'}({formatCurrency(parseFloat(declaredValue))} declared + {formatCurrency(parseFloat(freightCost))} freight)
-                </Text>
-              )}
-            </Text>
-          </View>
+          {/* Duties vs Landed Cost */}
+          {(() => {
+            const merchandiseValue = parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0);
+            const landedCost = merchandiseValue + result.totalAmount;
+            return (
+              <View style={styles.totalAmountRow}>
+                {/* Duties */}
+                <View style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}>
+                  <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
+                  <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
+                  <Text style={styles.totalAmountSubtext}>on {formatCurrency(merchandiseValue)} dutiable value</Text>
+                </View>
+                {/* Landed Cost */}
+                <View style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}>
+                  <Text style={styles.totalAmountLabel}>Landed Cost</Text>
+                  <Text style={styles.totalAmountValue}>{formatCurrency(landedCost)}</Text>
+                  <Text style={styles.totalAmountSubtext}>value + duties/fees</Text>
+                </View>
+              </View>
+            );
+          })()}
 
           {/* Compact Breakdown */}
           {result.components && result.components.length > 0 && (
@@ -1438,6 +1448,13 @@ export default function LookupScreen() {
                 <Text style={styles.compactLabel}>Duty Cost</Text>
                 <Text style={styles.compactAmount}>
                   {formatCurrency(result.totalAmount / parseFloat(unitCount))}
+                </Text>
+              </View>
+              {/* Landed cost per unit */}
+              <View style={styles.compactRow}>
+                <Text style={styles.compactLabel}>Landed Cost</Text>
+                <Text style={styles.compactAmount}>
+                  {formatCurrency((parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0) + result.totalAmount) / parseFloat(unitCount))}
                 </Text>
               </View>
               {(() => {
@@ -1608,6 +1625,13 @@ export default function LookupScreen() {
 
   // Close main FAB when other actions are taken
   const closeMainFab = () => {
+    // Hide any floating info tab
+    setActiveField(null);
+    setInfoDrawerVisible(false);
+
+    // Mark that user manually closed the FAB so it won't auto-reopen
+    setUserClosedFab(true);
+
     if (mainFabExpanded) {
       toggleMainFab();
     }
@@ -1740,11 +1764,21 @@ export default function LookupScreen() {
     ]).start();
   };
 
+  // ----------------------
+  // Helper: hide floating info tab & suggestions
+  // ----------------------
+  const hideInfoTabs = () => {
+    setActiveField(null);
+    setInfoDrawerVisible(false);
+    setShowHtsSuggestions(false);
+  };
+
   // Removed automatic open; will open after disclaimer acceptance
 
   const anyDrawerOpen = historyDrawerVisible || newsDrawerVisible || analyticsDrawerVisible || resultsDrawerVisible || mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
 
   const handleMainFabPress = () => {
+    hideInfoTabs();
     if (anyDrawerOpen) {
       // Close all drawers and return to main Lookup screen
       closeAllDrawers();
@@ -3014,5 +3048,11 @@ const styles = StyleSheet.create({
     ...BRAND_SHADOWS.medium,
     zIndex: 3000,
     elevation: 30,
+  },
+  totalAmountRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: getSpacing('sm'),
   },
 });
