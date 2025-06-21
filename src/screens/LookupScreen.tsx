@@ -250,6 +250,21 @@ export default function LookupScreen() {
   const [activeField, setActiveField] = useState<InfoFieldKey>(null);
   const [tabY, setTabY] = useState<number>(0);
 
+  // Opacity for fading info tab (iPhone only)
+  const infoTabOpacity = useRef(new Animated.Value(0)).current;
+
+  // Determine if tab should be visible
+  const shouldShowInfoTab = !!activeField && !infoDrawerVisible && !isTablet();
+
+  // Animate tab opacity on visibility change
+  useEffect(() => {
+    Animated.timing(infoTabOpacity, {
+      toValue: shouldShowInfoTab ? 1 : 0,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+  }, [shouldShowInfoTab]);
+
   const fieldRefs = {
     code: useRef<View>(null),
     declared: useRef<View>(null),
@@ -2367,13 +2382,19 @@ export default function LookupScreen() {
         onClose={() => setInfoDrawerVisible(false)}
         field={activeField}
       />
-      {activeField && !infoDrawerVisible && !isTablet() && (
-        <RNTouchableOpacity
-          style={[styles.infoTab, { top: tabY }]}
-          onPress={() => setInfoDrawerVisible(true)}
+      {/* Info tab for iPhone fades in/out */}
+      {!isTablet() && (
+        <Animated.View
+          pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
+          style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
         >
-          <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
-        </RNTouchableOpacity>
+          <RNTouchableOpacity
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => setInfoDrawerVisible(true)}
+          >
+            <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
+          </RNTouchableOpacity>
+        </Animated.View>
       )}
     </SafeAreaView>
   );

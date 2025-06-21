@@ -36,7 +36,8 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
   const [agreed, setAgreed] = useState(false);
   const [dimensions, setDimensions] = useState(getModalDimensions());
   const scrollViewRef = useRef<ScrollView>(null);
-  const [showScrollHint, setShowScrollHint] = useState(true);
+  const [contentScrollable, setContentScrollable] = useState(false);
+  const [showScrollHint, setShowScrollHint] = useState(false);
 
   useEffect(() => {
     if (visible) {
@@ -92,9 +93,17 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
   const fontSizes = getFontSizes();
 
   const handleScroll = (event: any) => {
+    if (!contentScrollable) return; // No hint logic if not scrollable
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
     const isAtBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
     setShowScrollHint(!isAtBottom);
+  };
+
+  const handleContentSizeChange = (contentWidth: number, contentHeight: number) => {
+    // Determine if scrolling is needed
+    const scrollable = contentHeight > dimensions.modalHeight - (dimensions.isTablet ? 60 : dimensions.isSmallPhone ? 30 : 40); // approximate padding
+    setContentScrollable(scrollable);
+    setShowScrollHint(scrollable); // show hint initially only if scrollable
   };
 
   return (
@@ -121,6 +130,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
               contentContainerStyle={styles.scrollContent}
               bounces={false}
               onScroll={handleScroll}
+              onContentSizeChange={handleContentSizeChange}
               scrollEventThrottle={16}
             >
               <Text style={[styles.modalTitle, { fontSize: fontSizes.title }]}>Welcome to HarmonyTi</Text>

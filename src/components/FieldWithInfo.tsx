@@ -15,36 +15,48 @@ const FieldWithInfo: React.FC<FieldWithInfoProps> = ({
   inputRef,
   fieldKey,
   onInfoPress,
-  ...textInputProps
+  ...restProps
 }) => {
-  const showIcon = isTablet();
+  const showIconOnTablet = isTablet();
+  const iconSize = showIconOnTablet ? 42 : 22;
+
   return (
     <View style={styles.inputGroup}>
-      {showIcon && fieldKey && onInfoPress && (
-        <TouchableOpacity onPress={() => onInfoPress(fieldKey)} style={styles.icon}>
-          <Ionicons name="information-circle-outline" size={22} color="#217DB2" />
-        </TouchableOpacity>
-      )}
       <TextInput
         ref={inputRef}
         placeholder={placeholder}
         style={styles.input}
-        {...textInputProps}
+        {...restProps}
       />
+
+      {showIconOnTablet && fieldKey && onInfoPress && (
+        <TouchableOpacity
+          onPress={() => onInfoPress(fieldKey)}
+          style={[styles.iconOverlay, { width: iconSize + 12 }]}
+        >
+          <Ionicons name="information-circle-outline" size={iconSize} color="#217DB2" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   inputGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    position: 'relative',
+    width: '100%',
   },
-  icon: {
-    marginRight: 8,
+  iconOverlay: {
+    position: 'absolute',
+    left: -54,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: [{ translateY: -7 }],
   },
   input: {
-    flex: 1,
+    width: '100%',
     height: 44,
     fontSize: 16,
   },

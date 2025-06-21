@@ -136,7 +136,7 @@ Be consistent with your commercial invoice. CBP can reject values that appear ar
 
 💡 Pro Tip
 
-Entering units helps tie costs to each item—especially useful when you’re shipping similar products again.`,
+Entering units helps tie costs to each item—especially useful when you're shipping similar products again.`,
   },
 };
 
@@ -151,20 +151,67 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
     },
   ];
 
+  // Converts body string into structured JSX with aligned bullet icons
+  const renderBody = (bodyString: string) => {
+    const lines = bodyString.split('\n');
+    return lines.map((line, idx) => {
+      const trimmed = line.trim();
+
+      // Empty line → small spacer
+      if (trimmed.length === 0) {
+        return <View key={idx} style={{ height: 4 }} />;
+      }
+
+      // Divider line
+      if (trimmed === '⸻') {
+        return <View key={idx} style={styles.separator} />;
+      }
+
+      // Detect leading token (emoji, bullet, etc.)
+      const tokenMatch = trimmed.match(/^([^\s]+)\s+(.*)$/);
+      if (tokenMatch) {
+        const icon = tokenMatch[1];
+        const text = tokenMatch[2];
+        return (
+          <View key={idx} style={styles.bulletRow}>
+            <Text style={styles.bulletIcon}>{icon}</Text>
+            <Text style={styles.bulletText}>{text}</Text>
+          </View>
+        );
+      }
+
+      // Default paragraph
+      return (
+        <Text key={idx} style={[styles.bodyText, { marginBottom: 4 }]}>
+          {trimmed}
+        </Text>
+      );
+    });
+  };
+
   return (
     <AnimatedDrawer isVisible={isOpen} onClose={onClose} position="left">
-      <LinearGradient
-        colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
-        style={containerStyles}
-      >
-        <TouchableOpacity style={styles.pullTab} onPress={onClose} activeOpacity={0.8}>
-          <Ionicons name="information-circle-outline" size={22} color={BRAND_COLORS.white} />
-        </TouchableOpacity>
-        <Text style={styles.title}>{content.title}</Text>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.body}>{content.body}</Text>
-        </ScrollView>
-      </LinearGradient>
+      <View style={styles.gradientContainer}>
+        <LinearGradient
+          colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={StyleSheet.absoluteFillObject}
+        />
+
+        <View style={containerStyles}>
+          <TouchableOpacity style={styles.pullTab} onPress={onClose} activeOpacity={0.8}>
+            <Ionicons name="information-circle-outline" size={22} color={BRAND_COLORS.white} />
+          </TouchableOpacity>
+          <Text style={styles.title}>{content.title}</Text>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+          >
+            {renderBody(content.body)}
+          </ScrollView>
+        </View>
+      </View>
     </AnimatedDrawer>
   );
 };
@@ -178,11 +225,11 @@ const styles = StyleSheet.create({
     fontSize: getResponsiveValue(20, 26),
     fontWeight: 'bold',
     color: BRAND_COLORS.white,
-    marginBottom: getSpacing('md'),
+    marginBottom: getSpacing('sm'),
   },
-  body: {
+  bodyText: {
     fontSize: getResponsiveValue(14, 18),
-    lineHeight: getResponsiveValue(20, 24),
+    lineHeight: getResponsiveValue(18, 22),
     color: BRAND_COLORS.white,
   },
   pullTab: {
@@ -195,6 +242,34 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  gradientContainer: {
+    flex: 1,
+    minHeight: '100%',
+  },
+  bulletRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 4,
+  },
+  bulletIcon: {
+    width: 22,
+    fontSize: getResponsiveValue(14, 18),
+    color: BRAND_COLORS.white,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: getResponsiveValue(14, 18),
+    lineHeight: getResponsiveValue(18, 22),
+    color: BRAND_COLORS.white,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    marginVertical: getSpacing('sm'),
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
 });
 
