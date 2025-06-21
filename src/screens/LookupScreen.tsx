@@ -1791,7 +1791,7 @@ export default function LookupScreen() {
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
               <View style={styles.sectionTitleWrapper}>
-                <Text style={styles.sectionTitle}>HTS Code Search</Text>
+                <Text style={styles.sectionTitle}>Enter HTS Code, Country & Values</Text>
               </View>
 
               <View style={styles.inputContainer}>
@@ -2336,15 +2336,15 @@ const styles = StyleSheet.create({
   },
   sectionTitleWrapper: {
     paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
-    alignItems: 'flex-start',
+    alignItems: 'center',
     width: '100%',
   },
   sectionTitle: {
-    fontSize: getTypographySize('xl'),
+    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('xl')),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
-    color: BRAND_COLORS.darkNavy,
+    color: BRAND_COLORS.orange,
     marginBottom: getSpacing('md'),
-    textAlign: 'left',
+    textAlign: 'center',
     width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
     maxWidth: '100%',
   },
