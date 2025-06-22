@@ -16,6 +16,7 @@ import {
   Animated,
   ViewStyle,
   Modal,
+  useWindowDimensions,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -1893,6 +1894,46 @@ export default function LookupScreen() {
     }
   };
 
+  // ----------------------
+  // Dynamic layout based on rotation / size
+  // ----------------------
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const isLandscape = windowWidth > windowHeight;
+
+  // Runtime tablet check (depends on current dimensions)
+  const isTabletNow = ((): boolean => {
+    const aspect = windowHeight / windowWidth;
+    return Platform.OS === 'ios' && Platform.isPad && aspect <= 1.6;
+  })();
+
+  // Memo-ized dynamic styles that need to react on rotation
+  const dynamicHeaderStyles = React.useMemo(() => {
+    const heroHeight = isTabletNow
+      ? isLandscape
+        ? windowHeight * 0.18
+        : windowHeight * 0.25
+      : windowHeight * 0.2;
+
+    const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
+
+    return {
+      heroSection: {
+        height: heroHeight,
+      } as ViewStyle,
+      logo: {
+        width: logoWidth,
+        height: logoWidth * 0.3,
+        maxWidth: isTabletNow ? 600 : 420,
+        maxHeight: isTabletNow ? 180 : 126,
+      } as ViewStyle,
+      dataSourceContainer: isTabletNow
+        ? {
+            marginBottom: isLandscape ? 0 : -getSpacing('xs'),
+          }
+        : {},
+    };
+  }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -1927,15 +1968,16 @@ export default function LookupScreen() {
       {/* Main Content */}
       <View style={styles.content}>
         {/* Diagonal Background Section */}
-        <DiagonalSection height={getResponsiveValue(SCREEN_HEIGHT * 0.2, SCREEN_HEIGHT * 0.25)} style={styles.heroSection}>
+        <DiagonalSection
+          height={dynamicHeaderStyles.heroSection.height} style={[styles.heroSection, dynamicHeaderStyles.heroSection]}>
           <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
               <Image
                 source={require('../../assets/Harmony2x.png')}
-              style={styles.logo}
+                style={[styles.logo, dynamicHeaderStyles.logo]}
                 resizeMode="contain"
               />
             </View>
-          <View style={styles.dataSourceContainer}>
+          <View style={[styles.dataSourceContainer, dynamicHeaderStyles.dataSourceContainer]}>
             <TouchableOpacity onPress={toggleHeaderDrawer} activeOpacity={0.8} style={styles.headerTabContainer}>
               <Text style={styles.headerTabText} numberOfLines={1}>
                 {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS Rev. ${tariffService.getHtsRevision() || 'Loading...'}`}
