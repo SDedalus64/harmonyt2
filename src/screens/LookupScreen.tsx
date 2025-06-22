@@ -303,7 +303,7 @@ export default function LookupScreen() {
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
       ref.current.measureInWindow((_x, y, _w, h) => {
-        setTabY(y + h / 2 - 20 - getSpacing('sm')); // align center assuming tab height 40
+        setTabY(y + h / 2 - 50 - getSpacing('sm')); // align center assuming tab height 40
       });
     }
   };
