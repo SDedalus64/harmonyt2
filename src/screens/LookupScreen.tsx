@@ -3043,6 +3043,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: getResponsiveValue(getSpacing('md'), getSpacing('lg')),
     paddingBottom: getSpacing('sm'),
     alignItems: 'center',
+    // Move tab to sit just above data entry on iPad
+    ...(isTablet() ? {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: getSpacing('xl') + 1, // 1px above input container overlap
+    } : {}),
   },
   dataSourceText: {
     fontSize: getResponsiveValue(getTypographySize('xs') * 0.8, getTypographySize('sm')), // Smaller font on iPhone
