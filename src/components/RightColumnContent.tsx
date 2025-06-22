@@ -92,12 +92,12 @@ const RightColumnContent = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('https://dedola.com/wp-json/wp/v2/posts?per_page=3&after=2025-01-01T00:00:00&_embed');
+        const response = await fetch('https://dedola.com/wp-json/wp/v2/posts?per_page=15&_embed');
 
         if (response.ok) {
           const posts = await response.json();
 
-          const transformedPosts = posts.slice(0, 3).map((post: any) => {
+          const transformedPosts = posts.map((post: any) => {
             let featuredImage = DEDOLA_LOGO;
 
             try {

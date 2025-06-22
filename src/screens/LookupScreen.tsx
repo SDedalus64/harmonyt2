@@ -1309,28 +1309,7 @@ export default function LookupScreen() {
   );
 
   const renderNewsDrawerContent = () => (
-    <View style={[styles.drawerContent, { paddingTop: 100 }]}>
-      <View style={styles.drawerHeader}>
-        <Ionicons name="newspaper" size={getResponsiveValue(20, 28)} color={BRAND_COLORS.electricBlue} />
-        <Text style={styles.drawerTitle}>Tariff Updates</Text>
-      </View>
-      <ScrollView style={styles.drawerScrollView}>
-        {[
-          { title: 'Section 301 Updates', tag: 'China', color: BRAND_COLORS.error },
-          { title: 'USMCA Changes', tag: 'Mexico/Canada', color: BRAND_COLORS.success },
-          { title: 'GSP Renewals', tag: 'Developing', color: BRAND_COLORS.warning },
-          { title: 'Anti-Dumping', tag: 'Steel', color: BRAND_COLORS.info },
-        ].map((item, index) => (
-          <View key={index} style={styles.newsItem}>
-            <View style={[styles.newsTag, { backgroundColor: item.color }]}>
-              <Text style={styles.newsTagText}>{item.tag}</Text>
-            </View>
-            <Text style={styles.newsTitle}>{item.title}</Text>
-            <Text style={styles.newsDate}>2 days ago</Text>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
+    <RightColumnContent />
   );
 
   const renderAnalyticsDrawerContent = () => (
