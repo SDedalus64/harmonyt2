@@ -1938,7 +1938,7 @@ export default function LookupScreen() {
           <View style={styles.dataSourceContainer}>
             <TouchableOpacity onPress={toggleHeaderDrawer} activeOpacity={0.8} style={styles.headerTabContainer}>
               <Text style={styles.headerTabText} numberOfLines={1}>
-                {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS Rev ${tariffService.getHtsRevision() || 'Loading...'}`}
+                {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS Rev. ${tariffService.getHtsRevision() || 'Loading...'}`}
               </Text>
             </TouchableOpacity>
             <Animated.View style={[styles.headerDetailsDrawer, { height: headerDrawerHeight }]}>
