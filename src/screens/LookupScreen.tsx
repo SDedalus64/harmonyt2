@@ -1539,129 +1539,81 @@ export default function LookupScreen() {
     const isClosing = mainFabExpanded;
     setMainFabExpanded(!mainFabExpanded);
 
-    // Track if user is manually closing the FAB
+    // Record manual close
     if (isClosing) {
       setUserClosedFab(true);
     }
 
-    // Close any open navigation drawers when toggling main FAB
-    if (!mainFabExpanded) {
-      closeAllNavigationDrawers();
-    }
+    if (!mainFabExpanded) closeAllNavigationDrawers();
 
-        // Arc radius and angles for positioning buttons above main FAB
-    const radius = getResponsiveValue(120, 173); // Increased radius for larger buttons on iPad (150 * 1.15 = 172.5 ≈ 173)
-    const centerAngle = -90; // Point straight up
-    const angleSpread = 120; // Total spread of 120 degrees for 6 buttons
+    const spacing = getResponsiveValue(80, 110); // horizontal distance between buttons
 
-    // Calculate positions for 6 buttons in an arc (Recent, History, Links, News, Stats, Settings)
-    const recentAngle = (centerAngle - angleSpread/2) * (Math.PI / 180);
-    const historyAngle = (centerAngle - angleSpread/2 + angleSpread/5) * (Math.PI / 180);
-    const linksAngle = (centerAngle - angleSpread/2 + 2*angleSpread/5) * (Math.PI / 180);
-    const newsAngle = (centerAngle - angleSpread/2 + 3*angleSpread/5) * (Math.PI / 180);
-    const statsAngle = (centerAngle - angleSpread/2 + 4*angleSpread/5) * (Math.PI / 180);
-    const settingsAngle = (centerAngle + angleSpread/2) * (Math.PI / 180);
+    const animations: Animated.CompositeAnimation[] = [];
 
-    Animated.parallel([
-      // Rotate main FAB
+    const configX = [
+      { anim: recentFabTranslateX, multiplier: -3 },
+      { anim: historyFabTranslateX, multiplier: -2 },
+      { anim: linksFabTranslateX, multiplier: -1 },
+      { anim: newsFabTranslateX, multiplier: 1 },
+      { anim: statsFabTranslateX, multiplier: 2 },
+      { anim: settingsFabTranslateX, multiplier: 3 },
+    ];
+
+    configX.forEach(({ anim, multiplier }) => {
+      animations.push(
+        Animated.timing(anim, {
+          toValue: toValue * spacing * multiplier,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      );
+    });
+
+    // Y translations all become 0 horizontally
+    const yAnims = [
+      recentFabTranslateY,
+      historyFabTranslateY,
+      linksFabTranslateY,
+      newsFabTranslateY,
+      statsFabTranslateY,
+      settingsFabTranslateY,
+    ];
+    yAnims.forEach(anim => {
+      animations.push(
+        Animated.timing(anim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      );
+    });
+
+    // Rotate main FAB
+    animations.push(
       Animated.timing(mainFabRotation, {
         toValue,
         duration: 300,
         useNativeDriver: true,
       }),
-      // Animate menu buttons in arc formation
-      Animated.stagger(50, [
-        // Recent button
-        Animated.parallel([
-          Animated.timing(recentFabTranslateX, {
-            toValue: toValue * radius * Math.cos(recentAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(recentFabTranslateY, {
-            toValue: toValue * radius * Math.sin(recentAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-        // History button
-        Animated.parallel([
-          Animated.timing(historyFabTranslateX, {
-            toValue: toValue * radius * Math.cos(historyAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(historyFabTranslateY, {
-            toValue: toValue * radius * Math.sin(historyAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-        // Links button
-        Animated.parallel([
-          Animated.timing(linksFabTranslateX, {
-            toValue: toValue * radius * Math.cos(linksAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(linksFabTranslateY, {
-            toValue: toValue * radius * Math.sin(linksAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-        // News button
-        Animated.parallel([
-          Animated.timing(newsFabTranslateX, {
-            toValue: toValue * radius * Math.cos(newsAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(newsFabTranslateY, {
-            toValue: toValue * radius * Math.sin(newsAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-        // Stats button
-        Animated.parallel([
-          Animated.timing(statsFabTranslateX, {
-            toValue: toValue * radius * Math.cos(statsAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(statsFabTranslateY, {
-            toValue: toValue * radius * Math.sin(statsAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-        // Settings button
-        Animated.parallel([
-          Animated.timing(settingsFabTranslateX, {
-            toValue: toValue * radius * Math.cos(settingsAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(settingsFabTranslateY, {
-            toValue: toValue * radius * Math.sin(settingsAngle),
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-      ]),
-      // Scale and fade menu buttons
+    );
+
+    // Scale/opacity
+    animations.push(
       Animated.timing(menuFabScale, {
-        toValue: toValue,
+        toValue,
         duration: 300,
         useNativeDriver: true,
       }),
+    );
+    animations.push(
       Animated.timing(menuFabOpacity, {
-        toValue: toValue,
+        toValue,
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start();
+    );
+
+    Animated.parallel(animations).start();
   };
 
   // Close main FAB when other actions are taken
