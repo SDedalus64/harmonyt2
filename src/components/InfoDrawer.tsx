@@ -30,6 +30,9 @@ const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, { title: string; body: 
   code: {
     title: '🎯 Why We Only Ask for 8 Digits of the HTS Code',
     body: `✅ 6 digits = global HS code
+
+    ⸻
+
 • 🔹 The first 6 digits belong to the Harmonized System (HS)—an international standard managed by the World Customs Organization (WCO) and used by over 200 countries.
 
 📄 +2 digits = U.S. rate line
@@ -83,65 +86,58 @@ const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, { title: string; body: 
 • 🔹 Be consistent with your commercial invoice. CBP can reject values that appear artificially low.`,
   },
   freight: {
-    title: "🚚 Freight Cost – What's Dutiable & Why It Matters",
+    title: "🚚 Import Costs – When are they Dutiable",
     body: `⸻
 
-✅ When Freight Is Included in the Price
-• 🚛 Freight within the export country (e.g. factory to port)
-• ⛴️ International freight if bundled in the product price
-• 🏗️ Loading and handling fees before export
+✅ What Is Included (CIF/DDP)
+• 🚛 Local Freight at Origin (e.g. factory to port)
+• 🏗️ Handling fees at Origin (pre-export.)
+• ⛴️ Air/Ocean Freight When (not listed separately)
+
 
 ⸻
 
-❌ When Freight Is Separately Listed
-• 🌊 International freight (listed separately)
-• 🛡️ Insurance (if itemized)
-• 🇺🇸 Domestic freight in the U.S.
+❌ What Isn't (Itemized or Paid by Importer)
+• 🌊 Air/Ocean freight (FOB/FAS)
+• 🛡️ Insurance
+• 🇺🇸 Inland freight in the U.S.
 • 🧾 Duties, brokerage, and port fees
 
 ⸻
 
 📊 Why We Ask for Freight
-• Estimate your landed cost with more precision
-• Understand your true cost per unit
-• Make smarter pricing and purchasing decisions
+• 💰 Estimate your landed cost with more precision
+• 📈 Understand your true cost per unit
+• 💵 Accurate costing = accurate pricing
 
-It helps you stay in control—especially when evaluating quotes or planning margins.
+• 💵 Valuable data when evaluating quotes or projecting margins.
 
 ⸻
 
-💡 Pro Tip
-If your invoice doesn't break out freight, Customs may count it as dutiable. Use clear terms like FOB or CIF to avoid unnecessary duties.`,
+💡 Pro Tip: If your commercial invoice doesn't break out freight, Customs may count it as dutiable. Protect your margins by knowing all your costs.`,
   },
   units: {
-    title: '📦 Units – Optional, but Powerful',
-    body: `🧾 Why We Ask for It
-• The number of units in the shipment helps us tie your declared value and freight costs to a per-unit basis
-• This gives you clear, actionable insight into:
-• 💰 Cost per unit
-• 📈 Estimated margin per unit
-• 🧮 Better quotes and pricing strategies
+    title: '📦 Units – Optional, but Useful',
+    body: `✅ What It Is
 
-⸻
+    ⸻
 
-🧩 What It Enables
-• 🔍 Estimate landed cost per unit
-• 🧠 Evaluate customer margin targets
-• 📊 Improve forecasting by aligning profit with volume
+
+    • 📦 Per Units Duties, Special Tariffs, and Landed cost estimates.
+• 📦 Better projections for pricing and margin analysis.
 
 ⸻
 
 📝 Totally Optional
-• You can leave it blank — your freight and duty estimates will still work
-• But adding unit count unlocks better business visibility, especially for:
-• Product managers
-• Sales teams
-• Margin-sensitive clients
+• 📦 You can leave it blank — your freight and duty estimates will still work
+• 📦 But adding unit count unlocks better business visibility, especially for:
+• 📦 Product managers
+• 📦 Sales teams
+• 📦 Margin-sensitive clients
 
 ⸻
 
-💡 Pro Tip
-Entering units helps tie costs to each item—especially useful when you're shipping similar products again.`,
+💡 Pro Tip: Entering units helps tie costs to each item—especially useful when you're shipping similar products again.`,
   },
 };
 
