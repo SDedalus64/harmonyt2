@@ -1436,7 +1436,7 @@ export default function LookupScreen() {
                 <View style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}>
                   <Text style={styles.totalAmountLabel}>Landed Cost</Text>
                   <Text style={styles.totalAmountValue}>{formatCurrency(landedCost)}</Text>
-                  <Text style={styles.totalAmountSubtext}>value + duties/fees</Text>
+                  <Text style={styles.totalAmountSubtext}>value + freight, duties, and fees</Text>
                 </View>
               </View>
             );
