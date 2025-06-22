@@ -17,6 +17,7 @@ import {
   ViewStyle,
   Modal,
   useWindowDimensions,
+  ImageStyle,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -1925,7 +1926,7 @@ export default function LookupScreen() {
         height: logoWidth * 0.3,
         maxWidth: isTabletNow ? 600 : 420,
         maxHeight: isTabletNow ? 180 : 126,
-      } as ViewStyle,
+      } as ImageStyle,
       dataSourceContainer: isTabletNow
         ? {
             marginBottom: isLandscape ? 0 : -getSpacing('xs'),
@@ -1969,11 +1970,12 @@ export default function LookupScreen() {
       <View style={styles.content}>
         {/* Diagonal Background Section */}
         <DiagonalSection
-          height={dynamicHeaderStyles.heroSection.height} style={[styles.heroSection, dynamicHeaderStyles.heroSection]}>
+          height={Number(dynamicHeaderStyles.heroSection.height)}
+          style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}>
           <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
               <Image
                 source={require('../../assets/Harmony2x.png')}
-                style={[styles.logo, dynamicHeaderStyles.logo]}
+                style={dynamicHeaderStyles.logo}
                 resizeMode="contain"
               />
             </View>
