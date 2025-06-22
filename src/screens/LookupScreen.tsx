@@ -1416,7 +1416,11 @@ export default function LookupScreen() {
           </View>
         </View>
 
-        <ScrollView style={styles.resultsScrollView} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.resultsScrollView}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: getSpacing('xl') }}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Duties vs Landed Cost */}
           {(() => {
             const dutiableValue = parseFloat(declaredValue);
@@ -1856,6 +1860,8 @@ export default function LookupScreen() {
 
   // Insert helper functions for header drawer toggle below other helper funcs (e.g., closeMainFab etc.)
   const openHeaderDrawer = () => {
+    // Hide any open keyboard when drawer is opened
+    Keyboard.dismiss();
     if (headerDrawerTimerRef.current) {
       clearTimeout(headerDrawerTimerRef.current);
     }
