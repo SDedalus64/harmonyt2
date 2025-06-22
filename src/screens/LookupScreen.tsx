@@ -1418,7 +1418,7 @@ export default function LookupScreen() {
           </View>
         </View>
 
-        <ScrollView style={styles.resultsScrollView} showsVerticalScrollIndicator={false}>
+        <View style={styles.resultsScrollView}>
           {/* Duties vs Landed Cost */}
           {(() => {
             const dutiableValue = parseFloat(declaredValue);
@@ -1524,7 +1524,7 @@ export default function LookupScreen() {
           )}
 
 
-        </ScrollView>
+        </View>
       </View>
     );
   };
