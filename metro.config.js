@@ -2,7 +2,14 @@
 const { getDefaultConfig } = require('@react-native/metro-config');
 
 const config = getDefaultConfig(__dirname);
-
+module.exports = {
+  transformer: {
+    unstable_disableObsEnsureModuleIds: true,    // <— ①
+    getTransformOptions: async () => ({
+      transform: { inlineRequires: true },       // <— ②
+    }),
+  },
+};
 // Minimal default config provided by Expo
 
 // Disable "exports" field resolution feature that is currently causing a runtime
