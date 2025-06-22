@@ -1941,7 +1941,7 @@ export default function LookupScreen() {
                 resizeMode="contain"
               />
             </View>
-          <View style={styles.dataSourceContainer}>
+          <View style={[styles.dataSourceContainer, isTablet() && styles.dataSourceContainerTablet]}>
             <TouchableOpacity onPress={toggleHeaderDrawer} activeOpacity={0.8}>
               <Text style={styles.dataSourceText} numberOfLines={1}>
                 {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS ${tariffService.getHtsRevision() || 'Loading...'}`}
@@ -3175,5 +3175,12 @@ const styles = StyleSheet.create({
   },
   headerDetailsDrawer: {
     overflow: 'hidden',
+  },
+  dataSourceContainerTablet: {
+    position: 'absolute',
+    left: getSpacing('lg'),
+    right: getSpacing('lg'),
+    bottom: 1, // 1px above bottom of hero section
+    alignItems: 'center',
   },
 });
