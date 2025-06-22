@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-// Allow access to the singleton export
-const { tariffService } = require('../services/tariffService');
+// Access the TariffService singleton safely (CommonJS interop)
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const tsModule = require('../services/tariffService');
+const tariffService = tsModule.tariffService ?? tsModule.TariffService?.getInstance?.();
 
 type GoldenCase = {
   hts8: string;
