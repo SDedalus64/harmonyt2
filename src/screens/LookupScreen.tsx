@@ -295,6 +295,7 @@ export default function LookupScreen() {
   } as const;
 
   const handleFieldFocus = (field: InfoFieldKey) => {
+    closeHeaderDrawer(); // close header details when user focuses elsewhere
     // User is interacting with the form – collapse FABs
     closeMainFab();
     setActiveField(field);
@@ -1848,6 +1849,50 @@ export default function LookupScreen() {
     }
   };
 
+  // Find the start of state declarations (after existing new drawer state) and insert new state for header details drawer
+  const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
+  const headerDrawerHeight = useRef(new Animated.Value(0)).current;
+  const headerDrawerTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Insert helper functions for header drawer toggle below other helper funcs (e.g., closeMainFab etc.)
+  const openHeaderDrawer = () => {
+    if (headerDrawerTimerRef.current) {
+      clearTimeout(headerDrawerTimerRef.current);
+    }
+    setIsHeaderDrawerOpen(true);
+    Animated.timing(headerDrawerHeight, {
+      toValue: getResponsiveValue(60, 80), // height to reveal ~2 lines
+      duration: 250,
+      useNativeDriver: false,
+    }).start();
+    headerDrawerTimerRef.current = setTimeout(() => {
+      closeHeaderDrawer();
+    }, 10000); // auto-close after 10s
+  };
+
+  const closeHeaderDrawer = () => {
+    if (!isHeaderDrawerOpen) return;
+    if (headerDrawerTimerRef.current) {
+      clearTimeout(headerDrawerTimerRef.current);
+      headerDrawerTimerRef.current = null;
+    }
+    Animated.timing(headerDrawerHeight, {
+      toValue: 0,
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => {
+      setIsHeaderDrawerOpen(false);
+    });
+  };
+
+  const toggleHeaderDrawer = () => {
+    if (isHeaderDrawerOpen) {
+      closeHeaderDrawer();
+    } else {
+      openHeaderDrawer();
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -1891,12 +1936,19 @@ export default function LookupScreen() {
               />
             </View>
           <View style={styles.dataSourceContainer}>
-            <Text style={styles.dataSourceText}>
-              Data Last Updated: {tariffService.getLastUpdated() || 'Loading...'} | HTS {tariffService.getHtsRevision() || 'Loading...'}
-            </Text>
-            <Text style={styles.dataSourceText}>
-              Data Sources: U.S. International Trade Commission,{'\n'}Federal Register Notices for Section 301 tariffs (Lists 1–4A).
-            </Text>
+            <TouchableOpacity onPress={toggleHeaderDrawer} activeOpacity={0.8} style={styles.headerTabContainer}>
+              <Text style={styles.headerTabText} numberOfLines={1}>
+                {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS ${tariffService.getHtsRevision() || 'Loading...'}`}
+              </Text>
+            </TouchableOpacity>
+            <Animated.View style={[styles.headerDetailsDrawer, { height: headerDrawerHeight }]}>
+              <Text style={styles.dataSourceText}>
+                Data Sources: U.S. International Trade Commission,
+              </Text>
+              <Text style={styles.dataSourceText}>
+                Federal Register Notices for Section 301 tariffs (Lists 1–4A).
+              </Text>
+            </Animated.View>
           </View>
         </DiagonalSection>
 
@@ -2465,10 +2517,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: getResponsiveValue(60, 80), // Exclusion zone proportional to logo size
   },
   logo: {
-    width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.6), // 50% larger on iPad (0.4 * 1.5 = 0.6)
-    height: getResponsiveValue((SCREEN_WIDTH * 0.6) * 0.3, (SCREEN_WIDTH * 0.6) * 0.3), // Maintain aspect ratio
-    maxWidth: getResponsiveValue(280, 600), // Increased maximum size for iPad (400 * 1.5 = 600)
-    maxHeight: getResponsiveValue(84, 180), // Increased maximum height for iPad (120 * 1.5 = 180)
+    width: getResponsiveValue(SCREEN_WIDTH * 0.75, SCREEN_WIDTH * 0.75), // 50% larger than previous mobile size
+    height: getResponsiveValue((SCREEN_WIDTH * 0.75) * 0.3, (SCREEN_WIDTH * 0.75) * 0.3),
+    maxWidth: getResponsiveValue(420, 600),
+    maxHeight: getResponsiveValue(126, 180),
   },
   mainScrollView: {
     flex: 1,
@@ -3114,5 +3166,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: getSpacing('sm'),
+  },
+  headerDetailsDrawer: {
+    overflow: 'hidden',
+  },
+  headerTabContainer: {
+    backgroundColor: BRAND_COLORS.darkNavy,
+    paddingHorizontal: getSpacing('md'),
+    paddingVertical: getSpacing('xs'),
+    borderTopLeftRadius: getBorderRadius('lg'),
+    borderTopRightRadius: getBorderRadius('lg'),
+  },
+  headerTabText: {
+    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')), // larger than dataSource text
+    color: BRAND_COLORS.white,
+    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
   },
 });
