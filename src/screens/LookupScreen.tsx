@@ -1887,6 +1887,23 @@ export default function LookupScreen() {
     };
   }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
 
+  // Dynamic form width & side padding
+  const dynamicFormStyles = React.useMemo(() => {
+    const sidePadding = isTabletNow ? (isLandscape ? windowWidth * 0.15 : windowWidth * 0.25) : getSpacing('md');
+    const fieldWidth = isTabletNow ? (isLandscape ? 650 : 500) : '100%';
+    return {
+      wrapper: {
+        paddingHorizontal: sidePadding,
+      } as ViewStyle,
+      input: {
+        width: fieldWidth,
+      } as ViewStyle,
+      suggestionWidth: {
+        width: fieldWidth,
+      } as ViewStyle,
+    };
+  }, [isLandscape, isTabletNow, windowWidth]);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -1963,7 +1980,7 @@ export default function LookupScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <View style={styles.inputWrapper} ref={fieldRefs.code}>
+                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.code}>
                   <FieldWithInfo
                     placeholder="Code (Enter 3-8 digits to search)"
                     value={htsCode}
@@ -1980,13 +1997,13 @@ export default function LookupScreen() {
                     keyboardType="number-pad"
                     maxLength={8}
                     placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={styles.input}
+                    style={[styles.input, dynamicFormStyles.input]}
                     onFocus={() => handleFieldFocus('code')}
                   />
 
                   {/* HTS Suggestions */}
                   {showHtsSuggestions && (
-                  <View style={styles.suggestionsContainer}>
+                  <View style={[styles.suggestionsContainer, dynamicFormStyles.suggestionWidth]}>
                       {htsSuggestions.length > 0 ? (
                       <ScrollView style={styles.suggestionsScrollView} showsVerticalScrollIndicator={true}>
                           {htsSuggestions.map((suggestion, index) => (
@@ -2020,7 +2037,7 @@ export default function LookupScreen() {
                   </View>
                 )}
                 </View>
-                <View style={styles.inputWrapper}>
+                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
                   <CountryLookup
                     ref={countryInputRef}
                     selectedCountry={selectedCountry}
@@ -2032,7 +2049,7 @@ export default function LookupScreen() {
                     }}
                   />
                 </View>
-                                 <View style={styles.inputWrapper} ref={fieldRefs.declared}>
+                                 <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.declared}>
                   <FieldWithInfo
                     placeholder="Declared Value (USD)"
                     value={formattedDeclaredValue}
@@ -2046,11 +2063,11 @@ export default function LookupScreen() {
                     inputRef={declaredValueInputRef}
                     keyboardType="decimal-pad"
                     placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={styles.input}
+                    style={[styles.input, dynamicFormStyles.input]}
                     onFocus={() => handleFieldFocus('declared')}
                   />
                 </View>
-                <View style={styles.inputWrapper} ref={fieldRefs.freight}>
+                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.freight}>
                   <FieldWithInfo
                     placeholder="Freight Cost in USD (Optional)"
                     value={formattedFreightCost}
@@ -2064,11 +2081,11 @@ export default function LookupScreen() {
                     inputRef={freightCostInputRef}
                     keyboardType="decimal-pad"
                     placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={styles.input}
+                    style={[styles.input, dynamicFormStyles.input]}
                     onFocus={() => handleFieldFocus('freight')}
                   />
                 </View>
-                <View style={styles.inputWrapper} ref={fieldRefs.units}>
+                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.units}>
                   <FieldWithInfo
                     placeholder="Unit Count (Optional)"
                     value={formattedUnitCount}
@@ -2081,14 +2098,14 @@ export default function LookupScreen() {
                     }}
                     keyboardType="number-pad"
                     placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={styles.input}
+                    style={[styles.input, dynamicFormStyles.input]}
                     onFocus={() => handleFieldFocus('units')}
                   />
                 </View>
 
                 {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
                 {selectedCountry && (selectedCountry.code === 'CA' || selectedCountry.code === 'MX') && (
-                <View style={styles.inputWrapper}>
+                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
                 <View style={styles.toggleContainer}>
                       <Text style={styles.toggleLabel}>USMCA Origin Certificate</Text>
                   <Switch
