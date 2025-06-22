@@ -24,8 +24,7 @@
 - (NSURL *)bundleURL
 {
 #if DEBUG
-  // Use the standard React Native entry file for Metro while developing.
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
