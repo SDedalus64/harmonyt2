@@ -111,5 +111,3 @@ export class CensusTradeService {
     this.cache.clear();
   }
 }
-
-export const censusTradeService = CensusTradeService.getInstance();

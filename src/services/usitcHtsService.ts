@@ -112,4 +112,3 @@ export class UsitcHtsService {
 }
 
 // Export singleton instance
-export const usitcHtsService = UsitcHtsService.getInstance();
