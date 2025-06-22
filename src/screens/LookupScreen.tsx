@@ -3043,12 +3043,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: getResponsiveValue(getSpacing('md'), getSpacing('lg')),
     paddingBottom: getSpacing('sm'),
     alignItems: 'center',
-    // Move tab to sit just above data entry on iPad
+    // For tablets, keep element in normal flow but tighten the gap above the data-entry card
     ...(isTablet() ? {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: getSpacing('xl') + 1, // 1px above input container overlap
+      marginBottom: -getSpacing('xs'), // slight negative to reduce space without overlap
     } : {}),
   },
   dataSourceText: {
