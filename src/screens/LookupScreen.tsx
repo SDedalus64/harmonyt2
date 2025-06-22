@@ -1904,6 +1904,21 @@ export default function LookupScreen() {
     };
   }, [isLandscape, isTabletNow, windowWidth]);
 
+  // Keep hidden drawers correctly positioned after rotation
+  useEffect(() => {
+    // Update off-screen positions only when corresponding drawer not visible
+    if (!linksDrawerVisible) {
+      linksDrawerTranslateY.setValue(windowHeight);
+    }
+    const hiddenX = getResponsiveValue(windowWidth * 0.85, 400);
+    if (!historyDrawerVisible && !mainHistoryDrawerVisible) {
+      historyDrawerTranslateX.setValue(hiddenX);
+    }
+    if (!settingsDrawerVisible) {
+      settingsDrawerTranslateX.setValue(-hiddenX);
+    }
+  }, [windowWidth, windowHeight, linksDrawerVisible, historyDrawerVisible, mainHistoryDrawerVisible, settingsDrawerVisible]);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
