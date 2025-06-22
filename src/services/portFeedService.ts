@@ -61,11 +61,14 @@ export class PortFeedService {
       throw new Error(`Port feed fetch failed: ${res.status} ${res.statusText}`);
     }
     const json = await res.json();
-    // Example expected JSON: { dwell: 7.2, timestamp: '2025-06-22T12:00:00Z' }
+
+    // Some port feeds return an array with the latest row at index 0
+    const raw: any = Array.isArray(json) ? json[0] : json;
+
     const data: PortDwellData = {
       portCode,
-      dwellDays: json.dwell ?? json.dwellDays ?? 0,
-      timestamp: json.timestamp || new Date().toISOString()
+      dwellDays: raw.dwell ?? raw.dwellDays ?? raw.avg_dwell_days ?? 0,
+      timestamp: raw.timestamp ?? raw.report_date ?? raw.updated ?? new Date().toISOString()
     };
     this.cache.set(key, { data, ts: Date.now() });
     return data;

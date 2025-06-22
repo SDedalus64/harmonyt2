@@ -8,7 +8,11 @@ export const PORT_CONFIG = {
   cacheDuration: 15 * 60 * 1000, // 15 minutes
   // Mapping of port codes to open-data endpoints (examples)
   endpoints: {
-    LALB: process.env.PORT_LALB_ENDPOINT || 'https://api.portoflosangeles.org/dwell-time',
-    NYNJ: process.env.PORT_NYNJ_ENDPOINT || 'https://opendata.panynj.gov/api/dwell-time'
+    LALB:
+      process.env.PORT_LALB_ENDPOINT ||
+      'https://app.portoptimizer.com/api/dwelltime/latest',
+    NYNJ:
+      process.env.PORT_NYNJ_ENDPOINT ||
+      'https://data.panynj.gov/resource/9ivb-iced.json?$limit=1&$order=report_date DESC'
   }
 };
