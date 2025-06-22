@@ -243,28 +243,49 @@ const LinksScreen = () => {
       <View style={styles.content}>
         {/* Diagonal Background Section with Logo */}
         <DiagonalSection height={getResponsiveValue(SCREEN_HEIGHT * 0.2, SCREEN_HEIGHT * 0.25)} style={styles.heroSection}>
-          <View style={styles.logoContainer}>
-            <Image
-              source={require('../../assets/Dedola_White.png')}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </View>
-          <View style={styles.socialIconsRow}>
-            {recentSocialPosts.map((post) => (
-              <TouchableOpacity
-                key={post.id}
-                style={styles.socialIconButton}
-                onPress={() => handlePress(post.url)}
-                accessibilityLabel={post.title}
-              >
-                <Ionicons
-                  name={getPlatformIcon(post.platform) as any}
-                  size={getResponsiveValue(28, 32)}
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            ))}
+          <View style={styles.socialAndLogoRow}>
+            {/* Left icons */}
+            <View style={styles.socialIconsSide}>
+              {recentSocialPosts.slice(0, Math.floor(recentSocialPosts.length / 2)).map((post) => (
+                <TouchableOpacity
+                  key={post.id}
+                  style={styles.socialIconButton}
+                  onPress={() => handlePress(post.url)}
+                  accessibilityLabel={post.title}
+                >
+                  <Ionicons
+                    name={getPlatformIcon(post.platform) as any}
+                    size={getResponsiveValue(28, 32)}
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+            {/* Center Logo */}
+            <View style={styles.logoContainerHorizontal}>
+              <Image
+                source={require('../../assets/Dedola_White.png')}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            </View>
+            {/* Right icons */}
+            <View style={styles.socialIconsSide}>
+              {recentSocialPosts.slice(Math.floor(recentSocialPosts.length / 2)).map((post) => (
+                <TouchableOpacity
+                  key={post.id}
+                  style={styles.socialIconButton}
+                  onPress={() => handlePress(post.url)}
+                  accessibilityLabel={post.title}
+                >
+                  <Ionicons
+                    name={getPlatformIcon(post.platform) as any}
+                    size={getResponsiveValue(28, 32)}
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         </DiagonalSection>
 
@@ -357,24 +378,26 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: 1,
   },
-  logoContainer: {
+  socialAndLogoRow: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: getResponsiveValue(getSpacing('xxl'), getSpacing('md')),
-    paddingBottom: getSpacing('md'),
-    paddingHorizontal: getResponsiveValue(60, 80),
+    gap: getResponsiveValue(12, 16),
+  },
+  socialIconsSide: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: getResponsiveValue(12, 16),
+  },
+  logoContainerHorizontal: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
     width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.6),
     height: getResponsiveValue((SCREEN_WIDTH * 0.6) * 0.3, (SCREEN_WIDTH * 0.6) * 0.3),
     maxWidth: getResponsiveValue(280, 600),
     maxHeight: getResponsiveValue(84, 180),
-  },
-  socialIconsRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: getResponsiveValue(12, 16),
   },
   socialIconButton: {
     width: getResponsiveValue(44, 52),
