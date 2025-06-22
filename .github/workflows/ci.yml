@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js 20 and enable Yarn cache
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      # 3. Install dependencies strictly according to lock-file
+      - name: Install dependencies (yarn install --immutable)
+        run: yarn install --immutable
+
+      # 4. Run the test suite with coverage and a 40 % minimum threshold
+      - name: Run tests with coverage (≥40 %)
+        run: |
+          yarn test --coverage --runInBand --ci \
+            --coverageReporters=text --coverageReporters=lcov \
+            --config '{"coverageThreshold":{"global":{"branches":40,"functions":40,"lines":40,"statements":40}}}'
+
+      # 5. Run linting
+      - name: Lint
+        run: yarn lint
+
+      # 6. Upload coverage output as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
