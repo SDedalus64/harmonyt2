@@ -1899,6 +1899,13 @@ export default function LookupScreen() {
     }
   };
 
+  // Add effect to dismiss keyboard when info drawer opens
+  useEffect(() => {
+    if (infoDrawerVisible) {
+      Keyboard.dismiss();
+    }
+  }, [infoDrawerVisible]);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
