@@ -1919,6 +1919,19 @@ export default function LookupScreen() {
     }
   }, [windowWidth, windowHeight, linksDrawerVisible, historyDrawerVisible, mainHistoryDrawerVisible, settingsDrawerVisible]);
 
+  // ... after dynamicFormStyles definition ...
+  const dynamicActionStyles = React.useMemo(() => {
+    const sidePadding = isTabletNow ? (isLandscape ? windowWidth * 0.15 : windowWidth * 0.25) : getSpacing('md');
+    return {
+      row: {
+        paddingHorizontal: sidePadding,
+      } as ViewStyle,
+      searchButton: {
+        marginLeft: 0,
+      } as ViewStyle,
+    };
+  }, [isLandscape, isTabletNow, windowWidth]);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -2141,9 +2154,9 @@ export default function LookupScreen() {
 
 
                 {/* Action Buttons Row */}
-                <View style={styles.actionButtonsRow}>
+                <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
                   <TouchableOpacity
-                    style={[styles.searchButton, { marginLeft: 0 }, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
+                    style={[styles.searchButton, dynamicActionStyles.searchButton, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
                     onPress={handleLookup}
                     disabled={isLoading || isTariffLoading}
                   >
