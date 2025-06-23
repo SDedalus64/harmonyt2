@@ -14,6 +14,12 @@
     "target": "ES2021",
     "module": "ES2020",
     "moduleResolution": "node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "expo*": ["node_modules/expo/*"],
+      "react-native*": ["node_modules/react-native/*"],
+      "@react-navigation/*": ["node_modules/@react-navigation/*"]
+    }
   }
 }
