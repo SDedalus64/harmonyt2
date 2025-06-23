@@ -3066,8 +3066,9 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.success,
   },
   dataSourceContainer: {
+    position: 'relative',
     paddingHorizontal: getResponsiveValue(getSpacing('md'), getSpacing('lg')),
-    paddingBottom: getSpacing('sm'),
+    paddingBottom: getSpacing('lg'), // allow space for tab height
     alignItems: 'center',
   },
   dataSourceText: {
@@ -3203,12 +3204,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   headerTabContainer: {
+    position: 'absolute',
+    bottom: 0,
     backgroundColor: BRAND_COLORS.darkNavy,
     paddingHorizontal: getSpacing('md'),
     paddingVertical: getSpacing('xs'),
     borderTopLeftRadius: getBorderRadius('lg'),
     borderTopRightRadius: getBorderRadius('lg'),
     zIndex: 20,
+    alignSelf: 'center',
   },
   headerTabText: {
     fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')), // larger than dataSource text
