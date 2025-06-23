@@ -1,5 +1,5 @@
-// Updated Metro configuration to use @react-native/metro-config per RN ≥0.73 guidance
-const { getDefaultConfig } = require('@react-native/metro-config');
+// Metro configuration extending expo/metro-config (required for Expo-managed workflow)
+const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
