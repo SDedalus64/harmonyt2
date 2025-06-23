@@ -86,7 +86,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.sdedola.tcalcmobile'
+    namespace "com.harmonyti"
     defaultConfig {
         applicationId 'com.sdedola.tcalcmobile'
         minSdkVersion rootProject.ext.minSdkVersion
