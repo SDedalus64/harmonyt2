@@ -26,6 +26,13 @@ export default ({ config }) => ({
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
       UIBackgroundModes: ['fetch', 'remote-notification'],
+      NSAppTransportSecurity: {
+        NSAllowsArbitraryLoads: false,
+        NSAllowsLocalNetworking: true,
+      },
+      UIRequiredDeviceCapabilities: ['arm64'],
+      UIStatusBarStyle: 'UIStatusBarStyleDefault',
+      UIViewControllerBasedStatusBarAppearance: false,
     },
   },
 
@@ -60,4 +67,6 @@ export default ({ config }) => ({
       },
     ],
   ],
+
+  scheme: 'com.sdedola.tcalcmobile',
 }); 
