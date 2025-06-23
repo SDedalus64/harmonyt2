@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider, useAuth } from './src/navigation/contexts/AuthContext';
-import { View, ActivityIndicator, AppState, Platform } from 'react-native';
+import { View, ActivityIndicator, Platform } from 'react-native';
 import { TariffService } from './src/services/tariffService';
 import { tariffSearchService } from './src/services/tariffSearchService';
 import { SettingsProvider } from './src/hooks/useSettings';

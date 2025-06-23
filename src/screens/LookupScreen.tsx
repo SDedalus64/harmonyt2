@@ -90,7 +90,7 @@ const COLORS = {
 };
 
 // Toggle to visually debug header tab placement during layout tweaks
-const DEBUG_HEADER_TAB = false;
+const _DEBUG_HEADER_TAB = false;
 
 // Constants
 const RECIPROCAL_TARIFF_TYPE = 'Reciprocal Tariff';
