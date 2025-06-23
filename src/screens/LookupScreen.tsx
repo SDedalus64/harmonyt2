@@ -1840,34 +1840,35 @@ export default function LookupScreen() {
 
   // Memo-ized dynamic styles that need to react on rotation
   const dynamicHeaderStyles = React.useMemo(() => {
-    // Increase hero height slightly in iPad landscape so the data-source tab remains visible
-    const heroHeight = isTabletNow
+    // Ensure hero is tall enough to accommodate logo & tab
+    const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
+    const logoHeight = logoWidth * 0.3;
+
+    const calculatedHero = isTabletNow
       ? isLandscape
-        ? windowHeight * 0.22 // was 0.18 – gives the tab breathing room
+        ? windowHeight * 0.22
         : windowHeight * 0.25
       : windowHeight * 0.2;
 
-     const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
+    const heroHeight = Math.max(calculatedHero, logoHeight + getSpacing('lg') * 2 + 48 /*approx tab*/);
 
-     return {
-       heroSection: {
-         height: heroHeight,
-       } as ViewStyle,
-       logo: {
-         width: logoWidth,
-         height: logoWidth * 0.3,
-         maxWidth: isTabletNow ? 600 : 420,
-         maxHeight: isTabletNow ? 180 : 126,
-       } as ImageStyle,
-       dataSourceContainer: isTabletNow
-         ? {
-             // Pull the tab downward very slightly so that, when the drawer is closed,
-             // its bottom edge sits flush with the container below – illusion of emerging.
-             marginBottom: -getSpacing('xs'),
-           }
-         : {},
-     };
-   }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
+    return {
+      heroSection: {
+        height: heroHeight,
+      } as ViewStyle,
+      logo: {
+        width: logoWidth,
+        height: logoWidth * 0.3,
+        maxWidth: isTabletNow ? 600 : 420,
+        maxHeight: isTabletNow ? 180 : 126,
+      } as ImageStyle,
+      dataSourceContainer: isTabletNow
+        ? {
+            marginBottom: isLandscape ? 0 : -getSpacing('xs'),
+          }
+        : {},
+    };
+  }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
 
   // Dynamic form width & side padding
   const dynamicFormStyles = React.useMemo(() => {
@@ -3207,6 +3208,7 @@ const styles = StyleSheet.create({
     paddingVertical: getSpacing('xs'),
     borderTopLeftRadius: getBorderRadius('lg'),
     borderTopRightRadius: getBorderRadius('lg'),
+    zIndex: 20,
   },
   headerTabText: {
     fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')), // larger than dataSource text
