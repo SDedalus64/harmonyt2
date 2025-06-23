@@ -1,15 +1,20 @@
-// Updated Metro configuration to use @react-native/metro-config per RN ≥0.73 guidance
-const { getDefaultConfig } = require('@react-native/metro-config');
+// Learn more https://docs.expo.dev/guides/customizing-metro
+const { getDefaultConfig } = require('@expo/metro-config');
 
+/** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
-module.exports = {
-  transformer: {
-    unstable_disableObsEnsureModuleIds: true,    // <— ①
-    getTransformOptions: async () => ({
-      transform: { inlineRequires: true },       // <— ②
-    }),
+
+// This is the fix for the white screen issue.
+// We merge it into the default config instead of replacing it.
+config.transformer.unstable_disableObsEnsureModuleIds = true;
+config.transformer.getTransformOptions = async () => ({
+  transform: {
+    inlineRequires: true,
   },
-};
+});
+
+module.exports = config;
+
 // Minimal default config provided by Expo
 
 // Disable "exports" field resolution feature that is currently causing a runtime
