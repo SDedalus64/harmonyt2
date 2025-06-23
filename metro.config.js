@@ -70,3 +70,27 @@ config.server = {
 })();
 
 module.exports = config;
+
+// --------------------------------------------------------------
+// Enable SVG <ReactComponent> imports via react-native-svg-transformer
+// --------------------------------------------------------------
+// This must be appended *after* the default Expo config so we can
+// mutate its resolver arrays without being overwritten.
+
+// Ensure resolver and transformer objects exist
+config.transformer = {
+  ...config.transformer,
+  // Use the SVG transformer instead of the default asset loader
+  babelTransformerPath: require.resolve('react-native-svg-transformer'),
+};
+
+const { assetExts, sourceExts } = config.resolver;
+
+config.resolver = {
+  ...config.resolver,
+  // Treat .svg files as source rather than asset so they can be imported
+  assetExts: assetExts.filter((ext) => ext !== 'svg'),
+  sourceExts: [...sourceExts, 'svg'],
+};
+
+module.exports = config;
