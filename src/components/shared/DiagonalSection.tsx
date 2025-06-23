@@ -36,7 +36,7 @@ export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'hidden',
+    overflow: 'visible',
   },
   gradient: {
     flex: 1,

@@ -6,10 +6,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider, useAuth } from './src/navigation/contexts/AuthContext';
-import { View, ActivityIndicator, AppState } from 'react-native';
+import { View, ActivityIndicator, AppState, Platform } from 'react-native';
 import { TariffService } from './src/services/tariffService';
 import { tariffSearchService } from './src/services/tariffSearchService';
 import { SettingsProvider } from './src/hooks/useSettings';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 // First launch key for AsyncStorage
 const FIRST_LAUNCH_KEY = '@HarmonyTi:firstLaunch';
@@ -64,6 +65,13 @@ function AppContent() {
         console.warn('⚠️ Failed to initialize data services:', err);
       } finally {
         setDataInitializing(false);
+      }
+
+      // Lock to portrait on iPhones (allow free rotation on iPad & Android)
+      if (Platform.OS === 'ios' && !(Platform as any).isPad) {
+        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).catch(err => {
+          console.warn('Unable to lock screen orientation:', err);
+        });
       }
     }
 
