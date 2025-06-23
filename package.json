@@ -1,10 +1,12 @@
 {
-  "name": "harmony",
+  "name": "harmonyt2",
   "version": "1.0.0",
-  "main": "index.js",
+  "BeforeBadBuilds": "index.js",
   "scripts": {
     "bump": "node scripts/increment-build.js",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.21.0",
@@ -28,12 +30,14 @@
     "react-native-svg": "14.1.0",
     "react-native-svg-transformer": "^1.5.1",
     "react-native-vector-icons": "^10.2.0",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "expo": "~52.0.46"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@react-native-community/cli": "^18.0.0",
     "typescript": "^5.0.0"
   },
-  "private": true
+  "private": true,
+  "packageManager": "yarn@4.9.2+sha512.1fc009bc09d13cfd0e19efa44cbfc2b9cf6ca61482725eb35bbc5e257e093ebf4130db6dfe15d604ff4b79efd8e1e8e99b25fa7d0a6197c9f9826358d4d65c3c"
 }
