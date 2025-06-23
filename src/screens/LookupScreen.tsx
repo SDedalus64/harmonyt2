@@ -149,6 +149,11 @@ interface DutyCalculation {
   expirationDate: string;
 }
 
+// ---------------------------------------------------------------------------
+// Debug flag: switch to true to visualise header-tab layout issues on tablets
+// ---------------------------------------------------------------------------
+const DEBUG_HEADER_TAB = true;
+
 export default function LookupScreen() {
   const navigation = useNavigation<LookupScreenNavigationProp>();
   const route = useRoute<LookupScreenRouteProp>();
@@ -1852,9 +1857,10 @@ export default function LookupScreen() {
 
     const heroHeight = Math.max(calculatedHero, logoHeight + getSpacing('lg') * 2 + 48 /*approx tab*/);
 
-    return {
+    const computedStyles = {
       heroSection: {
         height: heroHeight,
+        ...(DEBUG_HEADER_TAB && { backgroundColor: 'rgba(0,255,0,0.15)' }),
       } as ViewStyle,
       logo: {
         width: logoWidth,
@@ -1865,9 +1871,16 @@ export default function LookupScreen() {
       dataSourceContainer: isTabletNow
         ? {
             marginBottom: isLandscape ? 0 : -getSpacing('xs'),
+            ...(DEBUG_HEADER_TAB && { backgroundColor: 'rgba(255,0,0,0.15)' }),
           }
         : {},
     };
+
+    if (DEBUG_HEADER_TAB) {
+      console.log('[TAB-DBG] heroHeight', heroHeight);
+    }
+
+    return computedStyles;
   }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
 
   // Dynamic form width & side padding
@@ -1959,7 +1972,10 @@ export default function LookupScreen() {
         {/* Diagonal Background Section */}
         <DiagonalSection
           height={Number(dynamicHeaderStyles.heroSection.height)}
-          style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}>
+          style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
+          onLayout={e => {
+            if (DEBUG_HEADER_TAB) console.log('[TAB-DBG] DiagonalSection layout', e.nativeEvent.layout);
+          }}>
           <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
               <Image
                 source={require('../../assets/Harmony2x.png')}
@@ -1967,8 +1983,20 @@ export default function LookupScreen() {
                 resizeMode="contain"
               />
             </View>
-          <View style={[styles.dataSourceContainer, dynamicHeaderStyles.dataSourceContainer]}>
-            <TouchableOpacity onPress={toggleHeaderDrawer} activeOpacity={0.8} style={styles.headerTabContainer}>
+          <View
+            style={[styles.dataSourceContainer, dynamicHeaderStyles.dataSourceContainer]}
+            onLayout={e => {
+              if (DEBUG_HEADER_TAB) console.log('[TAB-DBG] dataSourceContainer layout', e.nativeEvent.layout);
+            }}
+          >
+            <TouchableOpacity
+              onPress={toggleHeaderDrawer}
+              activeOpacity={0.8}
+              style={[styles.headerTabContainer, DEBUG_HEADER_TAB && { backgroundColor: 'rgba(0,0,255,0.35)' }]}
+              onLayout={e => {
+                if (DEBUG_HEADER_TAB) console.log('[TAB-DBG] headerTab layout', e.nativeEvent.layout);
+              }}
+            >
               <Text style={styles.headerTabText} numberOfLines={1}>
                 {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS Rev. ${tariffService.getHtsRevision() || 'Loading...'}`}
               </Text>
@@ -3211,7 +3239,7 @@ const styles = StyleSheet.create({
     paddingVertical: getSpacing('xs'),
     borderTopLeftRadius: getBorderRadius('lg'),
     borderTopRightRadius: getBorderRadius('lg'),
-    zIndex: 20,
+    zIndex: 50,
     alignSelf: 'center',
   },
   headerTabText: {
