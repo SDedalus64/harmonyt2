@@ -5,12 +5,12 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Modal,
   Switch,
   ActivityIndicator,
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { AnimatedDrawer } from './shared/AnimatedDrawer';
 
 interface SessionExportModalProps {
   visible: boolean;
@@ -74,96 +74,82 @@ export default function SessionExportModal({
   };
 
   return (
-    <Modal
-      visible={visible}
-      transparent={true}
-      animationType="fade"
-      onRequestClose={onClose}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Get a Copy of Your Session</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#666" />
-            </TouchableOpacity>
-          </View>
+    <AnimatedDrawer isVisible={visible} onClose={onClose} position="bottom">
+      <View style={styles.modalContainer}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalTitle}>Get a Copy of Your Session</Text>
+          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Ionicons name="close" size={24} color="#666" />
+          </TouchableOpacity>
+        </View>
 
-          <Text style={styles.modalDescription}>
-            Enter your email below to receive a copy of your session. As a bonus, we'll also send you our featured guide: "Tariff Code Review - Your Guide to Lower Duties". You'll also get occasional updates about our services.
-          </Text>
+        <Text style={styles.modalDescription}>
+          Enter your email below to receive a copy of your session. As a bonus, we'll also send you our featured guide: "Tariff Code Review - Your Guide to Lower Duties". You'll also get occasional updates about our services.
+        </Text>
 
-          {!isLoggedIn && (
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={[styles.input, error ? styles.inputError : null]}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Your email address"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              {error ? <Text style={styles.errorText}>{error}</Text> : null}
-            </View>
-          )}
-
-          {isLoggedIn && (
-            <View style={styles.userInfoContainer}>
-              <Text style={styles.userInfoLabel}>Sending to:</Text>
-              <Text style={styles.userInfoValue}>{email}</Text>
-              {userName && <Text style={styles.userInfoValue}>{userName}</Text>}
-              {companyName && <Text style={styles.userInfoValue}>{companyName}</Text>}
-            </View>
-          )}
-
-          <View style={styles.switchContainer}>
-            <Switch
-              value={receiveUpdates}
-              onValueChange={setReceiveUpdates}
-              trackColor={{ false: '#E1E1E1', true: '#2EAAF2' }}
-              thumbColor={receiveUpdates ? '#fff' : '#fff'}
+        {!isLoggedIn && (
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, error ? styles.inputError : null]}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Your email address"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
             />
-            <Text style={styles.switchLabel}>
-              Yes, I'd like to receive updates and offers from Dedola Global Logistics.
-            </Text>
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
           </View>
+        )}
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.sendButton}
-              onPress={handleSend}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={styles.sendButtonText}>Send My Session</Text>
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={onClose}
-              disabled={isLoading}
-            >
-              <Text style={styles.cancelButtonText}>No, thanks</Text>
-            </TouchableOpacity>
+        {isLoggedIn && (
+          <View style={styles.userInfoContainer}>
+            <Text style={styles.userInfoLabel}>Sending to:</Text>
+            <Text style={styles.userInfoValue}>{email}</Text>
+            {userName && <Text style={styles.userInfoValue}>{userName}</Text>}
+            {companyName && <Text style={styles.userInfoValue}>{companyName}</Text>}
           </View>
+        )}
+
+        <View style={styles.switchContainer}>
+          <Switch
+            value={receiveUpdates}
+            onValueChange={setReceiveUpdates}
+            trackColor={{ false: '#E1E1E1', true: '#2EAAF2' }}
+            thumbColor={receiveUpdates ? '#fff' : '#fff'}
+          />
+          <Text style={styles.switchLabel}>
+            Yes, I'd like to receive updates and offers from Dedola Global Logistics.
+          </Text>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.sendButton}
+            onPress={handleSend}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.sendButtonText}>Send My Session</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={onClose}
+            disabled={isLoading}
+          >
+            <Text style={styles.cancelButtonText}>No, thanks</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </Modal>
+    </AnimatedDrawer>
   );
 }
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
   modalContainer: {
     backgroundColor: '#fff',
     borderRadius: 16,
