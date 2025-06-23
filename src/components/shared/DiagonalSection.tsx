@@ -6,7 +6,7 @@ import { BRAND_COLORS } from '../../config/brandColors';
 export interface DiagonalSectionProps {
   /** Content rendered inside the diagonal section */
   children?: React.ReactNode;
-  /** Additional styles applied to the root container */
+  /** Extra styles for the root container */
   style?: ViewStyle | undefined;
   /** Gradient colours applied to the background */
   gradientColors?: readonly [string, string, ...string[]];

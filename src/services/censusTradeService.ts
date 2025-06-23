@@ -112,5 +112,5 @@ export class CensusTradeService {
   }
 }
 
-// Named singleton instance for convenience (used in tests)
+// Named singleton instance for convenience
 export const censusTradeService = CensusTradeService.getInstance();
