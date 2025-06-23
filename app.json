@@ -3,7 +3,7 @@
     "name": "HarmonyTi",
     "slug": "harmonyti",
     "version": "2.5.0",
-    "orientation": "default",
+    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
@@ -15,13 +15,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sdedola.tcalcmobile",
-      "buildNumber": "31",
+      "buildNumber": "36",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "UIBackgroundModes": [
-          "fetch",
-          "remote-notification"
-        ]
+        "UIBackgroundModes": ["fetch", "remote-notification"]
       }
     },
     "android": {
