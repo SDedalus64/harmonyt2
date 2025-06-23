@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
     paddingVertical: getSpacing('sm'),
     height: getInputConfig().height,
     justifyContent: 'center',
+    width: '100%',
   },
   selectedCountryContent: {
     flexDirection: 'row',
@@ -272,6 +273,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: getSpacing('md'),
     paddingVertical: getSpacing('sm'),
     height: getInputConfig().height,
+    width: '100%',
   },
   searchButtonText: {
     marginLeft: getSpacing('sm'),
