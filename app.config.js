@@ -59,8 +59,7 @@ export default ({ config }) => ({
       'expo-build-properties',
       {
         ios: {
-          // Match the Team ID you currently have set in Xcode.
-          developmentTeam: process.env.IOS_TEAM_ID ?? '2QFN2YCBAZ',
+          developmentTeam: '2QFN2YCBAZ',
           deploymentTarget: '15.1',
           useFrameworks: 'static',
         },
