@@ -5,6 +5,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "types": ["react-native", "node"],
     "typeRoots": [
       "./src/types",
       "./node_modules/@types"
