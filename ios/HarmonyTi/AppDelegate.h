@@ -1,7 +1,7 @@
-#import <RCTAppDelegate.h>
+@interface AppDelegate : ExpoAppDelegateWrapper
 #import <UIKit/UIKit.h>
 #import <Expo/Expo.h>
 
-@interface AppDelegate : EXAppDelegateWrapper
+@interface AppDelegate : ExpoAppDelegate
 
 @end

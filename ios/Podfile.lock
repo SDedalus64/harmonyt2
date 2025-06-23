@@ -17,7 +17,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (14.0.2):
     - ExpoModulesCore
-  - ExpoModulesCore (2.4.0):
+  - ExpoModulesCore (2.2.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -32,6 +32,7 @@ PODS:
     - React-ImageManager
     - React-jsinspector
     - React-NativeModulesApple
+    - React-RCTAppDelegate
     - React-RCTFabric
     - React-rendererdebug
     - React-utils
@@ -39,7 +40,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoScreenOrientation (8.1.7):
+  - ExpoScreenOrientation (8.0.4):
     - DoubleConversion
     - ExpoModulesCore
     - glog
@@ -2043,8 +2044,8 @@ SPEC CHECKSUMS:
   ExpoFont: f354e926f8feae5e831ec8087f36652b44a0b188
   ExpoKeepAwake: b0171a73665bfcefcfcc311742a72a956e6aa680
   ExpoLinearGradient: 35ebd83b16f80b3add053a2fd68cc328ed927f60
-  ExpoModulesCore: 6c2f546a1e7b0fcdff7350778df8f9f23f8ae5d5
-  ExpoScreenOrientation: a13e3abf0b98fc7383f07904c4fcfe00e270d664
+  ExpoModulesCore: 2d8d1c8e238bd5e1448b06c284ac896b162fb856
+  ExpoScreenOrientation: 4a3ee98da02b0e0f86a6aa5e3c4bd96399c87581
   ExpoSystemUI: b82a45cf0f6a4fa18d07c46deba8725dd27688b4
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 7605ea4810e0e10ae4815292433c09bf4324ba45
