@@ -111,3 +111,6 @@ export class CensusTradeService {
     this.cache.clear();
   }
 }
+
+// Named singleton instance for convenience (used in tests)
+export const censusTradeService = CensusTradeService.getInstance();

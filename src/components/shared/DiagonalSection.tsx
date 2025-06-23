@@ -1,13 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, StyleSheet, type ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BRAND_COLORS } from '../../config/brandColors';
 
-interface DiagonalSectionProps {
+export interface DiagonalSectionProps {
+  /** Content rendered inside the diagonal section */
   children?: React.ReactNode;
-  style?: ViewStyle;
+  /** Additional styles applied to the root container */
+  style?: ViewStyle | undefined;
+  /** Gradient colours applied to the background */
   gradientColors?: readonly [string, string, ...string[]];
+  /** Skew angle of the section in degrees (default: 45) */
   angle?: number;
+  /** Fixed height for the section in pixels (default: 200) */
   height?: number;
 }
 
@@ -36,7 +41,7 @@ export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'hidden',
+    overflow: 'visible',
   },
   gradient: {
     flex: 1,

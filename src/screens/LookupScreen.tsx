@@ -89,6 +89,9 @@ const COLORS = {
   saveButtonBlue: BRAND_COLORS.mediumBlue,
 };
 
+// Toggle to visually debug header tab placement during layout tweaks
+const _DEBUG_HEADER_TAB = false;
+
 // Constants
 const RECIPROCAL_TARIFF_TYPE = 'Reciprocal Tariff';
 
@@ -3059,8 +3062,9 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.success,
   },
   dataSourceContainer: {
+    position: 'relative',
     paddingHorizontal: getResponsiveValue(getSpacing('md'), getSpacing('lg')),
-    paddingBottom: getSpacing('sm'),
+    paddingBottom: getSpacing('md'), // Extra space so header tab sits flush
     alignItems: 'center',
   },
   dataSourceText: {
@@ -3196,6 +3200,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   headerTabContainer: {
+    position: 'absolute',
+    bottom: -getSpacing('xs'), // sits flush just below header drawer
+    transform: [{ skewY: '-2deg' }], // counter the parent skew
+    zIndex: 100,
     backgroundColor: BRAND_COLORS.darkNavy,
     paddingHorizontal: getSpacing('md'),
     paddingVertical: getSpacing('xs'),
