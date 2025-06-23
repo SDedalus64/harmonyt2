@@ -1868,8 +1868,12 @@ export default function LookupScreen() {
 
   // Dynamic form width & side padding
   const dynamicFormStyles = React.useMemo(() => {
-    const sidePadding = isTabletNow ? (isLandscape ? windowWidth * 0.15 : windowWidth * 0.25) : getSpacing('md');
-    const fieldWidth = isTabletNow ? (isLandscape ? 650 : 500) : '100%';
+    // Fixed field width for tablet
+    const fieldWidth = isTabletNow ? 500 : '100%';
+    // Calculate symmetric side padding so the field remains centered with the same width in any orientation
+    const sidePadding = isTabletNow && typeof fieldWidth === 'number'
+      ? (windowWidth - fieldWidth) / 2
+      : getSpacing('md');
     return {
       wrapper: {
         paddingHorizontal: sidePadding,
@@ -1900,7 +1904,8 @@ export default function LookupScreen() {
 
   // ... after dynamicFormStyles definition ...
   const dynamicActionStyles = React.useMemo(() => {
-    const sidePadding = isTabletNow ? (isLandscape ? windowWidth * 0.15 : windowWidth * 0.25) : getSpacing('md');
+    // Match side padding with the dynamicFormStyles calculation so buttons align with fields
+    const sidePadding = isTabletNow ? (windowWidth - 500) / 2 : getSpacing('md');
     return {
       row: {
         paddingHorizontal: sidePadding,
