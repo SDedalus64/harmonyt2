@@ -1840,45 +1840,69 @@ export default function LookupScreen() {
 
   // Memo-ized dynamic styles that need to react on rotation
   const dynamicHeaderStyles = React.useMemo(() => {
+    // Increase hero height slightly in iPad landscape so the data-source tab remains visible
     const heroHeight = isTabletNow
       ? isLandscape
-        ? windowHeight * 0.18
+        ? windowHeight * 0.22 // was 0.18 – gives the tab breathing room
         : windowHeight * 0.25
       : windowHeight * 0.2;
 
-    const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
+     const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
 
-    return {
-      heroSection: {
-        height: heroHeight,
-      } as ViewStyle,
-      logo: {
-        width: logoWidth,
-        height: logoWidth * 0.3,
-        maxWidth: isTabletNow ? 600 : 420,
-        maxHeight: isTabletNow ? 180 : 126,
-      } as ImageStyle,
-      dataSourceContainer: isTabletNow
-        ? {
-            marginBottom: isLandscape ? 0 : -getSpacing('xs'),
-          }
-        : {},
-    };
-  }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
+     return {
+       heroSection: {
+         height: heroHeight,
+       } as ViewStyle,
+       logo: {
+         width: logoWidth,
+         height: logoWidth * 0.3,
+         maxWidth: isTabletNow ? 600 : 420,
+         maxHeight: isTabletNow ? 180 : 126,
+       } as ImageStyle,
+       dataSourceContainer: isTabletNow
+         ? {
+             // Pull the tab downward very slightly so that, when the drawer is closed,
+             // its bottom edge sits flush with the container below – illusion of emerging.
+             marginBottom: -getSpacing('xs'),
+           }
+         : {},
+     };
+   }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
 
   // Dynamic form width & side padding
   const dynamicFormStyles = React.useMemo(() => {
-    const sidePadding = isTabletNow ? (isLandscape ? windowWidth * 0.15 : windowWidth * 0.25) : getSpacing('md');
+    // Exact horizontal centering for iPad: compute side-padding from remaining space
     const fieldWidth = isTabletNow ? (isLandscape ? 650 : 500) : '100%';
+    const computedSidePadding = isTabletNow
+      ? Math.max((windowWidth - (typeof fieldWidth === 'number' ? fieldWidth : parseFloat(String(fieldWidth)))) / 2, getSpacing('md'))
+      : getSpacing('md');
     return {
       wrapper: {
-        paddingHorizontal: sidePadding,
+        paddingHorizontal: computedSidePadding,
+        // Center fields when on iPad
+        alignItems: isTabletNow ? 'center' : undefined,
       } as ViewStyle,
       input: {
         width: fieldWidth,
       } as ViewStyle,
       suggestionWidth: {
         width: fieldWidth,
+      } as ViewStyle,
+    };
+  }, [isLandscape, isTabletNow, windowWidth]);
+
+  // ... after dynamicFormStyles definition ...
+  const dynamicActionStyles = React.useMemo(() => {
+    const actionFieldWidth = isTabletNow ? (isLandscape ? 650 : 500) : 0;
+    const sidePadding = isTabletNow
+      ? Math.max((windowWidth - actionFieldWidth) / 2, getSpacing('md'))
+      : getSpacing('md');
+    return {
+      row: {
+        paddingHorizontal: sidePadding,
+      } as ViewStyle,
+      searchButton: {
+        marginLeft: 0,
       } as ViewStyle,
     };
   }, [isLandscape, isTabletNow, windowWidth]);
@@ -1897,19 +1921,6 @@ export default function LookupScreen() {
       settingsDrawerTranslateX.setValue(-hiddenX);
     }
   }, [windowWidth, windowHeight, linksDrawerVisible, historyDrawerVisible, mainHistoryDrawerVisible, settingsDrawerVisible]);
-
-  // ... after dynamicFormStyles definition ...
-  const dynamicActionStyles = React.useMemo(() => {
-    const sidePadding = isTabletNow ? (isLandscape ? windowWidth * 0.15 : windowWidth * 0.25) : getSpacing('md');
-    return {
-      row: {
-        paddingHorizontal: sidePadding,
-      } as ViewStyle,
-      searchButton: {
-        marginLeft: 0,
-      } as ViewStyle,
-    };
-  }, [isLandscape, isTabletNow, windowWidth]);
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
