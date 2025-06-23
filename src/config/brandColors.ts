@@ -156,13 +156,12 @@ export const BRAND_ANIMATIONS = {
 };
 
 // Responsive utility functions
-import { Dimensions, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
-export const isTablet = () => {
-  const { width, height } = Dimensions.get('window');
-  const aspectRatio = height / width;
-  return Platform.OS === 'ios' && (aspectRatio <= 1.6);
-};
+// Simple & reliable tablet check – we only treat true iPads as tablets.
+export const isTablet = () => Platform.OS === 'ios' && (Platform as any).isPad === true;
+
+// (If Android tablet support is added later, augment the check above.)
 
 export const getResponsiveValue = (mobileValue: any, tabletValue: any) => {
   return isTablet() ? tabletValue : mobileValue;

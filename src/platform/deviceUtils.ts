@@ -20,11 +20,7 @@ interface LayoutConstants {
   dimensions: DimensionLayout;
 }
 
-export const isTablet = () => {
-  const { width, height } = Dimensions.get('window');
-  const aspectRatio = height / width;
-  return Platform.OS === 'ios' && (aspectRatio <= 1.6);
-};
+export const isTablet = () => Platform.OS === 'ios' && (Platform as any).isPad === true;
 
 export const getDeviceSpecificStyles = (mobileStyles: any, tabletStyles: any) => {
   return isTablet() ? { ...mobileStyles, ...tabletStyles } : mobileStyles;

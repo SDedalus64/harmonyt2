@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -6,7 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider, useAuth } from './src/navigation/contexts/AuthContext';
-import { View, ActivityIndicator, AppState } from 'react-native';
+import { View, ActivityIndicator, AppState, Platform } from 'react-native';
 import { TariffService } from './src/services/tariffService';
 import { tariffSearchService } from './src/services/tariffSearchService';
 import { SettingsProvider } from './src/hooks/useSettings';
@@ -24,6 +25,11 @@ function AppContent() {
   const { isLoggedIn } = useAuth();
 
   useEffect(() => {
+    // Force portrait orientation on iPhone (iOS devices that are not iPads)
+    if (Platform.OS === 'ios' && !(Platform as any).isPad) {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    }
+
     async function initializeApp() {
       try {
         console.log('App component initializing...');
