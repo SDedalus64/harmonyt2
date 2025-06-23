@@ -152,7 +152,7 @@ interface DutyCalculation {
 // ---------------------------------------------------------------------------
 // Debug flag: switch to true to visualise header-tab layout issues on tablets
 // ---------------------------------------------------------------------------
-const DEBUG_HEADER_TAB = true;
+const DEBUG_HEADER_TAB = false;
 
 export default function LookupScreen() {
   const navigation = useNavigation<LookupScreenNavigationProp>();
@@ -3233,14 +3233,15 @@ const styles = StyleSheet.create({
   },
   headerTabContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: -getSpacing('xs'), // nudge down so bottom edge sits on hero edge
     backgroundColor: BRAND_COLORS.darkNavy,
     paddingHorizontal: getSpacing('md'),
     paddingVertical: getSpacing('xs'),
     borderTopLeftRadius: getBorderRadius('lg'),
     borderTopRightRadius: getBorderRadius('lg'),
-    zIndex: 50,
+    zIndex: 100,
     alignSelf: 'center',
+    transform: [{ skewY: '-2deg' }], // cancel parent skew so tab renders flat
   },
   headerTabText: {
     fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')), // larger than dataSource text
