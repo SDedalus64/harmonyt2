@@ -21,7 +21,6 @@ const tariffService = TariffService.getInstance();
 function AppContent() {
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
-  const [dataInitializing, setDataInitializing] = useState(true);
   const { isLoggedIn } = useAuth();
 
   useEffect(() => {
@@ -63,8 +62,6 @@ function AppContent() {
         console.log('✅ Data services ready');
       } catch (err) {
         console.warn('⚠️ Failed to initialize data services:', err);
-      } finally {
-        setDataInitializing(false);
       }
 
       // Lock to portrait on iPhones (allow free rotation on iPad & Android)
