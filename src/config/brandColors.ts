@@ -1,6 +1,8 @@
 // Dedola Brand Configuration
 // Based on social media templates and brand guidelines
 
+import { Platform } from 'react-native';
+
 export const BRAND_COLORS = {
   // Primary brand colors from Dedola templates
   electricBlue: '#0099FF',    // Primary brand blue
@@ -155,14 +157,8 @@ export const BRAND_ANIMATIONS = {
   },
 };
 
-// Responsive utility functions
-import { Dimensions, Platform } from 'react-native';
-
-export const isTablet = () => {
-  const { width, height } = Dimensions.get('window');
-  const aspectRatio = height / width;
-  return Platform.OS === 'ios' && (aspectRatio <= 1.6);
-};
+// Simplified, reliable iPad check to keep helpers in sync across the app
+export const isTablet = () => Platform.OS === 'ios' && (Platform as any).isPad === true;
 
 export const getResponsiveValue = (mobileValue: any, tabletValue: any) => {
   return isTablet() ? tabletValue : mobileValue;
