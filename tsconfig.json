@@ -11,6 +11,7 @@
     "module": "ES2020",
     "moduleResolution": "node",
     "skipLibCheck": true,
+    "types": ["react-native", "node"],
     "baseUrl": "./",
     "paths": {
       "expo*": ["node_modules/expo/*"],
