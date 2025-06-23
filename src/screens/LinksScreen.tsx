@@ -11,6 +11,9 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 // ---------------------------------------------------------------------------
 // LinksScreen
@@ -29,6 +32,11 @@ interface LinkItem {
   url: string;
   /** Optional icon name from Ionicons */
   icon?: keyof typeof Ionicons.glyphMap;
+}
+
+interface ArticleItem {
+  title: string;
+  url: string;
 }
 
 const LINKS: LinkItem[] = [
@@ -54,21 +62,32 @@ const LINKS: LinkItem[] = [
   },
 ];
 
+const ARTICLES: ArticleItem[] = [
+  {
+    title: 'HTS Classification: A 5-Minute Guide',
+    url: 'https://dedola.com/blog/hts-classification-guide',
+  },
+  {
+    title: 'Incoterms® 2024 – Free Cheat-Sheet',
+    url: 'https://dedola.com/blog/incoterms-2024-cheat-sheet',
+  },
+  {
+    title: 'Section 301 Tariffs Explained',
+    url: 'https://dedola.com/blog/section-301-tariffs-explained',
+  },
+];
+
 export default function LinksScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const handlePress = useCallback(async (url: string) => {
-    try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-      }
-    } catch (err) {
-      // Fail silently – keeping UX clean. In a future iteration we might show
-      // a toast or Alert to signal the error.
-      console.warn(`Unable to open URL: ${url}`, err);
-    }
-  }, []);
+  const handlePress = useCallback(
+    (url: string, title: string) => {
+      // Navigate to in-app webview instead of leaving the app.
+      navigation.navigate('InAppWebView', { url, title });
+    },
+    [navigation]
+  );
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom }]}>      
@@ -81,7 +100,7 @@ export default function LinksScreen() {
             key={url}
             style={styles.linkRow}
             activeOpacity={0.7}
-            onPress={() => handlePress(url)}
+            onPress={() => handlePress(url, label)}
           >
             {icon && (
               <Ionicons
@@ -100,6 +119,33 @@ export default function LinksScreen() {
             />
           </TouchableOpacity>
         ))}
+        {ARTICLES.length > 0 && (
+          <>
+            <Text style={styles.sectionHeader}>Articles & Guides</Text>
+            {ARTICLES.map(({ title, url }) => (
+              <TouchableOpacity
+                key={url}
+                style={styles.linkRow}
+                activeOpacity={0.7}
+                onPress={() => handlePress(url, title)}
+              >
+                <Ionicons
+                  name="document-text-outline"
+                  size={24}
+                  color={COLORS.electricBlue}
+                  style={styles.icon}
+                />
+                <Text style={styles.linkLabel}>{title}</Text>
+                <Ionicons
+                  name={Platform.OS === 'ios' ? 'chevron-forward' : 'arrow-forward'}
+                  size={20}
+                  color={COLORS.darkGray}
+                  style={styles.chevron}
+                />
+              </TouchableOpacity>
+            ))}
+          </>
+        )}
       </ScrollView>
     </View>
   );
@@ -144,5 +190,13 @@ const styles = StyleSheet.create({
   },
   chevron: {
     marginLeft: 8,
+  },
+  sectionHeader: {
+    fontSize: isTablet() ? 20 : 18,
+    fontWeight: '600',
+    color: COLORS.darkNavy,
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 8,
   },
 });

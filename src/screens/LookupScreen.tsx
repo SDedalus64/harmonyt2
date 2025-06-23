@@ -1397,7 +1397,11 @@ export default function LookupScreen() {
           </View>
         </View>
 
-        <View style={styles.resultsScrollView}>
+        <ScrollView
+          style={styles.resultsScrollView}
+          contentContainerStyle={{ paddingBottom: getSpacing('xl') }}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Duties vs Landed Cost */}
           {(() => {
             const dutiableValue = parseFloat(declaredValue);
@@ -1407,15 +1411,15 @@ export default function LookupScreen() {
               <View style={styles.totalAmountRow}>
                 {/* Duties */}
                 <View style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}>
-            <Text style={styles.totalAmountLabel}>Total Duties & Fees</Text>
+            <Text style={styles.totalAmountLabel}>Est. Duties & Fees</Text>
             <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
-                  <Text style={styles.totalAmountSubtext}>on {formatCurrency(dutiableValue)} dutiable value</Text>
+                  <Text style={styles.totalAmountSubtext}>on {formatCurrency(dutiableValue)} value</Text>
           </View>
                 {/* Landed Cost */}
                 <View style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}>
-                  <Text style={styles.totalAmountLabel}>Landed Cost</Text>
+                  <Text style={styles.totalAmountLabel}>Est. Landed Cost</Text>
                   <Text style={styles.totalAmountValue}>{formatCurrency(landedCost)}</Text>
-                  <Text style={styles.totalAmountSubtext}>value + freight, duties, and fees</Text>
+                  <Text style={styles.totalAmountSubtext}>COGs+duties+freight</Text>
                 </View>
               </View>
             );
@@ -1503,7 +1507,7 @@ export default function LookupScreen() {
           )}
 
 
-        </View>
+        </ScrollView>
       </View>
     );
   };
@@ -1525,7 +1529,7 @@ export default function LookupScreen() {
 
     if (!mainFabExpanded) closeAllNavigationDrawers();
 
-    const spacing = getResponsiveValue(80, 110); // horizontal distance between buttons
+    const spacing = isTablet() ? getResponsiveValue(80, 110) : 60; // tighter arc on phones
 
     const animations: Animated.CompositeAnimation[] = [];
 
@@ -2179,7 +2183,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.recentFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
@@ -2207,7 +2211,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.historyFab,
               {
-                bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
+                bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: historyFabTranslateX },
                   { translateY: historyFabTranslateY },
@@ -2234,7 +2238,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.linksFab,
-          { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
+          { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
@@ -2261,7 +2265,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.newsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
@@ -2288,7 +2292,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.statsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
@@ -2315,7 +2319,7 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.settingsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - 70,
+              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },
