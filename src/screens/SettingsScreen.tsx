@@ -10,8 +10,7 @@ import {
   Image,
   Linking,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../navigation/types';
@@ -23,10 +22,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getCountryName } from '../utils/countries';
 import { BRAND_COLORS as COLORS } from '../config/brandColors';
 
-type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList>;
-
 export default function SettingsScreen() {
-  const navigation = useNavigation<SettingsScreenNavigationProp>();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { logout } = useAuth();
   const { settings, updateSetting } = useSettings();
   const { clearHistory } = useHistory();

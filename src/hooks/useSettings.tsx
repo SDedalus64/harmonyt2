@@ -20,7 +20,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   hapticFeedback: true,
   darkMode: false,
   cellularData: true,
-  defaultCountry: 'CN', // China as default
+  defaultCountry: '',
 };
 
 interface SettingsContextValue {

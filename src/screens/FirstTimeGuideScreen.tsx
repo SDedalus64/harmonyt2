@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { 
@@ -30,6 +30,20 @@ const GuideStep = ({ icon, title, text }: { icon: any; title: string; text: stri
 
 const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, onClose }) => {
   const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const handleScroll = (event: any) => {
+    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+    const isCloseToBottom = contentOffset.y + layoutMeasurement.height >= contentSize.height - 20;
+    setShowScrollIndicator(!isCloseToBottom);
+  };
+
+  const handleContentSizeChange = (contentWidth: number, contentHeight: number) => {
+    // Check if content is scrollable by comparing content height to a reasonable modal height
+    const estimatedModalHeight = 600; // Approximate modal content height
+    setShowScrollIndicator(contentHeight > estimatedModalHeight);
+  };
 
   return (
     <Modal
@@ -43,7 +57,14 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
             colors={[BRAND_COLORS.darkNavy, BRAND_COLORS.mediumBlue]}
             style={styles.modalContent}
         >
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <ScrollView 
+            ref={scrollViewRef}
+            contentContainerStyle={styles.scrollViewContent}
+            showsVerticalScrollIndicator={true}
+            onScroll={handleScroll}
+            onContentSizeChange={handleContentSizeChange}
+            scrollEventThrottle={16}
+          >
             <View style={styles.header}>
                 <Ionicons name="compass-outline" size={getResponsiveValue(36, 48)} color={BRAND_COLORS.white} />
                 <Text style={styles.title}>First Time? Here's a Quick Tour!</Text>
@@ -92,6 +113,14 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
               </TouchableOpacity>
             </View>
           </ScrollView>
+          
+          {/* Scroll indicator */}
+          {showScrollIndicator && (
+            <View style={styles.scrollIndicator}>
+              <Ionicons name="chevron-down" size={20} color={BRAND_COLORS.white} />
+              <Text style={styles.scrollIndicatorText}>Scroll for more</Text>
+            </View>
+          )}
         </LinearGradient>
       </View>
     </Modal>
@@ -108,7 +137,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: '90%',
-    maxWidth: 500,
+    maxWidth: getResponsiveValue(500, 572), // ~1 inch wider on iPad (72pt ≈ 1 inch)
     maxHeight: '85%',
     borderRadius: getBorderRadius('lg'),
     padding: getSpacing('lg'),
@@ -122,13 +151,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: getSpacing('md'),
+    paddingHorizontal: getSpacing('sm'),
   },
   title: {
-    fontSize: getTypographySize('xl'),
+    fontSize: getResponsiveValue(getTypographySize('lg'), getTypographySize('xl')),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.white,
     textAlign: 'center',
     marginLeft: getSpacing('md'),
+    flex: 1,
+    flexShrink: 1,
   },
   introText: {
     fontSize: getTypographySize('md'),
@@ -187,6 +219,21 @@ const styles = StyleSheet.create({
     fontSize: getTypographySize('md'),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.white,
+  },
+  scrollIndicator: {
+    position: 'absolute',
+    bottom: getSpacing('md'),
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: getSpacing('sm'),
+    paddingVertical: getSpacing('xs'),
+    borderRadius: getBorderRadius('sm'),
+  },
+  scrollIndicatorText: {
+    fontSize: getTypographySize('xs'),
+    color: BRAND_COLORS.white,
+    marginTop: 2,
   },
 });
 
