@@ -171,7 +171,6 @@ export default function LookupScreen() {
   const [showInput, setShowInput] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<number | null>(null);
-  const { findTariffEntry, findTariffEntryAsync, searchByPrefix, calculateDuty, isLoading: isTariffLoading, error } = useTariff();
   const { saveToHistory, history, loadHistory } = useHistory();
   const { settings, isLoading: settingsLoading } = useSettings();
 
@@ -839,21 +838,22 @@ export default function LookupScreen() {
       // Show loading modal for 2 seconds
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      const entry = await findTariffEntryAsync(htsCode);
-      if (!entry) {
-        setShowLoadingModal(false);
-        Alert.alert('Not Found', 'HTS code not found in tariff database.');
-        setIsLoading(false);
-        setLoadingMessage('');
-        return;
-      }
-
-      currentEntry.current = entry;
+      // This is redundant as calculateDuty calls findTariffEntry internally
+      // const entry = await findTariffEntryAsync(htsCode);
+      // if (!entry) {
+      //   setShowLoadingModal(false);
+      //   Alert.alert('Not Found', 'HTS code not found in tariff database.');
+      //   setIsLoading(false);
+      //   setLoadingMessage('');
+      //   return;
+      // }
+      // currentEntry.current = entry;
 
       // Dutiable value is declared value ONLY (freight excluded)
       const totalValue = parseFloat(declaredValue);
 
-      const dutyCalculation = calculateDuty(
+      // Directly call the TariffService instance
+      const dutyCalculation = await tariffService.calculateDuty(
         htsCode,
         totalValue,
         selectedCountry.code,
@@ -2147,11 +2147,11 @@ export default function LookupScreen() {
                 {/* Action Buttons Row */}
                 <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
                   <TouchableOpacity
-                    style={[styles.searchButton, dynamicActionStyles.searchButton, (isLoading || isTariffLoading) && styles.searchButtonDisabled]}
+                    style={[styles.searchButton, dynamicActionStyles.searchButton, isLoading && styles.searchButtonDisabled]}
                     onPress={handleLookup}
-                    disabled={isLoading || isTariffLoading}
+                    disabled={isLoading}
                   >
-                    {isLoading || isTariffLoading ? (
+                    {isLoading ? (
                       <ActivityIndicator color={BRAND_COLORS.white} />
                     ) : (
                       <>

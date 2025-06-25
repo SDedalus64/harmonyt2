@@ -10,7 +10,11 @@ import json
 import re
 from typing import Dict, Any, Optional, List
 import sys
+import os
 from datetime import datetime
+
+# Path to the new trade rules configuration file
+TRADE_RULES_PATH = os.path.join(os.path.dirname(__file__), 'config', 'trade_rules.csv')
 
 # Special programs mapping based on the uploaded data
 COUNTRY_TO_PROGRAMS = {
@@ -47,121 +51,47 @@ COUNTRY_TO_PROGRAMS = {
     'BY': {'code': 'BY', 'name': 'Belarus', 'programs': ['Column 2 - NTR Suspended']},
 }
 
-# Active US Additive Duties as of May 31, 2025
-ADDITIVE_DUTIES = {
-    'section_301': {
-        'name': 'Section 301 - China Trade',
-        'countries': ['CN'],
-        'lists': {
-            'list_1': {'rate': 0.25, 'effective': '2018-07-06'},
-            'list_2': {'rate': 0.25, 'effective': '2018-08-23'},
-            'list_3': {'rate': 0.25, 'effective': '2018-09-24'},
-            'list_4a': {'rate': 0.075, 'effective': '2019-09-01'}
-        },
-        'exclusions': {
-            '9903.88.69': {'expires': '2025-08-31'},
-            '9903.88.70': {'expires': '2025-09-01'}
-        }
-    },
-    'section_232_steel': {
-        'name': 'Section 232 - Steel',
-        'countries': 'global',
-        'chapters': ['72', '73'],
-        'rate': 0.50,  # 50% for all countries except UK
-        'rate_uk': 0.25,  # 25% for UK only
-        'effective': '2018-03-23',
-        'uk_effective': '2025-06-04',
-        'note': 'Increased from 25% to 50% on June 4, 2025 (except UK remains at 25%)',
-        'uk_codes': ['9903.80.05', '9903.80.06', '9903.80.07', '9903.80.08']
-    },
-    'section_232_aluminum': {
-        'name': 'Section 232 - Aluminum',
-        'countries': 'global',
-        'chapters': ['76'],
-        'rate': 0.50,  # 50% for all countries except UK
-        'rate_uk': 0.25,  # 25% for UK only
-        'effective': '2018-03-23',
-        'uk_effective': '2025-06-04',
-        'note': 'Increased from 25% to 50% on June 4, 2025 (except UK remains at 25%)',
-        'uk_codes': ['9903.85.12', '9903.85.13', '9903.85.14', '9903.85.15']
-    },
-    'reciprocal_china': {
-        'name': 'Reciprocal Tariff - China',
-        'countries': ['CN'],
-        'rate': 0.10,  # 10% reciprocal tariff
-        'effective': '2025-05-14',
-        'expires': '2025-08-12',
-        'note': 'Temporary 90-day agreement'
-    },
-    'fentanyl_china': {
-        'name': 'Fentanyl Anti-Trafficking Tariff - China',
-        'countries': ['CN'],
-        'rate': 0.20,  # 20% fentanyl anti-trafficking tariff
-        'effective': '2025-03-04',  # Same as other IEEPA tariffs
-        'expires': None,  # No expiration - permanent
-        'note': 'Anti-trafficking measure'
-    },
-    'ieepa_canada': {
-        'name': 'IEEPA Tariff - Canada',
-        'countries': ['CA'],
-        'rate': 0.25,  # 25% standard rate
-        'rate_energy_potash': 0.10,  # 10% for energy and potash
-        'effective': '2025-03-04',
-        'note': 'USMCA-origin goods exempt; Does not stack with Section 232',
-        'legal_status': 'Under judicial review, currently in effect'
-    },
-    'ieepa_mexico': {
-        'name': 'IEEPA Tariff - Mexico',
-        'countries': ['MX'],
-        'rate': 0.25,  # 25% standard rate
-        'rate_potash': 0.10,  # 10% for potash only
-        'effective': '2025-03-04',
-        'note': 'USMCA-origin goods exempt; Does not stack with Section 232',
-        'legal_status': 'Under judicial review, currently in effect'
-    }
-}
-
-# Reciprocal Tariff Exemptions
-# These HTS codes are exempt from reciprocal tariffs
+# Reciprocal Tariff Exemptions (To be phased out or integrated into trade_rules.csv)
 RECIPROCAL_TARIFF_EXEMPTIONS = {
     'china': {
-        # Pharmaceutical products
         'chapters': ['30'],
-        # Medical devices and equipment
         'hts_prefixes': ['9018', '9019', '9020', '9021', '9022'],
-        # Semiconductors (Chapter 85 specific codes would need to be added)
-        'hts_prefixes_semiconductors': ['8541', '8542'],  # Diodes, transistors, integrated circuits
-        # Essential food products
+        'hts_prefixes_semiconductors': ['8541', '8542'],
         'specific_codes': [],
-        # Note: Annex II specific codes would need to be added here
     },
     'canada': {
-        # Energy products
-        'chapters': ['27'],  # Mineral fuels, oils
-        # Agricultural products under specific programs
+        'chapters': ['27'],
         'hts_prefixes': [],
         'specific_codes': [],
     },
     'mexico': {
-        # Energy products
-        'chapters': ['27'],  # Mineral fuels, oils
-        # Agricultural products under specific programs
+        'chapters': ['27'],
         'hts_prefixes': [],
         'specific_codes': [],
     }
 }
 
-# Fentanyl Tariff Exemptions - Much more limited
+# Fentanyl Tariff Exemptions (To be phased out or integrated into trade_rules.csv)
 FENTANYL_TARIFF_EXEMPTIONS = {
     'china': {
-        # Chapter 98 - U.S. goods returned, personal exemptions
         'chapters': ['98'],
-        # Humanitarian goods - would need specific HTS codes
         'hts_prefixes': [],
-        # Personal-use items - typically small quantities, not commercial
         'specific_codes': [],
     }
 }
+
+def load_trade_rules(file_path: str) -> List[Dict[str, Any]]:
+    """Loads trade rules from the specified CSV file."""
+    if not os.path.exists(file_path):
+        print(f"Error: Trade rules file not found at {file_path}")
+        sys.exit(1)
+    
+    rules = []
+    with open(file_path, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            rules.append(row)
+    return rules
 
 def is_exempt_from_reciprocal_tariff(hts_code: str, country: str) -> bool:
     """Check if an HTS code is exempt from reciprocal tariffs for a specific country"""
@@ -275,57 +205,83 @@ def is_potash_product(hts_code: str) -> bool:
     # 3105.20 - Mineral or chemical fertilizers containing potassium
     return hts_code.startswith('310420') or hts_code.startswith('310520')
 
-def determine_additive_duties(hts_code: str, entry: Dict[str, Any]) -> Dict[str, Any]:
-    """Determine which additive duties apply to this HTS code"""
-    additive_duties = []
+def determine_additive_duties(hts_code: str, trade_rules: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Determines which additive duties might apply to an HTS code based on the loaded rules.
+    This function identifies potential duties based on product characteristics (e.g., chapter).
+    The mobile app will then be responsible for applying the correct rate based on the country of origin.
+    """
+    applicable_duties = []
 
-    # Check for Section 232 duties (global application with UK exemption)
-    if is_steel_product(hts_code):
-        steel_info = ADDITIVE_DUTIES.get('section_232_steel', {})
-        additive_duties.append({
-            'type': 'section_232',
-            'name': 'Section 232 - Steel Tariff',
-            'rate': steel_info.get('rate', 0.50) * 100,  # 50% default
-            'rate_uk': steel_info.get('rate_uk', 0.25) * 100,  # 25% for UK
-            'countries': 'all',  # Applies globally
-            'countries_reduced': ['GB', 'UK'],  # UK gets reduced rate
-            'label': 'Section 232 Steel (50%, UK 25%)',
-            'uk_codes': steel_info.get('uk_codes', [])
-        })
-    elif is_aluminum_product(hts_code):
-        aluminum_info = ADDITIVE_DUTIES.get('section_232_aluminum', {})
-        additive_duties.append({
-            'type': 'section_232',
-            'name': 'Section 232 - Aluminum Tariff',
-            'rate': aluminum_info.get('rate', 0.50) * 100,  # 50% default
-            'rate_uk': aluminum_info.get('rate_uk', 0.25) * 100,  # 25% for UK
-            'countries': 'all',  # Applies globally
-            'countries_reduced': ['GB', 'UK'],  # UK gets reduced rate
-            'label': 'Section 232 Aluminum (50%, UK 25%)',
-            'uk_codes': aluminum_info.get('uk_codes', [])
-        })
+    # Filter rules that apply based on HTS code criteria
+    for rule in trade_rules:
+        if rule.get('Status') != 'Active':
+            continue
 
-    # Check for Section 301 duties (China-specific)
-    # Use the ADDITIVE_DUTIES constant to determine which products are affected
-    section_301_info = ADDITIVE_DUTIES.get('section_301')
-    if section_301_info:
-        # For now, we'll apply Section 301 to all non-steel/aluminum products
-        # In a real implementation, we would need to check against the actual lists
-        if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
-            # Use the highest rate from the lists (25% for lists 1-3)
-            rate = 25.0  # Default to 25% for lists 1-3
-            if hts_code.startswith('99'):  # If it's a Chapter 99 code
-                # Use the lower rate for List 4A
-                rate = 7.5
-            additive_duties.append({
-                'type': 'section_301',
-                'name': 'Section 301 - China Trade',
-                'rate': rate,
-                'countries': ['CN'],
-                'label': 'Section 301'
+        applies = False
+        data_type = rule.get('AppliesTo_DataType')
+        data_value = rule.get('AppliesTo_Value')
+
+        if data_type == 'Chapter':
+            chapters = data_value.split(';')
+            if hts_code.startswith(tuple(chapters)):
+                applies = True
+        elif data_type == 'HTS_Code':
+            if hts_code == data_value:
+                applies = True
+        elif data_type == 'Product_Type':
+            product_types = data_value.split(';')
+            if 'Energy' in product_types and is_energy_product(hts_code):
+                applies = True
+            if 'Potash' in product_types and is_potash_product(hts_code):
+                applies = True
+        
+        # This rule is a potential match based on the product itself
+        if applies:
+             # Now, format the rule into a structure for the final JSON
+            duty_info = {
+                'rule_name': rule['RuleName'],
+                'rule_type': rule['RuleType'],
+                'countries': rule.get('Countries', 'all').split(';'),
+                'rate': float(rule['Rate']) * 100 if rule.get('Rate') else 0,
+                'note': rule.get('Note', ''),
+                'status': rule.get('Status', '')
+            }
+            applicable_duties.append(duty_info)
+
+    # Now, let's handle the more generic China tariffs that apply if not otherwise specified
+    # This rebuilds the logic that was previously implicit
+    is_steel = is_steel_product(hts_code)
+    is_aluminum = is_aluminum_product(hts_code)
+    
+    if not is_steel and not is_aluminum:
+        # Fentanyl Tariff (assumed to apply to all non-steel/aluminum from China unless exempt)
+        if not is_exempt_from_fentanyl_tariff(hts_code, 'CN'):
+             fentanyl_rule = next((r for r in trade_rules if r['RuleName'] == 'Fentanyl Tariff'), None)
+             if fentanyl_rule:
+                applicable_duties.append({
+                    'rule_name': fentanyl_rule['RuleName'],
+                    'rule_type': fentanyl_rule['RuleType'],
+                    'countries': fentanyl_rule.get('Countries', 'all').split(';'),
+                    'rate': float(fentanyl_rule['Rate']) * 100,
+                    'note': fentanyl_rule.get('Note', ''),
+                    'status': fentanyl_rule.get('Status', '')
+                })
+
+        # Reciprocal Tariff (assumed to apply to all non-steel/aluminum from China unless exempt)
+        if not is_exempt_from_reciprocal_tariff(hts_code, 'CN'):
+            reciprocal_rule = next((r for r in trade_rules if r['RuleName'] == 'IEEPA Tariff' and 'CN' in r['Countries']), None)
+            if reciprocal_rule:
+                applicable_duties.append({
+                    'rule_name': reciprocal_rule['RuleName'],
+                    'rule_type': reciprocal_rule['RuleType'],
+                    'countries': reciprocal_rule.get('Countries', 'all').split(';'),
+                    'rate': float(reciprocal_rule['Rate']) * 100,
+                    'note': reciprocal_rule.get('Note', ''),
+                    'status': reciprocal_rule.get('Status', '')
             })
 
-    return additive_duties
+    return applicable_duties
 
 def clean_field_name(field_name: str) -> str:
     """Remove BOM and other unwanted characters from field names"""
@@ -342,7 +298,7 @@ def clean_hts_code(hts_code: str) -> str:
     cleaned = re.sub(r'[^\d]', '', cleaned)
     return cleaned
 
-def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
+def process_tariff_entry(row: Dict[str, Any], trade_rules: List[Dict[str, Any]]) -> Dict[str, Any]:
     """Process a single tariff entry, handling special cases"""
 
     # Clean all field names in the row
@@ -449,14 +405,14 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
                     # Determine which countries this applies to based on the rate
                     if col2_rate == 0.25:  # 25% rate
                         entry['trade_action_countries'] = ['CA', 'MX']  # Canada and Mexico
-                        entry['trade_action_label'] = 'Trade Action Tariff (25%)'
+                        entry['trade_action_label'] = 'Trade Action Tariff'
                     elif col2_rate == 0.10:  # 10% rate
                         entry['trade_action_countries'] = ['CA']  # Might be aluminum/steel
-                        entry['trade_action_label'] = 'Trade Action Tariff (10%)'
+                        entry['trade_action_label'] = 'Trade Action Tariff'
                     else:
                         # Other rates - would need more context to determine countries
                         entry['trade_action_countries'] = []
-                        entry['trade_action_label'] = f'Trade Action Tariff ({col2_rate * 100}%)'
+                        entry['trade_action_label'] = 'Trade Action Tariff'
                 else:
                     # Traditional Column 2 countries
                     entry['has_special_trade_action'] = False
@@ -529,7 +485,7 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
             entry['additional_duty_rate'] = add_rate
 
     # Determine all applicable additive duties for this product
-    additive_duties_info = determine_additive_duties(hts_code, entry)
+    additive_duties_info = determine_additive_duties(hts_code, trade_rules)
     if additive_duties_info:
         entry['additive_duties'] = additive_duties_info
 
@@ -574,10 +530,10 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
             # Determine the rate based on product type
             if is_energy_product(hts_code) or is_potash_product(hts_code):
                 rate = 10.0  # Reduced rate for energy and potash
-                label = 'IEEPA Tariff - Canada (10% - Energy/Potash)'
+                label = 'IEEPA Tariff - Canada'
             else:
                 rate = 25.0  # Standard rate
-                label = 'IEEPA Tariff - Canada (25%)'
+                label = 'IEEPA Tariff - Canada'
 
             entry['ieepa_tariffs'].append({
                 'country': 'CA',
@@ -593,10 +549,10 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
             # Determine the rate based on product type
             if is_potash_product(hts_code):
                 rate = 10.0  # Reduced rate for potash only
-                label = 'IEEPA Tariff - Mexico (10% - Potash)'
+                label = 'IEEPA Tariff - Mexico'
             else:
                 rate = 25.0  # Standard rate (no energy exemption for Mexico)
-                label = 'IEEPA Tariff - Mexico (25%)'
+                label = 'IEEPA Tariff - Mexico'
 
             entry['ieepa_tariffs'].append({
                 'country': 'MX',
@@ -621,6 +577,10 @@ def main():
     output_file = sys.argv[2]
     hts_revision = sys.argv[3] if len(sys.argv) == 4 else 'Unknown'
 
+    print(f"Loading trade rules from {TRADE_RULES_PATH}...")
+    trade_rules = load_trade_rules(TRADE_RULES_PATH)
+    print(f"Loaded {len(trade_rules)} rules.")
+
     print(f"Processing {input_file}...")
     print(f"HTS Revision: {hts_revision}")
 
@@ -637,7 +597,7 @@ def main():
         reader = csv.DictReader(f)
 
         for row in reader:
-            entry = process_tariff_entry(row)
+            entry = process_tariff_entry(row, trade_rules)
             if entry is None:
                 continue  # Skip entries without valid HTS codes
 
@@ -651,9 +611,9 @@ def main():
                 reciprocal_tariff_count += 1
             if entry.get('additive_duties'):
                 for duty in entry['additive_duties']:
-                    if duty['type'] == 'section_301':
+                    if duty['rule_name'] == 'Section 301':
                         section_301_count += 1
-                    elif duty['type'] == 'section_232':
+                    elif duty['rule_name'] == 'Section 232':
                         section_232_count += 1
             if entry.get('has_special_trade_action'):
                 trade_action_count += 1
@@ -682,7 +642,7 @@ def main():
             'preprocessing_version': '2.0',
             'hts_revision': hts_revision,
             'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'additive_duties_info': ADDITIVE_DUTIES
+            'additive_duties_info': trade_rules
         },
         'country_programs': COUNTRY_TO_PROGRAMS
     }
@@ -709,8 +669,8 @@ def main():
     for entry in entries:
         if entry.get('additive_duties'):
             for duty in entry['additive_duties']:
-                if duty['type'] == 'section_232' and example_count < 5:
-                    print(f"  {entry['hts8']}: {duty['label']} - {entry['brief_description'][:50]}...")
+                if duty['rule_name'] == 'Section 232' and example_count < 5:
+                    print(f"  {entry['hts8']}: {duty['note']} - {entry['brief_description'][:50]}...")
                     example_count += 1
                     break
 

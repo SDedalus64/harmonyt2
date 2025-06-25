@@ -3,6 +3,9 @@
 
 // Import Azure configuration
 import { AZURE_CONFIG, getAzureUrls } from '../config/azure.config';
+import { MPF_RATE, HMF_RATE } from '../constants/fees';
+import { tariffCacheService } from './tariffCacheService';
+import { tariffSearchService } from './tariffSearchService';
 
 export interface TariffData {
   data_last_updated?: string;
@@ -68,7 +71,9 @@ export interface TariffEntry {
   // Additive duties (Section 232, Section 301, etc.)
   additive_duties?: Array<{
     type: string;
+    rule_type?: string;
     name: string;
+    rule_name?: string;
     rate: number;
     rate_uk?: number; // UK-specific rate for Section 232
     countries: string[] | 'all';
@@ -131,18 +136,12 @@ export interface TariffTruce {
 }
 
 // Constants
-const MPF_RATE = 0.003464; // 0.3464% Merchandise Processing Fee
 const MPF_MIN = 27.75;
 const MPF_MAX = 538.40;
-const HMF_RATE = 0.00125; // 0.125% Harbor Maintenance Fee
 
 export class TariffService {
   private static instance: TariffService;
-  private tariffData: TariffData | null = null;
   private segmentCache: Map<string, TariffEntry[]> = new Map();
-  private initialized = false;
-  private lastFetchTime: number = 0;
-  private readonly CACHE_DURATION = AZURE_CONFIG.cacheDuration;
 
   private constructor() {}
 
@@ -153,193 +152,75 @@ export class TariffService {
     return TariffService.instance;
   }
 
-  // Add retry logic for network requests
-  private async fetchWithRetry(url: string, retryCount = 0): Promise<Response> {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), AZURE_CONFIG.requestTimeout);
-
-      const response = await fetch(url, {
-        signal: controller.signal,
-        headers: {
-          'Accept': 'application/json',
-          'Cache-Control': 'max-age=3600' // 1 hour cache
-        }
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok && retryCount < AZURE_CONFIG.retry.maxAttempts - 1) {
-        const delay = AZURE_CONFIG.retry.delayMs * Math.pow(AZURE_CONFIG.retry.backoffMultiplier, retryCount);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        return this.fetchWithRetry(url, retryCount + 1);
-      }
-
-      return response;
-    } catch (error) {
-      if (retryCount < AZURE_CONFIG.retry.maxAttempts - 1) {
-        const delay = AZURE_CONFIG.retry.delayMs * Math.pow(AZURE_CONFIG.retry.backoffMultiplier, retryCount);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        return this.fetchWithRetry(url, retryCount + 1);
-      }
-      throw error;
-    }
-  }
-
-  isInitialized(): boolean {
-    return this.initialized && Date.now() - this.lastFetchTime < this.CACHE_DURATION;
-  }
-
-  async initialize(): Promise<void> {
-    if (this.isInitialized()) {
-      console.log('Tariff data already initialized and cached');
-      return;
-    }
-
-    const startTime = Date.now();
-
-    try {
-      console.log('🚀 Loading tariff data from Azure Blob Storage (no local fallback)...');
-
-      const urls = getAzureUrls();
-      console.log('📡 Fetching from:', urls.mainData);
-
-      // Fetch the main tariff data from Azure
-      const response = await this.fetchWithRetry(urls.mainData);
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch tariff data: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      // The data from Azure has the correct structure
-      this.tariffData = data as TariffData;
-
-      this.lastFetchTime = Date.now();
-      this.initialized = true;
-
-      const loadTime = Date.now() - startTime;
-      console.log('✅ Successfully loaded tariff data from Azure');
-      console.log(`⏱️  Load time: ${loadTime}ms`);
-      console.log('📊 Total tariff entries loaded:', this.tariffData?.tariffs?.length || 0);
-      console.log('📅 Data last updated:', this.tariffData?.data_last_updated || 'Unknown');
-      console.log('📑 HTS Revision:', this.tariffData?.hts_revision || 'Unknown');
-
-      // Log metadata if available
-      if (this.tariffData?.metadata) {
-        console.log('📋 Metadata:', this.tariffData.metadata);
-      }
-    } catch (error) {
-      const loadTime = Date.now() - startTime;
-      console.error(`❌ Failed to initialize tariff data after ${loadTime}ms:`, error);
-
-      // No local fallback - pure Azure implementation
-      throw new Error(`Failed to load tariff data from Azure: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  }
-
-  // New method to load segment data on demand
-  async loadSegment(segmentId: string): Promise<TariffEntry[]> {
-    // Check cache first
+  private async loadSegment(segmentId: string): Promise<TariffEntry[]> {
+    // Check in-memory cache first
     if (this.segmentCache.has(segmentId)) {
       return this.segmentCache.get(segmentId)!;
     }
 
+    // Check local storage cache
+    const segmentFile = `tariff-${segmentId}.json`;
+    const cachedData = await tariffCacheService.getSegment(segmentFile);
+    if (cachedData && cachedData.entries) {
+      this.segmentCache.set(segmentId, cachedData.entries);
+      console.log(`[TariffService] Loaded segment ${segmentId} from local cache.`);
+      return cachedData.entries;
+    }
+
+    // Fetch from network if not cached
+    console.log(`[TariffService] Segment ${segmentId} not cached. Fetching from network...`);
+    const urls = getAzureUrls();
+    const segmentUrl = urls.getSegmentUrl(segmentId);
+
     try {
-      const urls = getAzureUrls();
-      const segmentUrl = urls.getSegmentUrl(segmentId);
-      console.log(`Loading segment ${segmentId} from ${segmentUrl}`);
-
-      const response = await this.fetchWithRetry(segmentUrl);
-
+      const response = await fetch(segmentUrl);
       if (!response.ok) {
-        // Don't throw for 404s, just return empty array
-        if (response.status === 404) {
-          console.log(`Segment ${segmentId} not found, will use main data`);
-          return [];
-        }
-        throw new Error(`Failed to fetch segment ${segmentId}: ${response.status}`);
+        throw new Error(`Failed to fetch segment ${segmentId}: ${response.statusText}`);
       }
+      const data = await response.json();
+      const entries = data.entries || [];
 
-      const segmentData = await response.json();
+      // Save to caches
+      this.segmentCache.set(segmentId, entries);
+      await tariffCacheService.setSegment(segmentFile, data);
 
-      // Cache the segment
-      this.segmentCache.set(segmentId, segmentData);
-
-      return segmentData;
+      return entries;
     } catch (error) {
-      console.error(`Failed to load segment ${segmentId}:`, error);
-      return [];
+      console.error(`[TariffService] Error loading segment ${segmentId}:`, error);
+      return []; // Return empty array on error
     }
   }
 
-  // Update findTariffEntry to use segments for better performance
-  async findTariffEntryOptimized(htsCode: string): Promise<TariffEntry | undefined> {
-    // For now, just use the main data since it contains all entries
-    // Segment optimization can be added later when all segment files are available
-    return this.findTariffEntry(htsCode);
+  private getSegmentId(htsCode: string): string | null {
+    if (!htsCode || htsCode.length < 3) return null;
+    return htsCode.substring(0, 3);
   }
 
-  private getSegmentId(prefix: string): string | null {
-    const prefixNum = parseInt(prefix);
+  /**
+   * Finds a tariff entry by first loading the correct segment
+   * and then searching within that segment's data.
+   */
+  async findTariffEntry(htsCode: string): Promise<TariffEntry | undefined> {
+    const normalizedCode = htsCode.replace(/\./g, '');
+    const segmentId = this.getSegmentId(normalizedCode);
 
-    // Based on the segment-index.json, these are the available segments:
-    // Single digit segments: 1x, 3x, 4x, 5x
-    // Individual chapters: 01-09, 20-29, 60-99
-
-    // Check for x-segments first (10-19, 30-39, 40-49, 50-59)
-    if (prefixNum >= 10 && prefixNum <= 19) return '1x';
-    if (prefixNum >= 30 && prefixNum <= 39) return '3x';
-    if (prefixNum >= 40 && prefixNum <= 49) return '4x';
-    if (prefixNum >= 50 && prefixNum <= 59) return '5x';
-
-    // Check for individual chapter files
-    if (prefixNum >= 1 && prefixNum <= 9) return prefix.padStart(2, '0');
-    if (prefixNum >= 20 && prefixNum <= 29) return prefix;
-    if (prefixNum >= 60 && prefixNum <= 99) return prefix;
-
-    // No segment file for chapters 10-19, 30-39, 40-49, 50-59 (except the x files)
-    // and chapters 11-19, 31-39, 41-49, 51-59
-    return null;
-  }
-
-  private normalizeHtsCode(code: string): string {
-    // Don't normalize - just return the code as-is after removing any BOM character
-    return String(code).replace(/\ufeff/g, '');
-  }
-
-  getLastUpdated(): string {
-    return this.tariffData?.data_last_updated || 'Unknown';
-  }
-
-  getHtsRevision(): string {
-    return this.tariffData?.hts_revision || this.tariffData?.metadata?.hts_revision || 'Unknown';
-  }
-
-  findTariffEntry(htsCode: string): TariffEntry | undefined {
-    if (!this.tariffData?.tariffs) {
-      console.log('No tariff data available');
+    if (!segmentId) {
+      console.error('[TariffService] Could not determine segment ID for HTS code:', htsCode);
       return undefined;
     }
 
-    console.log('Searching for HTS code:', htsCode);
-    console.log('First 5 HTS codes in data:', this.tariffData.tariffs.slice(0, 5).map(e => e.hts8));
-
-    const result = this.tariffData.tariffs.find(entry =>
-      entry.hts8 === htsCode
-    );
-
-    if (!result) {
-      console.log('Code not found. Total entries:', this.tariffData.tariffs.length);
-    } else {
-      console.log('Found entry with fields:', Object.keys(result));
-      if (result.additional_duty) {
-        console.log('Entry has additional_duty:', result.additional_duty);
-      }
+    const segmentData = await this.loadSegment(segmentId);
+    if (!segmentData || segmentData.length === 0) {
+      return undefined;
     }
 
-    return result;
+    const entry = segmentData.find(e => (e.hts8 || '').replace(/\./g, '') === normalizedCode.replace(/\./g, ''));
+    
+    if (!entry) {
+      console.log(`[TariffService] HTS code ${htsCode} (normalized: ${normalizedCode}) not found in segment ${segmentId}.`);
+    }
+    
+    return entry;
   }
 
   private parseDutyRate(rateStr: string): {
@@ -432,14 +313,14 @@ export class TariffService {
     return dateStr;
   }
 
-  calculateDuty(
+  async calculateDuty(
     htsCode: string,
     declaredValue: number,
     countryCode: string,
     isReciprocalAdditive: boolean = true,  // Always treat reciprocal tariffs as additive
     excludeReciprocalTariff: boolean = false,  // New parameter to control RT inclusion
     isUSMCAOrigin: boolean = false  // New parameter to specify USMCA origin
-  ): {
+  ): Promise<{
     amount: number;
     dutyOnly: number;
     totalRate: number;
@@ -458,9 +339,12 @@ export class TariffService {
     description: string;
     effectiveDate: string;
     expirationDate: string;
-  } {
-    if (!this.tariffData?.tariffs) {
-      throw new Error('Tariff data not initialized');
+  } | null> {
+    const entry = await this.findTariffEntry(htsCode);
+
+    if (!entry) {
+      console.error(`Could not find tariff data for HTS code: ${htsCode}`);
+      return null; // Return null if no entry is found
     }
 
     if (isNaN(declaredValue) || declaredValue <= 0) {
@@ -479,22 +363,6 @@ export class TariffService {
     }
 
     const countryCodeForTariffs = ['HK', 'MO'].includes(countryCode) ? 'CN' : countryCode;
-
-    const entry = this.findTariffEntry(htsCode);
-    if (!entry) {
-      return {
-        amount: 0,
-        dutyOnly: 0,
-        totalRate: 0,
-        components: [],
-        breakdown: ['No HTS code match found'],
-        fees: { mpf: { rate: 0, amount: 0 }, hmf: { rate: 0, amount: 0 } },
-        htsCode: htsCode,
-        description: '',
-        effectiveDate: '',
-        expirationDate: ''
-      };
-    }
 
     // Handle Chapter 99 special provisions
     if (entry.is_chapter_99 && entry.chapter_99_additional_rate !== undefined) {
@@ -532,7 +400,12 @@ export class TariffService {
         const description = entry.brief_description || '';
 
         // For Chapter 99, we show the additional rate as the main rate
-        const components = [{
+        const components: Array<{
+          type: string;
+          rate: number;
+          amount: number;
+          label?: string;
+        }> = [{
           type: "Special Provision",
           rate: additionalRate,
           amount: declaredValue * additionalRate / 100,
@@ -610,8 +483,33 @@ export class TariffService {
     const effectiveDate = this.formatDate(entry.begin_effect_date);
     const expirationDate = this.formatDate(entry.end_effective_date);
 
-    const components = [];
-    const breakdown = [];
+    const components: Array<{
+      type: string;
+      rate: number;
+      amount: number;
+      label?: string;
+    }> = [];
+
+    // Helper to add a component only if we haven't already added one with the
+    // same label (guards against duplicates when a tariff appears in both
+    // additive_duties and reciprocal_tariffs arrays).
+    const pushUniqueComponent = (comp: { type: string; rate: number; amount: number; label?: string; }): boolean => {
+      const isFentanyl = (str?: string) => str?.toLowerCase().includes('fentanyl');
+
+      if (!components.some(c => {
+        // Treat any two fentanyl-related lines as duplicates even if wording differs.
+        if (isFentanyl(c.label) && isFentanyl(comp.label)) return true;
+        return c.label === comp.label && c.type === comp.type;
+      })) {
+        components.push(comp);
+        totalRate += comp.rate;
+        return true;
+      }
+      console.log('[TariffService] Skipping duplicate component:', comp.label);
+      return false;
+    };
+
+    const breakdown: string[] = [];
     let totalRate = 0;
     let dutyOnly = 0;
 
@@ -659,14 +557,13 @@ export class TariffService {
     if (shouldApplySpecialRate) {
       baseRate = specialRateToApply;
       baseRateLabel = `${specialRateLabel}: ${baseRate}%`;
-      components.push({
+      pushUniqueComponent({
         type: specialDutyType,
         rate: baseRate,
         amount: declaredValue * baseRate / 100,
         label: specialRateLabel
       });
-      totalRate += baseRate;
-      breakdown.push(baseRateLabel);
+      breakdown.push(specialRateLabel);
     } else {
       // 1. Check for special FTA rates based on country
       let ftaRate: number | null = null;
@@ -731,14 +628,13 @@ export class TariffService {
         baseRateLabel = `MFN Rate: ${mfnTextRate}`;
       }
 
-      components.push({
+      pushUniqueComponent({
         type: usedSpecialRate ? specialRateType : "MFN",
         rate: baseRate,
         amount: declaredValue * baseRate / 100,
         label: usedSpecialRate ? ftaProgram : "Most Favored Nation"
       });
-      totalRate += baseRate;
-      breakdown.push(baseRateLabel);
+      breakdown.push(usedSpecialRate ? ftaProgram : "Most Favored Nation");
     }
 
     // 2. Check for additive duties (Section 232, Section 301, etc.)
@@ -749,46 +645,45 @@ export class TariffService {
         if (duty.countries === 'all' || (Array.isArray(duty.countries) && duty.countries.includes(countryCodeForTariffs))) {
           console.log('Duty applies to country:', duty);
 
+          let dutyType = duty.rule_type || duty.type;
+          const dutyLabel = duty.rule_name || duty.label || duty.name;
+
+          // Ensure Fentanyl tariff gets the correct type for sorting
+          if (dutyLabel?.toLowerCase().includes('fentanyl')) {
+            dutyType = 'Fentanyl Anti-Trafficking Tariff';
+          }
+
+          // IEEPA Tariffs should only apply to Canada & Mexico.
+          if (dutyLabel?.toLowerCase().includes('ieepa') && !['CA', 'MX'].includes(countryCodeForTariffs)) {
+            console.log(`[TariffService] Skipping IEEPA tariff for non-CA/MX country: ${countryCodeForTariffs}`);
+            continue; // Skip to the next duty
+          }
+
           // Always add all additive duties (Section 301, Section 232, etc.)
-          if (duty.type === 'section_301') {
+          if (dutyType === 'section_301') {
             console.log('Adding Section 301:', duty);
-              components.push({
-                type: duty.type,
-                rate: duty.rate,
-                amount: declaredValue * duty.rate / 100,
-                label: duty.label
-              });
-              totalRate += duty.rate;
-              breakdown.push(`${duty.label}: +${duty.rate}%`);
-          } else if (duty.type === 'section_232') {
+            if (pushUniqueComponent({ type: dutyType, rate: duty.rate, amount: declaredValue * duty.rate / 100, label: dutyLabel })) {
+              breakdown.push(dutyLabel);
+            }
+          } else if (dutyType === 'section_232') {
             // Handle Section 232 with UK-specific rates
             let section232Rate = duty.rate;
-            let section232Label = duty.label;
+            let section232Label = dutyLabel;
 
             // Check if UK gets reduced rate
             if ((countryCode === 'GB' || countryCode === 'UK') && duty.rate_uk !== undefined) {
               section232Rate = duty.rate_uk;
-              section232Label = duty.label.replace('50%', '25%').replace('UK 25%', 'UK rate applied');
+              section232Label = dutyLabel.replace('50%', '25%').replace('UK 25%', 'UK rate applied');
             }
 
-            components.push({
-              type: duty.type,
-              rate: section232Rate,
-              amount: declaredValue * section232Rate / 100,
-              label: section232Label
-            });
-            totalRate += section232Rate;
-            breakdown.push(`${section232Label}: +${section232Rate}%`);
+            if (pushUniqueComponent({ type: dutyType, rate: section232Rate, amount: declaredValue * section232Rate / 100, label: section232Label })) {
+              breakdown.push(section232Label);
+            }
           } else {
             // For all other duties, always add them
-            components.push({
-              type: duty.type,
-              rate: duty.rate,
-              amount: declaredValue * duty.rate / 100,
-              label: duty.label
-            });
-            totalRate += duty.rate;
-            breakdown.push(`${duty.label}: +${duty.rate}%`);
+            if (pushUniqueComponent({ type: dutyType, rate: duty.rate, amount: declaredValue * duty.rate / 100, label: dutyLabel })) {
+              breakdown.push(dutyLabel);
+            }
           }
         }
       }
@@ -811,29 +706,19 @@ export class TariffService {
           });
 
           // Always add Section 301
-            dutyLabel = "Section 301";
-            dutyType = "Section 301";
+          dutyLabel = "Section 301";
+          dutyType = "Section 301";
 
-            components.push({
-              type: dutyType,
-              rate: additionalRate,
-              amount: declaredValue * additionalRate / 100,
-              label: dutyLabel
-            });
-            totalRate += additionalRate;
-            breakdown.push(`${dutyLabel}: +${additionalRate}%`);
+          if (pushUniqueComponent({ type: dutyType, rate: additionalRate, amount: declaredValue * additionalRate / 100, label: dutyLabel })) {
+            breakdown.push(dutyLabel);
+          }
         } else if (countryCode === 'CA') {
           dutyLabel = "Canadian Lumber Tariff";
           dutyType = "Additional Duty";
 
-          components.push({
-            type: dutyType,
-            rate: additionalRate,
-            amount: declaredValue * additionalRate / 100,
-            label: dutyLabel
-          });
-          totalRate += additionalRate;
-          breakdown.push(`${dutyLabel}: +${additionalRate}%`);
+          if (pushUniqueComponent({ type: dutyType, rate: additionalRate, amount: declaredValue * additionalRate / 100, label: dutyLabel })) {
+            breakdown.push(dutyLabel);
+          }
         }
       }
     }
@@ -875,18 +760,19 @@ export class TariffService {
           if (reciprocalTariff.label?.includes('Fentanyl')) {
             tariffType = "Fentanyl Anti-Trafficking Tariff";
           }
-
-          components.push({
+          
+          const wasPushed = pushUniqueComponent({
             type: tariffType,
             rate: reciprocalTariff.rate,
             amount: declaredValue * reciprocalTariff.rate / 100,
             label: reciprocalTariff.label
           });
-          totalRate += reciprocalTariff.rate;
-          breakdown.push(`${reciprocalTariff.label}: +${reciprocalTariff.rate}%`);
 
-          if (reciprocalTariff.note && !isUSMCAOrigin) {
-            breakdown.push(`  (${reciprocalTariff.note})`);
+          if (wasPushed) {
+            breakdown.push(reciprocalTariff.label);
+            if (reciprocalTariff.note && !isUSMCAOrigin) {
+              breakdown.push(`  (${reciprocalTariff.note})`);
+            }
           }
         }
       }
@@ -923,20 +809,21 @@ export class TariffService {
             isUSMCAOrigin
           });
 
-          components.push({
+          const wasPushed = pushUniqueComponent({
             type: "IEEPA Tariff",
             rate: ieepaTariff.rate,
             amount: declaredValue * ieepaTariff.rate / 100,
             label: ieepaTariff.label
           });
-          totalRate += ieepaTariff.rate;
-          breakdown.push(`${ieepaTariff.label}: +${ieepaTariff.rate}%`);
 
-          if (ieepaTariff.note) {
-            breakdown.push(`  (${ieepaTariff.note})`);
-          }
-          if (ieepaTariff.legal_status) {
-            breakdown.push(`  (${ieepaTariff.legal_status})`);
+          if (wasPushed) {
+            breakdown.push(ieepaTariff.label);
+            if (ieepaTariff.note) {
+              breakdown.push(`  (${ieepaTariff.note})`);
+            }
+            if (ieepaTariff.legal_status) {
+              breakdown.push(`  (${ieepaTariff.legal_status})`);
+            }
           }
         }
       }
@@ -1032,12 +919,12 @@ export class TariffService {
   }
 
   // New method to calculate duty differences
-  calculateDutyDifferences(
+  async calculateDutyDifferences(
     htsCode: string,
     declaredValue: number,
     countryCode: string,
     isUSMCAOrigin: boolean = false
-  ): {
+  ): Promise<{
     toggleOff: {
       withRT: number;
       withoutRT: number;
@@ -1070,12 +957,24 @@ export class TariffService {
       };
     };
     breakdown: string[];
-  } {
+  }> {
     // Calculate duties for all scenarios
-    const toggleOffWithRT = this.calculateDuty(htsCode, declaredValue, countryCode, false, false, isUSMCAOrigin);
-    const toggleOffWithoutRT = this.calculateDuty(htsCode, declaredValue, countryCode, false, true, isUSMCAOrigin);
-    const toggleOnWithRT = this.calculateDuty(htsCode, declaredValue, countryCode, true, false, isUSMCAOrigin);
-    const toggleOnWithoutRT = this.calculateDuty(htsCode, declaredValue, countryCode, true, true, isUSMCAOrigin);
+    const [
+      toggleOffWithRT,
+      toggleOffWithoutRT,
+      toggleOnWithRT,
+      toggleOnWithoutRT,
+    ] = await Promise.all([
+      this.calculateDuty(htsCode, declaredValue, countryCode, false, false, isUSMCAOrigin),
+      this.calculateDuty(htsCode, declaredValue, countryCode, false, true, isUSMCAOrigin),
+      this.calculateDuty(htsCode, declaredValue, countryCode, true, false, isUSMCAOrigin),
+      this.calculateDuty(htsCode, declaredValue, countryCode, true, true, isUSMCAOrigin),
+    ]);
+
+    // Handle cases where a calculation might fail
+    if (!toggleOffWithRT || !toggleOffWithoutRT || !toggleOnWithRT || !toggleOnWithoutRT) {
+      throw new Error(`Failed to calculate one or more duty scenarios for ${htsCode}`);
+    }
 
     // Debug logging for diagnosis
     console.log('--- calculateDutyDifferences Debug ---');
@@ -1241,11 +1140,11 @@ export class TariffService {
 
   // Add search functionality for HTS code suggestions
   async searchByPrefix(prefix: string, limit: number = 15): Promise<Array<{ code: string; description: string }>> {
-    if (!this.initialized) {
-      await this.initialize();
+    if (!this.segmentCache.size) {
+      await this.loadSegment('1x'); // Load main data
     }
 
-    if (!this.tariffData?.tariffs || prefix.length < 3) {
+    if (!this.segmentCache.size || prefix.length < 3) {
       return [];
     }
 
@@ -1253,7 +1152,7 @@ export class TariffService {
 
     // For performance, only search in the main data for now
     // In the future, this could be optimized to search segments
-    for (const entry of this.tariffData.tariffs) {
+    for (const entry of this.segmentCache.get('1x') || []) {
       if (entry.hts8?.startsWith(prefix)) {
         results.push({
           code: entry.hts8,
@@ -1268,4 +1167,36 @@ export class TariffService {
 
     return results;
   }
+
+  // --- Compatibility stub methods for legacy hooks/screens ---
+  private _initialized = true; // segments load on demand, treat as initialized for API compatibility
+  isInitialized(): boolean {
+    return this._initialized;
+  }
+
+  async initialize(): Promise<void> {
+    // No-op in new architecture; kept for backward compatibility
+    this._initialized = true;
+  }
+
+  getLastUpdated(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  getHtsRevision(): string {
+    try {
+      return tariffSearchService.getHtsRevision();
+    } catch (e) {
+      return 'N/A';
+    }
+  }
+
+  /**
+   * Legacy alias – optimized search now just calls standard search
+   */
+  async findTariffEntryOptimized(htsCode: string): Promise<TariffEntry | undefined> {
+    return this.findTariffEntry(htsCode);
+  }
 }
+
+export const tariffService = TariffService.getInstance();

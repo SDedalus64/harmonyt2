@@ -10,6 +10,11 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# --- Azure upload defaults (can be overridden via environment variables) ---
+ACCOUNT_NAME="${ACCOUNT_NAME:-cs410033fffad325ccb}"
+CONTAINER_NAME="${CONTAINER_NAME:-\$web}"
+DEST_PATH="${DEST_PATH:-TCalc/data}"
+
 # Function to print colored output
 print_status() {
     echo -e "${GREEN}[INFO]${NC} $1"
@@ -152,6 +157,29 @@ if [ -f "$JSON_FILE" ]; then
     # Count generated files
     SEGMENT_COUNT=$(ls -1 "$SCRIPT_DIR/data/tariff-segments/" 2>/dev/null | wc -l)
     print_status "Generated $SEGMENT_COUNT segment files"
+
+    # --- Optional: Automatically upload processed files to Azure Blob Storage ---
+    if command -v az >/dev/null 2>&1; then
+      print_status "Uploading processed JSON to Azure…"
+      az storage blob upload \
+        --account-name "$ACCOUNT_NAME" \
+        --container-name "$CONTAINER_NAME" \
+        --auth-mode login \
+        --file "$JSON_FILE" \
+        --name "$DEST_PATH/$(basename "$JSON_FILE")" \
+        --overwrite true || print_warning "Failed to upload processed JSON"
+
+      print_status "Uploading segment files to Azure (this may take a while)…"
+      az storage blob upload-batch \
+        --account-name "$ACCOUNT_NAME" \
+        --auth-mode login \
+        --destination "$CONTAINER_NAME/$DEST_PATH/tariff-segments" \
+        --source "$SCRIPT_DIR/data/tariff-segments" \
+        --overwrite true \
+        --no-progress || print_warning "Failed to upload segment files"
+    else
+      print_warning "Azure CLI (az) not found. Skipping automatic upload. Install Azure CLI or upload manually."
+    fi
 else
     print_error "JSON file not found: $JSON_FILE"
     cd "$ORIGINAL_DIR"

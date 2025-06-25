@@ -12,6 +12,7 @@ declare module 'expo-linear-gradient' {
     start?: { x: number; y: number };
     end?: { x: number; y: number };
     style?: ViewStyle;
+    children?: React.ReactNode;
   }
   export const LinearGradient: ComponentType<LinearGradientProps>;
   export default LinearGradient;

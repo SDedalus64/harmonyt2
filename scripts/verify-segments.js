@@ -10,7 +10,13 @@ if (!inputFile) {
   process.exit(1);
 }
 
-const segmentIndex = require('./data/tariff-segments/segment-index.json');
+const segmentIndexPath = path.join(__dirname, './data/tariff-segments/segment-index.json');
+if (!fs.existsSync(segmentIndexPath)) {
+  console.error(`Error: Segment index file not found at ${segmentIndexPath}`);
+  process.exit(1);
+}
+
+const segmentIndex = require(segmentIndexPath);
 const originalData = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
 
 console.log('=== Segment Verification ===\n');
@@ -21,31 +27,28 @@ console.log('Segment index metadata count:', segmentIndex.metadata.totalEntries)
 let totalInSegments = 0;
 const segmentCounts = {};
 
-// Count single-digit segments
-console.log('\nSingle-digit segments:');
-Object.entries(segmentIndex.singleDigitSegments).forEach(([digit, file]) => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
+console.log('\nVerifying 3-digit segments:');
+Object.entries(segmentIndex.segments).forEach(([prefix, file]) => {
+  const segmentPath = path.join(__dirname, './data/tariff-segments', file);
+  if (fs.existsSync(segmentPath)) {
+    const data = JSON.parse(fs.readFileSync(segmentPath));
   totalInSegments += data.count;
   segmentCounts[file] = data.count;
-  console.log(`  ${digit}x (${file}): ${data.count} entries`);
-});
-
-// Count two-digit segments
-console.log('\nTwo-digit segments:');
-Object.entries(segmentIndex.twoDigitSegments).forEach(([digits, file]) => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
-  totalInSegments += data.count;
-  segmentCounts[file] = data.count;
-  console.log(`  ${digits} (${file}): ${data.count} entries`);
+    console.log(`  ${prefix} (${file}): ${data.count} entries`);
+  } else {
+    console.error(`  [ERROR] Missing segment file: ${file}`);
+  }
 });
 
 console.log('\n=== Summary ===');
 console.log('Total entries in original file:', originalData.tariffs.length);
 console.log('Total entries in segments:', totalInSegments);
-console.log('Match:', totalInSegments === originalData.tariffs.length ? 'YES ✓' : 'NO ✗');
+const isMatch = totalInSegments === originalData.tariffs.length;
+console.log('Match:', isMatch ? 'YES ✓' : 'NO ✗');
 
-if (totalInSegments !== originalData.tariffs.length) {
+if (!isMatch) {
   console.log('Difference:', Math.abs(totalInSegments - originalData.tariffs.length), 'entries');
+  process.exit(1); // Exit with an error code if counts don't match
 }
 
 // Check for any missing HTS codes
@@ -53,18 +56,14 @@ console.log('\n=== Checking for missing codes ===');
 const segmentCodes = new Set();
 
 // Collect all codes from segments
-Object.values(segmentIndex.singleDigitSegments).forEach(file => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
+Object.values(segmentIndex.segments).forEach(file => {
+  const segmentPath = path.join(__dirname, './data/tariff-segments', file);
+  if (fs.existsSync(segmentPath)) {
+    const data = JSON.parse(fs.readFileSync(segmentPath));
   data.entries.forEach(entry => {
     segmentCodes.add(entry.hts8 || entry.normalizedCode || '');
   });
-});
-
-Object.values(segmentIndex.twoDigitSegments).forEach(file => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data/tariff-segments', file)));
-  data.entries.forEach(entry => {
-    segmentCodes.add(entry.hts8 || entry.normalizedCode || '');
-  });
+  }
 });
 
 // Check if any codes from original are missing in segments
@@ -82,6 +81,9 @@ if (missingCodes.length > 0) {
   if (missingCodes.length > 10) {
     console.log(`  ... and ${missingCodes.length - 10} more`);
   }
+  process.exit(1); // Exit with an error code if codes are missing
 } else {
   console.log('All codes from original file are present in segments ✓');
 }
+
+console.log('\nVerification successful!');

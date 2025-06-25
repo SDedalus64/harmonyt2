@@ -41,21 +41,36 @@ Always refer to documentation in `/build-guides` and `/development` for current 
 Files in `/archive` are kept for historical reference only.
 
 ## TODO
-12. Ensure expo is in dependencies
-11. Add App Store URLs to SettingsScreen
-10. Review previous tasks for dependencies
-9. Clarify setup for dedola.com sub pages
-8. Add Jest test for tariff data integrity
-7. Delete and commit eas.json file removal
+
+
+1. Add App Store URLs to SettingsScreen
+
+2. Review previous tasks for dependencies
+
+3. Clarify setup for dedola.com sub pages
+
+4. Add Jest test for tariff data integrity
+
+5. Delete and commit eas.json file removal
+
 6. Add jest and update package manifests
-5. Update README with dev dependencies and test steps
-4. Update searchByPrefix behavior based on segment loading
-3. Add Jest dependencies and verify tests
-3a. Create tests for lookup errors
-2. Update tariffs lookup for Hong Kong and Macau
-2a. …ex/update-tariffs-lookup-for-hong-kong-and-macau
-1. Review project for inconsistencies and improvements
-+0. Improve iPhone Info Tab animation: ensure smooth single fade in/out when switching fields (eliminate "double-wink").
-+0a. Tablet info icons: show only on active field focus without breaking drawer trigger.
-+0b. Refactor FieldWithInfo to support focus-dependent visibility (tablet) without losing drawer functionality.
-+0c. Verify full-height gradient stays after future edits.
+
+7. Add Jest dependencies and verify tests
+   a. Create tests for lookup errors
+
+8. Review project for inconsistencies and improvements
+
+   a. Tablet info icons: show only on active field focus without breaking drawer trigger.
+   b. Refactor FieldWithInfo to support focus-dependent visibility (tablet) without losing drawer functionality.
+   c. Verify full-height gradient stays after future edits.
+
+Complete
+
+| Feature/Fix                                                  | Date      | Coder name |
+| ------------------------------------------------------------ | --------- | ---------- |
+| +0. Improve iPhone Info Tab animation: ensure smooth single fade in/out when switching fields (eliminate "double-wink"). | 6/23/2025 | Stephe D.  |
+| Update tariffs lookup for Hong Kong and Macau<br/>a. …ex/update-tariffs-lookup-for-hong-kong-and-macau | 6/20/2025 | Stephe D.  |
+| Update searchByPrefix behavior based on segment loading      | 6/20/2025 | Stephe D.  |
+| Update README with dev dependencies and test steps           | 6/23/25   | Cursor     |
+| Ensure expo is in dependencies                               | 6/23/25   | Stephe D.  |
+

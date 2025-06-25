@@ -24,14 +24,21 @@ This command will:
 
 ### 1. Prepare Your Files
 Place these files in the `scripts` directory:
-- **CSV file**: `tariff_database_2025_MMDDYYYY.csv` (from USITC download)
-- **Change Record PDF**: Place in `scripts/data/` (optional but helpful)
+- **CSV file**: `tariff_database_2025_MMDDYYYY.csv` (from https://hts.usitc.gov/download/archive most recent link, e.g. [2025 HTS Revision 15 (06/23/2025)](https://hts.usitc.gov/download?release=2025HTSRev15&releaseDate=06%2F16%2F2025) download)
+- **Change Record PDF**: 
+  - Found at https://hts.usitc.gov.  
+  - The corresponding Change Record 
+    - (e.g. Change Record https://hts.usitc.gov/reststop/file?release=currentRelease&filename=Change%20RecordPlace 
+
+  - Save to `scripts/data/`
+    - Used to 
+
 
 ### 2. Find the HTS Revision Number
 Open the Change Record PDF and look for patterns like:
-- "HTS 2025 Revision 14"
-- "2025 HTS Revision 14"
-- "Revision 14 to the 2025 HTS"
+- "HTS 2025 Revision 15"
+- "2025 HTS Revision 15"
+- "Revision 15 to the 2025 HTS"
 
 ### 3. Run the Update Command
 From the Harmony directory:
@@ -55,8 +62,8 @@ After processing completes:
 1. Upload `tariff_processed_MMDDYYYY.json` to Azure Blob Storage
 2. Upload all files from `scripts/data/tariff-segments/` to Azure
 
-## File Locations
-- **Input CSV**: `scripts/tariff_database_2025_MMDDYYYY.csv`
+### File Locations
+- **Input**: `scripts/tariff_database_2025_MMDDYYYY.xlsx (or .csv)`
 - **Output JSON**: `scripts/tariff_processed_MMDDYYYY.json`
 - **Segments**: `scripts/data/tariff-segments/*.json`
 

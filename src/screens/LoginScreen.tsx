@@ -207,6 +207,7 @@ export default function LoginScreen() {
                   colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
+                  // @ts-ignore
                   style={[styles.logoContainer, styles.phoneLogoContainer]}
                 >
                   <Image

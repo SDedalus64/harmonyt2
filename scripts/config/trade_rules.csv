@@ -1,0 +1,13 @@
+RuleID,RuleName,RuleType,AppliesTo_DataType,AppliesTo_Value,Rate,Countries,EffectiveDate,ExpirationDate,Note,Status
+1,Section 232,Rate,Chapter,72;73,0.50,global,2025-06-04,,Rate increased to 50% per Presidential Proclamation.,Active
+2,Section 232,Exception_Rate,Chapter,72;73,0.25,UK;GB,2025-06-04,,UK remains at 25%.,Active
+3,Section 232,Rate,Chapter,76,0.50,global,2025-06-04,,Rate increased to 50% per Presidential Proclamation.,Active
+4,Section 232,Exception_Rate,Chapter,76,0.25,UK;GB,2025-06-04,,UK remains at 25%.,Active
+5,Section 301,Exclusion_Placeholder,HTS_Code,9903.88.69,,,2025-05-31,"Full list must be updated from Federal Register.",Active
+6,Section 301,Exclusion_Placeholder,HTS_Code,9903.88.70,,,2025-05-31,"Full list must be updated from Federal Register.",Active
+7,IEEPA Tariff,Rate,Country,CN,0.10,CN,2025-05-14,2025-08-12,"Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",Disputed
+8,Fentanyl Tariff,Rate,Country,CN,0.20,CN,2025-03-04,,Anti-trafficking measure.,Active
+9,IEEPA Tariff,Rate,Country,CA,0.25,CA,2025-03-04,,"USMCA-origin goods exempt. Legal status is under appeal as of May 2025.",Disputed
+10,IEEPA Tariff,Exception_Rate,Product_Type,Energy;Potash,0.10,CA,2025-03-04,,"Reduced rate for energy/potash.",Disputed
+11,IEEPA Tariff,Rate,Country,MX,0.25,MX,2025-03-04,,"USMCA-origin goods exempt. Legal status is under appeal as of May 2025.",Disputed
+12,IEEPA Tariff,Exception_Rate,Product_Type,Potash,0.10,MX,2025-03-04,,"Reduced rate for potash.",Disputed 

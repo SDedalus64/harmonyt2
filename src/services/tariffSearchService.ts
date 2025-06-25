@@ -1,5 +1,6 @@
 import { TariffEntry } from './tariffService';
 import { AZURE_CONFIG, getAzureUrls } from '../config/azure.config';
+import { tariffCacheService } from './tariffCacheService';
 
 interface SegmentData {
   segment: string;
@@ -8,13 +9,24 @@ interface SegmentData {
   entries: TariffEntry[];
 }
 
+// The tariff segmentation has evolved over time:
+//   • original implementation: 1- and 2-digit buckets (singleDigitSegments / twoDigitSegments)
+//   • current implementation (June 2025): 3-digit buckets stored under `segments`
+// To remain backward-compatible we make all maps optional and the code dynamically
+// adapts to whatever mapping is present in the Azure index.
 interface SegmentIndex {
-  singleDigitSegments: { [key: string]: string };
-  twoDigitSegments: { [key: string]: string };
+  // Newer 3-digit segmentation (e.g. "540" → "tariff-540.json")
+  segments?: { [key: string]: string };
+
+  // Legacy 1- and 2-digit segmentation (kept optional)
+  singleDigitSegments?: { [key: string]: string };
+  twoDigitSegments?: { [key: string]: string };
+
   metadata: {
     totalEntries: number;
     lastUpdated: string;
     segmentationDate: string;
+    hts_revision: string;
   };
 }
 
@@ -95,9 +107,9 @@ export class TariffSearchService {
 
       console.log('✅ TariffSearchService initialized with segment index from Azure');
       console.log('📊 Available segments:', {
-        singleDigit: Object.keys(this.segmentIndex?.singleDigitSegments || {}),
-        twoDigit: Object.keys(this.segmentIndex?.twoDigitSegments || {}).length + ' segments',
-        twoDigitKeys: Object.keys(this.segmentIndex?.twoDigitSegments || {})
+        threeDigit: `${Object.keys(this.segmentIndex?.segments || {}).length} segments`,
+        singleDigit: `${Object.keys(this.segmentIndex?.singleDigitSegments || {}).length} segments`,
+        twoDigit: `${Object.keys(this.segmentIndex?.twoDigitSegments || {}).length} segments`,
       });
     } catch (error) {
       console.error('❌ Failed to initialize TariffSearchService:', error);
@@ -106,7 +118,15 @@ export class TariffSearchService {
   }
 
   private async loadSegmentData(segmentFile: string): Promise<SegmentData | null> {
-    // Check cache first
+    // Check local storage cache first
+    const cachedData = await tariffCacheService.getSegment(segmentFile);
+    if (cachedData) {
+      // Also update in-memory cache for this session
+      this.segmentCache.set(segmentFile, cachedData);
+      return cachedData;
+    }
+
+    // Check in-memory cache (for this session)
     if (this.segmentCache.has(segmentFile)) {
       return this.segmentCache.get(segmentFile)!;
     }
@@ -131,8 +151,9 @@ export class TariffSearchService {
 
       const segmentData = await response.json();
 
-      // Cache the segment
+      // Cache the segment in memory AND in local storage
       this.segmentCache.set(segmentFile, segmentData);
+      await tariffCacheService.setSegment(segmentFile, segmentData);
 
       console.log(`✅ Loaded segment ${segmentFile} with ${segmentData.entries?.length || 0} entries`);
 
@@ -143,26 +164,36 @@ export class TariffSearchService {
     }
   }
 
+  /**
+   * Returns the single most specific segment file that exactly matches the
+   * given prefix (3-, 2-, or 1-digit) or `null` if no direct match exists.
+   *
+   * IMPORTANT: This helper only returns a single file.  Call sites that need
+   * to load *all* segments matching a short prefix should iterate over the
+   * maps directly (see logic further below).
+   */
   private getSegmentFileForPrefix(prefix: string): string | null {
     if (!this.segmentIndex) return null;
 
-    // For 1-digit prefix, check if it needs 2-digit segmentation
-    if (prefix.length === 1) {
-      // First check if this digit has 2-digit segments
-      const twoDigitKey = prefix + '0';
-      if (this.segmentIndex.twoDigitSegments[twoDigitKey]) {
-        // This digit is segmented by 2 digits, don't return a file yet
-        return null;
-      }
-      // Otherwise, return the single-digit segment file
-      return this.segmentIndex.singleDigitSegments[prefix] || null;
+    // 3-digit lookup (new format)
+    if (this.segmentIndex.segments && prefix.length >= 3) {
+      const threeDigitKey = prefix.substring(0, 3);
+      const file = this.segmentIndex.segments[threeDigitKey];
+      if (file) return file;
     }
 
-    // For 2+ digit prefix, check 2-digit segments
-    if (prefix.length >= 2) {
-      const twoDigitPrefix = prefix.substring(0, 2);
-      console.log('[getSegmentFileForPrefix] Looking for:', twoDigitPrefix, 'in:', Object.keys(this.segmentIndex.twoDigitSegments || {}).slice(0, 10));
-      return this.segmentIndex.twoDigitSegments[twoDigitPrefix] || null;
+    // 2-digit lookup (legacy format)
+    if (this.segmentIndex.twoDigitSegments && prefix.length >= 2) {
+      const twoDigitKey = prefix.substring(0, 2);
+      const file = this.segmentIndex.twoDigitSegments[twoDigitKey];
+      if (file) return file;
+    }
+
+    // 1-digit lookup (legacy format)
+    if (this.segmentIndex.singleDigitSegments && prefix.length >= 1) {
+      const digit = prefix.substring(0, 1);
+      const file = this.segmentIndex.singleDigitSegments[digit];
+      if (file) return file;
     }
 
     return null;
@@ -184,96 +215,85 @@ export class TariffSearchService {
 
     const results: Array<{ code: string; description: string }> = [];
 
-    // Determine which segment(s) to load
     if (prefix.length === 1) {
       // For single digit, we might need to load multiple 2-digit segments
       const digit = prefix;
 
-      // Check if this digit has 2-digit segments
-      const hasTwoDigitSegments = Object.keys(this.segmentIndex.twoDigitSegments)
-        .some(key => key.startsWith(digit));
+      // Determine whether we have 3- or 2-digit child segments beneath this digit
+      const hasThreeDigitSegments = this.segmentIndex.segments
+        ? Object.keys(this.segmentIndex.segments).some(key => key.startsWith(digit))
+        : false;
 
-      console.log('[TariffSearchService] Single digit search:', digit, 'hasTwoDigitSegments:', hasTwoDigitSegments);
+      const hasTwoDigitSegments = this.segmentIndex.twoDigitSegments
+        ? Object.keys(this.segmentIndex.twoDigitSegments).some(key => key.startsWith(digit))
+        : false;
 
-      if (hasTwoDigitSegments) {
-        // Load all 2-digit segments for this digit
+      console.log('[TariffSearchService] Single digit search:', digit, {
+        hasThreeDigitSegments,
+        hasTwoDigitSegments
+      });
+
+      // Helper to process a specific segment file and push matches into results
+      const processSegment = async (segmentFile: string) => {
+        const segmentData = await this.loadSegmentData(segmentFile);
+        if (segmentData && segmentData.entries) {
+          for (const entry of segmentData.entries) {
+            const hts8 = entry.hts8 || '';
+            if (hts8.startsWith(prefix)) {
+              results.push({ code: hts8, description: entry.brief_description || '' });
+              if (results.length >= limit) return true;
+            }
+          }
+        }
+        return false;
+      };
+
+      // 3-digit segments first (newer, more granular)
+      if (hasThreeDigitSegments && this.segmentIndex.segments) {
+        for (const [key, file] of Object.entries(this.segmentIndex.segments)) {
+          if (!key.startsWith(digit)) continue;
+          const done = await processSegment(file);
+          if (done) return results;
+        }
+      }
+
+      // Fall back to 2-digit segments if they exist
+      if (hasTwoDigitSegments && this.segmentIndex.twoDigitSegments) {
         for (let i = 0; i <= 9; i++) {
           const twoDigitKey = digit + i;
           const segmentFile = this.segmentIndex.twoDigitSegments[twoDigitKey];
           if (segmentFile) {
-            const segmentData = await this.loadSegmentData(segmentFile);
-            if (segmentData && segmentData.entries) {
-              // Add matching entries from this segment
-              for (const entry of segmentData.entries) {
-                const hts8 = entry.hts8 || '';
-                if (hts8.startsWith(prefix)) {
-                  results.push({
-                    code: hts8,
-                    description: entry.brief_description || ''
-                  });
+            const done = await processSegment(segmentFile);
+            if (done) return results;
+          }
+        }
+      }
 
-                  if (results.length >= limit) {
-                    return results;
-                  }
-                }
+      // Finally fall back to the single-digit segment file itself, if present
+      if (this.segmentIndex.singleDigitSegments) {
+        const segmentFile = this.segmentIndex.singleDigitSegments[digit];
+        if (segmentFile) await processSegment(segmentFile);
+      }
+    } else {
+      // For 2+ digits, we use the most specific segment available.
+      const segmentFile = this.getSegmentFileForPrefix(prefix);
+      console.log(`[TariffSearchService] Multi-digit search for '${prefix}'. Using segment file: '${segmentFile}'`);
+
+      if (segmentFile) {
+        const segmentData = await this.loadSegmentData(segmentFile);
+        if (segmentData && segmentData.entries) {
+          for (const entry of segmentData.entries) {
+            const hts8 = entry.hts8 || '';
+            if (hts8.startsWith(prefix)) {
+              results.push({ code: hts8, description: entry.brief_description || '' });
+              if (results.length >= limit) {
+                break; // Exit loop once limit is reached
               }
             }
           }
         }
       } else {
-        // Load the single-digit segment
-        const segmentFile = this.segmentIndex.singleDigitSegments[digit];
-        if (segmentFile) {
-          const segmentData = await this.loadSegmentData(segmentFile);
-          if (segmentData && segmentData.entries) {
-            // Add matching entries
-            for (const entry of segmentData.entries) {
-              const hts8 = entry.hts8 || '';
-              if (hts8.startsWith(prefix)) {
-                results.push({
-                  code: hts8,
-                  description: entry.brief_description || ''
-                });
-
-                if (results.length >= limit) {
-                  return results;
-                }
-              }
-            }
-          }
-        }
-      }
-        } else {
-      // For 2+ digits, first try the specific two-digit segment
-      let segmentFile = this.getSegmentFileForPrefix(prefix);
-
-      // If no two-digit segment found, try the single-digit segment
-      if (!segmentFile && prefix.length >= 2) {
-        const singleDigit = prefix.substring(0, 1);
-        segmentFile = this.segmentIndex.singleDigitSegments[singleDigit] || null;
-        console.log('[TariffSearchService] Falling back to single-digit segment:', singleDigit, 'file:', segmentFile);
-      }
-
-      console.log('[TariffSearchService] Multi-digit search:', prefix, 'segmentFile:', segmentFile);
-
-      if (segmentFile) {
-        const segmentData = await this.loadSegmentData(segmentFile);
-        if (segmentData && segmentData.entries) {
-          // Filter entries that match the prefix
-          for (const entry of segmentData.entries) {
-            const hts8 = entry.hts8 || '';
-            if (hts8.startsWith(prefix)) {
-              results.push({
-                code: hts8,
-                description: entry.brief_description || ''
-              });
-
-              if (results.length >= limit) {
-                return results;
-              }
-            }
-          }
-        }
+        console.log(`[TariffSearchService] No segment file found for prefix '${prefix}'`);
       }
     }
 
@@ -287,6 +307,10 @@ export class TariffSearchService {
   clearCache(): void {
     this.segmentCache.clear();
     console.log('🧹 Cleared segment cache');
+  }
+
+  getHtsRevision(): string {
+    return this.segmentIndex?.metadata?.hts_revision || 'N/A';
   }
 }
 

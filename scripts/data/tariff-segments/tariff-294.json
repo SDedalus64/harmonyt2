@@ -1,0 +1,2549 @@
+{
+  "segment": "294",
+  "description": "HTS codes starting with 294",
+  "count": 19,
+  "entries": [
+    {
+      "hts8": "29400020",
+      "brief_description": "D-Arabinose",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "50%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.5,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 50,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29400060",
+      "brief_description": "Other sugars, nesoi excluding d-arabinose",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "5.8%",
+      "mfn_rate_type_code": "7",
+      "pharmaceutical_ind": "K",
+      "col2_text_rate": "50%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "2020-07-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0.058,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.5,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 50,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A*",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0.0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0.0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0.0",
+      "jordan_specific_rate": "0.0",
+      "jordan_other_rate": "0.0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0.0",
+      "singapore_specific_rate": "0.0",
+      "singapore_other_rate": "0.0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0.0",
+      "chile_specific_rate": "0.0",
+      "chile_other_rate": "0.0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0.0",
+      "morocco_specific_rate": "0.0",
+      "morocco_other_rate": "0.0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0.0",
+      "australia_specific_rate": "0.0",
+      "australia_other_rate": "0.0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0.0",
+      "bahrain_other_rate": "0.0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0.0",
+      "dr_cafta_other_rate": "0.0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0.0",
+      "oman_specific_rate": "0.0",
+      "oman_other_rate": "0.0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0.0",
+      "peru_specific_rate": "0.0",
+      "peru_other_rate": "0.0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0.0",
+      "korea_specific_rate": "0.0",
+      "korea_other_rate": "0.0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0.0",
+      "colombia_specific_rate": "0.0",
+      "colombia_other_rate": "0.0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0.0",
+      "panama_other_rate": "0.0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0.0",
+      "usmca_specific_rate": "0.0",
+      "usmca_other_rate": "0.0",
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29411010",
+      "brief_description": "Ampicillin and its salts",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 48.5%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.485,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 48.5,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29411020",
+      "brief_description": "Penicillin G salts",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 49%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.49,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 49,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29411030",
+      "brief_description": "Carfecillin, sodium; cloxacillin, sodium; dicloxacillin, sodium; flucloxacillin (Floxacillin); and oxacillin, sodium",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 45%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29411050",
+      "brief_description": "Penicillins and their derivatives nesoi, with a penicillanic acid structure; salts thereof",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 56.5%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.565,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 56.49999999999999,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29412010",
+      "brief_description": "Dihydrostreptomycins and its derivatives; salts thereof",
+      "is_chapter_99": false,
+      "quantity_1_code": "GM",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "3.5%",
+      "mfn_rate_type_code": "7",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "2020-07-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0.035,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0.0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0.0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0.0",
+      "jordan_specific_rate": "0.0",
+      "jordan_other_rate": "0.0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0.0",
+      "singapore_specific_rate": "0.0",
+      "singapore_other_rate": "0.0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0.0",
+      "chile_specific_rate": "0.0",
+      "chile_other_rate": "0.0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0.0",
+      "morocco_specific_rate": "0.0",
+      "morocco_other_rate": "0.0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0.0",
+      "australia_specific_rate": "0.0",
+      "australia_other_rate": "0.0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0.0",
+      "bahrain_other_rate": "0.0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0.0",
+      "dr_cafta_other_rate": "0.0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0.0",
+      "oman_specific_rate": "0.0",
+      "oman_other_rate": "0.0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0.0",
+      "peru_specific_rate": "0.0",
+      "peru_other_rate": "0.0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0.0",
+      "korea_specific_rate": "0.0",
+      "korea_other_rate": "0.0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0.0",
+      "colombia_specific_rate": "0.0",
+      "colombia_other_rate": "0.0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0.0",
+      "panama_other_rate": "0.0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0.0",
+      "usmca_specific_rate": "0.0",
+      "usmca_other_rate": "0.0",
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29412050",
+      "brief_description": "Streptomycins and their derivatives; salts thereof, nesoi",
+      "is_chapter_99": false,
+      "quantity_1_code": "GM",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29413000",
+      "brief_description": "Tetracyclines and their derivatives; salts thereof",
+      "is_chapter_99": false,
+      "quantity_1_code": "GM",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29414000",
+      "brief_description": "Chloramphenicol and their derivatives; salts thereof",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 45%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29415000",
+      "brief_description": "Erythromycin and their derivatives; salts thereof",
+      "is_chapter_99": false,
+      "quantity_1_code": "GM",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29419010",
+      "brief_description": "Natural antibiotics, nesoi",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "10%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.1,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 10,
+      "trade_action_countries": [
+        "CA"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29419030",
+      "brief_description": "Antibiotics, nesoi, aromatic or modified aromatic, other than natural",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 45%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.45,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 45,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29419050",
+      "brief_description": "Antibiotics nesoi, other than aromatic or modified aromatic antibiotics",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29420003",
+      "brief_description": "[2,2'-Thiobis(4-(1,1,3,3-tetramethyl-n-butyl)phenolato)(2,1)]-O,O',S-s(1-butanamine), nickel II",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "Free",
+      "mfn_rate_type_code": "0",
+      "col2_text_rate": "15.4 cents/kg + 46.5%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "1995-01-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.465,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 46.5,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [],
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29420005",
+      "brief_description": "Aromatic or modified aromatic drugs of other organic compounds, nesoi",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "6.5%",
+      "mfn_rate_type_code": "7",
+      "pharmaceutical_ind": "K",
+      "col2_text_rate": "15.4 cents/kg + 46%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "2020-07-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0.065,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.46,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 46,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A+",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0.0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0.0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0.0",
+      "jordan_specific_rate": "0.0",
+      "jordan_other_rate": "0.0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0.0",
+      "singapore_specific_rate": "0.0",
+      "singapore_other_rate": "0.0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0.0",
+      "chile_specific_rate": "0.0",
+      "chile_other_rate": "0.0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0.0",
+      "morocco_specific_rate": "0.0",
+      "morocco_other_rate": "0.0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0.0",
+      "australia_specific_rate": "0.0",
+      "australia_other_rate": "0.0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0.0",
+      "bahrain_other_rate": "0.0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0.0",
+      "dr_cafta_other_rate": "0.0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0.0",
+      "oman_specific_rate": "0.0",
+      "oman_other_rate": "0.0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0.0",
+      "peru_specific_rate": "0.0",
+      "peru_other_rate": "0.0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0.0",
+      "korea_specific_rate": "0.0",
+      "korea_other_rate": "0.0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0.0",
+      "colombia_specific_rate": "0.0",
+      "colombia_other_rate": "0.0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0.0",
+      "panama_other_rate": "0.0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0.0",
+      "usmca_specific_rate": "0.0",
+      "usmca_other_rate": "0.0",
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29420010",
+      "brief_description": "Aromatic or modified aromatic organic compounds, nesoi, described in additional U.S. note 3 to section VI",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "6.5%",
+      "mfn_rate_type_code": "7",
+      "pharmaceutical_ind": "K",
+      "col2_text_rate": "15.4 cents/kg + 46.5%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "2020-07-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0.065,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.465,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 46.5,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A+",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0.0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0.0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0.0",
+      "jordan_specific_rate": "0.0",
+      "jordan_other_rate": "0.0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0.0",
+      "singapore_specific_rate": "0.0",
+      "singapore_other_rate": "0.0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0.0",
+      "chile_specific_rate": "0.0",
+      "chile_other_rate": "0.0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0.0",
+      "morocco_specific_rate": "0.0",
+      "morocco_other_rate": "0.0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0.0",
+      "australia_specific_rate": "0.0",
+      "australia_other_rate": "0.0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0.0",
+      "bahrain_other_rate": "0.0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0.0",
+      "dr_cafta_other_rate": "0.0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0.0",
+      "oman_specific_rate": "0.0",
+      "oman_other_rate": "0.0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0.0",
+      "peru_specific_rate": "0.0",
+      "peru_other_rate": "0.0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0.0",
+      "korea_specific_rate": "0.0",
+      "korea_other_rate": "0.0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0.0",
+      "colombia_specific_rate": "0.0",
+      "colombia_other_rate": "0.0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0.0",
+      "panama_other_rate": "0.0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0.0",
+      "usmca_specific_rate": "0.0",
+      "usmca_other_rate": "0.0",
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29420035",
+      "brief_description": "Other aromatic or modified aromatic organic compounds (excluding products described in additional U.S. note 3 to section VI)",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "6.5%",
+      "mfn_rate_type_code": "7",
+      "pharmaceutical_ind": "K",
+      "col2_text_rate": "15.4 cents/kg + 46.5%",
+      "col2_rate_type_code": "4",
+      "begin_effect_date": "2020-07-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0.065,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.465,
+      "col2_specific_rate": 0.154,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 46.5,
+      "trade_action_countries": [],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A+",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0.0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0.0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0.0",
+      "jordan_specific_rate": "0.0",
+      "jordan_other_rate": "0.0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0.0",
+      "singapore_specific_rate": "0.0",
+      "singapore_other_rate": "0.0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0.0",
+      "chile_specific_rate": "0.0",
+      "chile_other_rate": "0.0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0.0",
+      "morocco_specific_rate": "0.0",
+      "morocco_other_rate": "0.0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0.0",
+      "australia_specific_rate": "0.0",
+      "australia_other_rate": "0.0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0.0",
+      "bahrain_other_rate": "0.0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0.0",
+      "dr_cafta_other_rate": "0.0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0.0",
+      "oman_specific_rate": "0.0",
+      "oman_other_rate": "0.0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0.0",
+      "peru_specific_rate": "0.0",
+      "peru_other_rate": "0.0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0.0",
+      "korea_specific_rate": "0.0",
+      "korea_other_rate": "0.0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0.0",
+      "colombia_specific_rate": "0.0",
+      "colombia_other_rate": "0.0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0.0",
+      "panama_other_rate": "0.0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0.0",
+      "usmca_specific_rate": "0.0",
+      "usmca_other_rate": "0.0",
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    },
+    {
+      "hts8": "29420050",
+      "brief_description": "Nonaromatic organic compounds, nesoi",
+      "is_chapter_99": false,
+      "quantity_1_code": "KG",
+      "wto_binding_code": "B",
+      "mfn_text_rate": "3.7%",
+      "mfn_rate_type_code": "7",
+      "pharmaceutical_ind": "K",
+      "col2_text_rate": "25%",
+      "col2_rate_type_code": "7",
+      "begin_effect_date": "2020-07-01",
+      "end_effective_date": "2050-12-31",
+      "mfn_ad_val_rate": 0.037,
+      "is_special_provision": false,
+      "mfn_specific_rate": 0,
+      "mfn_other_rate": 0,
+      "col2_ad_val_rate": 0.25,
+      "col2_specific_rate": 0,
+      "col2_other_rate": 0,
+      "ntr_suspended_countries": [
+        "RU",
+        "BY"
+      ],
+      "has_special_trade_action": true,
+      "trade_action_rate": 25,
+      "trade_action_countries": [
+        "CA",
+        "MX"
+      ],
+      "trade_action_label": "Trade Action Tariff",
+      "available_programs": [
+        {
+          "program_key": "cbi",
+          "program_name": "Caribbean Basin",
+          "rate": 0
+        },
+        {
+          "program_key": "jordan",
+          "program_name": "Jordan FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "singapore",
+          "program_name": "Singapore FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "chile",
+          "program_name": "Chile FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "morocco",
+          "program_name": "Morocco FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "australia",
+          "program_name": "Australia FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "bahrain",
+          "program_name": "Bahrain FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "dr_cafta",
+          "program_name": "CAFTA-DR",
+          "rate": 0
+        },
+        {
+          "program_key": "oman",
+          "program_name": "Oman FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "peru",
+          "program_name": "Peru TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "korea",
+          "program_name": "Korea FTA",
+          "rate": 0
+        },
+        {
+          "program_key": "colombia",
+          "program_name": "Colombia TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "panama",
+          "program_name": "Panama TPA",
+          "rate": 0
+        },
+        {
+          "program_key": "usmca",
+          "program_name": "USMCA",
+          "rate": 0
+        }
+      ],
+      "gsp_indicator": "A",
+      "mexico_rate_type_code": "0",
+      "mexico_specific_rate": "0.0",
+      "cbi_indicator": "E",
+      "cbi_ad_val_rate": 0,
+      "cbi_specific_rate": "0.0",
+      "agoa_indicator": "D",
+      "israel_fta_indicator": "IL",
+      "jordan_indicator": "JO",
+      "jordan_ad_val_rate": 0,
+      "jordan_rate_type_code": "0.0",
+      "jordan_specific_rate": "0.0",
+      "jordan_other_rate": "0.0",
+      "singapore_indicator": "SG",
+      "singapore_ad_val_rate": 0,
+      "singapore_rate_type_code": "0.0",
+      "singapore_specific_rate": "0.0",
+      "singapore_other_rate": "0.0",
+      "chile_indicator": "CL",
+      "chile_ad_val_rate": 0,
+      "chile_rate_type_code": "0.0",
+      "chile_specific_rate": "0.0",
+      "chile_other_rate": "0.0",
+      "morocco_indicator": "MA",
+      "morocco_ad_val_rate": 0,
+      "morocco_rate_type_code": "0.0",
+      "morocco_specific_rate": "0.0",
+      "morocco_other_rate": "0.0",
+      "australia_indicator": "AU",
+      "australia_ad_val_rate": 0,
+      "australia_rate_type_code": "0.0",
+      "australia_specific_rate": "0.0",
+      "australia_other_rate": "0.0",
+      "bahrain_indicator": "BH",
+      "bahrain_ad_val_rate": 0,
+      "bahrain_rate_type_code": "0",
+      "bahrain_specific_rate": "0.0",
+      "bahrain_other_rate": "0.0",
+      "dr_cafta_indicator": "P",
+      "dr_cafta_ad_val_rate": 0,
+      "dr_cafta_rate_type_code": "0",
+      "dr_cafta_specific_rate": "0.0",
+      "dr_cafta_other_rate": "0.0",
+      "oman_indicator": "OM",
+      "oman_ad_val_rate": 0,
+      "oman_rate_type_code": "0.0",
+      "oman_specific_rate": "0.0",
+      "oman_other_rate": "0.0",
+      "peru_indicator": "PE",
+      "peru_ad_val_rate": 0,
+      "peru_rate_type_code": "0.0",
+      "peru_specific_rate": "0.0",
+      "peru_other_rate": "0.0",
+      "korea_indicator": "KR",
+      "korea_ad_val_rate": 0,
+      "korea_rate_type_code": "0.0",
+      "korea_specific_rate": "0.0",
+      "korea_other_rate": "0.0",
+      "colombia_indicator": "CO",
+      "colombia_ad_val_rate": 0,
+      "colombia_rate_type_code": "0.0",
+      "colombia_specific_rate": "0.0",
+      "colombia_other_rate": "0.0",
+      "panama_indicator": "PA",
+      "panama_ad_val_rate": 0,
+      "panama_rate_type_code": "0",
+      "panama_specific_rate": "0.0",
+      "panama_other_rate": "0.0",
+      "usmca_indicator": "S",
+      "usmca_ad_val_rate": 0,
+      "usmca_rate_type_code": "0.0",
+      "usmca_specific_rate": "0.0",
+      "usmca_other_rate": "0.0",
+      "additive_duties": [
+        {
+          "rule_name": "Fentanyl Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 20,
+          "note": "Anti-trafficking measure.",
+          "status": "Active"
+        },
+        {
+          "rule_name": "IEEPA Tariff",
+          "rule_type": "Rate",
+          "countries": [
+            "CN"
+          ],
+          "rate": 10,
+          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
+          "status": "Disputed"
+        }
+      ],
+      "reciprocal_tariffs": [
+        {
+          "country": "CN",
+          "rate": 10,
+          "label": "Reciprocal Tariff - China",
+          "note": "Temporary 90-day agreement",
+          "effective": "2025-05-14",
+          "expires": "2025-08-12"
+        },
+        {
+          "country": "CN",
+          "rate": 20,
+          "label": "Fentanyl Anti-Trafficking Tariff - China",
+          "note": "Anti-trafficking measure",
+          "effective": "2025-03-04",
+          "expires": null
+        }
+      ],
+      "ieepa_tariffs": [
+        {
+          "country": "CA",
+          "rate": 25,
+          "label": "IEEPA Tariff - Canada",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        },
+        {
+          "country": "MX",
+          "rate": 25,
+          "label": "IEEPA Tariff - Mexico",
+          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
+          "effective": "2025-03-04",
+          "legal_status": "Under judicial review, currently in effect"
+        }
+      ]
+    }
+  ]
+}

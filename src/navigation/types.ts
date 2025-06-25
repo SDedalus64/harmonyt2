@@ -1,4 +1,6 @@
 import { HistoryItem } from '../hooks/useHistory';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -16,12 +18,15 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Lookup: { historyItem?: HistoryItem };
+  Lookup: { htsCode?: string; declaredValue?: string; countryOfOrigin?: string, historyItem?: any };
   History: undefined;
-  Settings: undefined;
-  Test: undefined;
   Links: undefined;
+  Settings: undefined;
+};
 
+export type LookupScreenProps = {
+  navigation: BottomTabNavigationProp<MainTabParamList, 'Lookup'>;
+  route: RouteProp<MainTabParamList, 'Lookup'>;
 };
 
 // Re-export types for convenience

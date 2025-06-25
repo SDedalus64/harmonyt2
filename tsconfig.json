@@ -11,12 +11,13 @@
     "module": "ES2020",
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "types": ["react-native", "node"],
+    "types": ["react-native", "node", "jest"],
     "baseUrl": "./",
     "paths": {
       "expo*": ["node_modules/expo/*"],
       "react-native*": ["node_modules/react-native/*"],
       "@react-navigation/*": ["node_modules/@react-navigation/*"]
     }
-  }
+  },
+  "exclude": ["src/__tests__", "**/*.test.ts"]
 }

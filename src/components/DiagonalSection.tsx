@@ -47,6 +47,7 @@ export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
           colors={getGradientColors()}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
+          // @ts-ignore - RN LinearGradient accepts style array, ignore type mismatch
           style={[
             styles.gradient,
             { transform: [{ skewY: `${-skewAngle}deg` }, { scaleX: 1.5 }] }
