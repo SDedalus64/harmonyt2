@@ -161,6 +161,9 @@ export default function LookupScreen() {
   const route = useRoute<LookupScreenRouteProp>();
   const insets = useSafeAreaInsets();
 
+  // Debug logging
+  console.log('[LookupScreen] Render - showFirstTimeGuide state will be logged in useEffect');
+
   // Existing state
   const [htsCode, setHtsCode] = useState('');
       const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
@@ -175,6 +178,7 @@ export default function LookupScreen() {
   const [showInput, setShowInput] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<number | null>(null);
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
   const { saveToHistory, history, loadHistory } = useHistory();
   const { settings, isLoading: settingsLoading } = useSettings();
 
@@ -195,7 +199,7 @@ export default function LookupScreen() {
       });
     }
   }, [settings?.defaultCountry, selectedCountry, route.params?.historyItem]);
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
+
   const [pendingHistoryLookup, setPendingHistoryLookup] = useState(false);
   const pendingHistoryItem = useRef<any>(null);
   const currentEntry = useRef<any>(null);
@@ -1942,13 +1946,22 @@ export default function LookupScreen() {
 
   useEffect(() => {
     const checkFirstTimeGuide = async () => {
+      console.log('[FirstTimeGuide] Checking guide - showDisclaimer:', showDisclaimer);
       // Only check if the disclaimer has also been dealt with
       if (!showDisclaimer) {
         const hasSeenGuide = await AsyncStorage.getItem(GUIDE_STORAGE_KEY);
+        console.log('[FirstTimeGuide] hasSeenGuide value:', hasSeenGuide);
         if (hasSeenGuide === null) {
-          // If the key doesn't exist, show the guide.
-          setShowFirstTimeGuide(true);
+          // If the key doesn't exist, show the guide after a delay to let disclaimer modal fully dismiss
+          console.log('[FirstTimeGuide] Showing guide for first time after delay');
+          setTimeout(() => {
+            setShowFirstTimeGuide(true);
+          }, 500); // 500ms delay to ensure disclaimer modal is fully dismissed
+        } else {
+          console.log('[FirstTimeGuide] Guide has been seen before, not showing');
         }
+      } else {
+        console.log('[FirstTimeGuide] Disclaimer still visible, not checking guide');
       }
     };
     checkFirstTimeGuide();
@@ -2187,7 +2200,7 @@ export default function LookupScreen() {
                     ) : (
                       <>
                         <Ionicons name="search" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
-                        <Text style={styles.searchButtonText}>Search</Text>
+                        <Text style={styles.searchButtonText}>Calculate</Text>
                       </>
                     )}
                   </TouchableOpacity>
@@ -2527,12 +2540,13 @@ export default function LookupScreen() {
           <LinksScreen />
           </View>
       </Animated.View>
-      </View>
+
       <InfoDrawer
         isOpen={infoDrawerVisible}
         onClose={() => setInfoDrawerVisible(false)}
         field={activeField}
       />
+      
       {/* Info tab for iPhone fades in/out */}
       {!isTablet() && (
         <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={shouldShowInfoTab}>
@@ -2549,10 +2563,12 @@ export default function LookupScreen() {
           </Animated.View>
         </PanGestureHandler>
       )}
+      
       <FirstTimeGuideScreen
         visible={showFirstTimeGuide}
         onClose={handleGuideClose}
       />
+      </View>
     </SafeAreaView>
   );
 }

@@ -760,7 +760,7 @@ export class TariffService {
           if (reciprocalTariff.label?.includes('Fentanyl')) {
             tariffType = "Fentanyl Anti-Trafficking Tariff";
           }
-          
+
           const wasPushed = pushUniqueComponent({
             type: tariffType,
             rate: reciprocalTariff.rate,
@@ -770,9 +770,9 @@ export class TariffService {
 
           if (wasPushed) {
             breakdown.push(reciprocalTariff.label);
-            if (reciprocalTariff.note && !isUSMCAOrigin) {
-              breakdown.push(`  (${reciprocalTariff.note})`);
-            }
+          if (reciprocalTariff.note && !isUSMCAOrigin) {
+            breakdown.push(`  (${reciprocalTariff.note})`);
+          }
           }
         }
       }
@@ -818,12 +818,12 @@ export class TariffService {
 
           if (wasPushed) {
             breakdown.push(ieepaTariff.label);
-            if (ieepaTariff.note) {
-              breakdown.push(`  (${ieepaTariff.note})`);
-            }
-            if (ieepaTariff.legal_status) {
-              breakdown.push(`  (${ieepaTariff.legal_status})`);
-            }
+          if (ieepaTariff.note) {
+            breakdown.push(`  (${ieepaTariff.note})`);
+          }
+          if (ieepaTariff.legal_status) {
+            breakdown.push(`  (${ieepaTariff.legal_status})`);
+          }
           }
         }
       }

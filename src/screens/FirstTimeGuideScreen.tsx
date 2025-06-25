@@ -60,7 +60,7 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
 
             <GuideStep
               icon="information-circle-outline"
-              title="Need Help? Tap the Info Tabs"
+              title="Want to know more about a field? Tap or swipe the Info Tabs"
               text="See the (i) icons next to each field? Tap them any time for a quick explanation of what to enter and why it's needed."
             />
             
@@ -73,7 +73,7 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
             <GuideStep
               icon="menu-outline"
               title="Explore with the FAB Menu"
-              text="The floating button in the corner is the FAB (Floating Action Button). Tap it to quickly access your lookup history, settings, helpful links, and more."
+              text="The floating button in the corner is the FAB (Floating Action Button). Tap it to quickly access your recent searches, calculation history, links, DGL blogs, stats and info, and User Settings."
             />
 
             <View style={styles.footer}>
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    zIndex: 9999,
   },
   modalContent: {
     width: '90%',
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     ...BRAND_SHADOWS.large,
   },
   scrollViewContent: {
-    paddingBottom: getSpacing('xl'),
+    paddingBottom: getSpacing('lg'),
   },
   header: {
     flexDirection: 'row',
@@ -164,27 +165,26 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: getSpacing('lg'),
     alignItems: 'center',
-    marginBottom: getSpacing('lg'),
   },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: getSpacing('lg'),
+    marginBottom: getSpacing('sm'),
   },
   switchLabel: {
-    fontSize: getTypographySize('md'),
+    fontSize: getTypographySize('sm'),
     color: BRAND_COLORS.white,
-    marginLeft: getSpacing('md'),
+    marginLeft: getSpacing('sm'),
   },
   button: {
     backgroundColor: BRAND_COLORS.electricBlue,
-    paddingVertical: getSpacing('md'),
-    paddingHorizontal: getSpacing('xl'),
-    borderRadius: getBorderRadius('lg'),
+    paddingVertical: getSpacing('sm'),
+    paddingHorizontal: getSpacing('lg'),
+    borderRadius: getBorderRadius('md'),
     ...BRAND_SHADOWS.medium,
   },
   buttonText: {
-    fontSize: getTypographySize('lg'),
+    fontSize: getTypographySize('md'),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.white,
   },
