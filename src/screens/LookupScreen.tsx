@@ -66,8 +66,12 @@ import InfoDrawer, { InfoFieldKey } from '../components/InfoDrawer';
 // Keyboard-aware scrolling
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
+import FirstTimeGuideScreen from './FirstTimeGuideScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+const GUIDE_STORAGE_KEY = '@HarmonyTi:hasSeenFirstTimeGuide';
 
 // Get tariff service instance
 const tariffService = TariffService.getInstance();
@@ -255,8 +259,9 @@ export default function LookupScreen() {
 
   // after other state declarations add:
   const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
-  const [activeField, setActiveField] = useState<InfoFieldKey>(null);
+  const [activeField, setActiveField] = useState<InfoFieldKey | null>(null);
   const [tabY, setTabY] = useState<number>(0);
+  const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false);
 
   // Opacity for fading info tab (iPhone only)
   const infoTabOpacity = useRef(new Animated.Value(0)).current;
@@ -669,7 +674,19 @@ export default function LookupScreen() {
 
   const handleDisclaimerAgree = () => {
     setShowDisclaimer(false);
+    // The useEffect listening to showDisclaimer will handle showing the guide
     openMainFab();
+  };
+
+  const handleGuideClose = async (dontShowAgain: boolean) => {
+    setShowFirstTimeGuide(false);
+    if (dontShowAgain) {
+      try {
+        await AsyncStorage.setItem(GUIDE_STORAGE_KEY, 'true');
+      } catch (e) {
+        console.error('Failed to save first time guide preference.', e);
+      }
+    }
   };
 
   const formatCurrency = (amount: number) => {
@@ -1923,6 +1940,20 @@ export default function LookupScreen() {
     };
   }, [isLandscape, isTabletNow, windowWidth]);
 
+  useEffect(() => {
+    const checkFirstTimeGuide = async () => {
+      // Only check if the disclaimer has also been dealt with
+      if (!showDisclaimer) {
+        const hasSeenGuide = await AsyncStorage.getItem(GUIDE_STORAGE_KEY);
+        if (hasSeenGuide === null) {
+          // If the key doesn't exist, show the guide.
+          setShowFirstTimeGuide(true);
+        }
+      }
+    };
+    checkFirstTimeGuide();
+  }, [showDisclaimer]);
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
@@ -2518,6 +2549,10 @@ export default function LookupScreen() {
           </Animated.View>
         </PanGestureHandler>
       )}
+      <FirstTimeGuideScreen
+        visible={showFirstTimeGuide}
+        onClose={handleGuideClose}
+      />
     </SafeAreaView>
   );
 }
