@@ -35,6 +35,13 @@ interface AnimatedDrawerProps {
    * nested inside plain ScrollViews" warning.
    */
   wrapScroll?: boolean;
+  /**
+   * Custom drawer configuration to override default sizing
+   */
+  customDrawerConfig?: {
+    width?: number | string;
+    maxHeight?: string;
+  };
 }
 
 export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
@@ -44,6 +51,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   position,
   title,
   wrapScroll = true,
+  customDrawerConfig,
 }) => {
   const drawerConfig = getDrawerConfig();
 
@@ -59,11 +67,16 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   const [shouldRender, setShouldRender] = React.useState(isVisible);
 
   function getInitialTranslateValue() {
+    const width = customDrawerConfig?.width || drawerConfig.width;
+    const actualWidth = typeof width === 'string' && width.includes('%') 
+      ? SCREEN_WIDTH * (parseFloat(width.replace('%', '')) / 100)
+      : (width as number);
+    
     switch (position) {
       case "left":
-        return -drawerConfig.width;
+        return -actualWidth;
       case "right":
-        return drawerConfig.width;
+        return actualWidth;
       case "bottom":
         return SCREEN_HEIGHT;
       default:
@@ -129,6 +142,11 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
       ...BRAND_SHADOWS.large,
     };
 
+    const width = customDrawerConfig?.width || drawerConfig.width;
+    const actualWidth = typeof width === 'string' && width.includes('%') 
+      ? SCREEN_WIDTH * (parseFloat(width.replace('%', '')) / 100)
+      : (width as number);
+
     switch (position) {
       case "left":
         return {
@@ -137,7 +155,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           left: 0,
           top: 0,
           bottom: 0,
-          width: drawerConfig.width,
+          width: actualWidth,
         };
       case "right":
         return {
@@ -146,11 +164,12 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           right: 0,
           top: 0,
           bottom: 0,
-          width: drawerConfig.width,
+          width: actualWidth,
         };
       case "bottom":
+        const maxHeight = customDrawerConfig?.maxHeight || drawerConfig.maxHeight;
         const maxHeightPercent =
-          parseFloat(drawerConfig.maxHeight.replace("%", "")) / 100;
+          parseFloat(maxHeight.replace("%", "")) / 100;
         return {
           ...baseStyle,
           transform: [{ translateY }],
@@ -187,13 +206,13 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
               </View>
             )}
             {wrapScroll ? (
-              <ScrollView
-                style={styles.scrollView}
-                showsVerticalScrollIndicator={false}
-                bounces={false}
-              >
-                {children}
-              </ScrollView>
+            <ScrollView
+              style={styles.scrollView}
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+            >
+              {children}
+            </ScrollView>
             ) : (
               <View style={{ flex: 1 }}>{children}</View>
             )}

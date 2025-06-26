@@ -1,226 +1,318 @@
-/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-unused-vars */
-const axios = require("axios");
-const cheerio = require("cheerio");
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 module.exports = async function (context, req) {
-  context.log("Trade News Feed function triggered");
+    context.log('Trade News Feed function processed a request.');
 
-  try {
-    const newsItems = [];
+    try {
+        const newsItems = [];
 
-    // 1. CBP Trade Bulletins & HTS Updates
-    const cbpNews = await fetchCBPNews(context);
-    newsItems.push(...cbpNews);
+        // CBP Trade Bulletins & HTS Updates
+        try {
+            const cbpData = await fetchCBPNews();
+            newsItems.push(...cbpData);
+        } catch (error) {
+            context.log('CBP fetch failed:', error.message);
+        }
 
-    // 2. USTR Trade Announcements
-    const ustrNews = await fetchUSTRNews(context);
-    newsItems.push(...ustrNews);
+        // USTR Trade Announcements
+        try {
+            const ustrData = await fetchUSTRNews();
+            newsItems.push(...ustrData);
+        } catch (error) {
+            context.log('USTR fetch failed:', error.message);
+        }
 
-    // 3. Federal Register Trade Entries
-    const federalRegisterNews = await fetchFederalRegisterTrade(context);
-    newsItems.push(...federalRegisterNews);
+        // Federal Register Trade Entries
+        try {
+            const federalRegisterData = await fetchFederalRegisterNews();
+            newsItems.push(...federalRegisterData);
+        } catch (error) {
+            context.log('Federal Register fetch failed:', error.message);
+        }
 
-    // 4. Census Bureau Trade Statistics
-    const censusStats = await fetchCensusTradeStats(context);
-    newsItems.push(...censusStats);
+        // Census Bureau Trade Statistics
+        try {
+            const censusData = await fetchCensusBureauNews();
+            newsItems.push(...censusData);
+        } catch (error) {
+            context.log('Census Bureau fetch failed:', error.message);
+        }
 
-    // Sort by date (newest first) and limit to 50 items
-    const sortedNews = newsItems
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 50);
+        // Sort by priority and date
+        const sortedItems = newsItems.sort((a, b) => {
+            const priorityOrder = { high: 3, medium: 2, low: 1 };
+            const aPriority = priorityOrder[a.priority] || 1;
+            const bPriority = priorityOrder[b.priority] || 1;
+            
+            if (aPriority !== bPriority) {
+                return bPriority - aPriority;
+            }
+            
+            return new Date(b.date) - new Date(a.date);
+        });
 
-    context.res = {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: {
-        success: true,
-        count: sortedNews.length,
-        lastUpdated: new Date().toISOString(),
-        items: sortedNews,
-      },
-    };
-  } catch (error) {
-    context.log.error("Error fetching trade news:", error);
-    context.res = {
-      status: 500,
-      body: {
-        success: false,
-        error: error.message,
-      },
-    };
-  }
+  context.res = {
+    status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            },
+            body: {
+                success: true,
+                items: sortedItems,
+                timestamp: new Date().toISOString(),
+                count: sortedItems.length
+            }
+        };
+
+    } catch (error) {
+        context.log('Error in trade news function:', error);
+        context.res = {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: {
+                success: false,
+                error: 'Failed to fetch trade news',
+                timestamp: new Date().toISOString()
+            }
+        };
+    }
 };
 
-async function fetchCBPNews(context) {
-  try {
-    context.log("Fetching CBP news...");
-    const response = await axios.get(
-      "https://www.cbp.gov/newsroom/trade-bulletins",
-      {
-        timeout: 10000,
-      },
-    );
-
-    const $ = cheerio.load(response.data);
+async function fetchCBPNews() {
     const items = [];
-
-    $(".view-content .views-row").each((i, element) => {
-      if (i >= 10) return; // Limit to 10 items
-
-      const $elem = $(element);
-      const title = $elem.find(".field-title a").text().trim();
-      const link = $elem.find(".field-title a").attr("href");
-      const date = $elem.find(".field-post-date").text().trim();
-      const summary = $elem.find(".field-body").text().trim().substring(0, 200);
-
-      if (title && link) {
-        items.push({
-          id: `cbp-${Date.now()}-${i}`,
-          title,
-          summary: summary || "CBP Trade Bulletin",
-          url: link.startsWith("http") ? link : `https://www.cbp.gov${link}`,
-          source: "CBP",
-          category: "regulatory",
-          date: parseDate(date) || new Date().toISOString(),
-          priority: title.toLowerCase().includes("hts") ? "high" : "medium",
+    
+    try {
+        // CBP Trade Bulletins
+        const response = await axios.get('https://www.cbp.gov/newsroom/trade-bulletins', {
+            timeout: 10000,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
         });
-      }
-    });
 
-    context.log(`Found ${items.length} CBP items`);
+        const $ = cheerio.load(response.data);
+        
+        $('.view-content .views-row').slice(0, 5).each((i, element) => {
+            const titleElement = $(element).find('h3 a, .field-title a').first();
+            const title = titleElement.text().trim();
+            const relativeUrl = titleElement.attr('href');
+            const url = relativeUrl ? `https://www.cbp.gov${relativeUrl}` : '';
+            
+            const summaryElement = $(element).find('.field-body, .body, .field-content').first();
+            const summary = summaryElement.text().trim().substring(0, 200) + '...';
+            
+            const dateElement = $(element).find('.date-display-single, .field-date').first();
+            const dateText = dateElement.text().trim();
+            
+            if (title && url) {
+                items.push({
+                    id: `cbp-${Date.now()}-${i}`,
+                    title: title,
+                    summary: summary || 'CBP trade bulletin update',
+                    date: parseDate(dateText) || new Date().toISOString(),
+                    url: url,
+                    source: 'CBP',
+                    category: 'regulatory',
+                    priority: title.toLowerCase().includes('hts') || title.toLowerCase().includes('tariff') ? 'high' : 'medium'
+                });
+            }
+        });
+    } catch (error) {
+        console.log('CBP scraping failed, using fallback data');
+        // Fallback CBP data
+        items.push({
+            id: 'cbp-fallback-1',
+            title: 'CBP Trade Bulletin Updates',
+            summary: 'Latest Customs and Border Protection bulletins on HTS code changes, trade regulations, and enforcement updates.',
+            date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            url: 'https://www.cbp.gov/newsroom/trade-bulletins',
+            source: 'CBP',
+            category: 'regulatory',
+            priority: 'high'
+        });
+    }
+    
     return items;
-  } catch (error) {
-    context.log.warn("CBP fetch failed:", error.message);
-    return [];
-  }
 }
 
-async function fetchUSTRNews(context) {
-  try {
-    context.log("Fetching USTR news...");
-    const response = await axios.get(
-      "https://ustr.gov/about-us/policy-offices/press-office/press-releases",
-      {
-        timeout: 10000,
-      },
-    );
-
-    const $ = cheerio.load(response.data);
+async function fetchUSTRNews() {
     const items = [];
-
-    $(".view-content .views-row").each((i, element) => {
-      if (i >= 10) return;
-
-      const $elem = $(element);
-      const title = $elem.find("h3 a").text().trim();
-      const link = $elem.find("h3 a").attr("href");
-      const date = $elem.find(".date-display-single").text().trim();
-
-      if (
-        title &&
-        link &&
-        (title.toLowerCase().includes("china") ||
-          title.toLowerCase().includes("tariff") ||
-          title.toLowerCase().includes("trade"))
-      ) {
-        items.push({
-          id: `ustr-${Date.now()}-${i}`,
-          title,
-          summary: "USTR Trade Announcement",
-          url: link.startsWith("http") ? link : `https://ustr.gov${link}`,
-          source: "USTR",
-          category: "policy",
-          date: parseDate(date) || new Date().toISOString(),
-          priority: title.toLowerCase().includes("china") ? "high" : "medium",
+    
+    try {
+        const response = await axios.get('https://ustr.gov/about-us/policy-offices/press-office/press-releases', {
+            timeout: 10000,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
         });
-      }
-    });
 
-    context.log(`Found ${items.length} USTR items`);
+        const $ = cheerio.load(response.data);
+        
+        $('.view-content .views-row').slice(0, 3).each((i, element) => {
+            const titleElement = $(element).find('h3 a, .field-title a').first();
+            const title = titleElement.text().trim();
+            const relativeUrl = titleElement.attr('href');
+            const url = relativeUrl ? `https://ustr.gov${relativeUrl}` : '';
+            
+            const summaryElement = $(element).find('.field-body, .body').first();
+            const summary = summaryElement.text().trim().substring(0, 200) + '...';
+            
+            const dateElement = $(element).find('.date-display-single, .field-date').first();
+            const dateText = dateElement.text().trim();
+            
+            if (title && url) {
+                items.push({
+                    id: `ustr-${Date.now()}-${i}`,
+                    title: title,
+                    summary: summary || 'USTR trade policy announcement',
+                    date: parseDate(dateText) || new Date().toISOString(),
+                    url: url,
+                    source: 'USTR',
+                    category: 'policy',
+                    priority: 'medium'
+                });
+            }
+        });
+    } catch (error) {
+        console.log('USTR scraping failed, using fallback data');
+        items.push({
+            id: 'ustr-fallback-1',
+            title: 'USTR Trade Policy Announcements',
+            summary: 'Current trade negotiations, policy updates, and international trade agreement developments.',
+            date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            url: 'https://ustr.gov/about-us/policy-offices/press-office/press-releases',
+            source: 'USTR',
+            category: 'policy',
+            priority: 'medium'
+        });
+    }
+    
     return items;
-  } catch (error) {
-    context.log.warn("USTR fetch failed:", error.message);
-    return [];
-  }
 }
 
-async function fetchFederalRegisterTrade(context) {
-  try {
-    context.log("Fetching Federal Register trade entries...");
-    const response = await axios.get(
-      "https://www.federalregister.gov/api/v1/articles.json",
-      {
-        params: {
-          "fields[]": ["title", "html_url", "publication_date", "abstract"],
-          "conditions[term]":
-            'tariff OR "harmonized tariff schedule" OR "trade agreement"',
-          "conditions[publication_date][gte]": new Date(
-            Date.now() - 30 * 24 * 60 * 60 * 1000,
-          )
-            .toISOString()
-            .split("T")[0], // Last 30 days
-          per_page: 10,
-        },
-        timeout: 10000,
-      },
-    );
+async function fetchFederalRegisterNews() {
+    const items = [];
+    
+    try {
+        const response = await axios.get('https://www.federalregister.gov/api/v1/articles.json?conditions[term]=tariff&per_page=5', {
+            timeout: 10000,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+        });
 
-    const items = response.data.results.map((article, i) => ({
-      id: `fr-${Date.now()}-${i}`,
-      title: article.title,
-      summary: article.abstract || "Federal Register Trade Entry",
-      url: article.html_url,
-      source: "Federal Register",
-      category: "regulatory",
-      date: article.publication_date + "T00:00:00Z",
-      priority: article.title.toLowerCase().includes("hts") ? "high" : "medium",
-    }));
-
-    context.log(`Found ${items.length} Federal Register items`);
+        if (response.data && response.data.results) {
+            response.data.results.forEach((article, i) => {
+                items.push({
+                    id: `federal-register-${article.document_number}`,
+                    title: article.title,
+                    summary: (article.abstract || article.summary || '').substring(0, 200) + '...',
+                    date: new Date(article.publication_date).toISOString(),
+                    url: article.html_url,
+                    source: 'Federal Register',
+                    category: 'regulatory',
+                    priority: 'medium'
+                });
+            });
+        }
+    } catch (error) {
+        console.log('Federal Register API failed, using fallback data');
+        items.push({
+            id: 'federal-register-fallback-1',
+            title: 'Federal Register Trade Entries',
+            summary: 'Recent tariff schedule modifications, trade rule changes, and regulatory updates.',
+            date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+            url: 'https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=tariff',
+            source: 'Federal Register',
+            category: 'regulatory',
+            priority: 'medium'
+        });
+    }
+    
     return items;
-  } catch (error) {
-    context.log.warn("Federal Register fetch failed:", error.message);
-    return [];
-  }
 }
 
-async function fetchCensusTradeStats(context) {
-  try {
-    context.log("Fetching Census trade statistics...");
-    // Note: This is a simplified example - Census API requires more specific endpoints
-    const items = [
-      {
-        id: `census-${Date.now()}`,
-        title: "Monthly Trade Statistics Available",
-        summary:
-          "Latest U.S. international trade data and statistics from Census Bureau",
-        url: "https://www.census.gov/foreign-trade/statistics/",
-        source: "Census Bureau",
-        category: "statistics",
-        date: new Date().toISOString(),
-        priority: "low",
-      },
+async function fetchCensusBureauNews() {
+    const items = [];
+    
+    try {
+        const response = await axios.get('https://www.census.gov/newsroom/releases/archives/foreign_trade.html', {
+            timeout: 10000,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+        });
+
+        const $ = cheerio.load(response.data);
+        
+        $('.uscb-layout-row').slice(0, 3).each((i, element) => {
+            const titleElement = $(element).find('h3 a, .field-title a').first();
+            const title = titleElement.text().trim();
+            const url = titleElement.attr('href');
+            
+            const summaryElement = $(element).find('p, .summary').first();
+            const summary = summaryElement.text().trim().substring(0, 200) + '...';
+            
+            if (title && url) {
+                items.push({
+                    id: `census-${Date.now()}-${i}`,
+                    title: title,
+                    summary: summary || 'Census Bureau trade statistics update',
+                    date: new Date().toISOString(),
+                    url: url.startsWith('http') ? url : `https://www.census.gov${url}`,
+                    source: 'Census Bureau',
+                    category: 'statistics',
+                    priority: 'medium',
+                    visualType: 'chart',
+                    chartData: { type: 'trade-statistics' }
+                });
+            }
+        });
+    } catch (error) {
+        console.log('Census Bureau scraping failed, using fallback data');
+        items.push({
+            id: 'census-fallback-1',
+            title: 'U.S. International Trade Statistics',
+            summary: 'Monthly trade statistics, import/export data, and economic indicators from the Census Bureau.',
+            date: new Date().toISOString(),
+            url: 'https://www.census.gov/foreign-trade/statistics/',
+            source: 'Census Bureau',
+            category: 'statistics',
+            priority: 'medium',
+            visualType: 'chart',
+            chartData: { type: 'trade-statistics' }
+        });
+    }
+    
+    return items;
+}
+
+function parseDate(dateString) {
+    if (!dateString) return null;
+    
+    // Try various date formats
+    const formats = [
+        /(\w+)\s+(\d{1,2}),\s+(\d{4})/,  // "January 15, 2025"
+        /(\d{1,2})\/(\d{1,2})\/(\d{4})/,  // "01/15/2025"
+        /(\d{4})-(\d{2})-(\d{2})/         // "2025-01-15"
     ];
-
-    context.log(`Added ${items.length} Census placeholder items`);
-    return items;
-  } catch (error) {
-    context.log.warn("Census fetch failed:", error.message);
-    return [];
-  }
-}
-
-function parseDate(dateStr) {
-  if (!dateStr) return null;
-
-  // Handle various date formats
-  const date = new Date(dateStr);
-  if (!isNaN(date.getTime())) {
-    return date.toISOString();
-  }
-
-  return null;
-}
+    
+    for (const format of formats) {
+        const match = dateString.match(format);
+        if (match) {
+            const date = new Date(dateString);
+            if (!isNaN(date.getTime())) {
+                return date.toISOString();
+            }
+        }
+    }
+    
+    return null;
+} 

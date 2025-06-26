@@ -8,11 +8,11 @@ import {
   Image,
   Linking,
   ActivityIndicator,
-  Platform,
+  AppState,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { isTablet } from '../platform/deviceUtils';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/types';
 
@@ -82,59 +82,85 @@ const recentSocialPosts: SocialPost[] = [
   },
 ];
 
-
-
 const RightColumnContent = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [appState, setAppState] = useState(AppState.currentState);
 
+  // Handle app state changes to refresh when returning from external links
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await fetch('https://dedola.com/wp-json/wp/v2/posts?per_page=15&_embed');
-
-        if (response.ok) {
-          const posts = await response.json();
-
-          const transformedPosts = posts.map((post: any) => {
-            let featuredImage = DEDOLA_LOGO;
-
-            try {
-              if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
-                const media = post._embedded['wp:featuredmedia'][0];
-                if (media.media_details && media.media_details.sizes) {
-                  featuredImage = media.media_details.sizes.medium?.source_url ||
-                                media.media_details.sizes.thumbnail?.source_url ||
-                                media.media_details.sizes.full?.source_url ||
-                                media.source_url ||
-                                DEDOLA_LOGO;
-                } else if (media.source_url) {
-                  featuredImage = media.source_url;
-                }
-              }
-            } catch (e) {
-              console.log('Error extracting featured image');
-            }
-
-            return {
-              id: String(post.id),
-              title: post.title.rendered,
-              excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
-              date: new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-              url: post.link,
-              image: featuredImage
-            };
-          });
-
-          setBlogPosts(transformedPosts);
-        }
-      } catch (e) {
-        console.error('Error fetching blog posts:', e);
+    const handleAppStateChange = (nextAppState: any) => {
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+        // App has come to the foreground, refresh data if needed
+        console.log('App returned to foreground, refreshing data...');
+        fetchBlogs();
       }
-      setLoading(false);
+      setAppState(nextAppState);
     };
 
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => subscription?.remove();
+  }, [appState]);
+
+  // Refresh when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      // This will run when the screen comes into focus
+      if (blogPosts.length === 0) {
+        fetchBlogs();
+      }
+    }, [blogPosts.length])
+  );
+
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('https://dedola.com/wp-json/wp/v2/posts?per_page=15&_embed');
+
+      if (response.ok) {
+        const posts = await response.json();
+
+        const transformedPosts = posts.map((post: any) => {
+          let featuredImage = DEDOLA_LOGO;
+
+          try {
+            if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
+              const media = post._embedded['wp:featuredmedia'][0];
+              if (media.media_details && media.media_details.sizes) {
+                featuredImage = media.media_details.sizes.medium?.source_url ||
+                              media.media_details.sizes.thumbnail?.source_url ||
+                              media.media_details.sizes.full?.source_url ||
+                              media.source_url ||
+                              DEDOLA_LOGO;
+              } else if (media.source_url) {
+                featuredImage = media.source_url;
+              }
+            }
+          } catch (e) {
+            console.log('Error extracting featured image');
+          }
+
+          return {
+            id: String(post.id),
+            title: post.title.rendered,
+            excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
+            date: new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+            url: post.link,
+            image: featuredImage
+          };
+        });
+
+        setBlogPosts(transformedPosts);
+      }
+    } catch (e) {
+      console.error('Error fetching blog posts:', e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchBlogs();
   }, []);
 
@@ -142,8 +168,21 @@ const RightColumnContent = () => {
     navigation.navigate('InAppWebView', { url, title });
   };
 
-  const handleExternalPress = (url: string) => {
-    Linking.openURL(url);
+  const handleExternalPress = async (url: string) => {
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.log("Don't know how to open URI: " + url);
+        // Fallback to in-app browser
+        navigation.navigate('InAppWebView', { url, title: 'External Link' });
+      }
+    } catch (error) {
+      console.error('Error opening external link:', error);
+      // Fallback to in-app browser
+      navigation.navigate('InAppWebView', { url, title: 'External Link' });
+    }
   };
 
   const getPlatformIcon = (platform: string) => {
@@ -221,8 +260,6 @@ const RightColumnContent = () => {
           </TouchableOpacity>
         </View>
       </View>
-
-
 
       {/* Blog Posts Section */}
       <View style={styles.section}>

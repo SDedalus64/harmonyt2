@@ -61,6 +61,7 @@ import {
   getSpacing,
   getBorderRadius,
   getDrawerConfig,
+  getTradeNewsDrawerConfig,
   getFabConfig,
   getInputConfig,
   getButtonConfig,
@@ -182,7 +183,7 @@ export default function LookupScreen() {
 
   // Existing state
   const [htsCode, setHtsCode] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
+      const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<LookupResult | null>(null);
   const [declaredValue, setDeclaredValue] = useState<string>("");
@@ -430,7 +431,7 @@ export default function LookupScreen() {
     return () => clearTimeout(debounceTimer);
   }, [htsCode]);
 
-  // Collapse floating menu when form expands/contracts or drawers open
+    // Collapse floating menu when form expands/contracts or drawers open
   useEffect(() => {
     const formHasContent =
       showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
@@ -687,7 +688,7 @@ export default function LookupScreen() {
         // Since header now scrolls with content, we can go all the way down
         resultScrollViewRef.current?.scrollToEnd({
           animated: true,
-        });
+            });
       }, 300); // Delay to ensure content is rendered
     }
   }, [showInput, result]);
@@ -698,9 +699,9 @@ export default function LookupScreen() {
       setTimeout(() => {
         resultScrollViewRef.current?.scrollToEnd({
           animated: true,
-        });
+            });
       }, 100); // Small delay to ensure calculations are rendered
-    }
+          }
   }, [showUnitCalculations]);
 
   // Prevent screenshots when results are shown
@@ -884,9 +885,9 @@ export default function LookupScreen() {
     if (component.label || component.description) {
       baseLabel = component.label || component.description || "";
     } else {
-      // For the type, we'll use a more user-friendly label
+    // For the type, we'll use a more user-friendly label
 
-      if (component.type === RECIPROCAL_TARIFF_TYPE) {
+    if (component.type === RECIPROCAL_TARIFF_TYPE) {
         baseLabel = RECIPROCAL_TARIFF_TYPE;
       } else if (component.type === "base_duty") {
         baseLabel = "Base Duty (MFN)";
@@ -989,7 +990,7 @@ export default function LookupScreen() {
       setResult(lookupResult);
       setResultsDrawerVisible(true);
 
-      // Handle auto-save
+            // Handle auto-save
       console.log("[handleLookup] Auto-save check:", {
         autoSaveEnabled: settings.autoSaveToHistory,
         hasResult: !!lookupResult,
@@ -1181,7 +1182,7 @@ export default function LookupScreen() {
 
     // Focus on declared value input since all data is preserved
     setTimeout(() => {
-      declaredValueInputRef.current?.focus();
+    declaredValueInputRef.current?.focus();
     }, 100);
   };
 
@@ -1562,7 +1563,7 @@ export default function LookupScreen() {
                   <Text style={styles.totalAmountSubtext}>
                     on {formatCurrency(dutiableValue)} value
                   </Text>
-                </View>
+          </View>
                 {/* Landed Cost */}
                 <View
                   style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}
@@ -1668,14 +1669,14 @@ export default function LookupScreen() {
                   );
                   if (rtComponent && rtComponent.amount > 0) {
                     return (
-                      <View style={styles.compactRow}>
+              <View style={styles.compactRow}>
                         <Text style={styles.compactLabel}>Addl RT cost</Text>
-                        <Text style={styles.compactHighlight}>
+                <Text style={styles.compactHighlight}>
                           {formatCurrency(
                             rtComponent.amount / parseFloat(unitCount),
                           )}
-                        </Text>
-                      </View>
+                </Text>
+              </View>
                     );
                   }
                 }
@@ -2072,7 +2073,7 @@ export default function LookupScreen() {
     // Calculate symmetric side padding so the field remains centered with the same width in any orientation
     const sidePadding =
       isTabletNow && typeof fieldWidth === "number"
-        ? (windowWidth - fieldWidth) / 2
+      ? (windowWidth - fieldWidth) / 2
         : getSpacing("md");
     return {
       wrapper: {
@@ -2175,12 +2176,12 @@ export default function LookupScreen() {
           <View style={styles.loadingModalContent}>
             <Animated.View
               style={[
-                styles.loadingSpinnerContainer,
-                {
+              styles.loadingSpinnerContainer,
+              {
                   transform: [
                     {
-                      rotate: loadingSpinValue.interpolate({
-                        inputRange: [0, 1],
+                  rotate: loadingSpinValue.interpolate({
+                    inputRange: [0, 1],
                         outputRange: ["0deg", "360deg"],
                       }),
                     },
@@ -2207,12 +2208,12 @@ export default function LookupScreen() {
           style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
         >
           <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
-            <Image
+              <Image
               source={require("../../assets/Harmony2x.png")}
-              style={dynamicHeaderStyles.logo}
-              resizeMode="contain"
-            />
-          </View>
+                style={dynamicHeaderStyles.logo}
+                resizeMode="contain"
+              />
+            </View>
           <View
             style={[
               styles.dataSourceContainer,
@@ -2254,241 +2255,241 @@ export default function LookupScreen() {
         >
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
-            <View style={styles.sectionTitleWrapper}>
+              <View style={styles.sectionTitleWrapper}>
               <Text style={styles.sectionTitle}>
                 Enter HTS Code, Country & Values
               </Text>
-            </View>
+              </View>
 
-            <View style={styles.inputContainer}>
+              <View style={styles.inputContainer}>
               <View
                 style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
                 ref={fieldRefs.code}
               >
-                <FieldWithInfo
-                  placeholder="Code (Enter 3-8 digits to search)"
-                  value={htsCode}
-                  fieldKey="code"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(text) => {
+                  <FieldWithInfo
+                    placeholder="Code (Enter 3-8 digits to search)"
+                    value={htsCode}
+                    fieldKey="code"
+                    onInfoPress={handleInfoPress}
+                    onChangeText={(text) => {
                     const cleanedText = text.replace(/\D/g, "").slice(0, 8);
-                    setHtsCode(cleanedText);
-                    setUserClosedFab(false);
-                    closeMainFab();
-                    closeAllNavigationDrawers();
-                  }}
-                  inputRef={htsCodeInputRef}
-                  keyboardType="number-pad"
-                  maxLength={8}
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
+                      setHtsCode(cleanedText);
+                      setUserClosedFab(false);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    inputRef={htsCodeInputRef}
+                    keyboardType="number-pad"
+                    maxLength={8}
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[styles.input, dynamicFormStyles.input]}
                   onFocus={() => handleFieldFocus("code")}
-                />
+                  />
 
-                {/* HTS Suggestions */}
-                {showHtsSuggestions && (
+                  {/* HTS Suggestions */}
+                  {showHtsSuggestions && (
                   <View
                     style={[
                       styles.suggestionsContainer,
                       dynamicFormStyles.suggestionWidth,
                     ]}
                   >
-                    {htsSuggestions.length > 0 ? (
+                      {htsSuggestions.length > 0 ? (
                       <ScrollView
                         style={styles.suggestionsScrollView}
                         showsVerticalScrollIndicator={true}
                       >
-                        {htsSuggestions.map((suggestion, index) => (
-                          <TouchableOpacity
-                            key={index}
-                            style={styles.suggestionItem}
-                            onPress={() => {
-                              handleHtsSelection(suggestion.code);
-                              closeMainFab();
-                              closeAllNavigationDrawers();
-                            }}
-                          >
+                          {htsSuggestions.map((suggestion, index) => (
+                            <TouchableOpacity
+                              key={index}
+                              style={styles.suggestionItem}
+                              onPress={() => {
+                                handleHtsSelection(suggestion.code);
+                                closeMainFab();
+                                closeAllNavigationDrawers();
+                              }}
+                            >
                             <Text style={styles.suggestionCode}>
                               {suggestion.code}
                             </Text>
-                            <Text style={styles.suggestionDescription}>
-                              {suggestion.description}
-                            </Text>
-                          </TouchableOpacity>
-                        ))}
-                        {htsSuggestions.length > 5 && (
-                          <View style={styles.moreResultsIndicator}>
+                              <Text style={styles.suggestionDescription}>
+                                {suggestion.description}
+                              </Text>
+                            </TouchableOpacity>
+                          ))}
+                          {htsSuggestions.length > 5 && (
+                            <View style={styles.moreResultsIndicator}>
                             <Ionicons
                               name="chevron-down"
                               size={getResponsiveValue(16, 20)}
                               color={BRAND_COLORS.mediumGray}
                             />
-                            <Text style={styles.moreResultsText}>
+                              <Text style={styles.moreResultsText}>
                               {htsSuggestions.length - 5} more results - scroll
                               to see all
-                            </Text>
-                          </View>
-                        )}
-                      </ScrollView>
+                              </Text>
+                            </View>
+                      )}
+                    </ScrollView>
                     ) : null}
                   </View>
                 )}
-              </View>
-              <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
-                <CountryLookup
-                  ref={countryInputRef}
-                  selectedCountry={selectedCountry}
-                  onSelect={(country) => {
-                    setSelectedCountry(country);
-                    setUserClosedFab(false);
-                    closeMainFab();
-                    closeAllNavigationDrawers();
-                  }}
-                />
-              </View>
+                </View>
+                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
+                  <CountryLookup
+                    ref={countryInputRef}
+                    selectedCountry={selectedCountry}
+                    onSelect={(country) => {
+                      setSelectedCountry(country);
+                      setUserClosedFab(false);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                  />
+                </View>
               <View
                 style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
                 ref={fieldRefs.declared}
               >
-                <FieldWithInfo
-                  placeholder="Declared Value (USD)"
-                  value={formattedDeclaredValue}
-                  fieldKey="declared"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleDeclaredValueChange(value);
-                    closeMainFab();
-                    closeAllNavigationDrawers();
-                  }}
-                  inputRef={declaredValueInputRef}
-                  keyboardType="decimal-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
+                  <FieldWithInfo
+                    placeholder="Declared Value (USD)"
+                    value={formattedDeclaredValue}
+                    fieldKey="declared"
+                    onInfoPress={handleInfoPress}
+                    onChangeText={(value) => {
+                      handleDeclaredValueChange(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    inputRef={declaredValueInputRef}
+                    keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[styles.input, dynamicFormStyles.input]}
                   onFocus={() => handleFieldFocus("declared")}
-                />
-              </View>
+                  />
+                </View>
               <View
                 style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
                 ref={fieldRefs.freight}
               >
-                <FieldWithInfo
-                  placeholder="Freight Cost in USD (Optional)"
-                  value={formattedFreightCost}
-                  fieldKey="freight"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleFreightCostChange(value);
-                    closeMainFab();
-                    closeAllNavigationDrawers();
-                  }}
-                  inputRef={freightCostInputRef}
-                  keyboardType="decimal-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
+                  <FieldWithInfo
+                    placeholder="Freight Cost in USD (Optional)"
+                    value={formattedFreightCost}
+                    fieldKey="freight"
+                    onInfoPress={handleInfoPress}
+                    onChangeText={(value) => {
+                      handleFreightCostChange(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    inputRef={freightCostInputRef}
+                    keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[styles.input, dynamicFormStyles.input]}
                   onFocus={() => handleFieldFocus("freight")}
-                />
-              </View>
+                  />
+                </View>
               <View
                 style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
                 ref={fieldRefs.units}
               >
-                <FieldWithInfo
-                  placeholder="Unit Count (Optional)"
-                  value={formattedUnitCount}
-                  fieldKey="units"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleUnitCountChange(value);
-                    closeMainFab();
-                    closeAllNavigationDrawers();
-                  }}
-                  keyboardType="number-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
+                  <FieldWithInfo
+                    placeholder="Unit Count (Optional)"
+                    value={formattedUnitCount}
+                    fieldKey="units"
+                    onInfoPress={handleInfoPress}
+                    onChangeText={(value) => {
+                      handleUnitCountChange(value);
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
+                    keyboardType="number-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[styles.input, dynamicFormStyles.input]}
                   onFocus={() => handleFieldFocus("units")}
-                />
-              </View>
+                  />
+                </View>
 
-              {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
+                {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
               {selectedCountry &&
                 (selectedCountry.code === "CA" ||
                   selectedCountry.code === "MX") && (
                   <View
                     style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
                   >
-                    <View style={styles.toggleContainer}>
+                <View style={styles.toggleContainer}>
                       <Text style={styles.toggleLabel}>
                         USMCA Origin Certificate
                       </Text>
-                      <Switch
+                  <Switch
                         value={isUSMCAOrigin}
-                        onValueChange={(value) => {
+                    onValueChange={(value) => {
                           setIsUSMCAOrigin(value);
-                          closeMainFab();
-                          closeAllNavigationDrawers();
-                        }}
+                      closeMainFab();
+                      closeAllNavigationDrawers();
+                    }}
                         trackColor={{
                           false: BRAND_COLORS.mediumGray,
                           true: BRAND_COLORS.electricBlue,
                         }}
-                        thumbColor={BRAND_COLORS.white}
-                      />
-                    </View>
+                      thumbColor={BRAND_COLORS.white}
+                  />
                   </View>
+                </View>
                 )}
-            </View>
+                </View>
 
-            {/* Action Buttons Row */}
-            <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
-              <TouchableOpacity
+                {/* Action Buttons Row */}
+                <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
+                  <TouchableOpacity
                 style={[
                   styles.searchButton,
                   dynamicActionStyles.searchButton,
                   isLoading && styles.searchButtonDisabled,
                 ]}
-                onPress={handleLookup}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color={BRAND_COLORS.white} />
-                ) : (
-                  <>
+                    onPress={handleLookup}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <ActivityIndicator color={BRAND_COLORS.white} />
+                    ) : (
+                      <>
                     <Ionicons
                       name="search"
                       size={getResponsiveValue(18, 22)}
                       color={BRAND_COLORS.white}
                     />
-                    <Text style={styles.searchButtonText}>Calculate</Text>
-                  </>
-                )}
-              </TouchableOpacity>
+                        <Text style={styles.searchButtonText}>Calculate</Text>
+                      </>
+                    )}
+                  </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={handleClearAll}
-              >
+                  <TouchableOpacity
+                    style={styles.clearButton}
+                    onPress={handleClearAll}
+                  >
                 <Ionicons
                   name="backspace-outline"
                   size={getResponsiveValue(18, 22)}
                   color={BRAND_COLORS.white}
                 />
-                <Text style={styles.clearButtonText}>Clear</Text>
-              </TouchableOpacity>
-            </View>
+                    <Text style={styles.clearButtonText}>Clear</Text>
+                  </TouchableOpacity>
+                </View>
 
-            {/* Loading Message Display */}
-            {loadingMessage && (
-              <View style={styles.loadingMessageContainer}>
-                <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
+                {/* Loading Message Display */}
+                {loadingMessage && (
+                  <View style={styles.loadingMessageContainer}>
+                    <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
               </View>
-            )}
-          </View>
+                )}
+                </View>
         </KeyboardAwareScrollView>
 
         {/* Unified Floating Menu System */}
         <View
           style={[
-            styles.floatingMenuContainer,
+          styles.floatingMenuContainer,
             { bottom: isTablet() ? insets.bottom - 30 : insets.bottom - 20 },
           ]}
         >
@@ -2513,7 +2514,7 @@ export default function LookupScreen() {
               },
             ]}
           >
-            <TouchableOpacity
+                  <TouchableOpacity
               style={[
                 styles.menuFabButton,
                 { backgroundColor: BRAND_COLORS.electricBlue },
@@ -2529,7 +2530,7 @@ export default function LookupScreen() {
                 size={getResponsiveValue(20, 24)}
                 color={BRAND_COLORS.white}
               />
-            </TouchableOpacity>
+                  </TouchableOpacity>
           </Animated.View>
 
           {/* History Button */}
@@ -2551,7 +2552,7 @@ export default function LookupScreen() {
               },
             ]}
           >
-            <TouchableOpacity
+                    <TouchableOpacity
               style={[
                 styles.menuFabButton,
                 { backgroundColor: BRAND_COLORS.mediumBlue },
@@ -2567,7 +2568,7 @@ export default function LookupScreen() {
                 size={getResponsiveValue(20, 24)}
                 color={BRAND_COLORS.white}
               />
-            </TouchableOpacity>
+                    </TouchableOpacity>
           </Animated.View>
 
           {/* Tariff News Button */}
@@ -2589,7 +2590,7 @@ export default function LookupScreen() {
               },
             ]}
           >
-            <TouchableOpacity
+                    <TouchableOpacity
               style={[
                 styles.menuFabButton,
                 { backgroundColor: BRAND_COLORS.success },
@@ -2605,7 +2606,7 @@ export default function LookupScreen() {
                 size={getResponsiveValue(20, 24)}
                 color={BRAND_COLORS.white}
               />
-            </TouchableOpacity>
+                    </TouchableOpacity>
           </Animated.View>
 
           {/* News Button */}
@@ -2703,12 +2704,12 @@ export default function LookupScreen() {
               },
             ]}
           >
-            <TouchableOpacity
+                    <TouchableOpacity
               style={[
                 styles.menuFabButton,
                 { backgroundColor: BRAND_COLORS.darkGray },
               ]}
-              onPress={() => {
+                      onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setSettingsDrawerVisible(true);
@@ -2719,7 +2720,7 @@ export default function LookupScreen() {
                 size={getResponsiveValue(20, 24)}
                 color={BRAND_COLORS.white}
               />
-            </TouchableOpacity>
+                    </TouchableOpacity>
           </Animated.View>
 
           {/* Main Floating Menu Button */}
@@ -2749,49 +2750,50 @@ export default function LookupScreen() {
               />
             </TouchableOpacity>
           </Animated.View>
-        </View>
+                </View>
 
-        {/* Animated Drawers */}
-        <AnimatedDrawer
-          isVisible={historyDrawerVisible}
-          onClose={() => {
-            setHistoryDrawerVisible(false);
-            // Open FAB after closing history drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
-          }}
-          position="bottom"
-        >
-          {renderHistoryDrawerContent()}
-        </AnimatedDrawer>
+      {/* Animated Drawers */}
+      <AnimatedDrawer
+        isVisible={historyDrawerVisible}
+        onClose={() => {
+          setHistoryDrawerVisible(false);
+          // Open FAB after closing history drawer
+          setTimeout(() => {
+            setUserClosedFab(false);
+            openMainFab();
+          }, 300);
+        }}
+        position="bottom"
+      >
+        {renderHistoryDrawerContent()}
+      </AnimatedDrawer>
 
-        <AnimatedDrawer
-          isVisible={newsDrawerVisible}
-          onClose={() => {
-            setNewsDrawerVisible(false);
-          }}
-          position="right"
-        >
-          {renderNewsDrawerContent()}
-        </AnimatedDrawer>
+      <AnimatedDrawer
+        isVisible={newsDrawerVisible}
+        onClose={() => {
+          setNewsDrawerVisible(false);
+        }}
+        position="right"
+      >
+        {renderNewsDrawerContent()}
+      </AnimatedDrawer>
 
-        <AnimatedDrawer
-          isVisible={analyticsDrawerVisible}
-          onClose={() => {
-            setAnalyticsDrawerVisible(false);
-          }}
-          position="left"
-        >
-          {renderAnalyticsDrawerContent()}
-        </AnimatedDrawer>
+      <AnimatedDrawer
+        isVisible={analyticsDrawerVisible}
+        onClose={() => {
+          setAnalyticsDrawerVisible(false);
+        }}
+        position="left"
+      >
+        {renderAnalyticsDrawerContent()}
+      </AnimatedDrawer>
 
         {/* Tariff News Drawer */}
         <AnimatedDrawer
           isVisible={linksDrawerVisible}
           onClose={() => setLinksDrawerVisible(false)}
           position="right"
+          customDrawerConfig={getTradeNewsDrawerConfig()}
         >
           <TariffNewsContent />
         </AnimatedDrawer>
@@ -2826,54 +2828,54 @@ export default function LookupScreen() {
           />
         </AnimatedDrawer>
 
-        {/* Results Drawer */}
-        <AnimatedDrawer
-          isVisible={resultsDrawerVisible}
-          onClose={handleCloseResultsDrawer}
-          position="bottom"
-        >
-          {renderResultsDrawerContent()}
-        </AnimatedDrawer>
+      {/* Results Drawer */}
+      <AnimatedDrawer
+        isVisible={resultsDrawerVisible}
+        onClose={handleCloseResultsDrawer}
+        position="bottom"
+      >
+        {renderResultsDrawerContent()}
+      </AnimatedDrawer>
 
-        {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
+            {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
         {settingsDrawerVisible && (
-          <TouchableOpacity
-            style={styles.overlay}
-            activeOpacity={1}
-            onPress={() => {
-              const wasHistoryOpen = mainHistoryDrawerVisible;
-              setMainHistoryDrawerVisible(false);
-              setSettingsDrawerVisible(false);
-              setLinksDrawerVisible(false);
-              // Open FAB if history drawer was open
-              if (wasHistoryOpen) {
-                setTimeout(() => {
-                  setUserClosedFab(false);
-                  openMainFab();
-                }, 300);
-              }
-            }}
-          >
+                  <TouchableOpacity
+          style={styles.overlay}
+          activeOpacity={1}
+          onPress={() => {
+            const wasHistoryOpen = mainHistoryDrawerVisible;
+            setMainHistoryDrawerVisible(false);
+            setSettingsDrawerVisible(false);
+            setLinksDrawerVisible(false);
+            // Open FAB if history drawer was open
+            if (wasHistoryOpen) {
+              setTimeout(() => {
+                setUserClosedFab(false);
+                openMainFab();
+              }, 300);
+            }
+          }}
+        >
             <Animated.View
               style={[styles.overlayBackground, { opacity: navDrawerOpacity }]}
             />
-          </TouchableOpacity>
-        )}
+                  </TouchableOpacity>
+      )}
 
-        {/* History Drawer */}
+      {/* History Drawer */}
         {false && (
           <Animated.View
             style={[
-              styles.drawer,
-              styles.rightDrawer,
-              {
-                transform: [{ translateX: historyDrawerTranslateX }],
+            styles.drawer,
+            styles.rightDrawer,
+            {
+              transform: [{ translateX: historyDrawerTranslateX }],
                 pointerEvents: mainHistoryDrawerVisible ? "auto" : "none",
               },
             ]}
           >
             <View style={styles.drawerScreenContainer}>
-              <HistoryScreen
+                            <HistoryScreen
                 visible={mainHistoryDrawerVisible}
                 onItemPress={(item) => {
                   // Close the history drawer
@@ -2889,78 +2891,78 @@ export default function LookupScreen() {
           </Animated.View>
         )}
 
-        {/* Settings Drawer */}
+      {/* Settings Drawer */}
         <Animated.View
           style={[
-            styles.drawer,
-            styles.leftDrawer,
-            {
-              transform: [{ translateX: settingsDrawerTranslateX }],
+        styles.drawer,
+        styles.leftDrawer,
+        {
+          transform: [{ translateX: settingsDrawerTranslateX }],
               pointerEvents: settingsDrawerVisible ? "auto" : "none",
             },
           ]}
         >
-          <View style={styles.drawerScreenContainer}>
-            <SettingsScreen />
-          </View>
-        </Animated.View>
+        <View style={styles.drawerScreenContainer}>
+          <SettingsScreen />
+            </View>
+      </Animated.View>
 
-        {/* Links Drawer */}
+      {/* Links Drawer */}
         {false && (
           <Animated.View
             style={[
-              styles.drawer,
-              styles.bottomDrawer,
-              {
-                transform: [{ translateY: linksDrawerTranslateY }],
+        styles.drawer,
+        styles.bottomDrawer,
+        {
+          transform: [{ translateY: linksDrawerTranslateY }],
                 pointerEvents: linksDrawerVisible ? "auto" : "none",
               },
             ]}
           >
-            <View style={styles.drawerScreenContainer}>
-              <LinksScreen />
-            </View>
-          </Animated.View>
+        <View style={styles.drawerScreenContainer}>
+          <LinksScreen />
+          </View>
+      </Animated.View>
         )}
 
-        <InfoDrawer
-          isOpen={infoDrawerVisible}
-          onClose={() => setInfoDrawerVisible(false)}
-          field={activeField}
-        />
-
-        {/* Info tab for iPhone fades in/out */}
-        {!isTablet() && (
+      <InfoDrawer
+        isOpen={infoDrawerVisible}
+        onClose={() => setInfoDrawerVisible(false)}
+        field={activeField}
+      />
+      
+      {/* Info tab for iPhone fades in/out */}
+      {!isTablet() && (
           <PanGestureHandler
             onGestureEvent={handleInfoTabDrag}
             enabled={shouldShowInfoTab}
           >
-            <Animated.View
+          <Animated.View
               pointerEvents={shouldShowInfoTab ? "auto" : "none"}
-              style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
-            >
-              <TouchableOpacity
+            style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
+          >
+            <TouchableOpacity
                 style={{
                   flex: 1,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
-                onPress={() => setInfoDrawerVisible(true)}
-              >
+              onPress={() => setInfoDrawerVisible(true)}
+            >
                 <Ionicons
                   name="information-circle-outline"
                   size={24}
                   color={BRAND_COLORS.white}
                 />
-              </TouchableOpacity>
-            </Animated.View>
-          </PanGestureHandler>
-        )}
-
-        <FirstTimeGuideScreen
-          visible={showFirstTimeGuide}
-          onClose={handleGuideClose}
-        />
+            </TouchableOpacity>
+          </Animated.View>
+        </PanGestureHandler>
+      )}
+      
+      <FirstTimeGuideScreen
+        visible={showFirstTimeGuide}
+        onClose={handleGuideClose}
+      />
       </View>
     </SafeAreaView>
   );

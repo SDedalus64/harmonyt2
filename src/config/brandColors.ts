@@ -180,6 +180,10 @@ export const getDrawerConfig = () => {
   return isTablet() ? BRAND_LAYOUT.drawer.tablet : BRAND_LAYOUT.drawer.mobile;
 };
 
+export const getTradeNewsDrawerConfig = () => {
+  return isTablet() ? BRAND_LAYOUT.drawer.tradeNews.tablet : BRAND_LAYOUT.drawer.tradeNews.mobile;
+};
+
 export const getFabConfig = () => {
   return isTablet() ? BRAND_LAYOUT.fab.tablet : BRAND_LAYOUT.fab.mobile;
 };
@@ -231,6 +235,21 @@ export const BRAND_LAYOUT = {
       headerHeight: 120,
       itemHeight: 72,
       maxHeight: '90%',
+    },
+    // Special configuration for trade news drawer on iPad
+    tradeNews: {
+      mobile: {
+        width: 360,
+        headerHeight: 100,
+        itemHeight: 56,
+        maxHeight: '85%',
+      },
+      tablet: {
+        width: '60%', // 60% of screen width on iPad
+        headerHeight: 120,
+        itemHeight: 72,
+        maxHeight: '90%',
+      },
     },
   },
   fab: {
