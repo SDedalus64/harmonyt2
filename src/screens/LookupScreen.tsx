@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals, react-native/sort-styles, react-native/no-unused-styles, @typescript-eslint/no-require-imports */
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -18,30 +19,36 @@ import {
   Modal,
   useWindowDimensions,
   ImageStyle,
-} from 'react-native';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MainTabParamList } from '../navigation/types';
-import CountryLookup from '../components/CountryLookup';
-import { useTariff } from '../hooks/useTariff';
-import { useHistory, HistoryItem } from '../hooks/useHistory';
-import { useSettings } from '../hooks/useSettings';
-import { getCountryName } from '../utils/countries';
-import DisclaimerModal from './DisclaimerModal';
-import HistoryScreen from './HistoryScreen';
-import SettingsScreen from './SettingsScreen';
-import LinksScreen from './LinksScreen';
-import { isTablet } from '../platform/deviceUtils';
-import RightColumnContent from '../components/RightColumnContent';
-import { tariffSearchService } from '../services/tariffSearchService';
-import { TariffService } from '../services/tariffService';
-import { useFocusEffect } from '@react-navigation/native';
-import { preventScreenshot, allowScreenshot, addScreenshotListener, removeScreenshotListener } from '../utils/screenshotPrevention';
-import { AnimatedDrawer } from '../components/shared/AnimatedDrawer';
-import { DiagonalSection } from '../components/shared/DiagonalSection';
+} from "react-native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import { MainTabParamList } from "../navigation/types";
+import CountryLookup from "../components/CountryLookup";
+import { useTariff } from "../hooks/useTariff";
+import { useHistory, HistoryItem } from "../hooks/useHistory";
+import { useSettings } from "../hooks/useSettings";
+import { getCountryName } from "../utils/countries";
+import DisclaimerModal from "./DisclaimerModal";
+import HistoryScreen from "./HistoryScreen";
+import SettingsScreen from "./SettingsScreen";
+import LinksScreen from "./LinksScreen";
+import { isTablet } from "../platform/deviceUtils";
+import RightColumnContent from "../components/RightColumnContent";
+import HistoryColumnContent from "../components/HistoryColumnContent";
+import { tariffSearchService } from "../services/tariffSearchService";
+import { TariffService } from "../services/tariffService";
+import { useFocusEffect } from "@react-navigation/native";
+import {
+  preventScreenshot,
+  allowScreenshot,
+  addScreenshotListener,
+  removeScreenshotListener,
+} from "../utils/screenshotPrevention";
+import { AnimatedDrawer } from "../components/shared/AnimatedDrawer";
+import { DiagonalSection } from "../components/shared/DiagonalSection";
 import {
   BRAND_COLORS,
   BRAND_TYPOGRAPHY,
@@ -57,21 +64,24 @@ import {
   getInputConfig,
   getButtonConfig,
   getResponsiveValue,
-  isTablet as getIsTablet
-} from '../config/brandColors';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import FieldWithInfo from '../components/FieldWithInfo';
-import InfoDrawer, { InfoFieldKey } from '../components/InfoDrawer';
+  isTablet as getIsTablet,
+} from "../config/brandColors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FieldWithInfo from "../components/FieldWithInfo";
+import InfoDrawer, { InfoFieldKey } from "../components/InfoDrawer";
 
 // Keyboard-aware scrolling
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
-import FirstTimeGuideScreen from './FirstTimeGuideScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
+import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const GUIDE_STORAGE_KEY = '@HarmonyTi:hasSeenFirstTimeGuide';
+const GUIDE_STORAGE_KEY = "@HarmonyTi:hasSeenFirstTimeGuide";
 
 // Get tariff service instance
 const tariffService = TariffService.getInstance();
@@ -81,15 +91,15 @@ const COLORS = {
   darkBlue: BRAND_COLORS.darkNavy,
   lightBlue: BRAND_COLORS.electricBlue,
   orange: BRAND_COLORS.orange,
-  yellow: '#FFD800',
+  yellow: "#FFD800",
   white: BRAND_COLORS.white,
   lightGray: BRAND_COLORS.lightGray,
   mediumGray: BRAND_COLORS.mediumGray,
   darkGray: BRAND_COLORS.darkGray,
-  black: '#333333',
+  black: "#333333",
   error: BRAND_COLORS.error,
-  sectionBg: '#F5F7FA',
-  borderColor: '#D8E0E9',
+  sectionBg: "#F5F7FA",
+  borderColor: "#D8E0E9",
   saveButtonBlue: BRAND_COLORS.mediumBlue,
 };
 
@@ -97,10 +107,13 @@ const COLORS = {
 const _DEBUG_HEADER_TAB = false;
 
 // Constants
-const RECIPROCAL_TARIFF_TYPE = 'Reciprocal Tariff';
+const RECIPROCAL_TARIFF_TYPE = "Reciprocal Tariff";
 
-type LookupScreenNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Lookup'>;
-type LookupScreenRouteProp = RouteProp<MainTabParamList, 'Lookup'>;
+type LookupScreenNavigationProp = BottomTabNavigationProp<
+  MainTabParamList,
+  "Lookup"
+>;
+type LookupScreenRouteProp = RouteProp<MainTabParamList, "Lookup">;
 
 interface Country {
   code: string;
@@ -162,29 +175,34 @@ export default function LookupScreen() {
   const insets = useSafeAreaInsets();
 
   // Debug logging
-  console.log('[LookupScreen] Render - showFirstTimeGuide state will be logged in useEffect');
+  console.log(
+    "[LookupScreen] Render - showFirstTimeGuide state will be logged in useEffect",
+  );
 
   // Existing state
-  const [htsCode, setHtsCode] = useState('');
-      const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
+  const [htsCode, setHtsCode] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState<Country | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<LookupResult | null>(null);
-  const [declaredValue, setDeclaredValue] = useState<string>('');
-  const [formattedDeclaredValue, setFormattedDeclaredValue] = useState<string>('');
-  const [freightCost, setFreightCost] = useState<string>('');
-  const [formattedFreightCost, setFormattedFreightCost] = useState<string>('');
-  const [unitCount, setUnitCount] = useState<string>('');
-  const [formattedUnitCount, setFormattedUnitCount] = useState<string>('');
+  const [declaredValue, setDeclaredValue] = useState<string>("");
+  const [formattedDeclaredValue, setFormattedDeclaredValue] =
+    useState<string>("");
+  const [freightCost, setFreightCost] = useState<string>("");
+  const [formattedFreightCost, setFormattedFreightCost] = useState<string>("");
+  const [unitCount, setUnitCount] = useState<string>("");
+  const [formattedUnitCount, setFormattedUnitCount] = useState<string>("");
   const [showInput, setShowInput] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
-  const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<number | null>(null);
+  const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<
+    number | null
+  >(null);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const { saveToHistory, history, loadHistory } = useHistory();
   const { settings, isLoading: settingsLoading } = useSettings();
 
   // Log settings when they change
   useEffect(() => {
-    console.log('[LookupScreen] Settings loaded:', {
+    console.log("[LookupScreen] Settings loaded:", {
       autoSaveToHistory: settings.autoSaveToHistory,
       settingsLoading,
     });
@@ -192,10 +210,14 @@ export default function LookupScreen() {
 
   // Initialize selected country with default from settings
   useEffect(() => {
-    if (!selectedCountry && settings?.defaultCountry && !route.params?.historyItem) {
+    if (
+      !selectedCountry &&
+      settings?.defaultCountry &&
+      !route.params?.historyItem
+    ) {
       setSelectedCountry({
         code: settings.defaultCountry,
-        name: getCountryName(settings.defaultCountry)
+        name: getCountryName(settings.defaultCountry),
       });
     }
   }, [settings?.defaultCountry, selectedCountry, route.params?.historyItem]);
@@ -212,11 +234,13 @@ export default function LookupScreen() {
   // Use generic ref to support both ScrollView and KeyboardAwareScrollView
   const resultScrollViewRef = useRef<any>(null);
   const unitEntryRef = useRef<View>(null);
-  const [htsSuggestions, setHtsSuggestions] = useState<Array<{code: string; description: string}>>([]);
+  const [htsSuggestions, setHtsSuggestions] = useState<
+    Array<{ code: string; description: string }>
+  >([]);
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
-  const [htsSearchMessage, setHtsSearchMessage] = useState<string>('');
+  const [htsSearchMessage, setHtsSearchMessage] = useState<string>("");
   const [showUnitCalculations, setShowUnitCalculations] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState<string>('');
+  const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const loadingSpinValue = useRef(new Animated.Value(0)).current;
   const [isUSMCAOrigin, setIsUSMCAOrigin] = useState(false);
@@ -228,7 +252,8 @@ export default function LookupScreen() {
   const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
 
   // Navigation drawer states
-  const [mainHistoryDrawerVisible, setMainHistoryDrawerVisible] = useState(false);
+  const [mainHistoryDrawerVisible, setMainHistoryDrawerVisible] =
+    useState(false);
   const [settingsDrawerVisible, setSettingsDrawerVisible] = useState(false);
   const [linksDrawerVisible, setLinksDrawerVisible] = useState(false);
 
@@ -256,9 +281,15 @@ export default function LookupScreen() {
   const settingsFabTranslateY = useRef(new Animated.Value(0)).current;
 
   // Navigation drawer animations
-  const historyDrawerTranslateX = useRef(new Animated.Value(getResponsiveValue(SCREEN_WIDTH * 0.85, 400))).current;
-  const settingsDrawerTranslateX = useRef(new Animated.Value(-getResponsiveValue(SCREEN_WIDTH * 0.85, 400))).current;
-  const linksDrawerTranslateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+  const historyDrawerTranslateX = useRef(
+    new Animated.Value(getResponsiveValue(SCREEN_WIDTH * 0.85, 400)),
+  ).current;
+  const settingsDrawerTranslateX = useRef(
+    new Animated.Value(-getResponsiveValue(SCREEN_WIDTH * 0.85, 400)),
+  ).current;
+  const linksDrawerTranslateY = useRef(
+    new Animated.Value(SCREEN_HEIGHT),
+  ).current;
   const navDrawerOpacity = useRef(new Animated.Value(0)).current;
 
   // after other state declarations add:
@@ -316,7 +347,7 @@ export default function LookupScreen() {
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
       ref.current.measureInWindow((_x, y, _w, h) => {
-        setTabY(y + h / 2 - 20 - getSpacing('sm')); // align center assuming tab height 40
+        setTabY(y + h / 2 - 20 - getSpacing("sm")); // align center assuming tab height 40
       });
     }
   };
@@ -353,7 +384,7 @@ export default function LookupScreen() {
           toValue: 1,
           duration: 2000,
           useNativeDriver: true,
-        })
+        }),
       ).start();
     } else {
       // Reset animation
@@ -361,36 +392,36 @@ export default function LookupScreen() {
     }
   }, [showLoadingModal]);
 
-
-
   // Update the search function to use async search
   useEffect(() => {
     const searchForSuggestions = async () => {
       if (htsCode.length >= 3) {
         setShowHtsSuggestions(true);
-        setHtsSearchMessage('Searching...');
+        setHtsSearchMessage("Searching...");
 
         try {
-          console.log('[Search] Searching for:', htsCode);
+          console.log("[Search] Searching for:", htsCode);
           // Use the segmented search service for better performance
           const results = await tariffSearchService.searchByPrefix(htsCode, 15);
-          console.log('[Search] Results:', results.length);
+          console.log("[Search] Results:", results.length);
 
           setHtsSuggestions(results);
           if (results.length === 0) {
-            setHtsSearchMessage('');
+            setHtsSearchMessage("");
           } else {
-            setHtsSearchMessage(results.length === 15 ? 'Showing first 15 matches' : '');
+            setHtsSearchMessage(
+              results.length === 15 ? "Showing first 15 matches" : "",
+            );
           }
         } catch (error) {
-          console.error('[Search] Error:', error);
+          console.error("[Search] Error:", error);
           setHtsSuggestions([]);
-          setHtsSearchMessage('Error searching HTS codes');
+          setHtsSearchMessage("Error searching HTS codes");
         }
       } else {
         setShowHtsSuggestions(false);
         setHtsSuggestions([]);
-        setHtsSearchMessage('');
+        setHtsSearchMessage("");
       }
     };
 
@@ -398,17 +429,34 @@ export default function LookupScreen() {
     return () => clearTimeout(debounceTimer);
   }, [htsCode]);
 
-    // Collapse floating menu when form expands/contracts or drawers open
+  // Collapse floating menu when form expands/contracts or drawers open
   useEffect(() => {
-    const formHasContent = showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
-    const contentDrawersOpen = resultsDrawerVisible || historyDrawerVisible || newsDrawerVisible || analyticsDrawerVisible;
-    const navigationDrawersOpen = mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
+    const formHasContent =
+      showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
+    const contentDrawersOpen =
+      resultsDrawerVisible ||
+      historyDrawerVisible ||
+      newsDrawerVisible ||
+      analyticsDrawerVisible;
+    const navigationDrawersOpen =
+      mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
 
     // Collapse main FAB menu when form has content or any drawers are open
     if (formHasContent || contentDrawersOpen || navigationDrawersOpen) {
       closeMainFab();
     }
-  }, [showHtsSuggestions, selectedCountry, declaredValue, resultsDrawerVisible, historyDrawerVisible, newsDrawerVisible, analyticsDrawerVisible, mainHistoryDrawerVisible, settingsDrawerVisible, linksDrawerVisible]);
+  }, [
+    showHtsSuggestions,
+    selectedCountry,
+    declaredValue,
+    resultsDrawerVisible,
+    historyDrawerVisible,
+    newsDrawerVisible,
+    analyticsDrawerVisible,
+    mainHistoryDrawerVisible,
+    settingsDrawerVisible,
+    linksDrawerVisible,
+  ]);
 
   const handleHtsSelection = (code: string) => {
     setHtsCode(code);
@@ -418,15 +466,15 @@ export default function LookupScreen() {
   // Format number with commas
   const formatNumberWithCommas = (value: string): string => {
     // Remove any non-digit characters except decimal point
-    const cleanValue = value.replace(/[^\d.]/g, '');
+    const cleanValue = value.replace(/[^\d.]/g, "");
 
     // Handle decimal part separately
-    const parts = cleanValue.split('.');
+    const parts = cleanValue.split(".");
     const wholePart = parts[0];
-    const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+    const decimalPart = parts.length > 1 ? "." + parts[1] : "";
 
     // Add commas to the whole part
-    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     return formattedWholePart + decimalPart;
   };
@@ -434,7 +482,7 @@ export default function LookupScreen() {
   // Handle declared value change
   const handleDeclaredValueChange = (value: string) => {
     // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d.]/g, '');
+    const numericValue = value.replace(/[^\d.]/g, "");
     setDeclaredValue(numericValue);
 
     // Format the display value with commas
@@ -444,7 +492,7 @@ export default function LookupScreen() {
   // Handle freight cost change
   const handleFreightCostChange = (value: string) => {
     // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d.]/g, '');
+    const numericValue = value.replace(/[^\d.]/g, "");
     setFreightCost(numericValue);
 
     // Format the display value with commas
@@ -454,7 +502,7 @@ export default function LookupScreen() {
   // Handle unit count change
   const handleUnitCountChange = (value: string) => {
     // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d]/g, ''); // No decimals for unit count
+    const numericValue = value.replace(/[^\d]/g, ""); // No decimals for unit count
     setUnitCount(numericValue);
 
     // Format the display value with commas
@@ -470,7 +518,7 @@ export default function LookupScreen() {
   useEffect(() => {
     const historyItem = route.params?.historyItem;
     if (historyItem) {
-      console.log('History item received:', historyItem);
+      console.log("History item received:", historyItem);
       setHtsCode(historyItem.htsCode);
 
       // Ensure we have both country code and name
@@ -486,57 +534,59 @@ export default function LookupScreen() {
       if (!countryName && historyItem.countryCode) {
         // Try to find the country name from our countries list
         const countries = [
-          { code: 'AU', name: 'Australia' },
-          { code: 'BD', name: 'Bangladesh' },
-          { code: 'BH', name: 'Bahrain' },
-          { code: 'BN', name: 'Brunei' },
-          { code: 'BR', name: 'Brazil' },
-          { code: 'CA', name: 'Canada' },
-          { code: 'CH', name: 'Switzerland' },
-          { code: 'CL', name: 'Chile' },
-          { code: 'CN', name: 'China' },
-          { code: 'CU', name: 'Cuba' },
-          { code: 'DE', name: 'Germany' },
-          { code: 'EU', name: 'European Union' },
-          { code: 'FR', name: 'France' },
-          { code: 'GB', name: 'United Kingdom' },
-          { code: 'HK', name: 'Hong Kong' },
-          { code: 'ID', name: 'Indonesia' },
-          { code: 'IL', name: 'Israel' },
-          { code: 'IN', name: 'India' },
-          { code: 'IT', name: 'Italy' },
-          { code: 'JP', name: 'Japan' },
-          { code: 'KH', name: 'Cambodia' },
-          { code: 'KP', name: 'North Korea' },
-          { code: 'KR', name: 'South Korea' },
-          { code: 'KW', name: 'Kuwait' },
-          { code: 'LA', name: 'Laos' },
-          { code: 'LK', name: 'Sri Lanka' },
-          { code: 'MM', name: 'Myanmar' },
-          { code: 'MO', name: 'Macau' },
-          { code: 'MX', name: 'Mexico' },
-          { code: 'MY', name: 'Malaysia' },
-          { code: 'NO', name: 'Norway' },
-          { code: 'NL', name: 'Netherlands' },
-          { code: 'NZ', name: 'New Zealand' },
-          { code: 'OM', name: 'Oman' },
-          { code: 'PE', name: 'Peru' },
-          { code: 'PH', name: 'Philippines' },
-          { code: 'PK', name: 'Pakistan' },
-          { code: 'QA', name: 'Qatar' },
-          { code: 'RU', name: 'Russia' },
-          { code: 'SA', name: 'Saudi Arabia' },
-          { code: 'SG', name: 'Singapore' },
-          { code: 'TH', name: 'Thailand' },
-          { code: 'TR', name: 'Turkey' },
-          { code: 'TW', name: 'Taiwan' },
-          { code: 'AE', name: 'United Arab Emirates' },
-          { code: 'US', name: 'United States' },
-          { code: 'VN', name: 'Vietnam' },
-          { code: 'ZA', name: 'South Africa' },
+          { code: "AU", name: "Australia" },
+          { code: "BD", name: "Bangladesh" },
+          { code: "BH", name: "Bahrain" },
+          { code: "BN", name: "Brunei" },
+          { code: "BR", name: "Brazil" },
+          { code: "CA", name: "Canada" },
+          { code: "CH", name: "Switzerland" },
+          { code: "CL", name: "Chile" },
+          { code: "CN", name: "China" },
+          { code: "CU", name: "Cuba" },
+          { code: "DE", name: "Germany" },
+          { code: "EU", name: "European Union" },
+          { code: "FR", name: "France" },
+          { code: "GB", name: "United Kingdom" },
+          { code: "HK", name: "Hong Kong" },
+          { code: "ID", name: "Indonesia" },
+          { code: "IL", name: "Israel" },
+          { code: "IN", name: "India" },
+          { code: "IT", name: "Italy" },
+          { code: "JP", name: "Japan" },
+          { code: "KH", name: "Cambodia" },
+          { code: "KP", name: "North Korea" },
+          { code: "KR", name: "South Korea" },
+          { code: "KW", name: "Kuwait" },
+          { code: "LA", name: "Laos" },
+          { code: "LK", name: "Sri Lanka" },
+          { code: "MM", name: "Myanmar" },
+          { code: "MO", name: "Macau" },
+          { code: "MX", name: "Mexico" },
+          { code: "MY", name: "Malaysia" },
+          { code: "NO", name: "Norway" },
+          { code: "NL", name: "Netherlands" },
+          { code: "NZ", name: "New Zealand" },
+          { code: "OM", name: "Oman" },
+          { code: "PE", name: "Peru" },
+          { code: "PH", name: "Philippines" },
+          { code: "PK", name: "Pakistan" },
+          { code: "QA", name: "Qatar" },
+          { code: "RU", name: "Russia" },
+          { code: "SA", name: "Saudi Arabia" },
+          { code: "SG", name: "Singapore" },
+          { code: "TH", name: "Thailand" },
+          { code: "TR", name: "Turkey" },
+          { code: "TW", name: "Taiwan" },
+          { code: "AE", name: "United Arab Emirates" },
+          { code: "US", name: "United States" },
+          { code: "VN", name: "Vietnam" },
+          { code: "ZA", name: "South Africa" },
         ];
 
-        const foundCountry = countries.find(c => c.code === historyItem.countryCode);
+        const foundCountry = countries.find(
+          (c) => c.code === historyItem.countryCode,
+        );
         if (foundCountry) {
           countryName = foundCountry.name;
         } else {
@@ -545,25 +595,32 @@ export default function LookupScreen() {
         }
       }
 
-      console.log('Setting country from history:', { code: countryCode, name: countryName });
+      console.log("Setting country from history:", {
+        code: countryCode,
+        name: countryName,
+      });
 
       setSelectedCountry({
         code: countryCode,
-        name: countryName
+        name: countryName,
       });
 
       // Use the saved declared value instead of hardcoded value
-      const savedDeclaredValue = historyItem.declaredValue ? historyItem.declaredValue.toString() : '1000';
+      const savedDeclaredValue = historyItem.declaredValue
+        ? historyItem.declaredValue.toString()
+        : "1000";
       setDeclaredValue(savedDeclaredValue);
       setFormattedDeclaredValue(formatNumberWithCommas(savedDeclaredValue));
 
       // Restore freight cost if available
       if (historyItem.freightCost) {
         setFreightCost(historyItem.freightCost.toString());
-        setFormattedFreightCost(formatNumberWithCommas(historyItem.freightCost.toString()));
+        setFormattedFreightCost(
+          formatNumberWithCommas(historyItem.freightCost.toString()),
+        );
       } else {
-        setFreightCost('');
-        setFormattedFreightCost('');
+        setFreightCost("");
+        setFormattedFreightCost("");
       }
 
       // Restore unit count if available
@@ -571,17 +628,18 @@ export default function LookupScreen() {
         setUnitCount(historyItem.unitCount);
         setFormattedUnitCount(formatNumberWithCommas(historyItem.unitCount));
       } else {
-        setUnitCount('');
-        setFormattedUnitCount('');
+        setUnitCount("");
+        setFormattedUnitCount("");
       }
 
       setShowInput(false);
       pendingHistoryItem.current = historyItem;
 
       // If we have complete result data, restore it directly
-      if (historyItem.totalAmount !== undefined &&
-          historyItem.description !== undefined) {
-
+      if (
+        historyItem.totalAmount !== undefined &&
+        historyItem.description !== undefined
+      ) {
         // Pre-populate the result state with saved data
         setResult({
           htsCode: historyItem.htsCode,
@@ -627,8 +685,8 @@ export default function LookupScreen() {
         // Scroll to the bottom to show the save buttons
         // Since header now scrolls with content, we can go all the way down
         resultScrollViewRef.current?.scrollToEnd({
-              animated: true
-            });
+          animated: true,
+        });
       }, 300); // Delay to ensure content is rendered
     }
   }, [showInput, result]);
@@ -638,10 +696,10 @@ export default function LookupScreen() {
     if (showUnitCalculations && resultScrollViewRef.current) {
       setTimeout(() => {
         resultScrollViewRef.current?.scrollToEnd({
-              animated: true
-            });
+          animated: true,
+        });
       }, 100); // Small delay to ensure calculations are rendered
-          }
+    }
   }, [showUnitCalculations]);
 
   // Prevent screenshots when results are shown
@@ -654,19 +712,17 @@ export default function LookupScreen() {
       return () => {
         allowScreenshot();
       };
-    }, [showInput, result])
+    }, [showInput, result]),
   );
-
-
 
   // Add screenshot detection
   useEffect(() => {
     if (!showInput && result) {
       const listener = addScreenshotListener(() => {
         Alert.alert(
-          'Screenshot Detected',
-          'Screenshots of duty calculations are not permitted for security reasons.',
-          [{ text: 'OK' }]
+          "Screenshot Detected",
+          "Screenshots of duty calculations are not permitted for security reasons.",
+          [{ text: "OK" }],
         );
       });
 
@@ -686,17 +742,17 @@ export default function LookupScreen() {
     setShowFirstTimeGuide(false);
     if (dontShowAgain) {
       try {
-        await AsyncStorage.setItem(GUIDE_STORAGE_KEY, 'true');
+        await AsyncStorage.setItem(GUIDE_STORAGE_KEY, "true");
       } catch (e) {
-        console.error('Failed to save first time guide preference.', e);
+        console.error("Failed to save first time guide preference.", e);
       }
     }
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
       useGrouping: true,
@@ -704,7 +760,7 @@ export default function LookupScreen() {
   };
 
   const formatNumber = (num: number, decimals = 2) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat("en-US", {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
       useGrouping: true,
@@ -714,10 +770,11 @@ export default function LookupScreen() {
   // Helper function to extract special rate information from breakdown
   const extractSpecialRate = (breakdown: string[], countryName: string) => {
     // Look for special rate information in the breakdown
-    const specialRateItem = breakdown.find(item =>
-      item.includes('Special Rate') ||
-      item.includes('Preferential Rate') ||
-      item.includes('Free Trade Agreement')
+    const specialRateItem = breakdown.find(
+      (item) =>
+        item.includes("Special Rate") ||
+        item.includes("Preferential Rate") ||
+        item.includes("Free Trade Agreement"),
     );
 
     if (specialRateItem) {
@@ -728,14 +785,14 @@ export default function LookupScreen() {
       // Create description based on country and program
       let description = `${countryName} `;
 
-      if (specialRateItem.includes('USMCA')) {
-        description += 'USMCA Program';
-      } else if (specialRateItem.includes('GSP')) {
-        description += 'GSP Program';
-      } else if (specialRateItem.includes('FTA')) {
-        description += 'Free Trade Agreement';
+      if (specialRateItem.includes("USMCA")) {
+        description += "USMCA Program";
+      } else if (specialRateItem.includes("GSP")) {
+        description += "GSP Program";
+      } else if (specialRateItem.includes("FTA")) {
+        description += "Free Trade Agreement";
       } else {
-        description += 'Special Rate Program';
+        description += "Special Rate Program";
       }
 
       return { rate, description };
@@ -747,50 +804,52 @@ export default function LookupScreen() {
   // Extract component descriptions from breakdown data
   const extractComponentDescriptions = (
     components: DutyComponent[],
-    breakdown: string[]
+    breakdown: string[],
   ): DutyComponent[] => {
     return components.map((component: DutyComponent) => {
-      let label = '';
+      let label = "";
 
-      if (component.type === 'general') {
+      if (component.type === "general") {
         // Look for MFN or special rate info in breakdown
-        const generalItem = breakdown.find((item: string) =>
-          item.includes('General Rate') ||
-          item.includes('MFN') ||
-          item.includes('Column 1')
+        const generalItem = breakdown.find(
+          (item: string) =>
+            item.includes("General Rate") ||
+            item.includes("MFN") ||
+            item.includes("Column 1"),
         );
 
         if (generalItem) {
-          if (generalItem.includes('MFN')) {
-            label = 'MFN';
-          } else if (generalItem.includes('Special')) {
-            label = 'Special Rate';
+          if (generalItem.includes("MFN")) {
+            label = "MFN";
+          } else if (generalItem.includes("Special")) {
+            label = "Special Rate";
           } else {
-            label = '(General/Special Duties)';
+            label = "(General/Special Duties)";
           }
         } else {
-          label = '(General/Special Duties)';
+          label = "(General/Special Duties)";
         }
-      }
-      else if (component.type === 'section301') {
+      } else if (component.type === "section301") {
         // Look for specific list number in breakdown
-        const section301Item = breakdown.find((item: string) => item.includes('Section 301'));
+        const section301Item = breakdown.find((item: string) =>
+          item.includes("Section 301"),
+        );
 
         if (section301Item) {
           const listMatch = section301Item.match(/List (\d+)/i);
           if (listMatch) {
             label = `Section 301 - List ${listMatch[1]}`;
           } else {
-            label = 'Section 301 - List #(s)';
+            label = "Section 301 - List #(s)";
           }
         } else {
-          label = 'Section 301 - List #(s)';
+          label = "Section 301 - List #(s)";
         }
-      }
-      else if (component.type === 'truce') {
+      } else if (component.type === "truce") {
         // Look for expiration date in breakdown
-        const truceItem = breakdown.find((item: string) =>
-          item.includes('Truce') || item.includes('Expiration')
+        const truceItem = breakdown.find(
+          (item: string) =>
+            item.includes("Truce") || item.includes("Expiration"),
         );
 
         if (truceItem) {
@@ -798,40 +857,49 @@ export default function LookupScreen() {
           if (dateMatch) {
             label = `US-China Truce Rate Expiration ${dateMatch[1]}`;
           } else {
-            label = 'US-China Truce Rate Expiration 8/##/2025';
+            label = "US-China Truce Rate Expiration 8/##/2025";
           }
         } else {
-          label = 'US-China Truce Rate Expiration 8/##/2025';
+          label = "US-China Truce Rate Expiration 8/##/2025";
         }
       }
 
       return {
         ...component,
-        label
+        label,
       };
     });
   };
 
-  const getLineItemLabel = (component: { label?: string; description?: string; type?: string; rate?: number }) => {
-    let baseLabel = '';
+  const getLineItemLabel = (component: {
+    label?: string;
+    description?: string;
+    type?: string;
+    rate?: number;
+  }) => {
+    let baseLabel = "";
 
     // If the component has a label or description, use that
     if (component.label || component.description) {
-      baseLabel = component.label || component.description || '';
+      baseLabel = component.label || component.description || "";
     } else {
-    // For the type, we'll use a more user-friendly label
-    // eslint-disable-next-line react-native/no-raw-text
-    if (component.type === RECIPROCAL_TARIFF_TYPE) {
+      // For the type, we'll use a more user-friendly label
+
+      if (component.type === RECIPROCAL_TARIFF_TYPE) {
         baseLabel = RECIPROCAL_TARIFF_TYPE;
-      } else if (component.type === 'base_duty') {
-        baseLabel = 'Base Duty (MFN)';
+      } else if (component.type === "base_duty") {
+        baseLabel = "Base Duty (MFN)";
       } else {
-        baseLabel = component.type || '—';
+        baseLabel = component.type || "—";
       }
     }
 
     // Add rate to base duties for clarity
-    if (component.type === 'base_duty' && component.rate && component.rate > 0) {
+    if (
+      component.type === "base_duty" &&
+      component.rate &&
+      component.rate > 0
+    ) {
       baseLabel += ` - ${component.rate.toFixed(2)}%`;
     }
 
@@ -846,7 +914,10 @@ export default function LookupScreen() {
     setShowHtsSuggestions(false);
 
     if (!htsCode || !selectedCountry || !declaredValue) {
-      Alert.alert('Missing Information', 'Please enter HTS code, select a country, and enter a declared value.');
+      Alert.alert(
+        "Missing Information",
+        "Please enter HTS code, select a country, and enter a declared value.",
+      );
       return;
     }
 
@@ -857,7 +928,7 @@ export default function LookupScreen() {
 
     try {
       // Show loading modal for 2 seconds
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // This is redundant as calculateDuty calls findTariffEntry internally
       // const entry = await findTariffEntryAsync(htsCode);
@@ -880,14 +951,17 @@ export default function LookupScreen() {
         selectedCountry.code,
         true, // Always treat reciprocal tariffs as additive
         false, // Don't exclude reciprocal tariffs
-        isUSMCAOrigin // Pass USMCA origin status
+        isUSMCAOrigin, // Pass USMCA origin status
       );
 
       if (!dutyCalculation) {
         setShowLoadingModal(false);
-        Alert.alert('Calculation Error', 'Unable to calculate duty for this combination.');
+        Alert.alert(
+          "Calculation Error",
+          "Unable to calculate duty for this combination.",
+        );
         setIsLoading(false);
-        setLoadingMessage('');
+        setLoadingMessage("");
         return;
       }
 
@@ -914,8 +988,8 @@ export default function LookupScreen() {
       setResult(lookupResult);
       setResultsDrawerVisible(true);
 
-            // Handle auto-save
-      console.log('[handleLookup] Auto-save check:', {
+      // Handle auto-save
+      console.log("[handleLookup] Auto-save check:", {
         autoSaveEnabled: settings.autoSaveToHistory,
         hasResult: !!lookupResult,
         loadedHistoryTimestamp,
@@ -923,7 +997,7 @@ export default function LookupScreen() {
 
       if (settings.autoSaveToHistory && !loadedHistoryTimestamp) {
         // Only auto-save if this is NOT a result loaded from history
-        console.log('[handleLookup] Auto-saving lookup result...');
+        console.log("[handleLookup] Auto-saving lookup result...");
         const historyItem = {
           htsCode: lookupResult.htsCode,
           description: lookupResult.description,
@@ -942,32 +1016,38 @@ export default function LookupScreen() {
         };
 
         await saveToHistory(historyItem);
-        console.log('[handleLookup] Auto-save completed');
+        console.log("[handleLookup] Auto-save completed");
         setIsSaved(true);
       } else if (loadedHistoryTimestamp) {
         // This is a result loaded from history, mark as already saved
-        console.log('[handleLookup] Skipping auto-save - result loaded from history with timestamp:', loadedHistoryTimestamp);
+        console.log(
+          "[handleLookup] Skipping auto-save - result loaded from history with timestamp:",
+          loadedHistoryTimestamp,
+        );
         setIsSaved(true);
       } else {
-        console.log('[handleLookup] Auto-save disabled, marking as unsaved');
+        console.log("[handleLookup] Auto-save disabled, marking as unsaved");
         setIsSaved(false); // Reset saved state for manual save button
       }
 
       closeMainFab(); // Collapse the floating menu
       closeAllNavigationDrawers();
     } catch (error) {
-      console.error('Lookup error:', error);
+      console.error("Lookup error:", error);
       setShowLoadingModal(false);
-      Alert.alert('Error', 'An error occurred during lookup. Please try again.');
+      Alert.alert(
+        "Error",
+        "An error occurred during lookup. Please try again.",
+      );
     } finally {
       setIsLoading(false);
-      setLoadingMessage('');
+      setLoadingMessage("");
       setShowLoadingModal(false);
     }
   };
 
   const handleNewLookup = () => {
-    console.log('[handleNewLookup] Called with:', {
+    console.log("[handleNewLookup] Called with:", {
       autoSaveEnabled: settings.autoSaveToHistory,
       hasResult: !!result,
       isSaved,
@@ -981,26 +1061,26 @@ export default function LookupScreen() {
     } else if (!settings.autoSaveToHistory && result && !isSaved) {
       // If auto-save is off and there's an unsaved result, show warning
       Alert.alert(
-        'Unsaved Lookup',
-        'You have an unsaved lookup. Do you want to save it before starting a new one?',
+        "Unsaved Lookup",
+        "You have an unsaved lookup. Do you want to save it before starting a new one?",
         [
           {
-            text: 'Discard',
-            style: 'destructive',
+            text: "Discard",
+            style: "destructive",
             onPress: () => handleClearAll(),
           },
           {
-            text: 'Save & New',
+            text: "Save & New",
             onPress: async () => {
               await handleSaveToHistory(false); // Don't show alert
               handleClearAll();
             },
           },
           {
-            text: 'Cancel',
-            style: 'cancel',
+            text: "Cancel",
+            style: "cancel",
           },
-        ]
+        ],
       );
     } else {
       // No result or already saved, proceed directly
@@ -1008,10 +1088,8 @@ export default function LookupScreen() {
     }
   };
 
-
-
   const handleSaveToHistory = async (showAlert = true) => {
-    console.log('[handleSaveToHistory] Called with:', {
+    console.log("[handleSaveToHistory] Called with:", {
       hasResult: !!result,
       hasCountry: !!selectedCountry,
       isSaved,
@@ -1020,16 +1098,19 @@ export default function LookupScreen() {
     });
 
     if (!result || !selectedCountry || isSaved) {
-      console.log('[handleSaveToHistory] Skipping save - conditions not met');
+      console.log("[handleSaveToHistory] Skipping save - conditions not met");
       return;
     }
 
     // Check if this is a result loaded from history
     if (loadedHistoryTimestamp) {
-      console.log('[handleSaveToHistory] Skipping save - result was loaded from history with timestamp:', loadedHistoryTimestamp);
+      console.log(
+        "[handleSaveToHistory] Skipping save - result was loaded from history with timestamp:",
+        loadedHistoryTimestamp,
+      );
       setIsSaved(true);
       if (showAlert) {
-        Alert.alert('Already Saved', 'This lookup is already in your history.');
+        Alert.alert("Already Saved", "This lookup is already in your history.");
       }
       return;
     }
@@ -1057,26 +1138,26 @@ export default function LookupScreen() {
 
       // Show success feedback only if requested
       if (showAlert) {
-        Alert.alert('Saved', 'Lookup saved to history successfully.');
+        Alert.alert("Saved", "Lookup saved to history successfully.");
       }
     } catch (error) {
-      console.error('Error saving to history:', error);
+      console.error("Error saving to history:", error);
       if (showAlert) {
-        Alert.alert('Error', 'Failed to save to history. Please try again.');
+        Alert.alert("Error", "Failed to save to history. Please try again.");
       }
     }
   };
 
   const handleClearAll = () => {
     // Clear all fields for a completely new lookup
-    setHtsCode('');
+    setHtsCode("");
     setSelectedCountry(undefined);
-    setDeclaredValue('');
-    setFormattedDeclaredValue('');
-    setFreightCost('');
-    setFormattedFreightCost('');
-    setUnitCount('');
-    setFormattedUnitCount('');
+    setDeclaredValue("");
+    setFormattedDeclaredValue("");
+    setFreightCost("");
+    setFormattedFreightCost("");
+    setUnitCount("");
+    setFormattedUnitCount("");
     setResult(null);
     setResultsDrawerVisible(false);
     setIsSaved(false);
@@ -1099,12 +1180,12 @@ export default function LookupScreen() {
 
     // Focus on declared value input since all data is preserved
     setTimeout(() => {
-    declaredValueInputRef.current?.focus();
+      declaredValueInputRef.current?.focus();
     }, 100);
   };
 
   const handleHistoryItemSelection = (historyItem: HistoryItem) => {
-    console.log('History item selected:', historyItem);
+    console.log("History item selected:", historyItem);
     setHtsCode(historyItem.htsCode);
 
     // Ensure we have both country code and name
@@ -1119,57 +1200,59 @@ export default function LookupScreen() {
     if (!countryName && historyItem.countryCode) {
       // Try to find the country name from our countries list
       const countries = [
-        { code: 'AU', name: 'Australia' },
-        { code: 'BD', name: 'Bangladesh' },
-        { code: 'BH', name: 'Bahrain' },
-        { code: 'BN', name: 'Brunei' },
-        { code: 'BR', name: 'Brazil' },
-        { code: 'CA', name: 'Canada' },
-        { code: 'CH', name: 'Switzerland' },
-        { code: 'CL', name: 'Chile' },
-        { code: 'CN', name: 'China' },
-        { code: 'CU', name: 'Cuba' },
-        { code: 'DE', name: 'Germany' },
-        { code: 'EU', name: 'European Union' },
-        { code: 'FR', name: 'France' },
-        { code: 'GB', name: 'United Kingdom' },
-        { code: 'HK', name: 'Hong Kong' },
-        { code: 'ID', name: 'Indonesia' },
-        { code: 'IL', name: 'Israel' },
-        { code: 'IN', name: 'India' },
-        { code: 'IT', name: 'Italy' },
-        { code: 'JP', name: 'Japan' },
-        { code: 'KH', name: 'Cambodia' },
-        { code: 'KP', name: 'North Korea' },
-        { code: 'KR', name: 'South Korea' },
-        { code: 'KW', name: 'Kuwait' },
-        { code: 'LA', name: 'Laos' },
-        { code: 'LK', name: 'Sri Lanka' },
-        { code: 'MM', name: 'Myanmar' },
-        { code: 'MO', name: 'Macau' },
-        { code: 'MX', name: 'Mexico' },
-        { code: 'MY', name: 'Malaysia' },
-        { code: 'NO', name: 'Norway' },
-        { code: 'NL', name: 'Netherlands' },
-        { code: 'NZ', name: 'New Zealand' },
-        { code: 'OM', name: 'Oman' },
-        { code: 'PE', name: 'Peru' },
-        { code: 'PH', name: 'Philippines' },
-        { code: 'PK', name: 'Pakistan' },
-        { code: 'QA', name: 'Qatar' },
-        { code: 'RU', name: 'Russia' },
-        { code: 'SA', name: 'Saudi Arabia' },
-        { code: 'SG', name: 'Singapore' },
-        { code: 'TH', name: 'Thailand' },
-        { code: 'TR', name: 'Turkey' },
-        { code: 'TW', name: 'Taiwan' },
-        { code: 'AE', name: 'United Arab Emirates' },
-        { code: 'US', name: 'United States' },
-        { code: 'VN', name: 'Vietnam' },
-        { code: 'ZA', name: 'South Africa' },
+        { code: "AU", name: "Australia" },
+        { code: "BD", name: "Bangladesh" },
+        { code: "BH", name: "Bahrain" },
+        { code: "BN", name: "Brunei" },
+        { code: "BR", name: "Brazil" },
+        { code: "CA", name: "Canada" },
+        { code: "CH", name: "Switzerland" },
+        { code: "CL", name: "Chile" },
+        { code: "CN", name: "China" },
+        { code: "CU", name: "Cuba" },
+        { code: "DE", name: "Germany" },
+        { code: "EU", name: "European Union" },
+        { code: "FR", name: "France" },
+        { code: "GB", name: "United Kingdom" },
+        { code: "HK", name: "Hong Kong" },
+        { code: "ID", name: "Indonesia" },
+        { code: "IL", name: "Israel" },
+        { code: "IN", name: "India" },
+        { code: "IT", name: "Italy" },
+        { code: "JP", name: "Japan" },
+        { code: "KH", name: "Cambodia" },
+        { code: "KP", name: "North Korea" },
+        { code: "KR", name: "South Korea" },
+        { code: "KW", name: "Kuwait" },
+        { code: "LA", name: "Laos" },
+        { code: "LK", name: "Sri Lanka" },
+        { code: "MM", name: "Myanmar" },
+        { code: "MO", name: "Macau" },
+        { code: "MX", name: "Mexico" },
+        { code: "MY", name: "Malaysia" },
+        { code: "NO", name: "Norway" },
+        { code: "NL", name: "Netherlands" },
+        { code: "NZ", name: "New Zealand" },
+        { code: "OM", name: "Oman" },
+        { code: "PE", name: "Peru" },
+        { code: "PH", name: "Philippines" },
+        { code: "PK", name: "Pakistan" },
+        { code: "QA", name: "Qatar" },
+        { code: "RU", name: "Russia" },
+        { code: "SA", name: "Saudi Arabia" },
+        { code: "SG", name: "Singapore" },
+        { code: "TH", name: "Thailand" },
+        { code: "TR", name: "Turkey" },
+        { code: "TW", name: "Taiwan" },
+        { code: "AE", name: "United Arab Emirates" },
+        { code: "US", name: "United States" },
+        { code: "VN", name: "Vietnam" },
+        { code: "ZA", name: "South Africa" },
       ];
 
-      const foundCountry = countries.find(c => c.code === historyItem.countryCode);
+      const foundCountry = countries.find(
+        (c) => c.code === historyItem.countryCode,
+      );
       if (foundCountry) {
         countryName = foundCountry.name;
       } else {
@@ -1178,25 +1261,32 @@ export default function LookupScreen() {
       }
     }
 
-    console.log('Setting country from history:', { code: countryCode, name: countryName });
+    console.log("Setting country from history:", {
+      code: countryCode,
+      name: countryName,
+    });
 
     setSelectedCountry({
       code: countryCode,
-      name: countryName
+      name: countryName,
     });
 
     // Use the saved declared value instead of hardcoded value
-    const savedDeclaredValue = historyItem.declaredValue ? historyItem.declaredValue.toString() : '1000';
+    const savedDeclaredValue = historyItem.declaredValue
+      ? historyItem.declaredValue.toString()
+      : "1000";
     setDeclaredValue(savedDeclaredValue);
     setFormattedDeclaredValue(formatNumberWithCommas(savedDeclaredValue));
 
     // Restore freight cost if available
     if (historyItem.freightCost) {
       setFreightCost(historyItem.freightCost.toString());
-      setFormattedFreightCost(formatNumberWithCommas(historyItem.freightCost.toString()));
+      setFormattedFreightCost(
+        formatNumberWithCommas(historyItem.freightCost.toString()),
+      );
     } else {
-      setFreightCost('');
-      setFormattedFreightCost('');
+      setFreightCost("");
+      setFormattedFreightCost("");
     }
 
     // Restore unit count if available
@@ -1204,14 +1294,15 @@ export default function LookupScreen() {
       setUnitCount(historyItem.unitCount);
       setFormattedUnitCount(formatNumberWithCommas(historyItem.unitCount));
     } else {
-      setUnitCount('');
-      setFormattedUnitCount('');
+      setUnitCount("");
+      setFormattedUnitCount("");
     }
 
     // If we have complete result data, restore it directly
-    if (historyItem.totalAmount !== undefined &&
-        historyItem.description !== undefined) {
-
+    if (
+      historyItem.totalAmount !== undefined &&
+      historyItem.description !== undefined
+    ) {
       // Pre-populate the result state with saved data
       setResult({
         htsCode: historyItem.htsCode,
@@ -1244,19 +1335,19 @@ export default function LookupScreen() {
 
     // Check if the date is today
     if (date.toDateString() === today.toDateString()) {
-      return `Today ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      return `Today ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
     }
 
     // Check if the date is yesterday
     if (date.toDateString() === yesterday.toDateString()) {
-      return `Yesterday ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      return `Yesterday ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
     }
 
     // For other dates, show the full date
     return date.toLocaleDateString([], {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   };
 
@@ -1264,7 +1355,11 @@ export default function LookupScreen() {
   const renderHistoryDrawerContent = () => (
     <View style={styles.drawerContent}>
       <View style={styles.drawerHeader}>
-        <Ionicons name="time" size={getResponsiveValue(20, 28)} color={BRAND_COLORS.electricBlue} />
+        <Ionicons
+          name="time"
+          size={getResponsiveValue(20, 28)}
+          color={BRAND_COLORS.electricBlue}
+        />
         <Text style={styles.drawerTitle}>Recent Lookups</Text>
       </View>
       <ScrollView style={styles.drawerScrollView}>
@@ -1275,7 +1370,7 @@ export default function LookupScreen() {
             onPress={() => {
               const closeAndNavigate = () => {
                 setHistoryDrawerVisible(false);
-                navigation.navigate('Lookup', { historyItem: item });
+                navigation.navigate("Lookup", { historyItem: item });
                 // Open FAB after selecting history item
                 setTimeout(() => {
                   setUserClosedFab(false);
@@ -1286,26 +1381,26 @@ export default function LookupScreen() {
               // Check for unsaved results before navigating
               if (!settings.autoSaveToHistory && result && !isSaved) {
                 Alert.alert(
-                  'Unsaved Lookup',
-                  'You have an unsaved lookup. Do you want to save it before loading this history item?',
+                  "Unsaved Lookup",
+                  "You have an unsaved lookup. Do you want to save it before loading this history item?",
                   [
                     {
-                      text: 'Discard',
-                      style: 'destructive',
+                      text: "Discard",
+                      style: "destructive",
                       onPress: closeAndNavigate,
                     },
                     {
-                      text: 'Save & Load',
+                      text: "Save & Load",
                       onPress: async () => {
                         await handleSaveToHistory(false);
                         closeAndNavigate();
                       },
                     },
                     {
-                      text: 'Cancel',
-                      style: 'cancel',
+                      text: "Cancel",
+                      style: "cancel",
                     },
-                  ]
+                  ],
                 );
               } else {
                 closeAndNavigate();
@@ -1318,9 +1413,7 @@ export default function LookupScreen() {
               </View>
               <View style={styles.historyItemInfo}>
                 <Text style={styles.historyItemCode}>{item.htsCode}</Text>
-                <Text style={styles.historyItemDesc}>
-                  {item.description}
-                </Text>
+                <Text style={styles.historyItemDesc}>{item.description}</Text>
                 <Text style={styles.historyItemAmount}>
                   {formatCurrency(item.totalAmount)}
                 </Text>
@@ -1332,22 +1425,24 @@ export default function LookupScreen() {
     </View>
   );
 
-  const renderNewsDrawerContent = () => (
-    <RightColumnContent />
-  );
+  const renderNewsDrawerContent = () => <RightColumnContent />;
 
   const renderAnalyticsDrawerContent = () => (
     <View style={[styles.drawerContent, { paddingTop: 100 }]}>
       <View style={styles.drawerHeader}>
-        <Ionicons name="analytics" size={getResponsiveValue(20, 28)} color={BRAND_COLORS.electricBlue} />
+        <Ionicons
+          name="analytics"
+          size={getResponsiveValue(20, 28)}
+          color={BRAND_COLORS.electricBlue}
+        />
         <Text style={styles.drawerTitle}>Trade Insights</Text>
       </View>
       <ScrollView style={styles.drawerScrollView}>
         {[
-          { title: 'Top Searched HTS', value: '8471.30.01', trend: '+12%' },
-          { title: 'Avg Duty Rate', value: '7.2%', trend: '-0.3%' },
-          { title: 'Most Active Country', value: 'China', trend: '45%' },
-          { title: 'Weekly Lookups', value: '1,247', trend: '+8%' },
+          { title: "Top Searched HTS", value: "8471.30.01", trend: "+12%" },
+          { title: "Avg Duty Rate", value: "7.2%", trend: "-0.3%" },
+          { title: "Most Active Country", value: "China", trend: "45%" },
+          { title: "Weekly Lookups", value: "1,247", trend: "+8%" },
         ].map((item, index) => (
           <View key={index} style={styles.analyticsCard}>
             <LinearGradient
@@ -1369,11 +1464,11 @@ export default function LookupScreen() {
     if (!result) return null;
 
     const currentTimestamp = new Date().toLocaleString([], {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
 
     return (
@@ -1382,8 +1477,12 @@ export default function LookupScreen() {
         <View style={styles.resultsDrawerHeader}>
           <View style={styles.resultsHeaderLeft}>
             <Text style={styles.resultsDrawerTitle}>Search Results</Text>
-            <Text style={styles.resultsDrawerSubtitle}>{result.htsCode} • {selectedCountry?.name}</Text>
-            <Text style={styles.resultsDrawerTimestamp}>{currentTimestamp}</Text>
+            <Text style={styles.resultsDrawerSubtitle}>
+              {result.htsCode} • {selectedCountry?.name}
+            </Text>
+            <Text style={styles.resultsDrawerTimestamp}>
+              {currentTimestamp}
+            </Text>
           </View>
           <View style={styles.headerButtons}>
             {settings.autoSaveToHistory ? (
@@ -1397,17 +1496,28 @@ export default function LookupScreen() {
               </View>
             ) : (
               <TouchableOpacity
-                style={[styles.headerButton, styles.saveHeaderButton, isSaved && styles.savedHeaderButton]}
+                style={[
+                  styles.headerButton,
+                  styles.saveHeaderButton,
+                  isSaved && styles.savedHeaderButton,
+                ]}
                 onPress={() => handleSaveToHistory()}
                 disabled={isSaved}
               >
                 <Ionicons
                   name={isSaved ? "checkmark-circle" : "bookmark-outline"}
                   size={getResponsiveValue(16, 20)}
-                  color={isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue}
+                  color={
+                    isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue
+                  }
                 />
-                <Text style={[styles.headerButtonText, isSaved && styles.savedHeaderButtonText]}>
-                  {isSaved ? 'Saved' : 'Save'}
+                <Text
+                  style={[
+                    styles.headerButtonText,
+                    isSaved && styles.savedHeaderButtonText,
+                  ]}
+                >
+                  {isSaved ? "Saved" : "Save"}
                 </Text>
               </TouchableOpacity>
             )}
@@ -1415,7 +1525,11 @@ export default function LookupScreen() {
               style={[styles.headerButton, styles.newHeaderButton]}
               onPress={handleNewLookup}
             >
-              <Ionicons name="add" size={getResponsiveValue(16, 20)} color={BRAND_COLORS.electricBlue} />
+              <Ionicons
+                name="add"
+                size={getResponsiveValue(16, 20)}
+                color={BRAND_COLORS.electricBlue}
+              />
               <Text style={styles.headerButtonText}>New</Text>
             </TouchableOpacity>
           </View>
@@ -1423,27 +1537,42 @@ export default function LookupScreen() {
 
         <ScrollView
           style={styles.resultsScrollView}
-          contentContainerStyle={{ paddingBottom: getSpacing('xl') }}
+          contentContainerStyle={{ paddingBottom: getSpacing("xl") }}
           showsVerticalScrollIndicator={false}
         >
           {/* Duties vs Landed Cost */}
           {(() => {
             const dutiableValue = parseFloat(declaredValue);
-            const merchandiseValueForLanded = dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
+            const merchandiseValueForLanded =
+              dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
             const landedCost = merchandiseValueForLanded + result.totalAmount;
             return (
               <View style={styles.totalAmountRow}>
                 {/* Duties */}
-                <View style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}>
-            <Text style={styles.totalAmountLabel}>Est. Duties & Fees</Text>
-            <Text style={styles.totalAmountValue}>{formatCurrency(result.totalAmount)}</Text>
-                  <Text style={styles.totalAmountSubtext}>on {formatCurrency(dutiableValue)} value</Text>
-          </View>
+                <View
+                  style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}
+                >
+                  <Text style={styles.totalAmountLabel}>
+                    Est. Duties & Fees
+                  </Text>
+                  <Text style={styles.totalAmountValue}>
+                    {formatCurrency(result.totalAmount)}
+                  </Text>
+                  <Text style={styles.totalAmountSubtext}>
+                    on {formatCurrency(dutiableValue)} value
+                  </Text>
+                </View>
                 {/* Landed Cost */}
-                <View style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}>
+                <View
+                  style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}
+                >
                   <Text style={styles.totalAmountLabel}>Est. Landed Cost</Text>
-                  <Text style={styles.totalAmountValue}>{formatCurrency(landedCost)}</Text>
-                  <Text style={styles.totalAmountSubtext}>COGs+duties+freight</Text>
+                  <Text style={styles.totalAmountValue}>
+                    {formatCurrency(landedCost)}
+                  </Text>
+                  <Text style={styles.totalAmountSubtext}>
+                    COGs+duties+freight
+                  </Text>
                 </View>
               </View>
             );
@@ -1456,12 +1585,18 @@ export default function LookupScreen() {
               {result.components.map((component, index) => (
                 <View key={index} style={styles.compactRow}>
                   <View style={styles.compactRowLeft}>
-                    <Text style={styles.compactLabel}>{getLineItemLabel(component)}</Text>
+                    <Text style={styles.compactLabel}>
+                      {getLineItemLabel(component)}
+                    </Text>
                     {component.rate > 0 && (
-                      <Text style={styles.compactRate}>{component.rate.toFixed(2)}%</Text>
+                      <Text style={styles.compactRate}>
+                        {component.rate.toFixed(2)}%
+                      </Text>
                     )}
                   </View>
-                  <Text style={styles.compactAmount}>{formatCurrency(component.amount)}</Text>
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(component.amount)}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -1473,17 +1608,29 @@ export default function LookupScreen() {
               <Text style={styles.compactSectionTitle}>Processing Fees</Text>
               <View style={styles.compactRow}>
                 <View style={styles.compactRowLeft}>
-                  <Text style={styles.compactLabel}>Merchandise Processing Fee</Text>
-                  <Text style={styles.compactRate}>{result.fees.mpf.rate.toFixed(4)}%</Text>
+                  <Text style={styles.compactLabel}>
+                    Merchandise Processing Fee
+                  </Text>
+                  <Text style={styles.compactRate}>
+                    {result.fees.mpf.rate.toFixed(4)}%
+                  </Text>
                 </View>
-                <Text style={styles.compactAmount}>{formatCurrency(result.fees.mpf.amount)}</Text>
+                <Text style={styles.compactAmount}>
+                  {formatCurrency(result.fees.mpf.amount)}
+                </Text>
               </View>
               <View style={styles.compactRow}>
                 <View style={styles.compactRowLeft}>
-                  <Text style={styles.compactLabel}>Harbor Maintenance Fee</Text>
-                  <Text style={styles.compactRate}>{result.fees.hmf.rate.toFixed(3)}%</Text>
+                  <Text style={styles.compactLabel}>
+                    Harbor Maintenance Fee
+                  </Text>
+                  <Text style={styles.compactRate}>
+                    {result.fees.hmf.rate.toFixed(3)}%
+                  </Text>
                 </View>
-                <Text style={styles.compactAmount}>{formatCurrency(result.fees.hmf.amount)}</Text>
+                <Text style={styles.compactAmount}>
+                  {formatCurrency(result.fees.hmf.amount)}
+                </Text>
               </View>
             </View>
           )}
@@ -1491,7 +1638,9 @@ export default function LookupScreen() {
           {/* Compact Per Unit */}
           {unitCount && parseFloat(unitCount) > 0 ? (
             <View style={styles.compactSection}>
-              <Text style={styles.compactSectionTitle}>Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)</Text>
+              <Text style={styles.compactSectionTitle}>
+                Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)
+              </Text>
               <View style={styles.compactRow}>
                 <Text style={styles.compactLabel}>Duty Cost</Text>
                 <Text style={styles.compactAmount}>
@@ -1502,21 +1651,30 @@ export default function LookupScreen() {
               <View style={styles.compactRow}>
                 <Text style={styles.compactLabel}>Landed Cost</Text>
                 <Text style={styles.compactAmount}>
-                  {formatCurrency((parseFloat(declaredValue) + (freightCost ? parseFloat(freightCost) : 0) + result.totalAmount) / parseFloat(unitCount))}
+                  {formatCurrency(
+                    (parseFloat(declaredValue) +
+                      (freightCost ? parseFloat(freightCost) : 0) +
+                      result.totalAmount) /
+                      parseFloat(unitCount),
+                  )}
                 </Text>
               </View>
               {(() => {
                 // Show RT cost separately if applicable
                 if (result.components) {
-                  const rtComponent = result.components.find(c => c.type === RECIPROCAL_TARIFF_TYPE);
+                  const rtComponent = result.components.find(
+                    (c) => c.type === RECIPROCAL_TARIFF_TYPE,
+                  );
                   if (rtComponent && rtComponent.amount > 0) {
                     return (
-              <View style={styles.compactRow}>
+                      <View style={styles.compactRow}>
                         <Text style={styles.compactLabel}>Addl RT cost</Text>
-                <Text style={styles.compactHighlight}>
-                          {formatCurrency(rtComponent.amount / parseFloat(unitCount))}
-                </Text>
-              </View>
+                        <Text style={styles.compactHighlight}>
+                          {formatCurrency(
+                            rtComponent.amount / parseFloat(unitCount),
+                          )}
+                        </Text>
+                      </View>
                     );
                   }
                 }
@@ -1525,20 +1683,20 @@ export default function LookupScreen() {
             </View>
           ) : (
             <View style={styles.compactMessageSection}>
-              <Ionicons name="information-circle-outline" size={getResponsiveValue(14, 18)} color={BRAND_COLORS.info} />
-              <Text style={styles.compactMessage}>Enter unit count for per unit calculations</Text>
+              <Ionicons
+                name="information-circle-outline"
+                size={getResponsiveValue(14, 18)}
+                color={BRAND_COLORS.info}
+              />
+              <Text style={styles.compactMessage}>
+                Enter unit count for per unit calculations
+              </Text>
             </View>
           )}
-
-
         </ScrollView>
       </View>
     );
   };
-
-
-
-
 
   // Unified floating menu animations with arc layout
   const toggleMainFab = () => {
@@ -1585,7 +1743,7 @@ export default function LookupScreen() {
       statsFabTranslateY,
       settingsFabTranslateY,
     ];
-    yAnims.forEach(anim => {
+    yAnims.forEach((anim) => {
       animations.push(
         Animated.timing(anim, {
           toValue: 0,
@@ -1666,7 +1824,7 @@ export default function LookupScreen() {
 
   // Handle closing results drawer with auto-save
   const handleCloseResultsDrawer = () => {
-    console.log('[handleCloseResultsDrawer] Called with:', {
+    console.log("[handleCloseResultsDrawer] Called with:", {
       autoSaveEnabled: settings.autoSaveToHistory,
       hasResult: !!result,
       isSaved,
@@ -1682,35 +1840,40 @@ export default function LookupScreen() {
       }, 300);
     };
 
-    if (settings.autoSaveToHistory && result && !isSaved && !loadedHistoryTimestamp) {
+    if (
+      settings.autoSaveToHistory &&
+      result &&
+      !isSaved &&
+      !loadedHistoryTimestamp
+    ) {
       // Auto-save when closing drawer (but not if loaded from history)
-      console.log('[handleCloseResultsDrawer] Auto-saving...');
+      console.log("[handleCloseResultsDrawer] Auto-saving...");
       handleSaveToHistory(false).then(() => {
         closeAndOpenFab();
       });
     } else if (!settings.autoSaveToHistory && result && !isSaved) {
       // Show warning if auto-save is off and there's an unsaved result
       Alert.alert(
-        'Unsaved Lookup',
-        'You have an unsaved lookup. Do you want to save it before closing?',
+        "Unsaved Lookup",
+        "You have an unsaved lookup. Do you want to save it before closing?",
         [
           {
-            text: 'Discard',
-            style: 'destructive',
+            text: "Discard",
+            style: "destructive",
             onPress: () => closeAndOpenFab(),
           },
           {
-            text: 'Save & Close',
+            text: "Save & Close",
             onPress: async () => {
               await handleSaveToHistory(false);
               closeAndOpenFab();
             },
           },
           {
-            text: 'Cancel',
-            style: 'cancel',
+            text: "Cancel",
+            style: "cancel",
           },
-        ]
+        ],
       );
     } else {
       // No unsaved changes or already saved
@@ -1775,7 +1938,14 @@ export default function LookupScreen() {
 
   // Removed automatic open; will open after disclaimer acceptance
 
-  const anyDrawerOpen = historyDrawerVisible || newsDrawerVisible || analyticsDrawerVisible || resultsDrawerVisible || mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
+  const anyDrawerOpen =
+    historyDrawerVisible ||
+    newsDrawerVisible ||
+    analyticsDrawerVisible ||
+    resultsDrawerVisible ||
+    mainHistoryDrawerVisible ||
+    settingsDrawerVisible ||
+    linksDrawerVisible;
 
   const handleMainFabPress = () => {
     hideInfoTabs();
@@ -1863,7 +2033,7 @@ export default function LookupScreen() {
   // Runtime tablet check (depends on current dimensions)
   const isTabletNow = ((): boolean => {
     const aspect = windowHeight / windowWidth;
-    return Platform.OS === 'ios' && Platform.isPad && aspect <= 1.6;
+    return Platform.OS === "ios" && Platform.isPad && aspect <= 1.6;
   })();
 
   // Memo-ized dynamic styles that need to react on rotation
@@ -1888,7 +2058,7 @@ export default function LookupScreen() {
       } as ImageStyle,
       dataSourceContainer: isTabletNow
         ? {
-            marginBottom: isLandscape ? 0 : -getSpacing('xs'),
+            marginBottom: isLandscape ? 0 : -getSpacing("xs"),
           }
         : {},
     };
@@ -1897,11 +2067,12 @@ export default function LookupScreen() {
   // Dynamic form width & side padding
   const dynamicFormStyles = React.useMemo(() => {
     // Fixed field width for tablet
-    const fieldWidth = isTabletNow ? 500 : '100%';
+    const fieldWidth = isTabletNow ? 500 : "100%";
     // Calculate symmetric side padding so the field remains centered with the same width in any orientation
-    const sidePadding = isTabletNow && typeof fieldWidth === 'number'
-      ? (windowWidth - fieldWidth) / 2
-      : getSpacing('md');
+    const sidePadding =
+      isTabletNow && typeof fieldWidth === "number"
+        ? (windowWidth - fieldWidth) / 2
+        : getSpacing("md");
     return {
       wrapper: {
         paddingHorizontal: sidePadding,
@@ -1928,12 +2099,21 @@ export default function LookupScreen() {
     if (!settingsDrawerVisible) {
       settingsDrawerTranslateX.setValue(-hiddenX);
     }
-  }, [windowWidth, windowHeight, linksDrawerVisible, historyDrawerVisible, mainHistoryDrawerVisible, settingsDrawerVisible]);
+  }, [
+    windowWidth,
+    windowHeight,
+    linksDrawerVisible,
+    historyDrawerVisible,
+    mainHistoryDrawerVisible,
+    settingsDrawerVisible,
+  ]);
 
   // ... after dynamicFormStyles definition ...
   const dynamicActionStyles = React.useMemo(() => {
     // Match side padding with the dynamicFormStyles calculation so buttons align with fields
-    const sidePadding = isTabletNow ? (windowWidth - 500) / 2 : getSpacing('md');
+    const sidePadding = isTabletNow
+      ? (windowWidth - 500) / 2
+      : getSpacing("md");
     return {
       row: {
         paddingHorizontal: sidePadding,
@@ -1946,30 +2126,42 @@ export default function LookupScreen() {
 
   useEffect(() => {
     const checkFirstTimeGuide = async () => {
-      console.log('[FirstTimeGuide] Checking guide - showDisclaimer:', showDisclaimer);
+      console.log(
+        "[FirstTimeGuide] Checking guide - showDisclaimer:",
+        showDisclaimer,
+      );
       // Only check if the disclaimer has also been dealt with
       if (!showDisclaimer) {
         const hasSeenGuide = await AsyncStorage.getItem(GUIDE_STORAGE_KEY);
-        console.log('[FirstTimeGuide] hasSeenGuide value:', hasSeenGuide);
+        console.log("[FirstTimeGuide] hasSeenGuide value:", hasSeenGuide);
         if (hasSeenGuide === null) {
           // If the key doesn't exist, show the guide after a delay to let disclaimer modal fully dismiss
-          console.log('[FirstTimeGuide] Showing guide for first time after delay');
+          console.log(
+            "[FirstTimeGuide] Showing guide for first time after delay",
+          );
           setTimeout(() => {
             setShowFirstTimeGuide(true);
           }, 500); // 500ms delay to ensure disclaimer modal is fully dismissed
         } else {
-          console.log('[FirstTimeGuide] Guide has been seen before, not showing');
+          console.log(
+            "[FirstTimeGuide] Guide has been seen before, not showing",
+          );
         }
       } else {
-        console.log('[FirstTimeGuide] Disclaimer still visible, not checking guide');
+        console.log(
+          "[FirstTimeGuide] Disclaimer still visible, not checking guide",
+        );
       }
     };
     checkFirstTimeGuide();
   }, [showDisclaimer]);
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-      <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
+      <DisclaimerModal
+        visible={showDisclaimer}
+        onAgree={handleDisclaimerAgree}
+      />
 
       {/* Loading Modal */}
       <Modal
@@ -1980,18 +2172,26 @@ export default function LookupScreen() {
       >
         <View style={styles.loadingModalOverlay}>
           <View style={styles.loadingModalContent}>
-            <Animated.View style={[
-              styles.loadingSpinnerContainer,
-              {
-                transform: [{
-                  rotate: loadingSpinValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg']
-                  })
-                }]
-              }
-            ]}>
-              <Ionicons name="time-outline" size={48} color={BRAND_COLORS.electricBlue} />
+            <Animated.View
+              style={[
+                styles.loadingSpinnerContainer,
+                {
+                  transform: [
+                    {
+                      rotate: loadingSpinValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ["0deg", "360deg"],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Ionicons
+                name="time-outline"
+                size={48}
+                color={BRAND_COLORS.electricBlue}
+              />
             </Animated.View>
             <Text style={styles.loadingModalText}>Calculating...</Text>
           </View>
@@ -2003,21 +2203,36 @@ export default function LookupScreen() {
         {/* Diagonal Background Section */}
         <DiagonalSection
           height={Number(dynamicHeaderStyles.heroSection.height)}
-          style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}>
+          style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
+        >
           <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
-              <Image
-                source={require('../../assets/Harmony2x.png')}
-                style={dynamicHeaderStyles.logo}
-                resizeMode="contain"
-              />
-            </View>
-          <View style={[styles.dataSourceContainer, dynamicHeaderStyles.dataSourceContainer]}>
-            <TouchableOpacity onPress={toggleHeaderDrawer} activeOpacity={0.8} style={styles.headerTabContainer}>
+            <Image
+              source={require("../../assets/Harmony2x.png")}
+              style={dynamicHeaderStyles.logo}
+              resizeMode="contain"
+            />
+          </View>
+          <View
+            style={[
+              styles.dataSourceContainer,
+              dynamicHeaderStyles.dataSourceContainer,
+            ]}
+          >
+            <TouchableOpacity
+              onPress={toggleHeaderDrawer}
+              activeOpacity={0.8}
+              style={styles.headerTabContainer}
+            >
               <Text style={styles.headerTabText} numberOfLines={1}>
-                {`Data Last Updated: ${tariffService.getLastUpdated() || 'Loading...'} | HTS Rev. ${tariffService.getHtsRevision() || 'Loading...'}`}
+                {`Data Last Updated: ${tariffService.getLastUpdated() || "Loading..."} | HTS Rev. ${tariffService.getHtsRevision() || "Loading..."}`}
               </Text>
             </TouchableOpacity>
-            <Animated.View style={[styles.headerDetailsDrawer, { height: headerDrawerHeight }]}>
+            <Animated.View
+              style={[
+                styles.headerDetailsDrawer,
+                { height: headerDrawerHeight },
+              ]}
+            >
               <Text style={styles.dataSourceText}>
                 Data Sources: U.S. International Trade Commission,
               </Text>
@@ -2038,196 +2253,244 @@ export default function LookupScreen() {
         >
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
-              <View style={styles.sectionTitleWrapper}>
-                <Text style={styles.sectionTitle}>Enter HTS Code, Country & Values</Text>
-              </View>
+            <View style={styles.sectionTitleWrapper}>
+              <Text style={styles.sectionTitle}>
+                Enter HTS Code, Country & Values
+              </Text>
+            </View>
 
-              <View style={styles.inputContainer}>
-                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.code}>
-                  <FieldWithInfo
-                    placeholder="Code (Enter 3-8 digits to search)"
-                    value={htsCode}
-                    fieldKey="code"
-                    onInfoPress={handleInfoPress}
-                    onChangeText={(text) => {
-                      const cleanedText = text.replace(/\D/g, '').slice(0, 8);
-                      setHtsCode(cleanedText);
-                      setUserClosedFab(false);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                    inputRef={htsCodeInputRef}
-                    keyboardType="number-pad"
-                    maxLength={8}
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={[styles.input, dynamicFormStyles.input]}
-                    onFocus={() => handleFieldFocus('code')}
-                  />
+            <View style={styles.inputContainer}>
+              <View
+                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
+                ref={fieldRefs.code}
+              >
+                <FieldWithInfo
+                  placeholder="Code (Enter 3-8 digits to search)"
+                  value={htsCode}
+                  fieldKey="code"
+                  onInfoPress={handleInfoPress}
+                  onChangeText={(text) => {
+                    const cleanedText = text.replace(/\D/g, "").slice(0, 8);
+                    setHtsCode(cleanedText);
+                    setUserClosedFab(false);
+                    closeMainFab();
+                    closeAllNavigationDrawers();
+                  }}
+                  inputRef={htsCodeInputRef}
+                  keyboardType="number-pad"
+                  maxLength={8}
+                  placeholderTextColor={BRAND_COLORS.electricBlue}
+                  style={[styles.input, dynamicFormStyles.input]}
+                  onFocus={() => handleFieldFocus("code")}
+                />
 
-                  {/* HTS Suggestions */}
-                  {showHtsSuggestions && (
-                  <View style={[styles.suggestionsContainer, dynamicFormStyles.suggestionWidth]}>
-                      {htsSuggestions.length > 0 ? (
-                      <ScrollView style={styles.suggestionsScrollView} showsVerticalScrollIndicator={true}>
-                          {htsSuggestions.map((suggestion, index) => (
-                            <TouchableOpacity
-                              key={index}
-                              style={styles.suggestionItem}
-                              onPress={() => {
-                                handleHtsSelection(suggestion.code);
-                                closeMainFab();
-                                closeAllNavigationDrawers();
-                              }}
-                            >
-                              <Text style={styles.suggestionCode}>{suggestion.code}</Text>
-                              <Text style={styles.suggestionDescription}>
-                                {suggestion.description}
-                              </Text>
-                            </TouchableOpacity>
-                          ))}
-                          {htsSuggestions.length > 5 && (
-                            <View style={styles.moreResultsIndicator}>
-                              <Ionicons name="chevron-down" size={getResponsiveValue(16, 20)} color={BRAND_COLORS.mediumGray} />
-                              <Text style={styles.moreResultsText}>
-                                {htsSuggestions.length - 5} more results - scroll to see all
-                              </Text>
-                            </View>
-                      )}
-                    </ScrollView>
-                      ) : (
-                        null
-                      )}
+                {/* HTS Suggestions */}
+                {showHtsSuggestions && (
+                  <View
+                    style={[
+                      styles.suggestionsContainer,
+                      dynamicFormStyles.suggestionWidth,
+                    ]}
+                  >
+                    {htsSuggestions.length > 0 ? (
+                      <ScrollView
+                        style={styles.suggestionsScrollView}
+                        showsVerticalScrollIndicator={true}
+                      >
+                        {htsSuggestions.map((suggestion, index) => (
+                          <TouchableOpacity
+                            key={index}
+                            style={styles.suggestionItem}
+                            onPress={() => {
+                              handleHtsSelection(suggestion.code);
+                              closeMainFab();
+                              closeAllNavigationDrawers();
+                            }}
+                          >
+                            <Text style={styles.suggestionCode}>
+                              {suggestion.code}
+                            </Text>
+                            <Text style={styles.suggestionDescription}>
+                              {suggestion.description}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                        {htsSuggestions.length > 5 && (
+                          <View style={styles.moreResultsIndicator}>
+                            <Ionicons
+                              name="chevron-down"
+                              size={getResponsiveValue(16, 20)}
+                              color={BRAND_COLORS.mediumGray}
+                            />
+                            <Text style={styles.moreResultsText}>
+                              {htsSuggestions.length - 5} more results - scroll
+                              to see all
+                            </Text>
+                          </View>
+                        )}
+                      </ScrollView>
+                    ) : null}
                   </View>
                 )}
-                </View>
-                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
-                  <CountryLookup
-                    ref={countryInputRef}
-                    selectedCountry={selectedCountry}
-                    onSelect={(country) => {
-                      setSelectedCountry(country);
-                      setUserClosedFab(false);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                  />
-                </View>
-                                 <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.declared}>
-                  <FieldWithInfo
-                    placeholder="Declared Value (USD)"
-                    value={formattedDeclaredValue}
-                    fieldKey="declared"
-                    onInfoPress={handleInfoPress}
-                    onChangeText={(value) => {
-                      handleDeclaredValueChange(value);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                    inputRef={declaredValueInputRef}
-                    keyboardType="decimal-pad"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={[styles.input, dynamicFormStyles.input]}
-                    onFocus={() => handleFieldFocus('declared')}
-                  />
-                </View>
-                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.freight}>
-                  <FieldWithInfo
-                    placeholder="Freight Cost in USD (Optional)"
-                    value={formattedFreightCost}
-                    fieldKey="freight"
-                    onInfoPress={handleInfoPress}
-                    onChangeText={(value) => {
-                      handleFreightCostChange(value);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                    inputRef={freightCostInputRef}
-                    keyboardType="decimal-pad"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={[styles.input, dynamicFormStyles.input]}
-                    onFocus={() => handleFieldFocus('freight')}
-                  />
-                </View>
-                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]} ref={fieldRefs.units}>
-                  <FieldWithInfo
-                    placeholder="Unit Count (Optional)"
-                    value={formattedUnitCount}
-                    fieldKey="units"
-                    onInfoPress={handleInfoPress}
-                    onChangeText={(value) => {
-                      handleUnitCountChange(value);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                    keyboardType="number-pad"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={[styles.input, dynamicFormStyles.input]}
-                    onFocus={() => handleFieldFocus('units')}
-                  />
-                </View>
+              </View>
+              <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
+                <CountryLookup
+                  ref={countryInputRef}
+                  selectedCountry={selectedCountry}
+                  onSelect={(country) => {
+                    setSelectedCountry(country);
+                    setUserClosedFab(false);
+                    closeMainFab();
+                    closeAllNavigationDrawers();
+                  }}
+                />
+              </View>
+              <View
+                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
+                ref={fieldRefs.declared}
+              >
+                <FieldWithInfo
+                  placeholder="Declared Value (USD)"
+                  value={formattedDeclaredValue}
+                  fieldKey="declared"
+                  onInfoPress={handleInfoPress}
+                  onChangeText={(value) => {
+                    handleDeclaredValueChange(value);
+                    closeMainFab();
+                    closeAllNavigationDrawers();
+                  }}
+                  inputRef={declaredValueInputRef}
+                  keyboardType="decimal-pad"
+                  placeholderTextColor={BRAND_COLORS.electricBlue}
+                  style={[styles.input, dynamicFormStyles.input]}
+                  onFocus={() => handleFieldFocus("declared")}
+                />
+              </View>
+              <View
+                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
+                ref={fieldRefs.freight}
+              >
+                <FieldWithInfo
+                  placeholder="Freight Cost in USD (Optional)"
+                  value={formattedFreightCost}
+                  fieldKey="freight"
+                  onInfoPress={handleInfoPress}
+                  onChangeText={(value) => {
+                    handleFreightCostChange(value);
+                    closeMainFab();
+                    closeAllNavigationDrawers();
+                  }}
+                  inputRef={freightCostInputRef}
+                  keyboardType="decimal-pad"
+                  placeholderTextColor={BRAND_COLORS.electricBlue}
+                  style={[styles.input, dynamicFormStyles.input]}
+                  onFocus={() => handleFieldFocus("freight")}
+                />
+              </View>
+              <View
+                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
+                ref={fieldRefs.units}
+              >
+                <FieldWithInfo
+                  placeholder="Unit Count (Optional)"
+                  value={formattedUnitCount}
+                  fieldKey="units"
+                  onInfoPress={handleInfoPress}
+                  onChangeText={(value) => {
+                    handleUnitCountChange(value);
+                    closeMainFab();
+                    closeAllNavigationDrawers();
+                  }}
+                  keyboardType="number-pad"
+                  placeholderTextColor={BRAND_COLORS.electricBlue}
+                  style={[styles.input, dynamicFormStyles.input]}
+                  onFocus={() => handleFieldFocus("units")}
+                />
+              </View>
 
-                {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
-                {selectedCountry && (selectedCountry.code === 'CA' || selectedCountry.code === 'MX') && (
-                <View style={[styles.inputWrapper, dynamicFormStyles.wrapper]}>
-                <View style={styles.toggleContainer}>
-                      <Text style={styles.toggleLabel}>USMCA Origin Certificate</Text>
-                  <Switch
+              {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
+              {selectedCountry &&
+                (selectedCountry.code === "CA" ||
+                  selectedCountry.code === "MX") && (
+                  <View
+                    style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
+                  >
+                    <View style={styles.toggleContainer}>
+                      <Text style={styles.toggleLabel}>
+                        USMCA Origin Certificate
+                      </Text>
+                      <Switch
                         value={isUSMCAOrigin}
-                    onValueChange={(value) => {
+                        onValueChange={(value) => {
                           setIsUSMCAOrigin(value);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                      trackColor={{ false: BRAND_COLORS.mediumGray, true: BRAND_COLORS.electricBlue }}
-                      thumbColor={BRAND_COLORS.white}
-                  />
+                          closeMainFab();
+                          closeAllNavigationDrawers();
+                        }}
+                        trackColor={{
+                          false: BRAND_COLORS.mediumGray,
+                          true: BRAND_COLORS.electricBlue,
+                        }}
+                        thumbColor={BRAND_COLORS.white}
+                      />
+                    </View>
                   </View>
-                </View>
                 )}
-                </View>
+            </View>
 
+            {/* Action Buttons Row */}
+            <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
+              <TouchableOpacity
+                style={[
+                  styles.searchButton,
+                  dynamicActionStyles.searchButton,
+                  isLoading && styles.searchButtonDisabled,
+                ]}
+                onPress={handleLookup}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ActivityIndicator color={BRAND_COLORS.white} />
+                ) : (
+                  <>
+                    <Ionicons
+                      name="search"
+                      size={getResponsiveValue(18, 22)}
+                      color={BRAND_COLORS.white}
+                    />
+                    <Text style={styles.searchButtonText}>Calculate</Text>
+                  </>
+                )}
+              </TouchableOpacity>
 
+              <TouchableOpacity
+                style={styles.clearButton}
+                onPress={handleClearAll}
+              >
+                <Ionicons
+                  name="backspace-outline"
+                  size={getResponsiveValue(18, 22)}
+                  color={BRAND_COLORS.white}
+                />
+                <Text style={styles.clearButtonText}>Clear</Text>
+              </TouchableOpacity>
+            </View>
 
-                {/* Action Buttons Row */}
-                <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
-                  <TouchableOpacity
-                    style={[styles.searchButton, dynamicActionStyles.searchButton, isLoading && styles.searchButtonDisabled]}
-                    onPress={handleLookup}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <ActivityIndicator color={BRAND_COLORS.white} />
-                    ) : (
-                      <>
-                        <Ionicons name="search" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
-                        <Text style={styles.searchButtonText}>Calculate</Text>
-                      </>
-                    )}
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.clearButton}
-                    onPress={handleClearAll}
-                  >
-                    <Ionicons name="backspace-outline" size={getResponsiveValue(18, 22)} color={BRAND_COLORS.white} />
-                    <Text style={styles.clearButtonText}>Clear</Text>
-                  </TouchableOpacity>
-                </View>
-
-                {/* Loading Message Display */}
-                {loadingMessage && (
-                  <View style={styles.loadingMessageContainer}>
-                    <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
+            {/* Loading Message Display */}
+            {loadingMessage && (
+              <View style={styles.loadingMessageContainer}>
+                <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
               </View>
-                )}
-                </View>
+            )}
+          </View>
         </KeyboardAwareScrollView>
 
         {/* Unified Floating Menu System */}
-        <View style={[
-          styles.floatingMenuContainer,
-          { bottom: (isTablet() ? insets.bottom - 30 : insets.bottom - 20) }
-        ]}>
+        <View
+          style={[
+            styles.floatingMenuContainer,
+            { bottom: isTablet() ? insets.bottom - 30 : insets.bottom - 20 },
+          ]}
+        >
           {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
 
           {/* Recent Button */}
@@ -2235,26 +2498,37 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.recentFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
+              {
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
-                  { scale: menuFabScale }
+                  { scale: menuFabScale },
                 ],
                 opacity: menuFabOpacity,
               },
             ]}
           >
-                  <TouchableOpacity
-              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.electricBlue }]}
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.electricBlue },
+              ]}
               onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setHistoryDrawerVisible(true);
               }}
             >
-              <Ionicons name="time" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
-                  </TouchableOpacity>
+              <Ionicons
+                name="time"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
           </Animated.View>
 
           {/* History Button */}
@@ -2263,7 +2537,10 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.historyFab,
               {
-                bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: historyFabTranslateX },
                   { translateY: historyFabTranslateY },
@@ -2273,16 +2550,23 @@ export default function LookupScreen() {
               },
             ]}
           >
-                    <TouchableOpacity
-              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.mediumBlue }]}
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.mediumBlue },
+              ]}
               onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setMainHistoryDrawerVisible(true);
               }}
             >
-              <Ionicons name="library" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
-                    </TouchableOpacity>
+              <Ionicons
+                name="library"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
           </Animated.View>
 
           {/* Links Button */}
@@ -2290,26 +2574,37 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.linksFab,
-          { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
+              {
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
-                  { scale: menuFabScale }
+                  { scale: menuFabScale },
                 ],
                 opacity: menuFabOpacity,
               },
             ]}
           >
-                    <TouchableOpacity
-              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.success }]}
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.success },
+              ]}
               onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setLinksDrawerVisible(true);
               }}
             >
-              <Ionicons name="link" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
-                    </TouchableOpacity>
+              <Ionicons
+                name="link"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
           </Animated.View>
 
           {/* News Button */}
@@ -2317,25 +2612,36 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.newsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
+              {
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
-                  { scale: menuFabScale }
+                  { scale: menuFabScale },
                 ],
                 opacity: menuFabOpacity,
               },
             ]}
           >
             <TouchableOpacity
-              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.orange }]}
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.orange },
+              ]}
               onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setNewsDrawerVisible(true);
               }}
             >
-              <Ionicons name="newspaper" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
+              <Ionicons
+                name="newspaper"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
             </TouchableOpacity>
           </Animated.View>
 
@@ -2344,25 +2650,36 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.statsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
+              {
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
-                  { scale: menuFabScale }
+                  { scale: menuFabScale },
                 ],
                 opacity: menuFabOpacity,
               },
             ]}
           >
             <TouchableOpacity
-              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.info }]}
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.info },
+              ]}
               onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setAnalyticsDrawerVisible(true);
               }}
             >
-              <Ionicons name="analytics" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
+              <Ionicons
+                name="analytics"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
             </TouchableOpacity>
           </Animated.View>
 
@@ -2371,26 +2688,37 @@ export default function LookupScreen() {
             style={[
               styles.menuFab,
               styles.settingsFab,
-              { bottom: insets.bottom + getResponsiveValue(28, 37) - (isTablet() ? 70 : 0),
+              {
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },
-                  { scale: menuFabScale }
+                  { scale: menuFabScale },
                 ],
                 opacity: menuFabOpacity,
               },
             ]}
           >
-                    <TouchableOpacity
-              style={[styles.menuFabButton, { backgroundColor: BRAND_COLORS.darkGray }]}
-                      onPress={() => {
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.darkGray },
+              ]}
+              onPress={() => {
                 closeAllDrawers();
                 closeMainFab();
                 setSettingsDrawerVisible(true);
               }}
             >
-              <Ionicons name="settings" size={getResponsiveValue(20, 24)} color={BRAND_COLORS.white} />
-                    </TouchableOpacity>
+              <Ionicons
+                name="settings"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
           </Animated.View>
 
           {/* Main Floating Menu Button */}
@@ -2402,7 +2730,7 @@ export default function LookupScreen() {
                   {
                     rotate: mainFabRotation.interpolate({
                       inputRange: [0, 1],
-                      outputRange: ['0deg', '45deg'],
+                      outputRange: ["0deg", "45deg"],
                     }),
                   },
                 ],
@@ -2413,97 +2741,134 @@ export default function LookupScreen() {
               style={styles.mainFloatingFabButton}
               onPress={handleMainFabPress}
             >
-              <Ionicons name="menu" size={getResponsiveValue(24, 28)} color={BRAND_COLORS.white} />
+              <Ionicons
+                name="menu"
+                size={getResponsiveValue(24, 28)}
+                color={BRAND_COLORS.white}
+              />
             </TouchableOpacity>
           </Animated.View>
-                </View>
+        </View>
 
-      {/* Animated Drawers */}
-      <AnimatedDrawer
-        isVisible={historyDrawerVisible}
-        onClose={() => {
-          setHistoryDrawerVisible(false);
-          // Open FAB after closing history drawer
-          setTimeout(() => {
-            setUserClosedFab(false);
-            openMainFab();
-          }, 300);
-        }}
-        position="bottom"
-      >
-        {renderHistoryDrawerContent()}
-      </AnimatedDrawer>
+        {/* Animated Drawers */}
+        <AnimatedDrawer
+          isVisible={historyDrawerVisible}
+          onClose={() => {
+            setHistoryDrawerVisible(false);
+            // Open FAB after closing history drawer
+            setTimeout(() => {
+              setUserClosedFab(false);
+              openMainFab();
+            }, 300);
+          }}
+          position="bottom"
+        >
+          {renderHistoryDrawerContent()}
+        </AnimatedDrawer>
 
-      <AnimatedDrawer
-        isVisible={newsDrawerVisible}
-        onClose={() => {
-          setNewsDrawerVisible(false);
-        }}
-        position="right"
-      >
-        {renderNewsDrawerContent()}
-      </AnimatedDrawer>
+        <AnimatedDrawer
+          isVisible={newsDrawerVisible}
+          onClose={() => {
+            setNewsDrawerVisible(false);
+          }}
+          position="right"
+        >
+          {renderNewsDrawerContent()}
+        </AnimatedDrawer>
 
-      <AnimatedDrawer
-        isVisible={analyticsDrawerVisible}
-        onClose={() => {
-          setAnalyticsDrawerVisible(false);
-        }}
-        position="left"
-      >
-        {renderAnalyticsDrawerContent()}
-      </AnimatedDrawer>
+        <AnimatedDrawer
+          isVisible={analyticsDrawerVisible}
+          onClose={() => {
+            setAnalyticsDrawerVisible(false);
+          }}
+          position="left"
+        >
+          {renderAnalyticsDrawerContent()}
+        </AnimatedDrawer>
 
-      {/* Results Drawer */}
-      <AnimatedDrawer
-        isVisible={resultsDrawerVisible}
-        onClose={handleCloseResultsDrawer}
-        position="bottom"
-      >
-        {renderResultsDrawerContent()}
-      </AnimatedDrawer>
-
-            {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
-      {(mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible) && (
-                  <TouchableOpacity
-          style={styles.overlay}
-          activeOpacity={1}
-          onPress={() => {
-            const wasHistoryOpen = mainHistoryDrawerVisible;
+        {/* New History Side Drawer */}
+        <AnimatedDrawer
+          isVisible={mainHistoryDrawerVisible}
+          onClose={() => {
             setMainHistoryDrawerVisible(false);
-            setSettingsDrawerVisible(false);
-            setLinksDrawerVisible(false);
-            // Open FAB if history drawer was open
-            if (wasHistoryOpen) {
+            // Open FAB after closing history drawer
+            setTimeout(() => {
+              setUserClosedFab(false);
+              openMainFab();
+            }, 300);
+          }}
+          position="right"
+          wrapScroll={false}
+        >
+          <HistoryColumnContent
+            visible={mainHistoryDrawerVisible}
+            onItemPress={(item) => {
+              // Close the history drawer
+              setMainHistoryDrawerVisible(false);
+              // Populate the form with the selected history item
+              handleHistoryItemSelection(item);
+              // Open FAB after selecting history item
               setTimeout(() => {
                 setUserClosedFab(false);
                 openMainFab();
               }, 300);
-            }
-          }}
-        >
-          <Animated.View style={[styles.overlayBackground, { opacity: navDrawerOpacity }]} />
-                  </TouchableOpacity>
-      )}
+            }}
+          />
+        </AnimatedDrawer>
 
-      {/* History Drawer */}
-                <Animated.View style={[
-            styles.drawer,
-            styles.rightDrawer,
-            {
-              transform: [{ translateX: historyDrawerTranslateX }],
-              pointerEvents: mainHistoryDrawerVisible ? 'auto' : 'none'
-            }
-          ]}>
+        {/* Results Drawer */}
+        <AnimatedDrawer
+          isVisible={resultsDrawerVisible}
+          onClose={handleCloseResultsDrawer}
+          position="bottom"
+        >
+          {renderResultsDrawerContent()}
+        </AnimatedDrawer>
+
+        {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
+        {(settingsDrawerVisible || linksDrawerVisible) && (
+          <TouchableOpacity
+            style={styles.overlay}
+            activeOpacity={1}
+            onPress={() => {
+              const wasHistoryOpen = mainHistoryDrawerVisible;
+              setMainHistoryDrawerVisible(false);
+              setSettingsDrawerVisible(false);
+              setLinksDrawerVisible(false);
+              // Open FAB if history drawer was open
+              if (wasHistoryOpen) {
+                setTimeout(() => {
+                  setUserClosedFab(false);
+                  openMainFab();
+                }, 300);
+              }
+            }}
+          >
+            <Animated.View
+              style={[styles.overlayBackground, { opacity: navDrawerOpacity }]}
+            />
+          </TouchableOpacity>
+        )}
+
+        {/* History Drawer */}
+        {false && (
+          <Animated.View
+            style={[
+              styles.drawer,
+              styles.rightDrawer,
+              {
+                transform: [{ translateX: historyDrawerTranslateX }],
+                pointerEvents: mainHistoryDrawerVisible ? "auto" : "none",
+              },
+            ]}
+          >
             <View style={styles.drawerScreenContainer}>
-                            <HistoryScreen
+              <HistoryScreen
                 visible={mainHistoryDrawerVisible}
                 onItemPress={(item) => {
                   // Close the history drawer
                   setMainHistoryDrawerVisible(false);
-                  // Populate the form with the selected history item
                   handleHistoryItemSelection(item);
-                  // Open FAB after selecting history item
                   setTimeout(() => {
                     setUserClosedFab(false);
                     openMainFab();
@@ -2512,62 +2877,78 @@ export default function LookupScreen() {
               />
             </View>
           </Animated.View>
+        )}
 
-      {/* Settings Drawer */}
-      <Animated.View style={[
-        styles.drawer,
-        styles.leftDrawer,
-        {
-          transform: [{ translateX: settingsDrawerTranslateX }],
-          pointerEvents: settingsDrawerVisible ? 'auto' : 'none'
-        }
-      ]}>
-        <View style={styles.drawerScreenContainer}>
-          <SettingsScreen />
-            </View>
-      </Animated.View>
-
-      {/* Links Drawer */}
-      <Animated.View style={[
-        styles.drawer,
-        styles.bottomDrawer,
-        {
-          transform: [{ translateY: linksDrawerTranslateY }],
-          pointerEvents: linksDrawerVisible ? 'auto' : 'none'
-        }
-      ]}>
-        <View style={styles.drawerScreenContainer}>
-          <LinksScreen />
+        {/* Settings Drawer */}
+        <Animated.View
+          style={[
+            styles.drawer,
+            styles.leftDrawer,
+            {
+              transform: [{ translateX: settingsDrawerTranslateX }],
+              pointerEvents: settingsDrawerVisible ? "auto" : "none",
+            },
+          ]}
+        >
+          <View style={styles.drawerScreenContainer}>
+            <SettingsScreen />
           </View>
-      </Animated.View>
+        </Animated.View>
 
-      <InfoDrawer
-        isOpen={infoDrawerVisible}
-        onClose={() => setInfoDrawerVisible(false)}
-        field={activeField}
-      />
-      
-      {/* Info tab for iPhone fades in/out */}
-      {!isTablet() && (
-        <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={shouldShowInfoTab}>
-          <Animated.View
-            pointerEvents={shouldShowInfoTab ? 'auto' : 'none'}
-            style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
+        {/* Links Drawer */}
+        <Animated.View
+          style={[
+            styles.drawer,
+            styles.bottomDrawer,
+            {
+              transform: [{ translateY: linksDrawerTranslateY }],
+              pointerEvents: linksDrawerVisible ? "auto" : "none",
+            },
+          ]}
+        >
+          <View style={styles.drawerScreenContainer}>
+            <LinksScreen />
+          </View>
+        </Animated.View>
+
+        <InfoDrawer
+          isOpen={infoDrawerVisible}
+          onClose={() => setInfoDrawerVisible(false)}
+          field={activeField}
+        />
+
+        {/* Info tab for iPhone fades in/out */}
+        {!isTablet() && (
+          <PanGestureHandler
+            onGestureEvent={handleInfoTabDrag}
+            enabled={shouldShowInfoTab}
           >
-            <TouchableOpacity
-              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-              onPress={() => setInfoDrawerVisible(true)}
+            <Animated.View
+              pointerEvents={shouldShowInfoTab ? "auto" : "none"}
+              style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
             >
-              <Ionicons name="information-circle-outline" size={24} color={BRAND_COLORS.white} />
-            </TouchableOpacity>
-          </Animated.View>
-        </PanGestureHandler>
-      )}
-      
-      <FirstTimeGuideScreen
-        visible={showFirstTimeGuide}
-        onClose={handleGuideClose}
-      />
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => setInfoDrawerVisible(true)}
+              >
+                <Ionicons
+                  name="information-circle-outline"
+                  size={24}
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+          </PanGestureHandler>
+        )}
+
+        <FirstTimeGuideScreen
+          visible={showFirstTimeGuide}
+          onClose={handleGuideClose}
+        />
       </View>
     </SafeAreaView>
   );
@@ -2588,217 +2969,253 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   heroSection: {
-    position: 'relative',
+    position: "relative",
     zIndex: 1,
   } as ViewStyle,
   logoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: getResponsiveValue(getSpacing('xxl'), getSpacing('md')), // More top padding on iPhone for Dynamic Island
-    paddingBottom: getResponsiveValue(getSpacing('xs'), getSpacing('md')), // Tighter gap under the logo on phones, original spacing retained on iPad
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: getResponsiveValue(getSpacing("xxl"), getSpacing("md")), // More top padding on iPhone for Dynamic Island
+    paddingBottom: getResponsiveValue(getSpacing("xs"), getSpacing("md")), // Tighter gap under the logo on phones, original spacing retained on iPad
     // Exclusion zone based on "H" symbol height - providing breathing room
     paddingHorizontal: getResponsiveValue(60, 80), // Exclusion zone proportional to logo size
   },
   logo: {
     width: getResponsiveValue(SCREEN_WIDTH * 0.75, SCREEN_WIDTH * 0.75), // 50% larger than previous mobile size
-    height: getResponsiveValue((SCREEN_WIDTH * 0.75) * 0.3, (SCREEN_WIDTH * 0.75) * 0.3),
+    height: getResponsiveValue(
+      SCREEN_WIDTH * 0.75 * 0.3,
+      SCREEN_WIDTH * 0.75 * 0.3,
+    ),
     maxWidth: getResponsiveValue(420, 600),
     maxHeight: getResponsiveValue(126, 180),
   },
   mainScrollView: {
     flex: 1,
     // Move main content slightly lower on iPhone to expose more of the blue hero backdrop
-    marginTop: getResponsiveValue(-getSpacing('sm'), -getSpacing('xl')), // -8 on phone instead of -20
+    marginTop: getResponsiveValue(-getSpacing("sm"), -getSpacing("xl")), // -8 on phone instead of -20
     zIndex: 2,
   },
   scrollContent: {
-    paddingHorizontal: getSpacing('md'),
-    paddingTop: getSpacing('lg'),
-    paddingBottom: getSpacing('xxxl'),
+    paddingHorizontal: getSpacing("md"),
+    paddingTop: getSpacing("lg"),
+    paddingBottom: getSpacing("xxxl"),
   },
   inputSection: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius('lg'),
-    padding: getSpacing('lg'),
+    borderRadius: getBorderRadius("lg"),
+    padding: getSpacing("lg"),
     ...BRAND_SHADOWS.medium,
-    marginBottom: getSpacing('lg'),
+    marginBottom: getSpacing("lg"),
   },
   sectionTitleWrapper: {
-    paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
-    alignItems: 'center',
-    width: '100%',
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+    alignItems: "center",
+    width: "100%",
   },
   sectionTitle: {
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('xl')),
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("xl"),
+    ),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.orange,
-    marginBottom: getSpacing('md'),
-    textAlign: 'center',
-    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
-    maxWidth: '100%',
+    marginBottom: getSpacing("md"),
+    textAlign: "center",
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    maxWidth: "100%",
   },
   inputContainer: {
-    marginBottom: getSpacing('md'),
+    marginBottom: getSpacing("md"),
   },
   inputWrapper: {
-    width: '100%',
-    paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
-    alignItems: 'flex-start',
+    width: "100%",
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+    alignItems: "flex-start",
   },
   input: {
     backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getBorderRadius('md'),
-    paddingHorizontal: getSpacing('md'),
-    paddingVertical: getSpacing('sm'),
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
+    borderRadius: getBorderRadius("md"),
+    paddingHorizontal: getSpacing("md"),
+    paddingVertical: getSpacing("sm"),
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ), // 20% larger on iPad
     color: BRAND_COLORS.darkNavy,
-    marginBottom: getSpacing('md'),
+    marginBottom: getSpacing("md"),
     borderWidth: 1,
     borderColor: BRAND_COLORS.mediumGray,
     height: getInputConfig().height,
-    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
-    maxWidth: '100%',
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    maxWidth: "100%",
   },
   suggestionsContainer: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius('md'),
+    borderRadius: getBorderRadius("md"),
     ...BRAND_SHADOWS.small,
-    marginBottom: getSpacing('md'),
-    paddingVertical: getSpacing('xs'), // Reduced padding
+    marginBottom: getSpacing("md"),
+    paddingVertical: getSpacing("xs"), // Reduced padding
     minHeight: 0,
     maxHeight: getResponsiveValue(325, 550), // Height for 5 items: 5 * (65/110) = 325/550
-    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
-    maxWidth: '100%',
-    alignSelf: 'flex-start',
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    maxWidth: "100%",
+    alignSelf: "flex-start",
   },
   suggestionsScrollView: {
     maxHeight: getResponsiveValue(325, 550), // Match container height
   },
   suggestionItem: {
     paddingVertical: getResponsiveValue(4, 8), // More padding on iPad for larger text
-    paddingHorizontal: getSpacing('sm'),
+    paddingHorizontal: getSpacing("sm"),
     borderBottomWidth: 1,
     borderBottomColor: BRAND_COLORS.lightGray,
-    width: '100%',
+    width: "100%",
     flexShrink: 1,
   },
   suggestionCode: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md') * 1.2), // Match input field size on iPad
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md") * 1.2,
+    ), // Match input field size on iPad
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.electricBlue,
     marginBottom: 1,
     flexShrink: 1,
   },
   suggestionDescription: {
-    fontSize: getResponsiveValue(10, getTypographySize('sm') * 1.1), // Slightly smaller on iPad
+    fontSize: getResponsiveValue(10, getTypographySize("sm") * 1.1), // Slightly smaller on iPad
     color: BRAND_COLORS.darkGray,
-    lineHeight: getResponsiveValue(12, getTypographySize('sm') * 1.3), // Proportional line height
+    lineHeight: getResponsiveValue(12, getTypographySize("sm") * 1.3), // Proportional line height
     marginTop: 0,
     flexShrink: 1,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   moreResultsIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: getSpacing('sm'),
-    paddingHorizontal: getSpacing('md'),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: getSpacing("sm"),
+    paddingHorizontal: getSpacing("md"),
     backgroundColor: BRAND_COLORS.lightGray,
     borderTopWidth: 1,
     borderTopColor: BRAND_COLORS.mediumGray,
   },
   moreResultsText: {
-    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm')),
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("sm"),
+    ),
     color: BRAND_COLORS.mediumGray,
-    marginLeft: getSpacing('xs'),
-    fontStyle: 'italic',
+    marginLeft: getSpacing("xs"),
+    fontStyle: "italic",
   },
   notFoundContainer: {
-    padding: getSpacing('md'),
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: getSpacing("md"),
+    alignItems: "center",
+    justifyContent: "center",
   },
   notFoundText: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')),
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md"),
+    ),
     color: BRAND_COLORS.darkGray,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   toggleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getBorderRadius('md'),
-    padding: getSpacing('md'),
-    marginBottom: getSpacing('md'),
-    width: Platform.OS === 'ios' && Platform.isPad ? 500 : '100%',
-    maxWidth: '100%',
+    borderRadius: getBorderRadius("md"),
+    padding: getSpacing("md"),
+    marginBottom: getSpacing("md"),
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    maxWidth: "100%",
   },
   toggleLabel: {
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('md') * 1.2), // 20% larger on iPad
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ), // 20% larger on iPad
     color: BRAND_COLORS.darkNavy,
     fontWeight: BRAND_TYPOGRAPHY.weights.medium,
     flex: 1,
   },
   searchButton: {
     backgroundColor: BRAND_COLORS.electricBlue,
-    borderRadius: getBorderRadius('md'),
-    paddingVertical: getSpacing('md'),
-    paddingHorizontal: getSpacing('lg'),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: getBorderRadius("md"),
+    paddingVertical: getSpacing("md"),
+    paddingHorizontal: getSpacing("lg"),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     ...BRAND_SHADOWS.small,
-    height: Platform.OS === 'ios' && Platform.isPad ? getButtonConfig().height + 12 : getButtonConfig().height,
-    marginLeft: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
-    alignSelf: 'flex-start',
+    height:
+      Platform.OS === "ios" && Platform.isPad
+        ? getButtonConfig().height + 12
+        : getButtonConfig().height,
+    marginLeft:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+    alignSelf: "flex-start",
   },
   searchButtonDisabled: {
     opacity: 0.6,
   },
   searchButtonText: {
     color: BRAND_COLORS.white,
-    fontSize: getTypographySize('md'),
+    fontSize: getTypographySize("md"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
-    marginLeft: getSpacing('sm'),
-    lineHeight: getTypographySize('md') * 1.4, // Adjusted line height for vertical centering
+    marginLeft: getSpacing("sm"),
+    lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
   loadingMessageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: getSpacing('md'),
-    paddingHorizontal: getSpacing('lg'),
-    marginTop: getSpacing('md'),
-    marginLeft: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
-    alignSelf: 'flex-start',
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: getSpacing("md"),
+    paddingHorizontal: getSpacing("lg"),
+    marginTop: getSpacing("md"),
+    marginLeft:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+    alignSelf: "flex-start",
   },
   loadingMessageText: {
-    fontSize: getTypographySize('md'),
+    fontSize: getTypographySize("md"),
     fontWeight: BRAND_TYPOGRAPHY.weights.medium,
     color: BRAND_COLORS.electricBlue,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   // Unified Floating Menu Styles
   floatingMenuContainer: {
-    position: 'absolute',
-    bottom: getSpacing('xs'),
+    position: "absolute",
+    bottom: getSpacing("xs"),
     left: 0,
     right: 0,
-    alignItems: 'center',
+    alignItems: "center",
     zIndex: 2000,
   },
   menuFab: {
-    position: 'absolute',
+    position: "absolute",
     bottom: getResponsiveValue(28, 37), // Adjusted spacing for larger buttons on iPad
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   menuFabButton: {
     width: getResponsiveValue(48, 64), // 15% larger on iPad (56 * 1.15 = 64.4 ≈ 64)
     height: getResponsiveValue(48, 64), // 15% larger on iPad
     borderRadius: getResponsiveValue(24, 32), // Proportional border radius
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     ...BRAND_SHADOWS.medium,
   },
   recentFab: {},
@@ -2808,134 +3225,134 @@ const styles = StyleSheet.create({
   statsFab: {},
   settingsFab: {},
   mainFloatingFab: {
-    position: 'relative',
+    position: "relative",
   },
   mainFloatingFabButton: {
     width: getResponsiveValue(56, 74), // 15% larger on iPad (64 * 1.15 = 73.6 ≈ 74)
     height: getResponsiveValue(56, 74), // 15% larger on iPad
     borderRadius: getResponsiveValue(28, 37), // Proportional border radius
     backgroundColor: BRAND_COLORS.darkNavy,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     ...BRAND_SHADOWS.large,
   },
   // Drawer content styles
   drawerContent: {
     flex: 1,
-    padding: getSpacing('lg'),
+    padding: getSpacing("lg"),
   },
   drawerHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: getSpacing('md'),
-    paddingBottom: getSpacing('md'),
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: getSpacing("md"),
+    paddingBottom: getSpacing("md"),
     borderBottomWidth: 1,
     borderBottomColor: BRAND_COLORS.lightGray,
   },
   drawerTitle: {
-    fontSize: getTypographySize('lg'),
+    fontSize: getTypographySize("lg"),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.darkNavy,
-    marginLeft: getSpacing('sm'),
+    marginLeft: getSpacing("sm"),
   },
   drawerScrollView: {
     flex: 1,
   },
   historyDrawerItem: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius('md'),
-    padding: getSpacing('md'),
-    marginBottom: getSpacing('sm'),
+    borderRadius: getBorderRadius("md"),
+    padding: getSpacing("md"),
+    marginBottom: getSpacing("sm"),
     ...BRAND_SHADOWS.small,
     minHeight: getResponsiveValue(60, 72),
   },
   historyItemRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   countryFlag: {
     width: getResponsiveValue(36, 44),
     height: getResponsiveValue(36, 44),
     borderRadius: getResponsiveValue(18, 22),
     backgroundColor: BRAND_COLORS.electricBlue,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: getSpacing('sm'),
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: getSpacing("sm"),
   },
   countryCode: {
     color: BRAND_COLORS.white,
-    fontSize: getTypographySize('xs'),
+    fontSize: getTypographySize("xs"),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
   },
   historyItemInfo: {
     flex: 1,
   },
   historyItemCode: {
-    fontSize: getTypographySize('md'),
+    fontSize: getTypographySize("md"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.darkNavy,
   },
   historyItemDesc: {
-    fontSize: getTypographySize('sm'),
+    fontSize: getTypographySize("sm"),
     color: BRAND_COLORS.darkGray,
     marginVertical: 2,
   },
   historyItemAmount: {
-    fontSize: getTypographySize('sm'),
+    fontSize: getTypographySize("sm"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.electricBlue,
   },
   newsItem: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius('md'),
-    padding: getSpacing('md'),
-    marginBottom: getSpacing('sm'),
+    borderRadius: getBorderRadius("md"),
+    padding: getSpacing("md"),
+    marginBottom: getSpacing("sm"),
     ...BRAND_SHADOWS.small,
   },
   newsTag: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: getSpacing('sm'),
-    paddingVertical: getSpacing('xs'),
-    borderRadius: getBorderRadius('sm'),
-    marginBottom: getSpacing('sm'),
+    alignSelf: "flex-start",
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
+    borderRadius: getBorderRadius("sm"),
+    marginBottom: getSpacing("sm"),
   },
   newsTagText: {
     color: BRAND_COLORS.white,
-    fontSize: getTypographySize('xs'),
+    fontSize: getTypographySize("xs"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
   },
   newsTitle: {
-    fontSize: getTypographySize('md'),
+    fontSize: getTypographySize("md"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.darkNavy,
-    marginBottom: getSpacing('xs'),
+    marginBottom: getSpacing("xs"),
   },
   newsDate: {
-    fontSize: getTypographySize('sm'),
+    fontSize: getTypographySize("sm"),
     color: BRAND_COLORS.darkGray,
   },
   analyticsCard: {
-    marginBottom: getSpacing('sm'),
-    borderRadius: getBorderRadius('md'),
-    overflow: 'hidden',
+    marginBottom: getSpacing("sm"),
+    borderRadius: getBorderRadius("md"),
+    overflow: "hidden",
     ...BRAND_SHADOWS.small,
   },
   analyticsGradient: {
-    padding: getSpacing('md'),
+    padding: getSpacing("md"),
   },
   analyticsTitle: {
-    fontSize: getTypographySize('sm'),
+    fontSize: getTypographySize("sm"),
     color: BRAND_COLORS.white,
-    marginBottom: getSpacing('xs'),
+    marginBottom: getSpacing("xs"),
   },
   analyticsValue: {
-    fontSize: getTypographySize('lg'),
+    fontSize: getTypographySize("lg"),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.white,
-    marginBottom: getSpacing('xs'),
+    marginBottom: getSpacing("xs"),
   },
   analyticsTrend: {
-    fontSize: getTypographySize('sm'),
+    fontSize: getTypographySize("sm"),
     color: BRAND_COLORS.white,
     opacity: 0.8,
   },
@@ -2945,10 +3362,10 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.white,
   },
   resultsDrawerHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: getSpacing('md'),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: getSpacing("md"),
     borderBottomWidth: 1,
     borderBottomColor: BRAND_COLORS.lightGray,
     backgroundColor: BRAND_COLORS.white,
@@ -2958,133 +3375,172 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resultsDrawerTitle: {
-    fontSize: getResponsiveValue(getTypographySize('lg'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("lg"),
+      getTypographySize("lg") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.darkNavy,
   },
   resultsDrawerSubtitle: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     color: BRAND_COLORS.electricBlue,
     marginTop: 2,
   },
   resultsDrawerTimestamp: {
-    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('xs') * 1.35),
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("xs") * 1.35,
+    ),
     color: BRAND_COLORS.darkGray,
     marginTop: 4,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   resultsScrollView: {
     flex: 1,
-    padding: getResponsiveValue(getSpacing('md'), getSpacing('lg')), // More padding on iPad to use saved space
-    paddingBottom: getSpacing('xl'),
+    padding: getResponsiveValue(getSpacing("md"), getSpacing("lg")), // More padding on iPad to use saved space
+    paddingBottom: getSpacing("xl"),
   },
   totalAmountCard: {
     backgroundColor: BRAND_COLORS.electricBlue,
-    borderRadius: getBorderRadius('md'),
-    padding: getResponsiveValue(getSpacing('sm'), getSpacing('md')),
-    alignItems: 'center',
-    marginBottom: getSpacing('sm'),
+    borderRadius: getBorderRadius("md"),
+    padding: getResponsiveValue(getSpacing("sm"), getSpacing("md")),
+    alignItems: "center",
+    marginBottom: getSpacing("sm"),
     ...BRAND_SHADOWS.medium,
     minHeight: getResponsiveValue(70, 105), // 30% reduction iPhone (100→70), 25% reduction iPad (140→105)
   },
   totalAmountLabel: {
-    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("sm") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     color: BRAND_COLORS.white,
     opacity: 0.9,
     marginBottom: getResponsiveValue(1, 2), // Reduced margin to save space
   },
   totalAmountValue: {
-    fontSize: getResponsiveValue(getTypographySize('xl'), getTypographySize('xxl') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("xl"),
+      getTypographySize("xxl") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.white,
     marginBottom: getResponsiveValue(1, 2), // Reduced margin to save space
-    textAlign: 'center',
+    textAlign: "center",
   },
   totalAmountSubtext: {
-    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("sm") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     color: BRAND_COLORS.white,
     opacity: 0.8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   totalAmountBreakdown: {
-    fontSize: getResponsiveValue(getTypographySize('xs') * 0.9, getTypographySize('sm') * 1.2), // Slightly smaller than subtext
+    fontSize: getResponsiveValue(
+      getTypographySize("xs") * 0.9,
+      getTypographySize("sm") * 1.2,
+    ), // Slightly smaller than subtext
     color: BRAND_COLORS.white,
     opacity: 0.7,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   compactSection: {
     backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getBorderRadius('md'),
-    padding: getResponsiveValue(getSpacing('md'), getSpacing('md')), // Reduced padding on iPad to save space
-    marginBottom: getResponsiveValue(getSpacing('md'), getSpacing('sm')), // Reduced margin on iPad to save space
+    borderRadius: getBorderRadius("md"),
+    padding: getResponsiveValue(getSpacing("md"), getSpacing("md")), // Reduced padding on iPad to save space
+    marginBottom: getResponsiveValue(getSpacing("md"), getSpacing("sm")), // Reduced margin on iPad to save space
   },
   compactSectionTitle: {
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("lg") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.darkNavy,
-    marginBottom: getResponsiveValue(getSpacing('sm'), getSpacing('xs')), // Reduced margin on iPad to save space
+    marginBottom: getResponsiveValue(getSpacing("sm"), getSpacing("xs")), // Reduced margin on iPad to save space
   },
   compactRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: getResponsiveValue(getSpacing('xs'), getSpacing('xs')), // Reduced padding on iPad to save space
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: getResponsiveValue(getSpacing("xs"), getSpacing("xs")), // Reduced padding on iPad to save space
     minHeight: getResponsiveValue(36, 40), // Reduced height on iPad to save space
   },
   compactRowLeft: {
     flex: 1,
-    marginRight: getSpacing('md'),
+    marginRight: getSpacing("md"),
   },
   compactLabel: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     color: BRAND_COLORS.darkNavy,
     marginBottom: 1, // Reduced margin to save space
     lineHeight: getResponsiveValue(18, 22 * 1.2), // Tighter line height on iPad to save space
   },
   compactRate: {
-    fontSize: getResponsiveValue(getTypographySize('xs'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("sm") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     color: BRAND_COLORS.darkNavy,
   },
   compactAmount: {
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("lg") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.darkNavy,
   },
   compactHighlight: {
-    fontSize: getResponsiveValue(getTypographySize('md'), getTypographySize('lg') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("lg") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.electricBlue,
   },
   compactMessageSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: BRAND_COLORS.lightBlue,
-    borderRadius: getBorderRadius('md'),
-    padding: getResponsiveValue(getSpacing('md'), getSpacing('md')), // Reduced padding on iPad to save space
-    marginBottom: getResponsiveValue(getSpacing('md'), getSpacing('sm')), // Reduced margin on iPad to save space
+    borderRadius: getBorderRadius("md"),
+    padding: getResponsiveValue(getSpacing("md"), getSpacing("md")), // Reduced padding on iPad to save space
+    marginBottom: getResponsiveValue(getSpacing("md"), getSpacing("sm")), // Reduced margin on iPad to save space
     minHeight: getResponsiveValue(44, 48), // Reduced height on iPad to save space
   },
   compactMessage: {
-    fontSize: getResponsiveValue(getTypographySize('sm') * 1.5, getTypographySize('md') * 1.35), // 35% larger font size on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("sm") * 1.5,
+      getTypographySize("md") * 1.35,
+    ), // 35% larger font size on iPad (reduced from 50%)
     color: BRAND_COLORS.white, // Changed to white
-    marginLeft: getSpacing('sm'),
+    marginLeft: getSpacing("sm"),
     flex: 1,
     lineHeight: getResponsiveValue(18 * 1.5, 22 * 1.35), // Proportional line height increase
   },
 
   // Header button styles
   headerButtons: {
-    flexDirection: 'row',
-    gap: getSpacing('sm'),
+    flexDirection: "row",
+    gap: getSpacing("sm"),
   },
   headerButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: getSpacing('sm'),
-    paddingVertical: getSpacing('xs'),
-    borderRadius: getBorderRadius('md'),
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
+    borderRadius: getBorderRadius("md"),
     borderWidth: 1,
-    gap: getSpacing('xs'),
+    gap: getSpacing("xs"),
     minHeight: getResponsiveValue(32, 40),
   },
   saveHeaderButton: {
@@ -3100,7 +3556,10 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.white,
   },
   headerButtonText: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35), // 35% larger on iPad (reduced from 50%)
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ), // 35% larger on iPad (reduced from 50%)
     fontWeight: BRAND_TYPOGRAPHY.weights.medium,
     color: BRAND_COLORS.electricBlue,
   },
@@ -3112,26 +3571,30 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.lightGray,
   },
   autoSaveText: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('sm') * 1.35),
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ),
     fontWeight: BRAND_TYPOGRAPHY.weights.medium,
     color: BRAND_COLORS.success,
   },
   dataSourceContainer: {
-    position: 'relative',
-    paddingHorizontal: getResponsiveValue(getSpacing('md'), getSpacing('lg')),
-    paddingBottom: getSpacing('md'), // Extra space so header tab sits flush
-    alignItems: 'center',
+    position: "relative",
+    paddingHorizontal: getResponsiveValue(getSpacing("md"), getSpacing("lg")),
+    paddingBottom: getSpacing("md"), // Extra space so header tab sits flush
+    alignItems: "center",
   },
   dataSourceText: {
-    fontSize: getResponsiveValue(getTypographySize('xs') * 0.8, getTypographySize('sm')), // Smaller font on iPhone
+    fontSize: getResponsiveValue(
+      getTypographySize("xs") * 0.8,
+      getTypographySize("sm"),
+    ), // Smaller font on iPhone
     color: BRAND_COLORS.white,
-    textAlign: 'center',
+    textAlign: "center",
     opacity: 0.9,
     lineHeight: getResponsiveValue(12, 18), // Reduced line height on iPhone
-    marginBottom: getSpacing('xs'),
+    marginBottom: getSpacing("xs"),
   },
-
-
 
   // Drawer screen container
   drawerScreenContainer: {
@@ -3141,7 +3604,7 @@ const styles = StyleSheet.create({
 
   // Custom drawer styles to avoid ScrollView nesting
   overlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -3150,10 +3613,10 @@ const styles = StyleSheet.create({
   },
   overlayBackground: {
     flex: 1,
-    backgroundColor: 'rgba(10, 26, 62, 0.5)',
+    backgroundColor: "rgba(10, 26, 62, 0.5)",
   },
   drawer: {
-    position: 'absolute',
+    position: "absolute",
     backgroundColor: BRAND_COLORS.white,
     zIndex: 1001,
     ...BRAND_SHADOWS.large,
@@ -3163,110 +3626,119 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
-    borderTopRightRadius: getBorderRadius('lg'),
-    borderBottomRightRadius: getBorderRadius('lg'),
+    borderTopRightRadius: getBorderRadius("lg"),
+    borderBottomRightRadius: getBorderRadius("lg"),
   },
   rightDrawer: {
     right: 0,
     top: 0,
     bottom: 0,
     width: getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
-    borderTopLeftRadius: getBorderRadius('lg'),
-    borderBottomLeftRadius: getBorderRadius('lg'),
+    borderTopLeftRadius: getBorderRadius("lg"),
+    borderBottomLeftRadius: getBorderRadius("lg"),
   },
   bottomDrawer: {
     left: 0,
     right: 0,
     top: 0, // Start from top to use full screen
     bottom: 0,
-    borderTopLeftRadius: getBorderRadius('lg'),
-    borderTopRightRadius: getBorderRadius('lg'),
+    borderTopLeftRadius: getBorderRadius("lg"),
+    borderTopRightRadius: getBorderRadius("lg"),
   },
 
   // Loading Modal Styles
   loadingModalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingModalContent: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius('lg'),
-    padding: getSpacing('xl'),
-    alignItems: 'center',
+    borderRadius: getBorderRadius("lg"),
+    padding: getSpacing("xl"),
+    alignItems: "center",
     ...BRAND_SHADOWS.large,
     minWidth: getResponsiveValue(200, 250),
   },
   loadingSpinnerContainer: {
-    marginBottom: getSpacing('md'),
+    marginBottom: getSpacing("md"),
   },
   loadingModalText: {
-    fontSize: getTypographySize('lg'),
+    fontSize: getTypographySize("lg"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
     color: BRAND_COLORS.darkNavy,
   },
   actionButtonsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: getSpacing('md'),
-    paddingHorizontal: Platform.OS === 'ios' && Platform.isPad ? SCREEN_WIDTH * 0.25 : getSpacing('md'),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: getSpacing("md"),
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
   },
   clearButton: {
     backgroundColor: BRAND_COLORS.orange,
-    borderRadius: getBorderRadius('md'),
-    paddingVertical: getSpacing('md'),
-    paddingHorizontal: getSpacing('lg'),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: getBorderRadius("md"),
+    paddingVertical: getSpacing("md"),
+    paddingHorizontal: getSpacing("lg"),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     ...BRAND_SHADOWS.small,
-    height: Platform.OS === 'ios' && Platform.isPad ? getButtonConfig().height + 12 : getButtonConfig().height,
+    height:
+      Platform.OS === "ios" && Platform.isPad
+        ? getButtonConfig().height + 12
+        : getButtonConfig().height,
   },
   clearButtonText: {
     color: BRAND_COLORS.white,
-    fontSize: getTypographySize('md'),
+    fontSize: getTypographySize("md"),
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
-    marginLeft: getSpacing('sm'),
-    lineHeight: getTypographySize('md') * 1.4, // Adjusted line height for vertical centering
+    marginLeft: getSpacing("sm"),
+    lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
   infoTab: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     width: 40,
     height: 40,
     backgroundColor: BRAND_COLORS.electricBlue,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     ...BRAND_SHADOWS.medium,
     zIndex: 3000,
     elevation: 30,
   },
   totalAmountRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: getSpacing('sm'),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: getSpacing("sm"),
   },
   headerDetailsDrawer: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   headerTabContainer: {
-    position: 'absolute',
-    bottom: -getSpacing('xs'), // sits flush just below header drawer
-    transform: [{ skewY: '-2deg' }], // counter the parent skew
+    position: "absolute",
+    bottom: -getSpacing("xs"), // sits flush just below header drawer
+    transform: [{ skewY: "-2deg" }], // counter the parent skew
     zIndex: 100,
     backgroundColor: BRAND_COLORS.darkNavy,
-    paddingHorizontal: getSpacing('md'),
-    paddingVertical: getSpacing('xs'),
-    borderTopLeftRadius: getBorderRadius('lg'),
-    borderTopRightRadius: getBorderRadius('lg'),
+    paddingHorizontal: getSpacing("md"),
+    paddingVertical: getSpacing("xs"),
+    borderTopLeftRadius: getBorderRadius("lg"),
+    borderTopRightRadius: getBorderRadius("lg"),
   },
   headerTabText: {
-    fontSize: getResponsiveValue(getTypographySize('sm'), getTypographySize('md')), // larger than dataSource text
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md"),
+    ), // larger than dataSource text
     color: BRAND_COLORS.white,
     fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
   },

@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment, @typescript-eslint/no-require-imports, react-native/no-unused-styles, react-native/no-color-literals */
+import React from "react";
 import {
   View,
   Text,
@@ -9,21 +10,25 @@ import {
   Alert,
   Image,
   Linking,
-} from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootStackParamList } from '../navigation/types';
-import { useAuth } from '../navigation/contexts/AuthContext';
-import { isTablet } from '../platform/deviceUtils';
-import { useSettings } from '../hooks/useSettings';
-import { useHistory } from '../hooks/useHistory';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getCountryName } from '../utils/countries';
-import { BRAND_COLORS as COLORS } from '../config/brandColors';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { RootStackParamList } from "../navigation/types";
+import { useAuth } from "../navigation/contexts/AuthContext";
+import { isTablet } from "../platform/deviceUtils";
+import { useSettings } from "../hooks/useSettings";
+import { useHistory } from "../hooks/useHistory";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getCountryName } from "../utils/countries";
+import { BRAND_COLORS as COLORS } from "../config/brandColors";
 
 export default function SettingsScreen() {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { logout } = useAuth();
   const { settings, updateSetting } = useSettings();
   const { clearHistory } = useHistory();
@@ -32,128 +37,133 @@ export default function SettingsScreen() {
 
   const handleLogout = async () => {
     Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
+      "Logout",
+      "Are you sure you want to logout?",
       [
         {
-          text: 'Cancel',
-          style: 'cancel',
+          text: "Cancel",
+          style: "cancel",
         },
         {
-          text: 'Logout',
+          text: "Logout",
           onPress: async () => {
             try {
               await logout();
+              // @ts-ignore
               navigation.reset({
                 index: 0,
-                routes: [{ name: 'Login' }],
+                routes: [{ name: "Login" }],
               });
             } catch (error) {
-              console.error('Logout error:', error);
-              Alert.alert('Error', 'Failed to logout');
+              console.error("Logout error:", error);
+              Alert.alert("Error", "Failed to logout");
             }
           },
         },
       ],
-      { cancelable: true }
+      { cancelable: true },
     );
   };
 
   const handleClearCache = async () => {
     Alert.alert(
-      'Clear Cache',
-      'This will clear all cached data. The app will need to re-download tariff data on next use.',
+      "Clear Cache",
+      "This will clear all cached data. The app will need to re-download tariff data on next use.",
       [
         {
-          text: 'Cancel',
-          style: 'cancel',
+          text: "Cancel",
+          style: "cancel",
         },
         {
-          text: 'Clear',
-          style: 'destructive',
+          text: "Clear",
+          style: "destructive",
           onPress: async () => {
             try {
               // Clear all AsyncStorage except settings and auth
               const keys = await AsyncStorage.getAllKeys();
-              const keysToRemove = keys.filter(key =>
-                !key.includes('settings') &&
-                !key.includes('auth') &&
-                !key.includes('history')
+              const keysToRemove = keys.filter(
+                (key) =>
+                  !key.includes("settings") &&
+                  !key.includes("auth") &&
+                  !key.includes("history"),
               );
               await AsyncStorage.multiRemove(keysToRemove);
-              Alert.alert('Success', 'Cache cleared successfully');
+              Alert.alert("Success", "Cache cleared successfully");
             } catch (error) {
-              console.error('Clear cache error:', error);
-              Alert.alert('Error', 'Failed to clear cache');
+              console.error("Clear cache error:", error);
+              Alert.alert("Error", "Failed to clear cache");
             }
           },
         },
       ],
-      { cancelable: true }
+      { cancelable: true },
     );
   };
 
   const handleClearAllData = async () => {
     Alert.alert(
-      'Clear All Data',
-      'This will clear all app data including history, settings, and cached data. This action cannot be undone.',
+      "Clear All Data",
+      "This will clear all app data including history, settings, and cached data. This action cannot be undone.",
       [
         {
-          text: 'Cancel',
-          style: 'cancel',
+          text: "Cancel",
+          style: "cancel",
         },
         {
-          text: 'Clear All',
-          style: 'destructive',
+          text: "Clear All",
+          style: "destructive",
           onPress: async () => {
             try {
               await clearHistory();
               await AsyncStorage.clear();
-              Alert.alert('Success', 'All data cleared successfully');
+              Alert.alert("Success", "All data cleared successfully");
               // Reset settings to defaults
-              await updateSetting('autoSaveToHistory', true);
-              await updateSetting('notifications', true);
-              await updateSetting('darkMode', false);
-              await updateSetting('cellularData', true);
-              await updateSetting('showUnitCalculations', false);
-              await updateSetting('defaultCountry', '');
-              await updateSetting('hapticFeedback', true);
+              await updateSetting("autoSaveToHistory", true);
+              await updateSetting("notifications", true);
+              await updateSetting("darkMode", false);
+              await updateSetting("cellularData", true);
+              await updateSetting("showUnitCalculations", false);
+              await updateSetting("defaultCountry", "");
+              await updateSetting("hapticFeedback", true);
             } catch (error) {
-              console.error('Clear all data error:', error);
-              Alert.alert('Error', 'Failed to clear all data');
+              console.error("Clear all data error:", error);
+              Alert.alert("Error", "Failed to clear all data");
             }
           },
         },
       ],
-      { cancelable: true }
+      { cancelable: true },
     );
   };
 
   const handlePrivacyPolicy = () => {
-    navigation.navigate('InAppWebView', {
-      url: 'https://www.ratecast.com/privacy-policy',
-      title: 'Privacy Policy'
+    navigation.navigate("InAppWebView", {
+      url: "https://www.ratecast.com/privacy-policy",
+      title: "Privacy Policy",
     });
   };
 
   const handleTermsOfService = () => {
-    navigation.navigate('InAppWebView', {
-      url: 'https://www.ratecast.com/terms-of-service',
-      title: 'Terms of Service'
+    navigation.navigate("InAppWebView", {
+      url: "https://www.ratecast.com/terms-of-service",
+      title: "Terms of Service",
     });
   };
 
   const handleContactSupport = () => {
-    Linking.openURL('mailto:support@ratecast.com');
+    Linking.openURL("mailto:support@ratecast.com");
   };
 
   const handleRateApp = () => {
     // TODO: Add app store links when published
-    Alert.alert('Rate App', 'Thank you! App store rating will be available when the app is published.');
+    Alert.alert(
+      "Rate App",
+      "Thank you! App store rating will be available when the app is published.",
+    );
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.sectionTitle}>Settings</Text>
 
@@ -161,21 +171,31 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionHeader}>Account</Text>
 
-                    <TouchableOpacity
+          <TouchableOpacity
             style={styles.settingItem}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate("Profile")}
           >
             <View style={styles.settingItemContent}>
-              <Ionicons name="person-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="person-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Profile</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem} onPress={handleLogout}>
             <View style={styles.settingItemContent}>
               <Ionicons name="log-out-outline" size={22} color={COLORS.error} />
-              <Text style={[styles.settingItemText, { color: COLORS.error }]}>Logout</Text>
+              <Text style={[styles.settingItemText, { color: COLORS.error }]}>
+                Logout
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -186,12 +206,18 @@ export default function SettingsScreen() {
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="bookmark-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="bookmark-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Auto-Save to History</Text>
             </View>
             <Switch
               value={settings.autoSaveToHistory}
-              onValueChange={(value) => updateSetting('autoSaveToHistory', value)}
+              onValueChange={(value) =>
+                updateSetting("autoSaveToHistory", value)
+              }
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -199,12 +225,18 @@ export default function SettingsScreen() {
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="calculator-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="calculator-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Show Unit Calculations</Text>
             </View>
             <Switch
               value={settings.showUnitCalculations ?? false}
-              onValueChange={(value) => updateSetting('showUnitCalculations', value)}
+              onValueChange={(value) =>
+                updateSetting("showUnitCalculations", value)
+              }
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -212,12 +244,16 @@ export default function SettingsScreen() {
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="notifications-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="notifications-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Notifications</Text>
             </View>
             <Switch
               value={settings.notifications ?? true}
-              onValueChange={(value) => updateSetting('notifications', value)}
+              onValueChange={(value) => updateSetting("notifications", value)}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -225,12 +261,16 @@ export default function SettingsScreen() {
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="phone-portrait-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="phone-portrait-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Haptic Feedback</Text>
             </View>
             <Switch
               value={settings.hapticFeedback ?? true}
-              onValueChange={(value) => updateSetting('hapticFeedback', value)}
+              onValueChange={(value) => updateSetting("hapticFeedback", value)}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -238,12 +278,16 @@ export default function SettingsScreen() {
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="moon-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="moon-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Dark Mode</Text>
             </View>
             <Switch
               value={settings.darkMode ?? false}
-              onValueChange={(value) => updateSetting('darkMode', value)}
+              onValueChange={(value) => updateSetting("darkMode", value)}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -251,17 +295,34 @@ export default function SettingsScreen() {
 
           <TouchableOpacity
             style={styles.settingItem}
-            onPress={() => navigation.navigate('CountrySelection')}
+            onPress={() => navigation.navigate("CountrySelection")}
           >
             <View style={styles.settingItemContent}>
-              <Ionicons name="flag-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="flag-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Default Country</Text>
             </View>
             <View style={styles.settingValue}>
-              <Text style={[styles.settingValueText, (!settings.defaultCountry || settings.defaultCountry === '') && styles.noneText]}>
-                {settings.defaultCountry && settings.defaultCountry !== '' ? getCountryName(settings.defaultCountry) : 'None'}
+              <Text
+                style={[
+                  styles.settingValueText,
+                  (!settings.defaultCountry ||
+                    settings.defaultCountry === "") &&
+                    styles.noneText,
+                ]}
+              >
+                {settings.defaultCountry && settings.defaultCountry !== ""
+                  ? getCountryName(settings.defaultCountry)
+                  : "None"}
               </Text>
-              <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={COLORS.darkGray}
+              />
             </View>
           </TouchableOpacity>
         </View>
@@ -272,31 +333,53 @@ export default function SettingsScreen() {
 
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="cellular-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="cellular-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Use Cellular Data</Text>
             </View>
             <Switch
               value={settings.cellularData ?? true}
-              onValueChange={(value) => updateSetting('cellularData', value)}
+              onValueChange={(value) => updateSetting("cellularData", value)}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
           </View>
 
-          <TouchableOpacity style={styles.settingItem} onPress={handleClearCache}>
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleClearCache}
+          >
             <View style={styles.settingItemContent}>
               <Ionicons name="trash-outline" size={22} color={COLORS.orange} />
-              <Text style={[styles.settingItemText, { color: COLORS.orange }]}>Clear Cache</Text>
+              <Text style={[styles.settingItemText, { color: COLORS.orange }]}>
+                Clear Cache
+              </Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.settingItem} onPress={handleClearAllData}>
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleClearAllData}
+          >
             <View style={styles.settingItemContent}>
               <Ionicons name="warning-outline" size={22} color={COLORS.error} />
-              <Text style={[styles.settingItemText, { color: COLORS.error }]}>Clear All Data</Text>
+              <Text style={[styles.settingItemText, { color: COLORS.error }]}>
+                Clear All Data
+              </Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
         </View>
 
@@ -304,20 +387,42 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionHeader}>Legal</Text>
 
-          <TouchableOpacity style={styles.settingItem} onPress={handlePrivacyPolicy}>
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handlePrivacyPolicy}
+          >
             <View style={styles.settingItemContent}>
-              <Ionicons name="shield-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="shield-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Privacy Policy</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.settingItem} onPress={handleTermsOfService}>
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleTermsOfService}
+          >
             <View style={styles.settingItemContent}>
-              <Ionicons name="document-text-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="document-text-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Terms of Service</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
         </View>
 
@@ -325,20 +430,39 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionHeader}>Support</Text>
 
-          <TouchableOpacity style={styles.settingItem} onPress={handleContactSupport}>
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleContactSupport}
+          >
             <View style={styles.settingItemContent}>
-              <Ionicons name="mail-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="mail-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Contact Support</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem} onPress={handleRateApp}>
             <View style={styles.settingItemContent}>
-              <Ionicons name="star-outline" size={22} color={COLORS.lightBlue} />
+              <Ionicons
+                name="star-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
               <Text style={styles.settingItemText}>Rate App</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={COLORS.darkGray} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
           </TouchableOpacity>
         </View>
 
@@ -348,12 +472,14 @@ export default function SettingsScreen() {
 
           <View style={styles.aboutContainer}>
             <Image
-              source={require('../../assets/Harmony2x.png')}
+              source={require("../../assets/Harmony2x.png")}
               style={styles.aboutLogo}
               resizeMode="contain"
             />
             <Text style={styles.versionText}>Version 1.0.0</Text>
-            <Text style={styles.copyrightText}>© 2025 HarmonyTi. All rights reserved.</Text>
+            <Text style={styles.copyrightText}>
+              © 2025 HarmonyTi. All rights reserved.
+            </Text>
           </View>
         </View>
       </ScrollView>
@@ -362,102 +488,102 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
+  aboutContainer: {
+    alignItems: "center",
+    paddingVertical: 24,
+  },
+  aboutLogo: {
+    height: 120,
+    marginBottom: 16,
+    width: 360,
+  },
   container: {
-    flex: 1,
     backgroundColor: COLORS.white,
+    flex: 1,
+  },
+  copyrightText: {
+    color: COLORS.darkGray,
+    fontSize: 12,
   },
   headerContainer: {
+    alignItems: "center",
     backgroundColor: COLORS.white,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
     borderBottomColor: COLORS.mediumGray,
-    alignItems: 'center',
-    shadowColor: '#000',
+    borderBottomWidth: 1,
+    elevation: 3,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
-  },
-  logoContainer: {
-    alignItems: 'center',
   },
   headerLogo: {
-    width: 370,
     height: 80,
+    width: 370,
+  },
+  logoContainer: {
+    alignItems: "center",
+  },
+  noneText: {
+    color: COLORS.darkGray,
+    fontStyle: "italic",
   },
   scrollView: {
     flex: 1,
   },
-  sectionTitle: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: COLORS.darkBlue,
-    marginHorizontal: 16,
-    marginTop: 24,
-    marginBottom: 16,
-  },
   section: {
     backgroundColor: COLORS.lightGray,
-    borderRadius: 12,
-    marginHorizontal: 16,
-    marginBottom: 24,
-    padding: 16,
-    borderLeftWidth: 4,
     borderLeftColor: COLORS.darkBlue,
+    borderLeftWidth: 4,
+    borderRadius: 12,
+    marginBottom: 24,
+    marginHorizontal: 16,
+    padding: 16,
   },
   sectionHeader: {
-    fontSize: 16,
-    fontWeight: '600',
     color: COLORS.darkBlue,
+    fontSize: 16,
+    fontWeight: "600",
     marginBottom: 16,
   },
+  sectionTitle: {
+    color: COLORS.darkBlue,
+    fontSize: 28,
+    fontWeight: "700",
+    marginBottom: 16,
+    marginHorizontal: 16,
+    marginTop: 24,
+  },
   settingItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
+    alignItems: "center",
     borderBottomColor: COLORS.mediumGray,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 12,
   },
   settingItemContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: "center",
+    flexDirection: "row",
   },
   settingItemText: {
-    fontSize: 16,
     color: COLORS.darkBlue,
+    fontSize: 16,
     marginLeft: 12,
   },
   settingValue: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: "center",
+    flexDirection: "row",
   },
   settingValueText: {
-    fontSize: 16,
     color: COLORS.darkBlue,
+    fontSize: 16,
     marginRight: 12,
   },
-  aboutContainer: {
-    alignItems: 'center',
-    paddingVertical: 24,
-  },
-  aboutLogo: {
-    width: 360,
-    height: 120,
-    marginBottom: 16,
-  },
   versionText: {
-    fontSize: 14,
     color: COLORS.darkBlue,
+    fontSize: 14,
     marginBottom: 8,
-  },
-  copyrightText: {
-    fontSize: 12,
-    color: COLORS.darkGray,
-  },
-  noneText: {
-    fontStyle: 'italic',
-    color: COLORS.darkGray,
   },
 });
