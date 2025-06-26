@@ -162,6 +162,13 @@ export default function SettingsScreen() {
     );
   };
 
+  const handleCompanyWebsite = () => {
+    navigation.navigate("InAppWebView", {
+      url: "https://dedola.com",
+      title: "Company Website",
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView style={styles.scrollView}>
@@ -385,7 +392,7 @@ export default function SettingsScreen() {
 
         {/* Legal Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionHeader}>Legal</Text>
+          <Text style={styles.sectionHeader}>Legal & Resources</Text>
 
           <TouchableOpacity
             style={styles.settingItem}
@@ -417,6 +424,26 @@ export default function SettingsScreen() {
                 color={COLORS.lightBlue}
               />
               <Text style={styles.settingItemText}>Terms of Service</Text>
+            </View>
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={COLORS.darkGray}
+            />
+          </TouchableOpacity>
+
+          {/* Company Website */}
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleCompanyWebsite}
+          >
+            <View style={styles.settingItemContent}>
+              <Ionicons
+                name="globe-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
+              <Text style={styles.settingItemText}>Company Website</Text>
             </View>
             <Ionicons
               name="chevron-forward"

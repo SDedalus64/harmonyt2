@@ -2569,44 +2569,6 @@ export default function LookupScreen() {
             </TouchableOpacity>
           </Animated.View>
 
-          {/* Links Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.linksFab,
-              {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
-                transform: [
-                  { translateX: linksFabTranslateX },
-                  { translateY: linksFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.success },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab();
-                setLinksDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="link"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
           {/* News Button */}
           <Animated.View
             style={[
@@ -2826,7 +2788,7 @@ export default function LookupScreen() {
         </AnimatedDrawer>
 
         {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
-        {(settingsDrawerVisible || linksDrawerVisible) && (
+        {settingsDrawerVisible && (
           <TouchableOpacity
             style={styles.overlay}
             activeOpacity={1}
@@ -2896,20 +2858,22 @@ export default function LookupScreen() {
         </Animated.View>
 
         {/* Links Drawer */}
-        <Animated.View
-          style={[
-            styles.drawer,
-            styles.bottomDrawer,
-            {
-              transform: [{ translateY: linksDrawerTranslateY }],
-              pointerEvents: linksDrawerVisible ? "auto" : "none",
-            },
-          ]}
-        >
-          <View style={styles.drawerScreenContainer}>
-            <LinksScreen />
-          </View>
-        </Animated.View>
+        {false && (
+          <Animated.View
+            style={[
+              styles.drawer,
+              styles.bottomDrawer,
+              {
+                transform: [{ translateY: linksDrawerTranslateY }],
+                pointerEvents: linksDrawerVisible ? "auto" : "none",
+              },
+            ]}
+          >
+            <View style={styles.drawerScreenContainer}>
+              <LinksScreen />
+            </View>
+          </Animated.View>
+        )}
 
         <InfoDrawer
           isOpen={infoDrawerVisible}
