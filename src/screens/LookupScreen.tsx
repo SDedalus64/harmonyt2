@@ -35,7 +35,7 @@ import DisclaimerModal from "./DisclaimerModal";
 import HistoryScreen from "./HistoryScreen";
 import SettingsScreen from "./SettingsScreen";
 import LinksScreen from "./LinksScreen";
-import TariffNewsContent from '../components/TariffNewsContent';
+import TariffNewsContent from "../components/TariffNewsContent";
 import { isTablet } from "../platform/deviceUtils";
 import RightColumnContent from "../components/RightColumnContent";
 import HistoryColumnContent from "../components/HistoryColumnContent";
