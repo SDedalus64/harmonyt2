@@ -35,6 +35,7 @@ import DisclaimerModal from "./DisclaimerModal";
 import HistoryScreen from "./HistoryScreen";
 import SettingsScreen from "./SettingsScreen";
 import LinksScreen from "./LinksScreen";
+import TariffNewsContent from '../components/TariffNewsContent';
 import { isTablet } from "../platform/deviceUtils";
 import RightColumnContent from "../components/RightColumnContent";
 import HistoryColumnContent from "../components/HistoryColumnContent";
@@ -2569,6 +2570,44 @@ export default function LookupScreen() {
             </TouchableOpacity>
           </Animated.View>
 
+          {/* Tariff News Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              styles.linksFab,
+              {
+                bottom:
+                  insets.bottom +
+                  getResponsiveValue(28, 37) -
+                  (isTablet() ? 70 : 0),
+                transform: [
+                  { translateX: linksFabTranslateX },
+                  { translateY: linksFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.success },
+              ]}
+              onPress={() => {
+                closeAllDrawers();
+                closeMainFab();
+                setLinksDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="newspaper-outline"
+                size={getResponsiveValue(20, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+
           {/* News Button */}
           <Animated.View
             style={[
@@ -2746,6 +2785,15 @@ export default function LookupScreen() {
           position="left"
         >
           {renderAnalyticsDrawerContent()}
+        </AnimatedDrawer>
+
+        {/* Tariff News Drawer */}
+        <AnimatedDrawer
+          isVisible={linksDrawerVisible}
+          onClose={() => setLinksDrawerVisible(false)}
+          position="right"
+        >
+          <TariffNewsContent />
         </AnimatedDrawer>
 
         {/* New History Side Drawer */}

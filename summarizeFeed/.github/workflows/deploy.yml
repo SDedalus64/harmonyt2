@@ -1,0 +1,30 @@
+name: Azure Function CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Archive function app files
+      run: zip -r functionapp.zip .
+
+    - name: Deploy to Azure Function App
+      uses: Azure/functions-action@v1
+      with:
+        app-name: dgl-trade-news-api
+        package: functionapp.zip
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
