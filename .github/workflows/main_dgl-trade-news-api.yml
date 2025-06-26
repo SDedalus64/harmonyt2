@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './summarizeFeed'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '22.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
@@ -34,13 +34,11 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           npm install
           npm run build --if-present
-          # npm run test --if-present   # Disabled due to react-native test failures in CI
+          npm run test --if-present
           popd
 
       - name: Zip artifact for deployment
-        run: |
-          cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          zip -r ../../release.zip .
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -67,9 +65,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C483AEB411ED41009F0C52EDFEEFE654 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FEBF49EEF4694AD5B78E4627ED985EB5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_06D45EAF8D06495E8E62F20786A50B93 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CFF015D1B04844AA8CB9BE869289387A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F5818DDAA42043E1A23943F0B12EF7DF }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BAFC9F75389F4BDDBA0DC56E10AF09C1 }}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
@@ -77,5 +75,5 @@ jobs:
         with:
           app-name: 'dgl-trade-news-api'
           slot-name: 'Production'
-          package: release.zip
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           
