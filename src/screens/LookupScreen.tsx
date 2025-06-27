@@ -1713,7 +1713,7 @@ export default function LookupScreen() {
 
     if (!mainFabExpanded) closeAllNavigationDrawers();
 
-    const spacing = isTablet() ? getResponsiveValue(80, 110) : 60; // tighter arc on phones
+    const spacing = isTablet() ? getResponsiveValue(80, 110) : 58; // 2px extra margin on phones
 
     const animations: Animated.CompositeAnimation[] = [];
 
@@ -1737,6 +1737,7 @@ export default function LookupScreen() {
     });
 
     // Y translations all become 0 horizontally
+    const yOffset = isTablet() ? -5 : 0; // raise 5px on iPad
     const yAnims = [
       recentFabTranslateY,
       historyFabTranslateY,
@@ -1748,7 +1749,7 @@ export default function LookupScreen() {
     yAnims.forEach((anim) => {
       animations.push(
         Animated.timing(anim, {
-          toValue: 0,
+          toValue: toValue * yOffset, // -5 when opening on iPad, 0 otherwise
           duration: 300,
           useNativeDriver: true,
         }),
@@ -2505,10 +2506,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.recentFab,
               {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
+                bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: recentFabTranslateX },
                   { translateY: recentFabTranslateY },
@@ -2543,10 +2541,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.historyFab,
               {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
+                bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: historyFabTranslateX },
                   { translateY: historyFabTranslateY },
@@ -2581,10 +2576,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.linksFab,
               {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
+                bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: linksFabTranslateX },
                   { translateY: linksFabTranslateY },
@@ -2619,10 +2611,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.newsFab,
               {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
+                bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: newsFabTranslateX },
                   { translateY: newsFabTranslateY },
@@ -2657,10 +2646,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.statsFab,
               {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
+                bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: statsFabTranslateX },
                   { translateY: statsFabTranslateY },
@@ -2695,10 +2681,7 @@ export default function LookupScreen() {
               styles.menuFab,
               styles.settingsFab,
               {
-                bottom:
-                  insets.bottom +
-                  getResponsiveValue(28, 37) -
-                  (isTablet() ? 70 : 0),
+                bottom: insets.bottom + getResponsiveValue(28, 37),
                 transform: [
                   { translateX: settingsFabTranslateX },
                   { translateY: settingsFabTranslateY },
@@ -3218,8 +3201,8 @@ const styles = StyleSheet.create({
   floatingMenuContainer: {
     position: "absolute",
     bottom: getSpacing("xs"),
-    left: 1,
-    right: 1,
+    left: 0,
+    right: 0,
     alignItems: "center",
     zIndex: 2000,
   },
