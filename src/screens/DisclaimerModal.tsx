@@ -1,7 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Switch, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { BRAND_COLORS } from '../config/brandColors';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Switch,
+  Keyboard,
+  Dimensions,
+  Platform,
+  ScrollView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { BRAND_COLORS } from "../config/brandColors";
 
 interface DisclaimerModalProps {
   visible: boolean;
@@ -10,7 +21,7 @@ interface DisclaimerModalProps {
 
 // Get device dimensions and calculate 75%
 const getModalDimensions = () => {
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+  const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
   const modalWidth = screenWidth * 0.75;
   const modalHeight = screenHeight * 0.75;
 
@@ -27,12 +38,21 @@ const getModalDimensions = () => {
     isTablet,
     isSmallPhone,
     isLargePhone,
-    deviceType: isTablet ? 'tablet' : isSmallPhone ? 'small-phone' : isLargePhone ? 'large-phone' : 'phone',
+    deviceType: isTablet
+      ? "tablet"
+      : isSmallPhone
+        ? "small-phone"
+        : isLargePhone
+          ? "large-phone"
+          : "phone",
     platform: Platform.OS,
   };
 };
 
-const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) => {
+const DisclaimerModal: React.FC<DisclaimerModalProps> = ({
+  visible,
+  onAgree,
+}) => {
   const [agreed, setAgreed] = useState(false);
   const [dimensions, setDimensions] = useState(getModalDimensions());
   const scrollViewRef = useRef<ScrollView>(null);
@@ -51,7 +71,10 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
       setDimensions(getModalDimensions());
     };
 
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    const subscription = Dimensions.addEventListener(
+      "change",
+      updateDimensions,
+    );
 
     return () => subscription?.remove();
   }, []);
@@ -110,16 +133,21 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
     setShowScrollHint(!isAgreeVisible);
   };
 
-  const handleContentSizeChange = (contentWidth: number, contentHeight: number) => {
+  const handleContentSizeChange = (
+    contentWidth: number,
+    contentHeight: number,
+  ) => {
     // Determine if scrolling is needed
-    const scrollable = contentHeight >
-      dimensions.modalHeight - (dimensions.isTablet ? 60 : dimensions.isSmallPhone ? 30 : 40); // approximate padding
+    const scrollable =
+      contentHeight >
+      dimensions.modalHeight -
+        (dimensions.isTablet ? 60 : dimensions.isSmallPhone ? 30 : 40); // approximate padding
 
     setContentScrollable(scrollable);
 
     // Only show the hint if the Agree toggle starts off-screen (i.e. there is
     // at least ~80px more content than fits in view).
-    const needsHint = scrollable && contentHeight - (dimensions.modalHeight) > 80;
+    const needsHint = scrollable && contentHeight - dimensions.modalHeight > 80;
     setShowScrollHint(needsHint);
   };
 
@@ -128,214 +156,263 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ visible, onAgree }) =
       transparent={true}
       visible={visible}
       animationType="fade"
-      onShow={() => { Keyboard.dismiss(); }}
-      onRequestClose={() => { /* (Optional) handle modal close (e.g. via back button) */ }}
+      onShow={() => {
+        Keyboard.dismiss();
+      }}
+      onRequestClose={() => {
+        /* (Optional) handle modal close (e.g. via back button) */
+      }}
     >
       <View style={styles.modalOverlay}>
-         <View style={[
-           styles.modalContent,
-           {
-             width: dimensions.modalWidth,
-             maxHeight: dimensions.modalHeight,
-             // Add padding adjustments based on device
-             padding: dimensions.isTablet ? 30 : dimensions.isSmallPhone ? 15 : 20,
-           }
-         ]}>
-            <ScrollView
-              ref={scrollViewRef}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.scrollContent}
-              bounces={false}
-              onScroll={handleScroll}
-              onContentSizeChange={handleContentSizeChange}
-              scrollEventThrottle={16}
-            >
-              <Text style={[styles.modalTitle, { fontSize: fontSizes.title }]}>Welcome to HarmonyTi</Text>
+        <View
+          style={[
+            styles.modalContent,
+            {
+              width: dimensions.modalWidth,
+              maxHeight: dimensions.modalHeight,
+              // Add padding adjustments based on device
+              padding: dimensions.isTablet
+                ? 30
+                : dimensions.isSmallPhone
+                  ? 15
+                  : 20,
+            },
+          ]}
+        >
+          <ScrollView
+            ref={scrollViewRef}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+            bounces={false}
+            onScroll={handleScroll}
+            onContentSizeChange={handleContentSizeChange}
+            scrollEventThrottle={16}
+          >
+            <Text style={[styles.modalTitle, { fontSize: fontSizes.title }]}>
+              Welcome to HarmonyTi
+            </Text>
 
-              {/* Debug info - remove in production */}
-              {__DEV__ && (
-                <Text style={styles.debugText}>
-                  Device: {dimensions.deviceType} | Platform: {dimensions.platform} |
-                  Screen: {dimensions.screenWidth.toFixed(0)}x{dimensions.screenHeight.toFixed(0)} |
-                  Modal: {dimensions.modalWidth.toFixed(0)}x{dimensions.modalHeight.toFixed(0)}
-                </Text>
-              )}
-
-              <Text style={[styles.modalSubtitle, { fontSize: fontSizes.text + 2 }]}>
-                Your Professional Import Duty Calculator
+            {/* Debug info - remove in production */}
+            {__DEV__ && (
+              <Text style={styles.debugText}>
+                Device: {dimensions.deviceType} | Platform:{" "}
+                {dimensions.platform} | Screen:{" "}
+                {dimensions.screenWidth.toFixed(0)}x
+                {dimensions.screenHeight.toFixed(0)} | Modal:{" "}
+                {dimensions.modalWidth.toFixed(0)}x
+                {dimensions.modalHeight.toFixed(0)}
               </Text>
-
-              <Text style={[styles.modalText, { fontSize: fontSizes.text }]}>
-                <Text style={{ fontWeight: 'bold' }}>What we provide:</Text>
-                {'\n'}• Real-time duty estimates based on official U.S. tariff data
-                {'\n'}• Current trade action rates (Section 301, 232, reciprocal tariffs)
-                {'\n'}• Instant calculations for import planning
-                {'\n\n'}
-                <Text style={{ fontWeight: 'bold' }}>Important to know:</Text>
-                {'\n'}• Estimates are for planning purposes only
-                {'\n'}• Final duties are determined by U.S. Customs at time of entry
-                {'\n'}• Always verify with a licensed customs broker for official rulings
-                {'\n\n'}
-                <Text style={{ fontWeight: 'bold' }}>Your privacy:</Text>
-                {'\n'}• Calculations are processed locally on your device
-                {'\n'}• We don't store your lookup history unless you request a report
-                {'\n'}• or an evaluation of your import duties.
-                {'\n'}• Email features are optional and only used when requested
-              </Text>
-
-              <View style={styles.legalNotice}>
-                <Text style={[styles.legalText, { fontSize: fontSizes.text - 1 }]}>
-                  By using HarmonyTi, you acknowledge that this tool provides estimates only.
-                  Dedola Global Logistics is not liable for decisions based solelyon these calculations.
-                  Users must independently verify all information with licensenced professional or
-                  official sources.
-                </Text>
-              </View>
-
-              <View style={styles.modalCheckboxRow}>
-                 <Switch
-                    value={agreed}
-                    onValueChange={(value) => {
-                      setAgreed(value);
-                      // Scroll to bottom when user toggles the switch on
-                      if (value) {
-                        setTimeout(() => {
-                          scrollViewRef.current?.scrollToEnd({ animated: true });
-                        }, 100);
-                      }
-                    }}
-                    trackColor={{ false: '#E1E1E1', true: '#2EAAF2' }}
-                    thumbColor="#fff"
-                    // Scale switch for tablets
-                    style={dimensions.isTablet ? { transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] } : {}}
-                 />
-                 <Text style={[styles.modalCheckboxLabel, { fontSize: fontSizes.checkbox }]}>
-                   I understand and accept these terms
-                 </Text>
-              </View>
-
-              <TouchableOpacity
-                 style={[
-                   styles.modalButton,
-                   !agreed && styles.modalButtonDisabled,
-                   // Adjust button height based on device
-                   { paddingVertical: dimensions.isTablet ? 16 : dimensions.isSmallPhone ? 10 : 12 }
-                 ]}
-                 onPress={handleAgree}
-                 disabled={!agreed}
-              >
-                 <Text style={[styles.modalButtonText, { fontSize: fontSizes.button }]}>
-                   Agree & Continue
-                 </Text>
-              </TouchableOpacity>
-
-            </ScrollView>
-
-            {showScrollHint && (
-              <View style={styles.scrollHintOverlay} pointerEvents="none"> 
-                <Ionicons name="chevron-down" size={28} color={BRAND_COLORS.orange} />
-                <Text style={[styles.scrollHintText, { color: BRAND_COLORS.orange }]}>Scroll for agreement</Text>
-              </View>
             )}
-         </View>
+
+            <Text
+              style={[styles.modalSubtitle, { fontSize: fontSizes.text + 2 }]}
+            >
+              Your Professional Import Duty Calculator
+            </Text>
+
+            <Text style={[styles.modalText, { fontSize: fontSizes.text }]}>
+              <Text style={{ fontWeight: "bold" }}>What we provide:</Text>
+              {"\n"}• Real-time duty estimates based on official U.S. tariff
+              data
+              {"\n"}• Current trade action rates (Section 301, 232, reciprocal
+              tariffs)
+              {"\n"}• Instant calculations for import planning
+              {"\n\n"}
+              <Text style={{ fontWeight: "bold" }}>Important to know:</Text>
+              {"\n"}• Estimates are for planning purposes only
+              {"\n"}• Final duties are determined by U.S. Customs at time of
+              entry
+              {"\n"}• Always verify with a licensed customs broker for official
+              rulings
+              {"\n\n"}
+              <Text style={{ fontWeight: "bold" }}>Your privacy:</Text>
+              {"\n"}• Calculations are processed locally on your device
+              {"\n"}• We don't store your lookup history unless you request a
+              report
+              {"\n"}• or an evaluation of your import duties.
+              {"\n"}• Email features are optional and only used when requested
+            </Text>
+
+            <View style={styles.legalNotice}>
+              <Text
+                style={[styles.legalText, { fontSize: fontSizes.text - 1 }]}
+              >
+                By using HarmonyTi, you acknowledge that this tool provides
+                estimates only. Dedola Global Logistics is not liable for
+                decisions based solelyon these calculations. Users must
+                independently verify all information with licensenced
+                professional or official sources.
+              </Text>
+            </View>
+
+            <View style={styles.modalCheckboxRow}>
+              <Switch
+                value={agreed}
+                onValueChange={(value) => {
+                  setAgreed(value);
+                  // Scroll to bottom when user toggles the switch on
+                  if (value) {
+                    setTimeout(() => {
+                      scrollViewRef.current?.scrollToEnd({ animated: true });
+                    }, 100);
+                  }
+                }}
+                trackColor={{ false: "#E1E1E1", true: "#2EAAF2" }}
+                thumbColor="#fff"
+                // Scale switch for tablets
+                style={
+                  dimensions.isTablet
+                    ? { transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }
+                    : {}
+                }
+              />
+              <Text
+                style={[
+                  styles.modalCheckboxLabel,
+                  { fontSize: fontSizes.checkbox },
+                ]}
+              >
+                I understand and accept these terms
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              style={[
+                styles.modalButton,
+                !agreed && styles.modalButtonDisabled,
+                // Adjust button height based on device
+                {
+                  paddingVertical: dimensions.isTablet
+                    ? 16
+                    : dimensions.isSmallPhone
+                      ? 10
+                      : 12,
+                },
+              ]}
+              onPress={handleAgree}
+              disabled={!agreed}
+            >
+              <Text
+                style={[styles.modalButtonText, { fontSize: fontSizes.button }]}
+              >
+                Agree & Continue
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+
+          {showScrollHint && (
+            <View style={styles.scrollHintOverlay} pointerEvents="none">
+              <Ionicons
+                name="chevron-down"
+                size={20}
+                color={BRAND_COLORS.white}
+              />
+              <Text style={styles.scrollHintText}>Scroll for more</Text>
+            </View>
+          )}
+        </View>
       </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  debugText: {
+    color: "#999",
+    fontSize: 10,
+    marginBottom: 8,
+    textAlign: "center",
   },
-  modalContent: {
-    backgroundColor: '#F8F8F8', // lightGray
-    borderRadius: 10,
-    borderColor: '#E1E1E1', // mediumGray
-    borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  scrollContent: {
-    flexGrow: 1,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    marginBottom: 16,
-  },
-  modalTitle: {
-    fontWeight: 'bold',
-    marginBottom: 12,
-    color: '#0B2953', // darkBlue
-    textAlign: 'center',
-  },
-  modalSubtitle: {
-    fontWeight: '600',
+  legalNotice: {
+    backgroundColor: "#F0F0F0",
+    borderLeftColor: "#2EAAF2",
+    borderLeftWidth: 3,
+    borderRadius: 8,
     marginBottom: 20,
-    color: '#2EAAF2', // electricBlue
-    textAlign: 'center',
+    padding: 12,
   },
-  modalText: {
-    color: '#666666', // darkGray
-    lineHeight: 20,
-    marginBottom: 16,
-  },
-  modalCheckboxRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    paddingHorizontal: 5,
-  },
-  modalCheckboxLabel: {
-    marginLeft: 8,
-    color: '#333333', // black
-    flex: 1,
+  legalText: {
+    color: "#555555",
+    fontSize: 12,
+    fontStyle: "italic",
+    lineHeight: 18,
   },
   modalButton: {
-    backgroundColor: '#2EAAF2',
+    alignItems: "center",
+    backgroundColor: "#2EAAF2",
     borderRadius: 8,
-    alignItems: 'center',
   },
   modalButtonDisabled: {
     opacity: 0.5,
   },
   modalButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
-  debugText: {
-    fontSize: 10,
-    color: '#999',
-    marginBottom: 8,
-    textAlign: 'center',
+  modalCheckboxLabel: {
+    marginLeft: 8,
+    color: "#333333", // black
+    flex: 1,
   },
-  legalNotice: {
-    backgroundColor: '#F0F0F0',
-    padding: 12,
-    borderRadius: 8,
+  modalCheckboxRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: 16,
+    paddingHorizontal: 5,
+  },
+  modalContent: {
+    backgroundColor: "#F8F8F8", // lightGray
+    borderRadius: 10,
+    borderColor: "#E1E1E1", // mediumGray
+    borderWidth: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalOverlay: {
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    flex: 1,
+    justifyContent: "center",
+  },
+  modalSubtitle: {
+    fontWeight: "600",
     marginBottom: 20,
-    borderLeftWidth: 3,
-    borderLeftColor: '#2EAAF2',
+    color: "#2EAAF2", // electricBlue
+    textAlign: "center",
   },
-  legalText: {
-    color: '#555555',
-    lineHeight: 18,
-    fontSize: 12,
-    fontStyle: 'italic',
+  modalText: {
+    color: "#666666", // darkGray
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  modalTitle: {
+    fontWeight: "bold",
+    marginBottom: 12,
+    color: "#0B2953", // darkBlue
+    textAlign: "center",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    marginBottom: 16,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   scrollHintOverlay: {
-    position: 'absolute',
-    bottom: 9, // nudged 2 px lower for better spacing
-    left: 0,
-    right: 0,
-    alignItems: 'center',
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderRadius: 6,
+    bottom: 9,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    position: "absolute",
   },
   scrollHintText: {
+    color: BRAND_COLORS.white,
     fontSize: 12,
     marginTop: 2,
   },

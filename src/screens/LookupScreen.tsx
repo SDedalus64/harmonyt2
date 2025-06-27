@@ -1701,14 +1701,16 @@ export default function LookupScreen() {
   };
 
   // Unified floating menu animations with arc layout
-  const toggleMainFab = () => {
+  const toggleMainFab = (recordUserClose: boolean = true) => {
     const toValue = mainFabExpanded ? 0 : 1;
     const isClosing = mainFabExpanded;
     setMainFabExpanded(!mainFabExpanded);
 
-    // Record manual close
-    if (isClosing) {
+    // Record manual close only if requested
+    if (isClosing && recordUserClose) {
       setUserClosedFab(true);
+    } else {
+      setUserClosedFab(false);
     }
 
     if (!mainFabExpanded) closeAllNavigationDrawers();
@@ -1785,16 +1787,20 @@ export default function LookupScreen() {
   };
 
   // Close main FAB when other actions are taken
-  const closeMainFab = () => {
+  const closeMainFab = (recordUserClose: boolean = true) => {
     // Hide any floating info tab
     setActiveField(null);
     setInfoDrawerVisible(false);
 
-    // Mark that user manually closed the FAB so it won't auto-reopen
-    setUserClosedFab(true);
+    // Mark manual close only if requested
+    if (recordUserClose) {
+      setUserClosedFab(true);
+    } else {
+      setUserClosedFab(false);
+    }
 
     if (mainFabExpanded) {
-      toggleMainFab();
+      toggleMainFab(recordUserClose);
     }
   };
 
@@ -2159,6 +2165,15 @@ export default function LookupScreen() {
     checkFirstTimeGuide();
   }, [showDisclaimer]);
 
+  // Automatically reopen FAB menu when all drawers are closed (unless user manually closed it)
+  useEffect(() => {
+    if (!anyDrawerOpen && !userClosedFab) {
+      openMainFab();
+    } else if (anyDrawerOpen && mainFabExpanded) {
+      closeMainFab();
+    }
+  }, [anyDrawerOpen]);
+
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <DisclaimerModal
@@ -2306,7 +2321,7 @@ export default function LookupScreen() {
                             style={styles.suggestionItem}
                             onPress={() => {
                               handleHtsSelection(suggestion.code);
-                              closeMainFab();
+                              closeMainFab(false);
                               closeAllNavigationDrawers();
                             }}
                           >
@@ -2343,7 +2358,7 @@ export default function LookupScreen() {
                   onSelect={(country) => {
                     setSelectedCountry(country);
                     setUserClosedFab(false);
-                    closeMainFab();
+                    closeMainFab(false);
                     closeAllNavigationDrawers();
                   }}
                 />
@@ -2359,7 +2374,7 @@ export default function LookupScreen() {
                   onInfoPress={handleInfoPress}
                   onChangeText={(value) => {
                     handleDeclaredValueChange(value);
-                    closeMainFab();
+                    closeMainFab(false);
                     closeAllNavigationDrawers();
                   }}
                   inputRef={declaredValueInputRef}
@@ -2380,7 +2395,7 @@ export default function LookupScreen() {
                   onInfoPress={handleInfoPress}
                   onChangeText={(value) => {
                     handleFreightCostChange(value);
-                    closeMainFab();
+                    closeMainFab(false);
                     closeAllNavigationDrawers();
                   }}
                   inputRef={freightCostInputRef}
@@ -2401,7 +2416,7 @@ export default function LookupScreen() {
                   onInfoPress={handleInfoPress}
                   onChangeText={(value) => {
                     handleUnitCountChange(value);
-                    closeMainFab();
+                    closeMainFab(false);
                     closeAllNavigationDrawers();
                   }}
                   keyboardType="number-pad"
@@ -2426,7 +2441,7 @@ export default function LookupScreen() {
                         value={isUSMCAOrigin}
                         onValueChange={(value) => {
                           setIsUSMCAOrigin(value);
-                          closeMainFab();
+                          closeMainFab(false);
                           closeAllNavigationDrawers();
                         }}
                         trackColor={{
@@ -2523,7 +2538,7 @@ export default function LookupScreen() {
               ]}
               onPress={() => {
                 closeAllDrawers();
-                closeMainFab();
+                closeMainFab(false);
                 setHistoryDrawerVisible(true);
               }}
             >
@@ -2558,7 +2573,7 @@ export default function LookupScreen() {
               ]}
               onPress={() => {
                 closeAllDrawers();
-                closeMainFab();
+                closeMainFab(false);
                 setMainHistoryDrawerVisible(true);
               }}
             >
@@ -2593,7 +2608,7 @@ export default function LookupScreen() {
               ]}
               onPress={() => {
                 closeAllDrawers();
-                closeMainFab();
+                closeMainFab(false);
                 setLinksDrawerVisible(true);
               }}
             >
@@ -2628,7 +2643,7 @@ export default function LookupScreen() {
               ]}
               onPress={() => {
                 closeAllDrawers();
-                closeMainFab();
+                closeMainFab(false);
                 setNewsDrawerVisible(true);
               }}
             >
@@ -2663,7 +2678,7 @@ export default function LookupScreen() {
               ]}
               onPress={() => {
                 closeAllDrawers();
-                closeMainFab();
+                closeMainFab(false);
                 setAnalyticsDrawerVisible(true);
               }}
             >
@@ -2698,7 +2713,7 @@ export default function LookupScreen() {
               ]}
               onPress={() => {
                 closeAllDrawers();
-                closeMainFab();
+                closeMainFab(false);
                 setSettingsDrawerVisible(true);
               }}
             >
