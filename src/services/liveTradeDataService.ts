@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface LiveTradeData {
   id: string;
@@ -12,7 +12,7 @@ export interface LiveTradeData {
   source: string;
   category: string;
   priority: string;
-  visualType: 'chart';
+  visualType: "chart" | "article";
   chartData: {
     type: string;
     value: number;
@@ -26,7 +26,7 @@ interface CachedTradeData {
   timestamp: number;
 }
 
-const CACHE_KEY = '@LiveTradeData:cache';
+const CACHE_KEY = "@LiveTradeData:cache";
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 
 // Major commodity codes for trade monitoring (for future live API integration)
@@ -51,43 +51,55 @@ export class LiveTradeDataService {
   }
 
   async fetchLiveTradeData(): Promise<LiveTradeData[]> {
-    console.log('LiveTradeDataService: Starting fetchLiveTradeData...');
-    
+    console.log("LiveTradeDataService: Starting fetchLiveTradeData...");
+
     try {
       // Check cache first
       const cached = await this.loadFromCache();
       if (cached && this.isCacheFresh(cached.timestamp)) {
-        console.log('LiveTradeDataService: Using cached data, items:', cached.data.length);
+        console.log(
+          "LiveTradeDataService: Using cached data, items:",
+          cached.data.length,
+        );
         return cached.data;
       }
 
-      console.log('LiveTradeDataService: Cache miss or stale, fetching fresh data...');
-      
+      console.log(
+        "LiveTradeDataService: Cache miss or stale, fetching fresh data...",
+      );
+
       // For now, always return fallback data since Census API is having issues
       // This ensures users see realistic trade data immediately
-      console.log('LiveTradeDataService: Using fallback data due to API limitations');
+      console.log(
+        "LiveTradeDataService: Using fallback data due to API limitations",
+      );
       const fallbackData = this.getFallbackTradeData();
-      
+
       // Cache the fallback data so we don't keep hitting the API
       await this.saveToCache(fallbackData);
-      
-      return fallbackData;
 
+      return fallbackData;
     } catch (error) {
-      console.error('LiveTradeDataService: Error in fetchLiveTradeData:', error);
+      console.error(
+        "LiveTradeDataService: Error in fetchLiveTradeData:",
+        error,
+      );
       // Return realistic fallback data
       return this.getFallbackTradeData();
     }
   }
 
-  private createFallbackData(commodity: { code: string; name: string }, date: Date): LiveTradeData {
+  private createFallbackData(
+    commodity: { code: string; name: string },
+    date: Date,
+  ): LiveTradeData {
     // Generate realistic fallback values based on commodity type
     const baseValues: Record<string, number> = {
-      'Electronics': 15200000000, // $15.2B
-      'Machinery': 12800000000,   // $12.8B
-      'Telephones': 8900000000,   // $8.9B
-      'Auto Parts': 7600000000,   // $7.6B
-      'Petroleum': 5300000000,    // $5.3B
+      Electronics: 15200000000, // $15.2B
+      Machinery: 12800000000, // $12.8B
+      Telephones: 8900000000, // $8.9B
+      "Auto Parts": 7600000000, // $7.6B
+      Petroleum: 5300000000, // $5.3B
     };
 
     const value = baseValues[commodity.name] || 1000000000;
@@ -96,18 +108,18 @@ export class LiveTradeDataService {
     return {
       id: `fallback-${commodity.code}`,
       title: `${commodity.name} Performance`,
-      summary: `${commodity.name}: $${this.formatValue(value)} (${changePercent > 0 ? '+' : ''}${changePercent.toFixed(1)}%), Machinery: $12.8B (+1.9%), Vehicles: $8.9B (-2.3%).`,
+      summary: `${commodity.name}: $${this.formatValue(value)} (${changePercent > 0 ? "+" : ""}${changePercent.toFixed(1)}%), Machinery: $12.8B (+1.9%), Vehicles: $8.9B (-2.3%).`,
       value: this.formatValue(value),
-      change: `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
+      change: `${changePercent > 0 ? "+" : ""}${changePercent.toFixed(1)}%`,
       changePercent,
       date: date.toISOString(),
-      url: 'https://www.census.gov/foreign-trade/statistics/highlights/top/index.html',
-      source: 'Census Bureau',
-      category: 'statistics',
-      priority: Math.abs(changePercent) > 3 ? 'high' : 'medium',
-      visualType: 'chart' as const,
+      url: "https://www.census.gov/foreign-trade/statistics/highlights/top/index.html",
+      source: "Census Bureau",
+      category: "statistics",
+      priority: Math.abs(changePercent) > 3 ? "high" : "medium",
+      visualType: "chart" as const,
       chartData: {
-        type: 'trade-value',
+        type: "trade-value",
         value,
         change: changePercent,
         period: date.toISOString().slice(0, 7),
@@ -116,108 +128,26 @@ export class LiveTradeDataService {
   }
 
   private getFallbackTradeData(): LiveTradeData[] {
-    const currentDate = new Date();
-    const currentMonth = currentDate.toISOString().slice(0, 7);
-
     return [
       {
-        id: 'live-trade-summary',
-        title: '🇺🇸 U.S. Monthly Trade Summary',
-        summary: 'Total goods trade: $78.2B imports, $65.1B exports. Trade deficit increased by 3.2% from previous month. Technology and automotive sectors driving growth.',
-        value: '$78.2B',
-        change: '+3.2%',
-        changePercent: 3.2,
-        date: currentDate.toISOString(),
-        url: 'https://www.census.gov/foreign-trade/statistics/highlights/top/index.html',
-        source: 'Census Bureau',
-        category: 'statistics',
-        priority: 'high',
-        visualType: 'chart' as const,
+        id: "trade-news-placeholder",
+        title: "Trade News Feature Coming Soon",
+        summary:
+          "Live trade news and statistics will be available in a future update. This feature will integrate with official government sources including Census Bureau, CBP, USTR, and Federal Register.",
+        value: "",
+        change: "",
+        changePercent: 0,
+        date: new Date().toISOString(),
+        url: "https://www.census.gov/foreign-trade/",
+        source: "System",
+        category: "placeholder",
+        priority: "low",
+        visualType: "article" as const,
         chartData: {
-          type: 'trade-summary',
-          value: 78200000000,
-          change: 3.2,
-          period: currentMonth,
-        },
-      },
-      {
-        id: 'live-trade-china',
-        title: '🇨🇳 U.S.-China Trade Update',
-        summary: 'Bilateral trade: $32.1B imports (+2.8%), $12.4B exports (-1.5%). Semiconductors and machinery leading import categories.',
-        value: '$32.1B',
-        change: '+2.8%',
-        changePercent: 2.8,
-        date: new Date(currentDate.getTime() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
-        url: 'https://www.census.gov/foreign-trade/statistics/highlights/top/index.html',
-        source: 'Census Bureau',
-        category: 'statistics',
-        priority: 'high',
-        visualType: 'chart' as const,
-        chartData: {
-          type: 'bilateral-trade',
-          value: 32100000000,
-          change: 2.8,
-          period: currentMonth,
-        },
-      },
-      {
-        id: 'live-trade-electronics',
-        title: '📱 Electronics Import Surge',
-        summary: 'Consumer electronics imports: $15.2B (+4.1%). Smartphones, tablets, and computer components driving 40% of technology imports this month.',
-        value: '$15.2B',
-        change: '+4.1%',
-        changePercent: 4.1,
-        date: new Date(currentDate.getTime() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago
-        url: 'https://www.census.gov/foreign-trade/statistics/highlights/top/index.html',
-        source: 'Census Bureau',
-        category: 'statistics',
-        priority: 'medium',
-        visualType: 'chart' as const,
-        chartData: {
-          type: 'commodity-performance',
-          value: 15200000000,
-          change: 4.1,
-          period: currentMonth,
-        },
-      },
-      {
-        id: 'live-trade-energy',
-        title: '⚡ Energy Trade Dynamics',
-        summary: 'Petroleum imports: $8.7B (-2.1%). Renewable energy equipment exports increased 15% as domestic production scales up.',
-        value: '$8.7B',
-        change: '-2.1%',
-        changePercent: -2.1,
-        date: new Date(currentDate.getTime() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
-        url: 'https://www.census.gov/foreign-trade/statistics/highlights/top/index.html',
-        source: 'Census Bureau',
-        category: 'statistics',
-        priority: 'medium',
-        visualType: 'chart' as const,
-        chartData: {
-          type: 'energy-trade',
-          value: 8700000000,
-          change: -2.1,
-          period: currentMonth,
-        },
-      },
-      {
-        id: 'live-trade-automotive',
-        title: '🚗 Automotive Sector Update',
-        summary: 'Vehicle imports: $12.3B (+1.8%). Electric vehicle components showing strongest growth at +25% month-over-month.',
-        value: '$12.3B',
-        change: '+1.8%',
-        changePercent: 1.8,
-        date: new Date(currentDate.getTime() - 8 * 60 * 60 * 1000).toISOString(), // 8 hours ago
-        url: 'https://www.census.gov/foreign-trade/statistics/highlights/top/index.html',
-        source: 'Census Bureau',
-        category: 'statistics',
-        priority: 'medium',
-        visualType: 'chart' as const,
-        chartData: {
-          type: 'automotive-trade',
-          value: 12300000000,
-          change: 1.8,
-          period: currentMonth,
+          type: "placeholder",
+          value: 0,
+          change: 0,
+          period: "",
         },
       },
     ];
@@ -251,7 +181,7 @@ export class LiveTradeDataService {
       };
       await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
     } catch (error) {
-      console.log('Failed to save trade data cache:', error);
+      console.log("Failed to save trade data cache:", error);
     }
   }
 
@@ -260,4 +190,4 @@ export class LiveTradeDataService {
   }
 }
 
-export const liveTradeDataService = LiveTradeDataService.getInstance(); 
+export const liveTradeDataService = LiveTradeDataService.getInstance();

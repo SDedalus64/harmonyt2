@@ -34,62 +34,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012100",
@@ -256,62 +211,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012210",
@@ -478,62 +388,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012290",
@@ -700,62 +565,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012300",
@@ -922,62 +742,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012600",
@@ -1010,62 +785,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012710",
@@ -1232,62 +962,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58012750",
@@ -1454,62 +1139,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58013100",
@@ -1676,62 +1316,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58013200",
@@ -1898,62 +1493,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58013300",
@@ -2120,62 +1670,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58013600",
@@ -2342,62 +1847,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58013710",
@@ -2564,62 +2024,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58013750",
@@ -2786,62 +2201,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58019010",
@@ -3016,62 +2386,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58019020",
@@ -3246,62 +2571,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58021010",
@@ -3468,62 +2748,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58021090",
@@ -3690,62 +2925,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58022000",
@@ -3920,62 +3110,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58023000",
@@ -4150,62 +3295,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58030010",
@@ -4238,62 +3338,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58030020",
@@ -4460,62 +3515,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58030030",
@@ -4682,62 +3692,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58030040",
@@ -4770,62 +3735,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58030050",
@@ -4858,62 +3778,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58030090",
@@ -4946,62 +3821,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58041010",
@@ -5167,62 +3997,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58041090",
@@ -5254,62 +4039,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58042100",
@@ -5475,62 +4215,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58042910",
@@ -5696,62 +4391,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58042990",
@@ -5925,62 +4575,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58043000",
@@ -6154,62 +4759,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58050010",
@@ -6234,62 +4794,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58050020",
@@ -6322,62 +4837,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58050025",
@@ -6411,62 +4881,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58050030",
@@ -6499,62 +4924,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58050040",
@@ -6588,62 +4968,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58061010",
@@ -6809,62 +5144,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58061024",
@@ -7030,62 +5320,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58061028",
@@ -7251,62 +5496,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58061030",
@@ -7480,62 +5680,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58062000",
@@ -7709,62 +5864,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58063100",
@@ -7930,62 +6040,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58063210",
@@ -8151,62 +6216,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58063220",
@@ -8372,62 +6392,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58063910",
@@ -8593,62 +6568,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58063920",
@@ -8822,62 +6752,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58063930",
@@ -8909,62 +6794,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58064000",
@@ -9138,62 +6978,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58071005",
@@ -9359,62 +7154,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58071015",
@@ -9588,62 +7338,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58071020",
@@ -9817,62 +7522,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58079005",
@@ -10038,62 +7698,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58079015",
@@ -10267,62 +7882,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58079020",
@@ -10496,62 +8066,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58081010",
@@ -10586,62 +8111,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58081040",
@@ -10807,62 +8287,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58081050",
@@ -10894,62 +8329,17 @@
       "available_programs": [],
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58081070",
@@ -11115,62 +8505,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58081090",
@@ -11344,62 +8689,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58089000",
@@ -11573,62 +8873,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     },
     {
       "hts8": "58090000",
@@ -11803,62 +9058,17 @@
       "usmca_other_rate": "0.0",
       "additive_duties": [
         {
-          "rule_name": "Fentanyl Tariff",
-          "rule_type": "Rate",
-          "countries": [
-            "CN"
-          ],
+          "name": "Fentanyl Tariff",
+          "type": "Rate",
           "rate": 20,
           "note": "Anti-trafficking measure.",
-          "status": "Active"
-        },
-        {
-          "rule_name": "IEEPA Tariff",
-          "rule_type": "Rate",
           "countries": [
             "CN"
-          ],
-          "rate": 10,
-          "note": "Temporary 90-day reciprocal tariff. Legal status is under appeal as of May 2025.",
-          "status": "Disputed"
+          ]
         }
       ],
-      "reciprocal_tariffs": [
-        {
-          "country": "CN",
-          "rate": 10,
-          "label": "Reciprocal Tariff - China",
-          "note": "Temporary 90-day agreement",
-          "effective": "2025-05-14",
-          "expires": "2025-08-12"
-        },
-        {
-          "country": "CN",
-          "rate": 20,
-          "label": "Fentanyl Anti-Trafficking Tariff - China",
-          "note": "Anti-trafficking measure",
-          "effective": "2025-03-04",
-          "expires": null
-        }
-      ],
-      "ieepa_tariffs": [
-        {
-          "country": "CA",
-          "rate": 25,
-          "label": "IEEPA Tariff - Canada",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        },
-        {
-          "country": "MX",
-          "rate": 25,
-          "label": "IEEPA Tariff - Mexico",
-          "note": "USMCA-origin goods exempt; Does not stack with Section 232",
-          "effective": "2025-03-04",
-          "legal_status": "Under judicial review, currently in effect"
-        }
-      ]
+      "reciprocal_tariffs": [],
+      "ieepa_tariffs": []
     }
   ]
 }

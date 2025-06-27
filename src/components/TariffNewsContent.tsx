@@ -15,10 +15,13 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { isTablet } from "../platform/deviceUtils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { liveTradeDataService, LiveTradeData } from "../services/liveTradeDataService";
+import {
+  liveTradeDataService,
+  LiveTradeData,
+} from "../services/liveTradeDataService";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/types';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../navigation/types";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -49,9 +52,12 @@ interface CachedData {
 const AGENCY_LOGOS = {
   cbp: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/US-CBP-Seal.svg/200px-US-CBP-Seal.svg.png",
   ustr: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Seal_of_the_United_States_Trade_Representative.svg/200px-Seal_of_the_United_States_Trade_Representative.svg.png",
-  census: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/US-CensusBureau-Seal.svg/200px-US-CensusBureau-Seal.svg.png",
-  federalregister: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/US-OfficeOfTheFederalRegister-Seal.svg/200px-US-OfficeOfTheFederalRegister-Seal.svg.png",
-  usitc: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/US-InternationalTradeCommission-Seal.svg/200px-US-InternationalTradeCommission-Seal.svg.png",
+  census:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/US-CensusBureau-Seal.svg/200px-US-CensusBureau-Seal.svg.png",
+  federalregister:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/US-OfficeOfTheFederalRegister-Seal.svg/200px-US-OfficeOfTheFederalRegister-Seal.svg.png",
+  usitc:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/US-InternationalTradeCommission-Seal.svg/200px-US-InternationalTradeCommission-Seal.svg.png",
 };
 
 // Fallback to colored icons if logos fail
@@ -94,7 +100,10 @@ const getEnhancedSize = (baseSize: number): number => {
   return isTablet() ? Math.round(baseSize * 1.75) : baseSize;
 };
 
-const getEnhancedFontSize = (mobileSize: number, tabletSize?: number): number => {
+const getEnhancedFontSize = (
+  mobileSize: number,
+  tabletSize?: number,
+): number => {
   if (tabletSize) {
     return isTablet() ? Math.round(tabletSize * 1.75) : mobileSize;
   }
@@ -113,25 +122,27 @@ const TariffNewsContent: React.FC = () => {
     // Clear cache on first load to ensure fresh data
     AsyncStorage.removeItem(CACHE_KEY);
     // Also clear live trade data cache to ensure fresh fallback data
-    AsyncStorage.removeItem('@LiveTradeData:cache');
+    AsyncStorage.removeItem("@LiveTradeData:cache");
     fetchPosts();
   }, []);
 
   // Handle screen focus to refresh data when returning to this screen
   useFocusEffect(
     React.useCallback(() => {
-      console.log('Trade News screen focused, refreshing data...');
+      console.log("Trade News screen focused, refreshing data...");
       fetchPosts();
-    }, [])
+    }, []),
   );
 
   // Handle app state changes to refresh when returning from external links
   useEffect(() => {
     const handleAppStateChange = (nextAppState: any) => {
-      console.log('AppState changed from', appState, 'to', nextAppState);
-      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log("AppState changed from", appState, "to", nextAppState);
+      if (appState.match(/inactive|background/) && nextAppState === "active") {
         // App has come to the foreground, refresh data
-        console.log('Trade News: App returned to foreground, refreshing data...');
+        console.log(
+          "Trade News: App returned to foreground, refreshing data...",
+        );
         setTimeout(() => {
           fetchPosts();
         }, 500); // Small delay to ensure app is fully active
@@ -139,12 +150,15 @@ const TariffNewsContent: React.FC = () => {
       setAppState(nextAppState);
     };
 
-    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange,
+    );
     return () => subscription?.remove();
   }, [appState]);
 
   const fetchPosts = async () => {
-    console.log('Fetching fresh trade news data...');
+    console.log("Fetching fresh trade news data...");
     setLoading(true);
     try {
       // Always fetch fresh data first, use cache only as fallback
@@ -153,28 +167,38 @@ const TariffNewsContent: React.FC = () => {
 
       // Fetch live trade data first (highest priority)
       try {
-        console.log('TariffNewsContent: Fetching live trade data...');
+        console.log("TariffNewsContent: Fetching live trade data...");
         const liveTradeData = await liveTradeDataService.fetchLiveTradeData();
-        console.log('TariffNewsContent: Received live trade data:', liveTradeData.length, 'items');
-        const formattedTradeData: NewsItem[] = liveTradeData.map((item: LiveTradeData) => ({
-          id: item.id,
-          title: item.title,
-          summary: item.summary,
-          date: formatDate(item.date),
-          url: item.url,
-          source: item.source,
-          category: item.category,
-          priority: item.priority,
-          visualType: item.visualType,
-          chartData: item.chartData,
-          value: item.value,
-          change: item.change,
-          changePercent: item.changePercent,
-        }));
+        console.log(
+          "TariffNewsContent: Received live trade data:",
+          liveTradeData.length,
+          "items",
+        );
+        const formattedTradeData: NewsItem[] = liveTradeData.map(
+          (item: LiveTradeData) => ({
+            id: item.id,
+            title: item.title,
+            summary: item.summary,
+            date: formatDate(item.date),
+            url: item.url,
+            source: item.source,
+            category: item.category,
+            priority: item.priority,
+            visualType: item.visualType,
+            chartData: item.chartData,
+            value: item.value,
+            change: item.change,
+            changePercent: item.changePercent,
+          }),
+        );
         allNewsItems.push(...formattedTradeData);
-        console.log('TariffNewsContent: Successfully added', formattedTradeData.length, 'live trade items');
+        console.log(
+          "TariffNewsContent: Successfully added",
+          formattedTradeData.length,
+          "live trade items",
+        );
       } catch (error) {
-        console.log('TariffNewsContent: Live trade data fetch failed:', error);
+        console.log("TariffNewsContent: Live trade data fetch failed:", error);
       }
 
       // Try Azure Function for additional news
@@ -189,13 +213,15 @@ const TariffNewsContent: React.FC = () => {
         const sortedItems = allNewsItems.sort((a, b) => {
           // Priority order: high > medium > low
           const priorityOrder = { high: 3, medium: 2, low: 1 };
-          const aPriority = priorityOrder[a.priority as keyof typeof priorityOrder] || 1;
-          const bPriority = priorityOrder[b.priority as keyof typeof priorityOrder] || 1;
-          
+          const aPriority =
+            priorityOrder[a.priority as keyof typeof priorityOrder] || 1;
+          const bPriority =
+            priorityOrder[b.priority as keyof typeof priorityOrder] || 1;
+
           if (aPriority !== bPriority) {
             return bPriority - aPriority;
           }
-          
+
           // If same priority, sort by date
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
@@ -336,22 +362,25 @@ const TariffNewsContent: React.FC = () => {
 
     if (post.visualType === "chart" && post.chartData) {
       // Enhanced chart visualization for live trade data
-      const isLiveData = post.id.startsWith('live-trade');
-      const changeColor = post.changePercent && post.changePercent > 0 ? COLORS.positive : COLORS.negative;
-      
+      const isLiveData = post.id.startsWith("live-trade");
+      const changeColor =
+        post.changePercent && post.changePercent > 0
+          ? COLORS.positive
+          : COLORS.negative;
+
       return (
         <View
           style={[
-            styles.chartContainer, 
+            styles.chartContainer,
             { backgroundColor: COLORS.chart },
-            isLiveData && styles.liveDataContainer
+            isLiveData && styles.liveDataContainer,
           ]}
         >
           <View style={styles.chartContent}>
-            <Ionicons 
-              name={isLiveData ? "trending-up" : "bar-chart"} 
-              size={getEnhancedSize(24)} 
-              color={isLiveData ? changeColor : COLORS.lightBlue} 
+            <Ionicons
+              name={isLiveData ? "trending-up" : "bar-chart"}
+              size={getEnhancedSize(24)}
+              color={isLiveData ? changeColor : COLORS.lightBlue}
             />
             {isLiveData && post.value && (
               <View style={styles.liveDataValues}>
@@ -373,10 +402,13 @@ const TariffNewsContent: React.FC = () => {
       return (
         <Image
           source={{ uri: logoUrl }}
-          style={[styles.agencyLogo, { 
-            width: getEnhancedSize(40), 
-            height: getEnhancedSize(32) 
-          }]}
+          style={[
+            styles.agencyLogo,
+            {
+              width: getEnhancedSize(40),
+              height: getEnhancedSize(32),
+            },
+          ]}
           onError={() => handleImageError(sourceKey)}
           resizeMode="contain"
         />
@@ -388,7 +420,7 @@ const TariffNewsContent: React.FC = () => {
       <View
         style={[
           styles.iconContainer,
-          { 
+          {
             backgroundColor: fallback?.color || COLORS.darkGray,
             width: getEnhancedSize(32),
             height: getEnhancedSize(32),
@@ -407,7 +439,7 @@ const TariffNewsContent: React.FC = () => {
   const getPlaceholderData = (): NewsItem[] => {
     const currentDate = new Date();
     const currentMonth = currentDate.toISOString().slice(0, 7);
-    
+
     return [
       {
         id: "live-trade-summary",
@@ -427,8 +459,11 @@ const TariffNewsContent: React.FC = () => {
       {
         id: "placeholder-cbp",
         title: "CBP Trade Bulletin Updates",
-        summary: "Latest Customs and Border Protection bulletins on HTS code changes, trade regulations, and enforcement updates.",
-        date: formatDate(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()),
+        summary:
+          "Latest Customs and Border Protection bulletins on HTS code changes, trade regulations, and enforcement updates.",
+        date: formatDate(
+          new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        ),
         url: "https://www.cbp.gov/newsroom/trade-bulletins",
         source: "CBP",
         category: "regulatory",
@@ -438,8 +473,11 @@ const TariffNewsContent: React.FC = () => {
       {
         id: "placeholder-ustr",
         title: "USTR Trade Policy Announcements",
-        summary: "Current trade negotiations, policy updates, and international trade agreement developments from the U.S. Trade Representative.",
-        date: formatDate(new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()),
+        summary:
+          "Current trade negotiations, policy updates, and international trade agreement developments from the U.S. Trade Representative.",
+        date: formatDate(
+          new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        ),
         url: "https://ustr.gov/about-us/policy-offices/press-office/press-releases",
         source: "USTR",
         category: "policy",
@@ -449,8 +487,11 @@ const TariffNewsContent: React.FC = () => {
       {
         id: "placeholder-federal-register",
         title: "Federal Register Trade Entries",
-        summary: "Recent tariff schedule modifications, trade rule changes, and regulatory updates published in the Federal Register.",
-        date: formatDate(new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()),
+        summary:
+          "Recent tariff schedule modifications, trade rule changes, and regulatory updates published in the Federal Register.",
+        date: formatDate(
+          new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        ),
         url: "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=tariff",
         source: "Federal Register",
         category: "regulatory",
@@ -462,14 +503,14 @@ const TariffNewsContent: React.FC = () => {
 
   const handleLinkPress = (url: string, title?: string) => {
     // Use in-app browser for better user experience
-    navigation.navigate('InAppWebView', { url, title: title || 'Trade News' });
+    navigation.navigate("InAppWebView", { url, title: title || "Trade News" });
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Top spacer for iPhone Dynamic Island/notch */}
       {!isTablet() && <View style={styles.topSpacer} />}
-      
+
       <View style={styles.headerRow}>
         <Text style={styles.header}>Trade & Tariff News</Text>
         {lastUpdated && (
@@ -481,10 +522,10 @@ const TariffNewsContent: React.FC = () => {
       {posts.some((p) => p.visualType === "chart") && (
         <View style={styles.featuredBanner}>
           <View style={styles.bannerContent}>
-            <Ionicons 
-              name="trending-up" 
-              size={getEnhancedSize(24)} 
-              color={COLORS.lightBlue} 
+            <Ionicons
+              name="trending-up"
+              size={getEnhancedSize(24)}
+              color={COLORS.lightBlue}
             />
             <Text style={styles.bannerText}>Live Trade Data Available</Text>
           </View>
@@ -501,7 +542,7 @@ const TariffNewsContent: React.FC = () => {
               styles.card,
               post.visualType === "chart" && styles.chartCard,
               post.priority === "high" && styles.highPriorityCard,
-              post.id.startsWith('live-trade') && styles.liveTradeCard,
+              post.id.startsWith("live-trade") && styles.liveTradeCard,
             ]}
             onPress={() => handleLinkPress(post.url, post.title)}
           >
@@ -524,16 +565,25 @@ const TariffNewsContent: React.FC = () => {
                       <Text style={styles.priorityText}>HIGH</Text>
                     </View>
                   )}
-                  {post.changePercent !== undefined && (
-                    <View style={[
-                      styles.changeBadge,
-                      { backgroundColor: post.changePercent > 0 ? COLORS.positive : COLORS.negative }
-                    ]}>
-                      <Text style={styles.changeText}>
-                        {post.changePercent > 0 ? '+' : ''}{post.changePercent.toFixed(1)}%
-                      </Text>
-                    </View>
-                  )}
+                  {post.changePercent !== undefined &&
+                    post.changePercent !== 0 && (
+                      <View
+                        style={[
+                          styles.changeBadge,
+                          {
+                            backgroundColor:
+                              post.changePercent > 0
+                                ? COLORS.positive
+                                : COLORS.negative,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.changeText}>
+                          {post.changePercent > 0 ? "+" : ""}
+                          {post.changePercent.toFixed(1)}%
+                        </Text>
+                      </View>
+                    )}
                 </View>
               </View>
               <View style={styles.actionArea}>
@@ -562,7 +612,11 @@ const TariffNewsContent: React.FC = () => {
           fetchPosts();
         }}
       >
-        <Ionicons name="refresh" size={getEnhancedSize(16)} color={COLORS.lightBlue} />
+        <Ionicons
+          name="refresh"
+          size={getEnhancedSize(16)}
+          color={COLORS.lightBlue}
+        />
         <Text style={styles.refreshText}>Refresh</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -596,6 +650,16 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 8,
     padding: getEnhancedSize(8),
+  },
+  changeBadge: {
+    borderRadius: 3,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  changeText: {
+    color: COLORS.white,
+    fontSize: getEnhancedFontSize(9, 10),
+    fontWeight: "700",
   },
   chartCard: {
     borderLeftColor: COLORS.lightBlue,
@@ -674,24 +738,29 @@ const styles = StyleSheet.create({
     fontSize: getEnhancedFontSize(10, 11),
     fontStyle: "italic",
   },
+  liveDataChange: {
+    color: COLORS.darkGray,
+    fontSize: getEnhancedFontSize(8, 9),
+    marginTop: 1,
+  },
   liveDataContainer: {
     backgroundColor: COLORS.highlight,
     borderLeftColor: COLORS.lightBlue,
     borderLeftWidth: 4,
-  },
-  liveDataValues: {
-    alignItems: "center",
-    flexDirection: "row",
   },
   liveDataValue: {
     color: COLORS.darkBlue,
     fontSize: getEnhancedFontSize(11, 12),
     fontWeight: "600",
   },
-  liveDataChange: {
-    color: COLORS.darkGray,
-    fontSize: getEnhancedFontSize(9, 10),
-    marginLeft: 4,
+  liveDataValues: {
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  liveTradeCard: {
+    backgroundColor: "#fff8dc",
+    borderColor: COLORS.warning,
+    borderWidth: 1,
   },
   metaRow: {
     alignItems: "center",
@@ -736,21 +805,6 @@ const styles = StyleSheet.create({
     color: COLORS.darkBlue,
     fontSize: getEnhancedFontSize(13, 14),
     fontWeight: "600",
-  },
-  changeBadge: {
-    borderRadius: 3,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-  },
-  changeText: {
-    color: COLORS.white,
-    fontSize: getEnhancedFontSize(9, 10),
-    fontWeight: "700",
-  },
-  liveTradeCard: {
-    backgroundColor: "#fff8dc",
-    borderColor: COLORS.warning,
-    borderWidth: 1,
   },
   topSpacer: {
     height: 44, // Adjust this value based on the height of the Dynamic Island/notch

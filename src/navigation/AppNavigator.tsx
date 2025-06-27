@@ -1,34 +1,50 @@
-import React, { useState } from 'react';
-import { Platform, TouchableOpacity, View, StyleSheet, Text } from 'react-native';
-import { createDrawerNavigator, DrawerNavigationOptions, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import React, { useState } from "react";
+import {
+  Platform,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Text,
+} from "react-native";
+import {
+  createDrawerNavigator,
+  DrawerNavigationOptions,
+  DrawerContentComponentProps,
+} from "@react-navigation/drawer";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack";
 
-import { Ionicons } from '@expo/vector-icons';
-import { isTablet } from '../platform/deviceUtils';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootStackParamList, AuthStackParamList, MainTabParamList } from './types';
+import { Ionicons } from "@expo/vector-icons";
+import { isTablet } from "../platform/deviceUtils";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  RootStackParamList,
+  AuthStackParamList,
+  MainTabParamList,
+} from "./types";
 
 // Import screens
-import LookupScreen from '../screens/LookupScreen';
-import HistoryScreen from '../screens/HistoryScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegistrationScreen from '../screens/RegistrationScreen';
-import LinksScreen from '../screens/LinksScreen';
-import InAppWebViewScreen from '../screens/InAppWebViewScreen';
-import CountrySelectionScreen from '../screens/CountrySelectionScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-
+import LookupScreen from "../screens/LookupScreen";
+import HistoryScreen from "../screens/HistoryScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegistrationScreen from "../screens/RegistrationScreen";
+import LinksScreen from "../screens/LinksScreen";
+import InAppWebViewScreen from "../screens/InAppWebViewScreen";
+import CountrySelectionScreen from "../screens/CountrySelectionScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 // Brand colors
 const COLORS = {
-  darkBlue: '#0B2953',
-  lightBlue: '#4397EC',
-  orange: '#E67E23',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
+  darkBlue: "#0B2953",
+  lightBlue: "#4397EC",
+  orange: "#E67E23",
+  white: "#FFFFFF",
+  lightGray: "#F8F8F8",
+  mediumGray: "#E1E1E1",
+  darkGray: "#666666",
 };
 
 // Create navigators with proper typing
@@ -69,11 +85,14 @@ const CustomDrawerContent = (props: any) => {
           <View style={styles.drawerContainer}>
             {/* Menu Items */}
             <View style={styles.menuContainer}>
-              {drawerProps.state.routes.map((route, index) => {
+              {drawerProps.state.routes.map((route: any, index: number) => {
                 const focused = drawerProps.state.index === index;
                 const { options } = drawerProps.descriptors[route.key];
-                const label = options.drawerLabel ?? options.title ?? route.name;
-                const icon = options.drawerIcon as ((props: DrawerIconProps) => React.ReactNode) | undefined;
+                const label =
+                  options.drawerLabel ?? options.title ?? route.name;
+                const icon = options.drawerIcon as
+                  | ((props: DrawerIconProps) => React.ReactNode)
+                  | undefined;
 
                 return (
                   <TouchableOpacity
@@ -86,16 +105,23 @@ const CustomDrawerContent = (props: any) => {
                     }}
                     style={[
                       styles.drawerItem,
-                      focused && styles.drawerItemFocused
+                      focused && styles.drawerItemFocused,
                     ]}
                   >
-                    {icon && icon({ color: focused ? COLORS.lightBlue : COLORS.darkGray, size: 24, focused })}
+                    {icon &&
+                      icon({
+                        color: focused ? COLORS.lightBlue : COLORS.darkGray,
+                        size: 24,
+                        focused,
+                      })}
                     {drawerStateRef.current && (
-                      <Text style={[
-                        styles.drawerLabel,
-                        focused && styles.drawerLabelFocused
-                      ]}>
-                        {typeof label === 'string' ? label : route.name}
+                      <Text
+                        style={[
+                          styles.drawerLabel,
+                          focused && styles.drawerLabelFocused,
+                        ]}
+                      >
+                        {typeof label === "string" ? label : route.name}
                       </Text>
                     )}
                   </TouchableOpacity>
@@ -105,31 +131,39 @@ const CustomDrawerContent = (props: any) => {
           </View>
         );
       }}
-      screenOptions={{
-        drawerStyle: {
-          width: isTablet() ? (drawerStateRef.current ? 280 : 60) : 240,
-        },
-        drawerType: isTablet() ? 'permanent' : 'front',
-        headerStyle: {
-          backgroundColor: '#0A99F2',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: '600',
-        },
-        headerLeft: isTablet() ? () => (
-          <TouchableOpacity
-            onPress={handleDrawerToggle}
-            style={{ marginLeft: 16 }}
-          >
-            <Ionicons
-              name={drawerStateRef.current ? "chevron-back" : "chevron-forward"}
-              size={24}
-              color="#fff"
-            />
-          </TouchableOpacity>
-        ) : undefined,
-      } as DrawerNavigationOptions}
+      screenOptions={
+        {
+          drawerStyle: {
+            width: isTablet() ? (drawerStateRef.current ? 280 : 60) : 240,
+          },
+          drawerType: isTablet() ? "permanent" : "front",
+          headerStyle: {
+            backgroundColor: "#0A99F2",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "600",
+          },
+          headerLeft: isTablet()
+            ? () => (
+                <TouchableOpacity
+                  onPress={handleDrawerToggle}
+                  style={{ marginLeft: 16 }}
+                >
+                  <Ionicons
+                    name={
+                      drawerStateRef.current
+                        ? "chevron-back"
+                        : "chevron-forward"
+                    }
+                    size={24}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+              )
+            : undefined,
+        } as DrawerNavigationOptions
+      }
     >
       <Drawer.Screen
         name="Lookup"
@@ -162,8 +196,6 @@ const CustomDrawerContent = (props: any) => {
   );
 };
 
-
-
 function MainStack() {
   const MainStackNavigator = createNativeStackNavigator<MainTabParamList>();
 
@@ -185,31 +217,36 @@ function MainStack() {
 function AuthNavigator() {
   return (
     <AuthStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#217DB2',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: '600',
-        },
-      } as NativeStackNavigationOptions}
+      screenOptions={
+        {
+          headerStyle: {
+            backgroundColor: "#217DB2",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "600",
+          },
+        } as NativeStackNavigationOptions
+      }
     >
       <AuthStack.Screen
         name="Login"
         component={LoginScreen}
         options={{ headerBackVisible: false, headerShown: false }}
       />
-      <AuthStack.Screen
-        name="Registration"
-        component={RegistrationScreen}
-      />
+      <AuthStack.Screen name="Registration" component={RegistrationScreen} />
     </AuthStack.Navigator>
   );
 }
 
 // Main navigation component that adapts based on device
-export function AppNavigator({ isAuthenticated, isFirstLaunch }: { isAuthenticated: boolean; isFirstLaunch: boolean }) {
+export function AppNavigator({
+  isAuthenticated,
+  isFirstLaunch,
+}: {
+  isAuthenticated: boolean;
+  isFirstLaunch: boolean;
+}) {
   // Use MainStack with floating navigation
   const MainNavigator = MainStack;
 
@@ -224,27 +261,27 @@ export function AppNavigator({ isAuthenticated, isFirstLaunch }: { isAuthenticat
         <Stack.Screen
           name="Auth"
           component={AuthNavigator}
-          options={{ animation: 'none' }}
+          options={{ animation: "none" }}
         />
       ) : (
         <>
-        <Stack.Screen
-          name="Main"
-          component={MainNavigator}
-          options={{ animation: 'none' }}
-        />
+          <Stack.Screen
+            name="Main"
+            component={MainNavigator}
+            options={{ animation: "none" }}
+          />
           <Stack.Screen
             name="InAppWebView"
             component={InAppWebViewScreen}
-            options={({ route }) => ({
+            options={({ route }: any) => ({
               headerShown: true,
-              title: route.params?.title || 'Web View',
+              title: route.params?.title || "Web View",
               headerStyle: {
                 backgroundColor: COLORS.lightBlue,
               },
               headerTintColor: COLORS.white,
               headerTitleStyle: {
-                fontWeight: '600',
+                fontWeight: "600",
               },
             })}
           />
@@ -253,7 +290,7 @@ export function AppNavigator({ isAuthenticated, isFirstLaunch }: { isAuthenticat
             component={CountrySelectionScreen}
             options={{
               headerShown: false,
-              presentation: 'modal',
+              presentation: "modal",
             }}
           />
           <Stack.Screen
@@ -271,30 +308,30 @@ export function AppNavigator({ isAuthenticated, isFirstLaunch }: { isAuthenticat
 
 const styles = StyleSheet.create({
   drawerContainer: {
-    flex: 1,
-    flexDirection: 'column',
     backgroundColor: COLORS.white,
-  },
-  menuContainer: {
     flex: 1,
+    flexDirection: "column",
   },
   drawerItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
+    alignItems: "center",
     borderBottomColor: COLORS.lightGray,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    padding: 16,
   },
   drawerItemFocused: {
     backgroundColor: COLORS.lightGray,
   },
   drawerLabel: {
-    marginLeft: 16,
-    fontSize: isTablet() ? 16 : 14,
     color: COLORS.darkGray,
+    fontSize: isTablet() ? 16 : 14,
+    marginLeft: 16,
   },
   drawerLabelFocused: {
     color: COLORS.lightBlue,
-    fontWeight: '600',
+    fontWeight: "600",
+  },
+  menuContainer: {
+    flex: 1,
   },
 });

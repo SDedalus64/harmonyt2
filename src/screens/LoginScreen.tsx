@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,45 +12,50 @@ import {
   Platform,
   ScrollView,
   Dimensions,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthStackParamList } from '../navigation/types';
-import { useAuth } from '../navigation/contexts/AuthContext';
-import { isTablet } from '../platform/deviceUtils';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { BRAND_COLORS, BRAND_TYPOGRAPHY, getTypographySize, getResponsiveValue } from '../config/brandColors';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthStackParamList } from "../navigation/types";
+import { useAuth } from "../navigation/contexts/AuthContext";
+import { isTablet } from "../platform/deviceUtils";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  BRAND_COLORS,
+  BRAND_TYPOGRAPHY,
+  getTypographySize,
+  getResponsiveValue,
+} from "../config/brandColors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Get screen dimensions
-const { width: screenWidth } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get("window");
 
 // Storage key to track if user has previously signed in
-const HAS_SIGNED_IN_KEY = '@HarmonyTi:hasSignedIn';
+const HAS_SIGNED_IN_KEY = "@HarmonyTi:hasSignedIn";
 
 // Brand colors
 const COLORS = {
-  darkBlue: '#023559',
-  lightBlue: '#0A99F2',
-  orange: '#E67E23',
-  yellow: '#FFD800',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
-  black: '#333333',
-  error: '#FF3B30',
+  darkBlue: "#023559",
+  lightBlue: "#0A99F2",
+  orange: "#E67E23",
+  yellow: "#FFD800",
+  white: "#FFFFFF",
+  lightGray: "#F8F8F8",
+  mediumGray: "#E1E1E1",
+  darkGray: "#666666",
+  black: "#333333",
+  error: "#FF3B30",
 };
 
-type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
+type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList>;
 
 export default function LoginScreen() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasSignedInBefore, setHasSignedInBefore] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -61,9 +66,9 @@ export default function LoginScreen() {
     const checkPreviousSignIn = async () => {
       try {
         const hasSignedIn = await AsyncStorage.getItem(HAS_SIGNED_IN_KEY);
-        setHasSignedInBefore(hasSignedIn === 'true');
+        setHasSignedInBefore(hasSignedIn === "true");
       } catch (error) {
-        console.error('Error checking previous sign in:', error);
+        console.error("Error checking previous sign in:", error);
       }
     };
     checkPreviousSignIn();
@@ -71,11 +76,11 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!email.trim()) {
-      Alert.alert('Error', 'Please enter your email');
+      Alert.alert("Error", "Please enter your email");
       return;
     }
     if (!password.trim()) {
-      Alert.alert('Error', 'Please enter your password');
+      Alert.alert("Error", "Please enter your password");
       return;
     }
 
@@ -84,26 +89,26 @@ export default function LoginScreen() {
     try {
       await login(email, password);
       // Mark that user has signed in
-      await AsyncStorage.setItem(HAS_SIGNED_IN_KEY, 'true');
+      await AsyncStorage.setItem(HAS_SIGNED_IN_KEY, "true");
       // Navigation will be handled automatically by AppNavigator
       // when isAuthenticated becomes true
     } catch (error) {
-      Alert.alert('Login Failed', 'Invalid email or password');
-      console.error('Login error:', error);
+      Alert.alert("Login Failed", "Invalid email or password");
+      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSignUp = () => {
-    navigation.navigate('Registration');
+    navigation.navigate("Registration");
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={0}
       >
         {isTablet() ? (
@@ -122,7 +127,7 @@ export default function LoginScreen() {
                   style={styles.logoContainer}
                 >
                   <Image
-                    source={require('../../assets/Harmony2x.png')}
+                    source={require("../../assets/Harmony2x.png")}
                     style={styles.logo}
                     resizeMode="contain"
                   />
@@ -131,7 +136,7 @@ export default function LoginScreen() {
 
               <View style={styles.formContainer}>
                 <Text style={styles.welcomeText}>
-                  {hasSignedInBefore ? 'Welcome Back' : 'Welcome'}
+                  {hasSignedInBefore ? "Welcome Back" : "Welcome"}
                 </Text>
 
                 <View style={styles.inputContainer}>
@@ -149,16 +154,16 @@ export default function LoginScreen() {
 
                 <View style={styles.inputContainer}>
                   <View style={styles.passwordWrapper}>
-                  <TextInput
+                    <TextInput
                       style={styles.passwordInput}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
+                      placeholder="Password"
+                      value={password}
+                      onChangeText={setPassword}
                       secureTextEntry={!showPassword}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    returnKeyType="done"
-                  />
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      returnKeyType="done"
+                    />
                     <TouchableOpacity
                       style={styles.eyeIcon}
                       onPress={() => setShowPassword(!showPassword)}
@@ -173,7 +178,10 @@ export default function LoginScreen() {
                 </View>
 
                 <TouchableOpacity
-                  style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+                  style={[
+                    styles.loginButton,
+                    isLoading && styles.loginButtonDisabled,
+                  ]}
                   onPress={handleLogin}
                   disabled={isLoading}
                 >
@@ -211,7 +219,7 @@ export default function LoginScreen() {
                   style={[styles.logoContainer, styles.phoneLogoContainer]}
                 >
                   <Image
-                    source={require('../../assets/Harmony2x.png')}
+                    source={require("../../assets/Harmony2x.png")}
                     style={styles.logo}
                     resizeMode="contain"
                   />
@@ -220,7 +228,7 @@ export default function LoginScreen() {
 
               <View style={styles.formContainer}>
                 <Text style={styles.welcomeText}>
-                  {hasSignedInBefore ? 'Welcome Back' : 'Welcome'}
+                  {hasSignedInBefore ? "Welcome Back" : "Welcome"}
                 </Text>
 
                 <View style={styles.inputContainer}>
@@ -238,16 +246,16 @@ export default function LoginScreen() {
 
                 <View style={styles.inputContainer}>
                   <View style={styles.passwordWrapper}>
-                  <TextInput
+                    <TextInput
                       style={styles.passwordInput}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
+                      placeholder="Password"
+                      value={password}
+                      onChangeText={setPassword}
                       secureTextEntry={!showPassword}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    returnKeyType="done"
-                  />
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      returnKeyType="done"
+                    />
                     <TouchableOpacity
                       style={styles.eyeIcon}
                       onPress={() => setShowPassword(!showPassword)}
@@ -262,7 +270,10 @@ export default function LoginScreen() {
                 </View>
 
                 <TouchableOpacity
-                  style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+                  style={[
+                    styles.loginButton,
+                    isLoading && styles.loginButtonDisabled,
+                  ]}
                   onPress={handleLogin}
                   disabled={isLoading}
                 >
@@ -290,74 +301,52 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.white,
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+    minHeight: "100%",
+  },
+  eyeIcon: {
+    marginLeft: 8,
+    marginRight: -8,
+  },
+  formContainer: {
+    backgroundColor: "transparent",
+    paddingBottom: Platform.OS === "ios" ? 40 : 24,
+    paddingHorizontal: 24,
+    paddingTop: 20,
+  },
+  input: {
+    color: COLORS.black,
+    fontSize: 16,
+  },
+  inputContainer: {
+    alignSelf: isTablet() ? "center" : "stretch",
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.mediumGray,
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 56,
+    justifyContent: "center",
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    width: isTablet() ? "50%" : "100%",
   },
   keyboardAvoidingView: {
     flex: 1,
   },
-  scrollViewContent: {
-    flexGrow: 1,
-  },
-  contentContainer: {
-    flex: 1,
-    minHeight: '100%',
-    justifyContent: 'space-between',
-  },
-  logoContainer: {
-    alignItems: 'center',
-    width: '100%',
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  logo: {
-    width: isTablet() ? 1200 : screenWidth * 0.9,
-    height: isTablet() ? 240 : 140,
-  },
-  phoneLogoContainer: {
-    minHeight: 220,
-    justifyContent: 'center',
-    paddingTop: 20,
-    paddingBottom: 3,
-  },
-  formContainer: {
-    backgroundColor: 'transparent',
-    paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: Platform.OS === 'ios' ? 40 : 24,
-  },
-  welcomeText: {
-    fontSize: getResponsiveValue(getTypographySize('xl'), getTypographySize('xxxl')),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
-    color: BRAND_COLORS.darkNavy,
-    marginBottom: 32,
-    textAlign: 'center',
-  },
-  inputContainer: {
-    backgroundColor: COLORS.white,
-    borderRadius: 8,
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    height: 56,
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.mediumGray,
-    width: isTablet() ? '50%' : '100%',
-    alignSelf: isTablet() ? 'center' : 'stretch',
-  },
-  input: {
-    fontSize: 16,
-    color: COLORS.black,
-  },
   loginButton: {
+    alignItems: "center",
+    alignSelf: isTablet() ? "center" : "stretch",
     backgroundColor: COLORS.lightBlue,
     borderRadius: 8,
     height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
     marginTop: 16,
-    width: isTablet() ? '50%' : '100%',
-    alignSelf: isTablet() ? 'center' : 'stretch',
+    width: isTablet() ? "50%" : "100%",
   },
   loginButtonDisabled: {
     opacity: 0.7,
@@ -365,33 +354,58 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: COLORS.white,
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
+  },
+  logo: {
+    height: isTablet() ? 240 : 140,
+    width: isTablet() ? 1200 : screenWidth * 0.9,
+  },
+  logoContainer: {
+    alignItems: "center",
+    paddingBottom: 20,
+    paddingTop: 60,
+    width: "100%",
+  },
+  passwordInput: {
+    color: COLORS.black,
+    flex: 1,
+    fontSize: 16,
+  },
+  passwordWrapper: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: "100%",
+  },
+  phoneLogoContainer: {
+    justifyContent: "center",
+    minHeight: 220,
+    paddingBottom: 3,
+    paddingTop: 20,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
   signUpButton: {
-    marginTop: 16,
+    alignItems: "center",
+    alignSelf: isTablet() ? "center" : "stretch",
     height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: isTablet() ? '50%' : '100%',
-    alignSelf: isTablet() ? 'center' : 'stretch',
+    justifyContent: "center",
+    marginTop: 16,
+    width: isTablet() ? "50%" : "100%",
   },
   signUpButtonText: {
     color: COLORS.lightBlue,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
-  passwordWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: '100%',
-  },
-  passwordInput: {
-    flex: 1,
-    fontSize: 16,
-    color: COLORS.black,
-  },
-  eyeIcon: {
-    marginLeft: 8,
-    marginRight: -8,
+  welcomeText: {
+    color: BRAND_COLORS.darkNavy,
+    fontSize: getResponsiveValue(
+      getTypographySize("xl"),
+      getTypographySize("xxxl"),
+    ),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    marginBottom: 32,
+    textAlign: "center",
   },
 });
