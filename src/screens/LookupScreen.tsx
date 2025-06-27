@@ -2490,7 +2490,11 @@ export default function LookupScreen() {
         <View
           style={[
             styles.floatingMenuContainer,
-            { bottom: isTablet() ? insets.bottom - 30 : insets.bottom - 20 },
+            {
+              bottom: isTablet()
+                ? insets.bottom - 25 // Move up 5px on iPad
+                : insets.bottom - 35, // Move down 15px on iPhone
+            },
           ]}
         >
           {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
@@ -3214,8 +3218,8 @@ const styles = StyleSheet.create({
   floatingMenuContainer: {
     position: "absolute",
     bottom: getSpacing("xs"),
-    left: 0,
-    right: 0,
+    left: 1,
+    right: 1,
     alignItems: "center",
     zIndex: 2000,
   },
