@@ -874,6 +874,17 @@ export class TariffService {
           (Array.isArray(duty.countries) &&
             duty.countries.includes(countryCodeForTariffs))
         ) {
+          // Skip duties that will be handled in the reciprocal_tariffs array to avoid duplicates
+          const dutyLabelLower = (duty.label || "").toLowerCase();
+          if (
+            duty.type === "fentanyl" ||
+            dutyLabelLower.includes("fentanyl") ||
+            duty.type === "reciprocal_tariff" ||
+            dutyLabelLower.includes("reciprocal tariff")
+          ) {
+            continue; // duplicate – handled later in reciprocal_tariffs pass
+          }
+
           console.log("Duty applies to country:", duty);
 
           // Always add all additive duties (Section 301, Section 232, etc.)

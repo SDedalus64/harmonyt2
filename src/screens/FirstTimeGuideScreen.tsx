@@ -1,26 +1,47 @@
-import React, { useState, useRef } from 'react';
-import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { 
-  BRAND_COLORS, 
-  BRAND_SPACING, 
-  BRAND_TYPOGRAPHY, 
-  getResponsiveValue, 
-  getBorderRadius, 
-  getSpacing, 
+import React, { useState, useRef } from "react";
+import {
+  Modal,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Switch,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  BRAND_COLORS,
+  BRAND_SPACING,
+  BRAND_TYPOGRAPHY,
+  getResponsiveValue,
+  getBorderRadius,
+  getSpacing,
   BRAND_SHADOWS,
-  getTypographySize
-} from '../config/brandColors';
-import { LinearGradient } from 'expo-linear-gradient';
+  getTypographySize,
+} from "../config/brandColors";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface FirstTimeGuideScreenProps {
   visible: boolean;
   onClose: (dontShowAgain: boolean) => void;
 }
 
-const GuideStep = ({ icon, title, text }: { icon: any; title: string; text: string }) => (
+const GuideStep = ({
+  icon,
+  title,
+  text,
+}: {
+  icon: any;
+  title: string;
+  text: string;
+}) => (
   <View style={styles.stepContainer}>
-    <Ionicons name={icon} size={getResponsiveValue(28, 32)} color={BRAND_COLORS.electricBlue} style={styles.stepIcon} />
+    <Ionicons
+      name={icon}
+      size={getResponsiveValue(28, 32)}
+      color={BRAND_COLORS.electricBlue}
+      style={styles.stepIcon}
+    />
     <View style={styles.stepTextContainer}>
       <Text style={styles.stepTitle}>{title}</Text>
       <Text style={styles.stepText}>{text}</Text>
@@ -28,18 +49,25 @@ const GuideStep = ({ icon, title, text }: { icon: any; title: string; text: stri
   </View>
 );
 
-const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, onClose }) => {
+const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({
+  visible,
+  onClose,
+}) => {
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
   const handleScroll = (event: any) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
-    const isCloseToBottom = contentOffset.y + layoutMeasurement.height >= contentSize.height - 20;
+    const isCloseToBottom =
+      contentOffset.y + layoutMeasurement.height >= contentSize.height - 20;
     setShowScrollIndicator(!isCloseToBottom);
   };
 
-  const handleContentSizeChange = (contentWidth: number, contentHeight: number) => {
+  const handleContentSizeChange = (
+    contentWidth: number,
+    contentHeight: number,
+  ) => {
     // Check if content is scrollable by comparing content height to a reasonable modal height
     const estimatedModalHeight = 600; // Approximate modal content height
     setShowScrollIndicator(contentHeight > estimatedModalHeight);
@@ -54,10 +82,10 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
     >
       <View style={styles.modalOverlay}>
         <LinearGradient
-            colors={[BRAND_COLORS.darkNavy, BRAND_COLORS.mediumBlue]}
-            style={styles.modalContent}
+          colors={[BRAND_COLORS.darkNavy, BRAND_COLORS.mediumBlue]}
+          style={styles.modalContent}
         >
-          <ScrollView 
+          <ScrollView
             ref={scrollViewRef}
             contentContainerStyle={styles.scrollViewContent}
             showsVerticalScrollIndicator={true}
@@ -66,11 +94,16 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
             scrollEventThrottle={16}
           >
             <View style={styles.header}>
-                <Ionicons name="compass-outline" size={getResponsiveValue(36, 48)} color={BRAND_COLORS.white} />
-                <Text style={styles.title}>First Time? Here's a Quick Tour!</Text>
+              <Ionicons
+                name="compass-outline"
+                size={getResponsiveValue(36, 48)}
+                color={BRAND_COLORS.white}
+              />
+              <Text style={styles.title}>First Time? Here's a Quick Tour!</Text>
             </View>
             <Text style={styles.introText}>
-              Welcome to Harmony! Let's walk through your first duty calculation.
+              Welcome to Harmony Tariff Intelligence! Let's walk through your
+              first duty calculation.
             </Text>
 
             <GuideStep
@@ -84,7 +117,7 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
               title="Want to know more about a field? Tap or swipe the Info Tabs"
               text="See the (i) icons next to each field? Tap them any time for a quick explanation of what to enter and why it's needed."
             />
-            
+
             <GuideStep
               icon="rocket-outline"
               title="2. Calculate Duties"
@@ -100,24 +133,36 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
             <View style={styles.footer}>
               <View style={styles.switchContainer}>
                 <Switch
-                  trackColor={{ false: BRAND_COLORS.mediumGray, true: BRAND_COLORS.electricBlue }}
-                  thumbColor={dontShowAgain ? BRAND_COLORS.white : BRAND_COLORS.lightGray}
+                  trackColor={{
+                    false: BRAND_COLORS.mediumGray,
+                    true: BRAND_COLORS.electricBlue,
+                  }}
+                  thumbColor={
+                    dontShowAgain ? BRAND_COLORS.white : BRAND_COLORS.lightGray
+                  }
                   onValueChange={setDontShowAgain}
                   value={dontShowAgain}
                 />
                 <Text style={styles.switchLabel}>Don't show this again</Text>
               </View>
 
-              <TouchableOpacity style={styles.button} onPress={() => onClose(dontShowAgain)}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => onClose(dontShowAgain)}
+              >
                 <Text style={styles.buttonText}>Got It!</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
-          
+
           {/* Scroll indicator */}
           {showScrollIndicator && (
             <View style={styles.scrollIndicator}>
-              <Ionicons name="chevron-down" size={20} color={BRAND_COLORS.white} />
+              <Ionicons
+                name="chevron-down"
+                size={20}
+                color={BRAND_COLORS.white}
+              />
               <Text style={styles.scrollIndicatorText}>Scroll for more</Text>
             </View>
           )}
@@ -128,113 +173,116 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({ visible, on
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    zIndex: 9999,
+  button: {
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderRadius: getBorderRadius("md"),
+    paddingHorizontal: getSpacing("lg"),
+    paddingVertical: getSpacing("sm"),
+    ...BRAND_SHADOWS.medium,
   },
-  modalContent: {
-    width: '90%',
-    maxWidth: getResponsiveValue(500, 572), // ~1 inch wider on iPad (72pt ≈ 1 inch)
-    maxHeight: '85%',
-    borderRadius: getBorderRadius('lg'),
-    padding: getSpacing('lg'),
-    ...BRAND_SHADOWS.large,
+  buttonText: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize("md"),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
   },
-  scrollViewContent: {
-    paddingBottom: getSpacing('lg'),
+  footer: {
+    alignItems: "center",
+    marginTop: getSpacing("lg"),
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: getSpacing('md'),
-    paddingHorizontal: getSpacing('sm'),
-  },
-  title: {
-    fontSize: getResponsiveValue(getTypographySize('lg'), getTypographySize('xl')),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
-    color: BRAND_COLORS.white,
-    textAlign: 'center',
-    marginLeft: getSpacing('md'),
-    flex: 1,
-    flexShrink: 1,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: getSpacing("md"),
+    paddingHorizontal: getSpacing("sm"),
   },
   introText: {
-    fontSize: getTypographySize('md'),
     color: BRAND_COLORS.lightGray,
-    textAlign: 'center',
-    marginBottom: getSpacing('xl'),
+    fontSize: getTypographySize("md"),
+    marginBottom: getSpacing("xl"),
+    textAlign: "center",
+  },
+  modalContent: {
+    width: "90%",
+    maxWidth: getResponsiveValue(500, 572), // ~1 inch wider on iPad (72pt ≈ 1 inch)
+    maxHeight: "85%",
+    borderRadius: getBorderRadius("lg"),
+    padding: getSpacing("lg"),
+    ...BRAND_SHADOWS.large,
+  },
+  modalOverlay: {
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    flex: 1,
+    justifyContent: "center",
+    zIndex: 9999,
+  },
+  scrollIndicator: {
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderRadius: getBorderRadius("sm"),
+    bottom: getSpacing("md"),
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
+    position: "absolute",
+  },
+  scrollIndicatorText: {
+    color: BRAND_COLORS.white,
+    fontSize: getTypographySize("xs"),
+    marginTop: 2,
+  },
+  scrollViewContent: {
+    paddingBottom: getSpacing("lg"),
   },
   stepContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: getSpacing('xl'),
-    padding: getSpacing('md'),
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: getBorderRadius('md'),
+    alignItems: "flex-start",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderRadius: getBorderRadius("md"),
+    flexDirection: "row",
+    marginBottom: getSpacing("xl"),
+    padding: getSpacing("md"),
   },
   stepIcon: {
-    marginRight: getSpacing('md'),
-    marginTop: getSpacing('xs'),
+    marginRight: getSpacing("md"),
+    marginTop: getSpacing("xs"),
+  },
+  stepText: {
+    color: BRAND_COLORS.lightGray,
+    fontSize: getTypographySize("md"),
+    lineHeight: getTypographySize("md") * 1.5,
   },
   stepTextContainer: {
     flex: 1,
   },
   stepTitle: {
-    fontSize: getTypographySize('lg'),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
     color: BRAND_COLORS.white,
-    marginBottom: getSpacing('xs'),
-  },
-  stepText: {
-    fontSize: getTypographySize('md'),
-    color: BRAND_COLORS.lightGray,
-    lineHeight: getTypographySize('md') * 1.5,
-  },
-  footer: {
-    marginTop: getSpacing('lg'),
-    alignItems: 'center',
+    fontSize: getTypographySize("lg"),
+    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    marginBottom: getSpacing("xs"),
   },
   switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: getSpacing('sm'),
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: getSpacing("sm"),
   },
   switchLabel: {
-    fontSize: getTypographySize('sm'),
     color: BRAND_COLORS.white,
-    marginLeft: getSpacing('sm'),
+    fontSize: getTypographySize("sm"),
+    marginLeft: getSpacing("sm"),
   },
-  button: {
-    backgroundColor: BRAND_COLORS.electricBlue,
-    paddingVertical: getSpacing('sm'),
-    paddingHorizontal: getSpacing('lg'),
-    borderRadius: getBorderRadius('md'),
-    ...BRAND_SHADOWS.medium,
-  },
-  buttonText: {
-    fontSize: getTypographySize('md'),
+  title: {
+    color: BRAND_COLORS.white,
+    flex: 1,
+    flexShrink: 1,
+    fontSize: getResponsiveValue(
+      getTypographySize("lg"),
+      getTypographySize("xl"),
+    ),
     fontWeight: BRAND_TYPOGRAPHY.weights.bold,
-    color: BRAND_COLORS.white,
-  },
-  scrollIndicator: {
-    position: 'absolute',
-    bottom: getSpacing('md'),
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    paddingHorizontal: getSpacing('sm'),
-    paddingVertical: getSpacing('xs'),
-    borderRadius: getBorderRadius('sm'),
-  },
-  scrollIndicatorText: {
-    fontSize: getTypographySize('xs'),
-    color: BRAND_COLORS.white,
-    marginTop: 2,
+    marginLeft: getSpacing("md"),
+    textAlign: "center",
   },
 });
 
-export default FirstTimeGuideScreen; 
+export default FirstTimeGuideScreen;

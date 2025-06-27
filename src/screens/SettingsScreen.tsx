@@ -249,6 +249,26 @@ export default function SettingsScreen() {
             />
           </View>
 
+          {/* Quick Tour Toggle */}
+          <View style={styles.settingItem}>
+            <View style={styles.settingItemContent}>
+              <Ionicons
+                name="walk-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
+              <Text style={styles.settingItemText}>
+                Show Quick Tour On Startup
+              </Text>
+            </View>
+            <Switch
+              value={settings.showQuickTour ?? true}
+              onValueChange={(value) => updateSetting("showQuickTour", value)}
+              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
+              thumbColor={COLORS.white}
+            />
+          </View>
+
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
               <Ionicons
