@@ -876,11 +876,24 @@ export class TariffService {
         ) {
           // Skip duties that will be handled in the reciprocal_tariffs array to avoid duplicates
           const dutyLabelLower = (duty.label || "").toLowerCase();
+          const dutyRuleNameLower = (
+            (duty as any).rule_name ||
+            duty.name ||
+            ""
+          ).toLowerCase();
+
+          // Skip duties that duplicate reciprocal_tariffs entries (Fentanyl or Reciprocal Tariff)
           if (
+            // By explicit type (if defined)
             duty.type === "fentanyl" ||
-            dutyLabelLower.includes("fentanyl") ||
             duty.type === "reciprocal_tariff" ||
-            dutyLabelLower.includes("reciprocal tariff")
+            // By label text
+            dutyLabelLower.includes("fentanyl") ||
+            dutyLabelLower.includes("reciprocal tariff") ||
+            // By rule_name text
+            dutyRuleNameLower.includes("fentanyl") ||
+            dutyRuleNameLower.includes("reciprocal tariff") ||
+            dutyRuleNameLower.includes("ieepa")
           ) {
             continue; // duplicate – handled later in reciprocal_tariffs pass
           }
@@ -1028,10 +1041,13 @@ export class TariffService {
             isUSMCAOrigin,
           });
 
-          // Determine the type based on the label
-          let tariffType = "Reciprocal Tariff";
-          if (reciprocalTariff.label?.includes("Fentanyl")) {
-            tariffType = "Fentanyl Anti-Trafficking Tariff";
+          // Normalise tariff type so additive_duties and reciprocal/ieepa arrays share the same identifier
+          let tariffType = "reciprocal_tariff";
+          const labelLower = (reciprocalTariff.label || "").toLowerCase();
+          if (labelLower.includes("fentanyl")) {
+            tariffType = "fentanyl"; // matches additive_duties type
+          } else if (labelLower.includes("ieepa")) {
+            tariffType = "ieepa_tariff"; // matches additive_duties type
           }
 
           components.push({
@@ -1095,7 +1111,7 @@ export class TariffService {
           });
 
           components.push({
-            type: "IEEPA Tariff",
+            type: "ieepa_tariff",
             rate: ieepaTariff.rate,
             amount: (declaredValue * ieepaTariff.rate) / 100,
             label: ieepaTariff.label,
@@ -1112,6 +1128,24 @@ export class TariffService {
         }
       }
     }
+
+    // --- Deduplicate components to avoid double-counting (e.g., Fentanyl / Reciprocal repeats)
+    const uniqueComponentsMap = new Map<string, (typeof components)[0]>();
+    components.forEach((comp) => {
+      // Use a compound key of label (if present) otherwise type, plus rate
+      const key = `${comp.type.toLowerCase()}|${comp.rate}`;
+      if (!uniqueComponentsMap.has(key)) {
+        uniqueComponentsMap.set(key, comp);
+      }
+    });
+    const dedupedComponents = Array.from(uniqueComponentsMap.values());
+
+    // Recompute totalRate based on deduped list
+    totalRate = dedupedComponents.reduce((sum, c) => sum + c.rate, 0);
+
+    // Replace components with deduped list for further processing
+    components.length = 0;
+    components.push(...dedupedComponents);
 
     // 5. Calculate base duty amount
     dutyOnly = (declaredValue * totalRate) / 100;
@@ -1146,6 +1180,25 @@ export class TariffService {
     const totalAmount = dutyOnly + mpf + hmf;
     breakdown.push(`Total Duty & Fees: $${totalAmount.toFixed(2)}`);
 
+    // Deduplicate breakdown lines that list tariff components (avoid duplicates when same tariff came from multiple arrays)
+    const dedupedBreakdown: string[] = [];
+    const seenBreakKeys = new Set<string>();
+    for (const line of breakdown) {
+      const keyPart = line.split(":")[0].trim().toLowerCase();
+      const isTariffLine =
+        line.includes("+") &&
+        line.includes("%") &&
+        !line.toLowerCase().includes("exempt");
+      if (isTariffLine) {
+        if (!seenBreakKeys.has(keyPart)) {
+          dedupedBreakdown.push(line);
+          seenBreakKeys.add(keyPart);
+        }
+      } else {
+        dedupedBreakdown.push(line);
+      }
+    }
+
     // Sort components in the specified order
     const sortComponents = (
       components: Array<{
@@ -1167,9 +1220,9 @@ export class TariffService {
         "Trade Action", // Trade Action rate
         "section_301", // Section 301
         "section_232", // Section 232
-        "Fentanyl Anti-Trafficking Tariff", // Fentanyl tariffs
-        "Reciprocal Tariff", // Reciprocal Tariff
-        "IEEPA Tariff", // IEEPA Tariff (Canada/Mexico)
+        "fentanyl", // Fentanyl tariffs
+        "reciprocal_tariff", // Reciprocal Tariff
+        "ieepa_tariff", // IEEPA Tariff (Canada/Mexico)
       ];
 
       return components.sort((a, b) => {
@@ -1186,13 +1239,14 @@ export class TariffService {
 
     // Sort components before returning
     const sortedComponents = sortComponents(components);
+    const finalBreakdown = dedupedBreakdown;
 
     return {
       amount: totalAmount,
       dutyOnly,
       totalRate,
       components: sortedComponents,
-      breakdown,
+      breakdown: finalBreakdown,
       fees: {
         mpf: {
           rate: mpfExempt ? 0 : MPF_RATE * 100,
@@ -1324,10 +1378,7 @@ export class TariffService {
       // Sum up all reciprocal-type tariffs (including fentanyl and IEEPA)
       const rtAmount = components
         .filter(
-          (c) =>
-            c.type === "Reciprocal Tariff" ||
-            c.type === "Fentanyl Anti-Trafficking Tariff" ||
-            c.type === "IEEPA Tariff",
+          (c) => c.type === "reciprocal_tariff" || c.type === "ieepa_tariff",
         )
         .reduce((sum, c) => sum + c.amount, 0);
 
