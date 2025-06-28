@@ -1184,7 +1184,11 @@ export class TariffService {
     const dedupedBreakdown: string[] = [];
     const seenBreakKeys = new Set<string>();
     for (const line of breakdown) {
-      const keyPart = line.split(":")[0].trim().toLowerCase();
+      let keyPart = line.split(":")[0].trim().toLowerCase();
+      // Normalize by removing country suffixes like " - china (20%)" or parenthetical notes
+      keyPart = keyPart.replace(/\s*-\s*[a-z ]+\(.*?\)/gi, "");
+      keyPart = keyPart.replace(/\s*-\s*[a-z ]+$/gi, "");
+      keyPart = keyPart.replace(/\s*\(.*?\)\s*$/g, "").trim();
       const isTariffLine =
         line.includes("+") &&
         line.includes("%") &&

@@ -163,6 +163,10 @@ FENTANYL_TARIFF_EXEMPTIONS = {
     }
 }
 
+# --- Configuration flag ---
+# Set to False to disable automatic injection of Reciprocal, Fentanyl, and IEEPA tariffs
+INJECT_EXTRA_TARIFFS: bool = False
+
 def is_exempt_from_reciprocal_tariff(hts_code: str, country: str) -> bool:
     """Check if an HTS code is exempt from reciprocal tariffs for a specific country"""
     # Normalize country code to handle both 'CN' and 'china', 'CA' and 'canada', etc.
@@ -533,50 +537,41 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
     if additive_duties_info:
         entry['additive_duties'] = additive_duties_info
 
-    # Add reciprocal tariff information
-    if not entry.get('is_chapter_99'):
-        # Initialize reciprocal tariff fields
+    # Add reciprocal tariff and fentanyl tariff information if enabled
+    if INJECT_EXTRA_TARIFFS and not entry.get('is_chapter_99'):
         entry['reciprocal_tariffs'] = []
-
-        # China tariffs
         if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
-            # Steel and aluminum have their own Section 232 duties
-
-            # Add temporary reciprocal tariff (10%) - has more exemptions
             if not is_exempt_from_reciprocal_tariff(hts_code, 'CN'):
                 entry['reciprocal_tariffs'].append({
                     'country': 'CN',
-                    'rate': 10.0,  # 10% reciprocal tariff
+                    'rate': 10.0,
                     'label': 'Reciprocal Tariff - China (10%)',
                     'note': 'Temporary 90-day agreement',
                     'effective': '2025-05-14',
                     'expires': '2025-08-12'
                 })
 
-            # Add permanent fentanyl anti-trafficking tariff (20%) - very limited exemptions
             if not is_exempt_from_fentanyl_tariff(hts_code, 'CN'):
                 entry['reciprocal_tariffs'].append({
                     'country': 'CN',
-                    'rate': 20.0,  # 20% fentanyl anti-trafficking tariff
+                    'rate': 20.0,
                     'label': 'Fentanyl Anti-Trafficking Tariff - China (20%)',
                     'note': 'Anti-trafficking measure',
-                    'effective': '2025-03-04',  # Same as IEEPA effective date
-                    'expires': None  # No expiration
+                    'effective': '2025-03-04',
+                    'expires': None
                 })
 
-    # Add IEEPA tariffs for Canada and Mexico (separate from reciprocal tariffs)
-    if not entry.get('is_chapter_99'):
+    # Add IEEPA tariffs if enabled
+    if INJECT_EXTRA_TARIFFS and not entry.get('is_chapter_99'):
         if 'ieepa_tariffs' not in entry:
             entry['ieepa_tariffs'] = []
 
-        # Canada IEEPA tariff - does not apply to steel/aluminum (they have Section 232)
         if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
-            # Determine the rate based on product type
             if is_energy_product(hts_code) or is_potash_product(hts_code):
-                rate = 10.0  # Reduced rate for energy and potash
+                rate = 10.0
                 label = 'IEEPA Tariff - Canada (10% - Energy/Potash)'
             else:
-                rate = 25.0  # Standard rate
+                rate = 25.0
                 label = 'IEEPA Tariff - Canada (25%)'
 
             entry['ieepa_tariffs'].append({
@@ -588,14 +583,12 @@ def process_tariff_entry(row: Dict[str, Any]) -> Dict[str, Any]:
                 'legal_status': 'Under judicial review, currently in effect'
             })
 
-        # Mexico IEEPA tariff - does not apply to steel/aluminum (they have Section 232)
         if not is_steel_product(hts_code) and not is_aluminum_product(hts_code):
-            # Determine the rate based on product type
             if is_potash_product(hts_code):
-                rate = 10.0  # Reduced rate for potash only
+                rate = 10.0
                 label = 'IEEPA Tariff - Mexico (10% - Potash)'
             else:
-                rate = 25.0  # Standard rate (no energy exemption for Mexico)
+                rate = 25.0
                 label = 'IEEPA Tariff - Mexico (25%)'
 
             entry['ieepa_tariffs'].append({
@@ -666,6 +659,21 @@ def main():
     print(f"Found {section_232_count} entries with Section 232 duties")
     print(f"Found {trade_action_count} entries with trade action tariffs")
 
+    # Prepare additive duty info for metadata (strip extra tariffs if disabled)
+    if INJECT_EXTRA_TARIFFS:
+        additive_info_meta = ADDITIVE_DUTIES
+    else:
+        additive_info_meta = {
+            k: v
+            for k, v in ADDITIVE_DUTIES.items()
+            if k not in [
+                'reciprocal_china',
+                'fentanyl_china',
+                'ieepa_canada',
+                'ieepa_mexico',
+            ]
+        }
+
     # Create output structure
     output_data = {
         'data_last_updated': datetime.now().strftime('%Y-%m-%d'),
@@ -682,7 +690,7 @@ def main():
             'preprocessing_version': '2.0',
             'hts_revision': hts_revision,
             'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'additive_duties_info': ADDITIVE_DUTIES
+            'additive_duties_info': additive_info_meta
         },
         'country_programs': COUNTRY_TO_PROGRAMS
     }
