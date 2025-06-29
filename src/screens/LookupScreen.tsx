@@ -1429,37 +1429,41 @@ export default function LookupScreen() {
 
   const renderNewsDrawerContent = () => <RightColumnContent />;
 
-  const renderAnalyticsDrawerContent = () => (
-    <View style={[styles.drawerContent, { paddingTop: 100 }]}>
-      <View style={styles.drawerHeader}>
-        <Ionicons
-          name="analytics"
-          size={getResponsiveValue(20, 28)}
-          color={BRAND_COLORS.electricBlue}
-        />
-        <Text style={styles.drawerTitle}>Trade Insights</Text>
+  const renderAnalyticsDrawerContent = () => {
+    const analyticsMetrics = [
+      { title: "Top Searched HTS", value: "8471.30.01", trend: "+12%" },
+      { title: "Avg Duty Rate", value: "7.2%", trend: "-0.3%" },
+      { title: "Most Active Country", value: "China", trend: "45%" },
+      { title: "Weekly Lookups", value: "1,247", trend: "+8%" },
+    ];
+
+    return (
+      <View style={[styles.drawerContent, { paddingTop: 100 }]}>
+        <View style={styles.drawerHeader}>
+          <Ionicons
+            name="analytics"
+            size={getResponsiveValue(20, 28)}
+            color={BRAND_COLORS.electricBlue}
+          />
+          <Text style={styles.drawerTitle}>Trade Insights</Text>
+        </View>
+        <ScrollView style={styles.drawerScrollView}>
+          {analyticsMetrics.map((item, index) => (
+            <View key={index} style={styles.analyticsCard}>
+              <LinearGradient
+                colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
+                style={styles.analyticsGradient}
+              >
+                <Text style={styles.analyticsTitle}>{item.title}</Text>
+                <Text style={styles.analyticsValue}>{item.value}</Text>
+                <Text style={styles.analyticsTrend}>{item.trend}</Text>
+              </LinearGradient>
+            </View>
+          ))}
+        </ScrollView>
       </View>
-      <ScrollView style={styles.drawerScrollView}>
-        {[
-          { title: "Top Searched HTS", value: "8471.30.01", trend: "+12%" },
-          { title: "Avg Duty Rate", value: "7.2%", trend: "-0.3%" },
-          { title: "Most Active Country", value: "China", trend: "45%" },
-          { title: "Weekly Lookups", value: "1,247", trend: "+8%" },
-        ].map((item, index) => (
-          <View key={index} style={styles.analyticsCard}>
-            <LinearGradient
-              colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
-              style={styles.analyticsGradient}
-            >
-              <Text style={styles.analyticsTitle}>{item.title}</Text>
-              <Text style={styles.analyticsValue}>{item.value}</Text>
-              <Text style={styles.analyticsTrend}>{item.trend}</Text>
-            </LinearGradient>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
+    );
+  };
 
   // Results drawer content
   const renderResultsDrawerContent = () => {
@@ -1584,7 +1588,7 @@ export default function LookupScreen() {
           {result.components && result.components.length > 0 && (
             <View style={styles.compactSection}>
               <Text style={styles.compactSectionTitle}>Duty Breakdown</Text>
-              {result.components.map((component, index) => (
+              {result.components.map((component: DutyComponent, index: number) => (
                 <View key={index} style={styles.compactRow}>
                   <View style={styles.compactRowLeft}>
                     <Text style={styles.compactLabel}>
@@ -1665,7 +1669,7 @@ export default function LookupScreen() {
                 // Show RT cost separately if applicable
                 if (result.components) {
                   const rtComponent = result.components.find(
-                    (c) => c.type === RECIPROCAL_TARIFF_TYPE,
+                    (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
                   );
                   if (rtComponent && rtComponent.amount > 0) {
                     return (
