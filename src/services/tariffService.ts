@@ -893,7 +893,7 @@ export class TariffService {
             // By rule_name text
             dutyRuleNameLower.includes("fentanyl") ||
             dutyRuleNameLower.includes("reciprocal tariff") ||
-            dutyRuleNameLower.includes("ieepa")
+            duty.type === "ieepa_tariff"
           ) {
             continue; // duplicate – handled later in reciprocal_tariffs pass
           }
