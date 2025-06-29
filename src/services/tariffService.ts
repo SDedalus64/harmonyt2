@@ -927,6 +927,13 @@ export class TariffService {
                 .replace("UK 25%", "UK rate applied");
             }
 
+            console.log("Adding Section 232 to components:", {
+              type: duty.type,
+              rate: section232Rate,
+              amount: (declaredValue * section232Rate) / 100,
+              label: section232Label,
+            });
+
             components.push({
               type: duty.type,
               rate: section232Rate,
@@ -1129,23 +1136,9 @@ export class TariffService {
       }
     }
 
-    // --- Deduplicate components to avoid double-counting (e.g., Fentanyl / Reciprocal repeats)
-    const uniqueComponentsMap = new Map<string, (typeof components)[0]>();
-    components.forEach((comp) => {
-      // Use a compound key of label (if present) otherwise type, plus rate
-      const key = `${comp.type.toLowerCase()}|${comp.rate}`;
-      if (!uniqueComponentsMap.has(key)) {
-        uniqueComponentsMap.set(key, comp);
-      }
-    });
-    const dedupedComponents = Array.from(uniqueComponentsMap.values());
-
-    // Recompute totalRate based on deduped list
-    totalRate = dedupedComponents.reduce((sum, c) => sum + c.rate, 0);
-
-    // Replace components with deduped list for further processing
-    components.length = 0;
-    components.push(...dedupedComponents);
+    // --- Removed deduplication logic that was filtering out valid duties
+    // The components array already contains the correct duties without duplicates
+    // totalRate is already correctly calculated from all components
 
     // 5. Calculate base duty amount
     dutyOnly = (declaredValue * totalRate) / 100;
@@ -1180,28 +1173,8 @@ export class TariffService {
     const totalAmount = dutyOnly + mpf + hmf;
     breakdown.push(`Total Duty & Fees: $${totalAmount.toFixed(2)}`);
 
-    // Deduplicate breakdown lines that list tariff components (avoid duplicates when same tariff came from multiple arrays)
-    const dedupedBreakdown: string[] = [];
-    const seenBreakKeys = new Set<string>();
-    for (const line of breakdown) {
-      let keyPart = line.split(":")[0].trim().toLowerCase();
-      // Normalize by removing country suffixes like " - china (20%)" or parenthetical notes
-      keyPart = keyPart.replace(/\s*-\s*[a-z ]+\(.*?\)/gi, "");
-      keyPart = keyPart.replace(/\s*-\s*[a-z ]+$/gi, "");
-      keyPart = keyPart.replace(/\s*\(.*?\)\s*$/g, "").trim();
-      const isTariffLine =
-        line.includes("+") &&
-        line.includes("%") &&
-        !line.toLowerCase().includes("exempt");
-      if (isTariffLine) {
-        if (!seenBreakKeys.has(keyPart)) {
-          dedupedBreakdown.push(line);
-          seenBreakKeys.add(keyPart);
-        }
-      } else {
-        dedupedBreakdown.push(line);
-      }
-    }
+    // Removed breakdown deduplication - use original breakdown as-is
+    // The breakdown array already contains the correct entries
 
     // Sort components in the specified order
     const sortComponents = (
@@ -1243,7 +1216,15 @@ export class TariffService {
 
     // Sort components before returning
     const sortedComponents = sortComponents(components);
-    const finalBreakdown = dedupedBreakdown;
+    const finalBreakdown = breakdown;
+
+    console.log("Final components before return:", {
+      htsCode,
+      countryCode,
+      components: sortedComponents,
+      totalRate,
+      dutyOnly,
+    });
 
     return {
       amount: totalAmount,
