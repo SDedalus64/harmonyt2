@@ -1665,7 +1665,7 @@ export default function LookupScreen() {
                 // Show RT cost separately if applicable
                 if (result.components) {
                   const rtComponent = result.components.find(
-                    (c: any) => c.type === RECIPROCAL_TARIFF_TYPE,
+                    (c) => c.type === RECIPROCAL_TARIFF_TYPE,
                   );
                   if (rtComponent && rtComponent.amount > 0) {
                     return (
