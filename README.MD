@@ -146,6 +146,16 @@ For development documentation:
 - Development guides: [docs/development/](docs/development/)
 - API documentation: [docs/api/](docs/api/)
 
+## 📝 Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests. 
+
+**Important**: All user-facing changes must be documented in [CHANGELOG.md](CHANGELOG.md).
+
+## 📋 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes and releases.
+
 ## 📄 License
 
 [License information]

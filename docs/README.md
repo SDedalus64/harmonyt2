@@ -50,6 +50,15 @@ Obsolete or historical documentation (kept for reference):
 - Migration guides (no longer needed)
 - Old Xcode guides (superseded by current documentation)
 
+### `/review` 🆕
+
+Documents pending review or cleanup:
+
+- **REVIEW_SUMMARY.md** - Overview of files needing attention
+- `/duplicates/` - Files that duplicate other documentation
+- `/potentially-outdated/` - Historical changelogs and feature lists
+- `/meeting-notes/` - Historical meeting notes and discussions
+
 ## 🚀 Quick Start
 
 For new developers, start with:
@@ -62,3 +71,4 @@ For new developers, start with:
 
 Always refer to documentation in `/build-guides` and `/development` for current information.
 Files in `/archive` are kept for historical reference only.
+Files in `/review` are pending cleanup and should not be used as current documentation.

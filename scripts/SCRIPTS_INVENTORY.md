@@ -1,190 +1,157 @@
 # Scripts Inventory
 
-This document provides a comprehensive overview of all scripts in the HarmonyTi project, organized by category.
+This document provides a comprehensive list of all scripts in the HarmonyTi project, organized by category.
 
-## Script Organization
+## Setup Scripts
 
-### `/scripts/setup/` - Setup and Installation Scripts
+### `/scripts/setup/`
 
-#### `ios_prebuild.sh` ✅ ACTIVE
-
-- **Purpose**: Automates the full iOS pre-build workflow
-- **Usage**: Run from project root: `./scripts/setup/ios_prebuild.sh`
-- **Features**:
-  - Checks for Xcode running
-  - Cleans native directories and caches
-  - Runs expo prebuild
-  - Installs CocoaPods
-  - Fixes Xcode warnings
-  - Sets proper permissions
-
-#### `setup_env.sh` ✅ ACTIVE
+#### `setup_env.sh`
 
 - **Purpose**: Sets up the development environment
 - **Usage**: `./scripts/setup/setup_env.sh`
+- **Functions**:
+  - Installs dependencies
+  - Sets up environment variables
+  - Configures development settings
 
-### `/scripts/build/` - Build and Analysis Scripts
+#### `ios_prebuild.sh`
 
-#### `check-bundle-size.sh` ✅ ACTIVE
+- **Purpose**: Prepares iOS build environment and fixes common issues
+- **Usage**: `./scripts/setup/ios_prebuild.sh`
+- **Functions**:
+  - Cleans iOS build artifacts
+  - Reinstalls pods
+  - Fixes known Xcode warnings
+  - Applies required patches
 
-- **Purpose**: Analyzes JavaScript bundle size
-- **Usage**: `./scripts/build/check-bundle-size.sh`
+#### `install-git-hooks.sh`
 
-#### `increment-build.js` ✅ ACTIVE
+- **Purpose**: Installs git hooks for development workflow
+- **Usage**: `./scripts/setup/install-git-hooks.sh`
+- **Functions**:
+  - Sets up pre-commit hook for changelog reminders
+  - Ensures developers update CHANGELOG.md for user-facing changes
 
-- **Purpose**: Increments build numbers in app.json
-- **Usage**: `node scripts/build/increment-build.js`
+## Data Processing Scripts
 
-### `/scripts/utilities/` - Utility Scripts
+### `/scripts/data/`
 
-#### `cleanup.sh` ✅ ACTIVE
+#### `process_tariff_complete.sh`
 
-- **Purpose**: Comprehensive cleanup of build artifacts, caches, and temporary files
-- **Usage**: `./scripts/utilities/cleanup.sh`
-- **Features**:
-  - Clears Metro cache
-  - Cleans Xcode DerivedData
-  - Removes node_modules and reinstalls
-  - Cleans iOS and Android builds
+- **Purpose**: Complete tariff data processing pipeline
+- **Usage**: `./scripts/data/process_tariff_complete.sh input.xlsx [revision-number]`
+- **Functions**:
+  - Processes Excel to CSV
+  - Runs Python preprocessing
+  - Generates JSON segments
+  - Verifies output
+  - Updates metadata
+  - Uploads to Azure (segments only)
 
-#### `fix-xcode-warnings.sh` ✅ ACTIVE
+#### `excel_to_csv.py`
 
-- **Purpose**: Fixes Xcode sandbox script warnings
-- **Usage**: `./scripts/utilities/fix-xcode-warnings.sh`
-- **Critical**: Must be run after expo prebuild
-
-#### `performance_test.js` ✅ ACTIVE
-
-- **Purpose**: Tests tariff data loading and search performance
-- **Usage**: `node scripts/utilities/performance_test.js`
-
-### `/scripts/data/` - Data Processing Scripts
-
-#### Primary Scripts (Use These)
-
-##### `process_tariff_complete.sh` ✅ ACTIVE - RECOMMENDED
-
-- **Purpose**: Complete tariff data processing workflow with Azure upload
-- **Usage**: `./scripts/data/process_tariff_complete.sh <excel-file> [revision]`
-- **Features**:
-  - Converts Excel to CSV
-  - Processes with HTS revision
-  - Generates segments
-  - Uploads to Azure automatically
-  - Most comprehensive solution
-
-##### `update_tariff_simple.sh` ✅ ACTIVE
-
-- **Purpose**: Simple tariff update script with interactive prompts
-- **Usage**: `./scripts/data/update_tariff_simple.sh`
-- **Features**:
-  - Finds latest CSV automatically
-  - Prompts for revision number
-  - Clear status messages
-  - Good for quick updates
-
-#### Legacy Scripts (Deprecated)
-
-##### `update_tariff_legacy.sh` ⚠️ LEGACY
-
-- **Purpose**: Old tariff update workflow
-- **Status**: Superseded by process_tariff_complete.sh
-- **Note**: References old file structure
-
-#### Supporting Python Scripts
-
-##### `preprocess_tariff_data.py` ✅ ACTIVE
-
-- **Purpose**: Core tariff data processor
-- **Usage**: Called by shell scripts
-- **Features**:
-  - Processes CSV to JSON
-  - Handles HTS revision injection
-  - Adds extra tariffs with --inject-extra-tariffs flag
-
-##### `excel_to_csv.py` ✅ ACTIVE
-
-- **Purpose**: Converts Excel tariff files to CSV
+- **Purpose**: Converts Excel tariff files to CSV format
 - **Usage**: `python3 scripts/data/excel_to_csv.py input.xlsx output.csv`
+- **Dependencies**: pandas, openpyxl
 
-##### `extract_hts_revision.py` ✅ ACTIVE
+#### `preprocess_tariff_data.py`
 
-- **Purpose**: Extracts HTS revision from Change Record PDFs
-- **Usage**: `python3 scripts/data/extract_hts_revision.py "Change Record.pdf"`
+- **Purpose**: Processes CSV tariff data into JSON format
+- **Usage**: `python3 scripts/data/preprocess_tariff_data.py input.csv output.json [revision]`
+- **Functions**:
+  - Cleans data
+  - Structures JSON
+  - Adds revision metadata
 
-#### Supporting JavaScript Scripts
+#### `segment-tariff-data.js`
 
-##### `segment-tariff-data.js` ✅ ACTIVE
+- **Purpose**: Splits large tariff JSON into smaller segments
+- **Usage**: `node scripts/data/segment-tariff-data.js`
+- **Output**:
+  - Single-digit segments (0-9)
+  - Two-digit segments for large chapters
+  - Index file for navigation
 
-- **Purpose**: Splits large tariff JSON into segments
-- **Usage**: `node scripts/data/segment-tariff-data.js tariff_processed.json`
+#### `verify-segments.js`
 
-##### `verify-segments.js` ✅ ACTIVE
+- **Purpose**: Validates segmented tariff data integrity
+- **Usage**: `node scripts/data/verify-segments.js`
+- **Checks**:
+  - All segments present
+  - Data integrity
+  - Index accuracy
 
-- **Purpose**: Verifies segment integrity
-- **Usage**: `node scripts/data/verify-segments.js tariff_processed.json`
+#### `extract_hts_revision.py`
 
-### `/scripts/config/` - Configuration Files
+- **Purpose**: Extracts HTS revision number from tariff files
+- **Usage**: `python3 scripts/data/extract_hts_revision.py input.xlsx`
 
-- Contains trade rules CSVs and other configuration data
+## Utility Scripts
 
-### `/scripts/Archive tariff data/` - Historical Data
+### `/scripts/utilities/`
 
-- Contains archived tariff databases for reference
+#### `cleanup.sh`
 
-## Usage Recommendations
+- **Purpose**: Comprehensive cleanup of build artifacts
+- **Usage**: `./scripts/utilities/cleanup.sh`
+- **Cleans**:
+  - Node modules
+  - Build folders
+  - Cache directories
+  - Temporary files
 
-### For iOS Build Preparation:
+#### `fix-xcode-warnings.sh`
 
-```bash
-./scripts/setup/ios_prebuild.sh
-```
+- **Purpose**: Fixes common Xcode build warnings
+- **Usage**: `./scripts/utilities/fix-xcode-warnings.sh`
+- **Fixes**:
+  - Sandbox sync issues
+  - Double-quoted includes
+  - Build settings
 
-### For Tariff Data Updates:
+#### `performance_test.js`
 
-```bash
-# Recommended: Full workflow with Azure upload
-./scripts/data/process_tariff_complete.sh data/tariff_database_2025_MMDDYYYY.xlsx 14
+- **Purpose**: Tests app performance metrics
+- **Usage**: `node scripts/utilities/performance_test.js`
+- **Measures**:
+  - Startup time
+  - Data loading
+  - Search performance
 
-# Alternative: Simple interactive update
-./scripts/data/update_tariff_simple.sh
-```
+## Configuration Scripts
 
-### For Troubleshooting:
+### `/scripts/config/`
 
-```bash
-# Deep clean everything
-./scripts/utilities/cleanup.sh
+#### Trade Rules Files
 
-# Fix Xcode warnings after prebuild
-./scripts/utilities/fix-xcode-warnings.sh
-```
+- `trade_rules.csv` - Current trade rules configuration
+- `trade_rules_legacy.csv` - Historical trade rules reference
 
-### For Performance Testing:
+## Archive Scripts
 
-```bash
-node scripts/utilities/performance_test.js
-```
+### `/scripts/Archive tariff data/`
 
-## Script Dependencies
+Contains historical tariff data files for reference.
 
-1. **Tariff Processing Scripts** require:
-   - Python 3 with pandas, openpyxl
-   - Node.js for segmentation
-   - Azure CLI for uploads (optional)
+## Usage Tips
 
-2. **iOS Build Scripts** require:
-   - Xcode
-   - CocoaPods
-   - Expo CLI
+1. **Always run scripts from the project root directory**
+2. **Check script permissions** - use `chmod +x script.sh` if needed
+3. **Review script output** for any errors or warnings
+4. **For data processing**, follow this order:
+   - Excel → CSV (if needed)
+   - CSV → JSON
+   - JSON → Segments
+   - Verify segments
+   - Upload to Azure
 
-3. **All scripts** assume:
-   - Project root as working directory
-   - Proper file permissions (chmod +x)
+## Adding New Scripts
 
-## Maintenance Notes
+When adding new scripts:
 
-- Always run scripts from project root unless specified otherwise
-- The `process_tariff_complete.sh` script is the most maintained and feature-complete
-- Legacy scripts are kept for reference but should not be used for new work
-- Script paths have been updated to reflect new organization structure
+1. Place in appropriate category folder
+2. Add clear documentation in the script
+3. Update this inventory
+4. Include usage examples
+5. Document any dependencies

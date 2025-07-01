@@ -32,8 +32,6 @@
 
 - Country selection placeholder (including icon)
 
-
-
 - Input Values: Confirmed entered values display in dark blue (darkNavy: #0A1A3E)
 
 - Results Screen Styling:
