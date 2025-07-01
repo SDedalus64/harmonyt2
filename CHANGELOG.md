@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-<!-- AI/Developer: Add new entries under the appropriate sections below -->
-
 ### Added
 
 <!-- New features -->
@@ -21,7 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Selection feedback for toggles and list items
   - Smart caching to avoid performance impact
 - expo-haptics package integration
-- Test feature file for validating changelog enforcement system
+- Settings drawer functionality for Show Unit Calculations - controls visibility of unit count input and calculations in results
+- Haptic feedback implementation throughout the app:
+  - Different haptic types: light, medium, heavy, success, error, warning, selection
 
 ### Changed
 

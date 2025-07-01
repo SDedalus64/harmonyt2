@@ -1,8 +1,4 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Run lint-staged
-npx lint-staged
+#!/usr/bin/env sh
 
 # Get staged files
 staged_files=$(git diff --cached --name-only)
@@ -12,6 +8,8 @@ src_files=$(echo "$staged_files" | grep '^src/' || true)
 
 # If there are src files but CHANGELOG.md is not staged, block the commit
 if [ -n "$src_files" ] && ! echo "$staged_files" | grep -q '^CHANGELOG.md$'; then
+  # Output to stderr to try to make it visible in VS Code
+  exec 1>&2
   echo ""
   echo "\033[1;33m📋 CHANGELOG UPDATE REQUIRED\033[0m"
   echo ""
@@ -36,3 +34,6 @@ if [ -n "$src_files" ] && ! echo "$staged_files" | grep -q '^CHANGELOG.md$'; the
   echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
   exit 1
 fi
+
+# Run lint-staged
+npx lint-staged

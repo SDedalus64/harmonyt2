@@ -48,6 +48,24 @@ Update the changelog when you:
 - Unit cost calculations rounding incorrectly for large quantities
 ```
 
+### AI Assistance for Changelog Updates
+
+For help writing changelog entries:
+
+1. **Before committing**, review your changes:
+
+   ```bash
+   git diff --cached --name-only
+   ```
+
+2. **Ask an AI assistant**: "Please review these changes and update CHANGELOG.md"
+
+3. **Review and edit** the AI's suggestions before committing
+
+4. **Commit both** your code and the changelog together
+
+**Note**: A pre-commit hook will remind you if you forget to update the changelog!
+
 ## 🚀 Development Workflow
 
 1. **Create a feature branch**
