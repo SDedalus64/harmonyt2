@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- New features -->
 
-- Settings drawer functionality for Show Unit Calculations - controls visibility of unit count input and calculations in results
-- Haptic feedback implementation throughout the app:
+- Settings drawer functionality for Show Unit Calculations - controls visibility of unit count input and calculations in results (2025-06-30)
+- Haptic feedback implementation throughout the app: (2025-06-30)
   - Light impact for button presses
   - Medium impact for calculate action
   - Heavy impact for destructive actions (Clear button)
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Different haptic types: light, medium, heavy, success, error, warning, selection
   - Smart caching to avoid performance impact
   - expo-haptics package integration
-- Smart git pre-commit hook for changelog enforcement:
+- Smart git pre-commit hook for changelog enforcement: (2025-06-30)
   - Only requires changelog updates for src/ directory changes
   - Allows commits to scripts, configs, docs without changelog
   - Clear messaging about what's required
@@ -42,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Bug fixes -->
 
-- "Show Unit Calculations" setting now properly controls visibility
+- "Show Unit Calculations" setting now properly controls visibility (2025-06-30)
   - Unit Count field only appears when setting is enabled
   - Results respect the user's display preference
   - Setting syncs with local state changes
