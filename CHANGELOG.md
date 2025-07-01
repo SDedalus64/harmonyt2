@@ -11,17 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- New features -->
 
-- Haptic feedback functionality throughout the app
+- Settings drawer functionality for Show Unit Calculations - controls visibility of unit count input and calculations in results
+- Haptic feedback implementation throughout the app:
   - Light impact for button presses
   - Medium impact for calculate action
   - Heavy impact for destructive actions (Clear button)
   - Success/error/warning patterns for various states
   - Selection feedback for toggles and list items
-  - Smart caching to avoid performance impact
-- expo-haptics package integration
-- Settings drawer functionality for Show Unit Calculations - controls visibility of unit count input and calculations in results
-- Haptic feedback implementation throughout the app:
   - Different haptic types: light, medium, heavy, success, error, warning, selection
+  - Smart caching to avoid performance impact
+  - expo-haptics package integration
+- Smart git pre-commit hook for changelog enforcement:
+  - Only requires changelog updates for src/ directory changes
+  - Allows commits to scripts, configs, docs without changelog
+  - Clear messaging about what's required
 
 ### Changed
 
