@@ -7,12 +7,16 @@ A React Native mobile application for calculating import duties and tariffs for 
 HarmonyTi is a professional-grade iOS and Android application that helps importers, customs brokers, and trade professionals quickly calculate duties, taxes, and fees for importing goods into the United States.
 
 ### Key Features
-- Real-time duty calculations based on HTS codes
-- Support for Section 301, Section 232, and other special tariffs
+- Real-time duty calculations based on HTS codes with smart search suggestions
+- Support for Section 301, Section 232, Section 201, and other special tariffs
 - Country-specific duty rates and trade agreements (USMCA, etc.)
-- Offline functionality with local data storage
-- Per-unit cost calculations
-- History tracking of previous lookups
+- USMCA Origin Certificate toggle for duty-free qualified goods
+- Offline functionality with segmented data architecture
+- Per-unit cost calculations with landed cost analysis
+- Auto-save history tracking with full result restoration
+- Trade news feed with live import/export data
+- Interactive first-time user guide
+- Security features including screenshot prevention
 
 ## 🚀 Getting Started
 
@@ -104,6 +108,7 @@ Integration tests are located in `/tests/integration/`
 The app uses segmented tariff data stored locally:
 - Data is split into ~100 JSON segments for performance
 - Updates are processed via `scripts/data/process_tariff_complete.sh`
+- Displays current HTS revision number and last update date
 - See [scripts/TARIFF_DATA_PROCESSING.md](scripts/TARIFF_DATA_PROCESSING.md) for details
 - See [scripts/SCRIPTS_INVENTORY.md](scripts/SCRIPTS_INVENTORY.md) for all available scripts
 
@@ -118,19 +123,49 @@ The app uses segmented tariff data stored locally:
 ## 📱 Features
 
 ### Tariff Calculations
-- MFN (Most Favored Nation) rates
-- Section 301 tariffs (China)
-- Section 232 tariffs (Steel/Aluminum)
-- Reciprocal tariffs
-- IEEPA tariffs (Canada/Mexico)
+- **MFN (Most Favored Nation) rates** - Base duty rates
+- **Section 301 tariffs** - China-specific (Lists 1-4A)
+- **Section 232 tariffs** - Steel/Aluminum (50% global, 25% UK)
+- **Section 201 tariffs** - Solar products (14.25%)
+- **Reciprocal tariffs** - Country-specific retaliatory
+- **IEEPA tariffs** - Canada/Mexico with exemptions
+- **Fentanyl tariffs** - Special China penalties
+- **Column 2 rates** - Non-NTR countries (Cuba, North Korea)
+- **Processing fees** - MPF (0.3464%) and HMF (0.125%)
 
 ### User Interface
-- Intuitive HTS code search
-- Country selection
-- Value input with freight options
-- Unit calculations
-- History tracking
-- Settings customization
+- **Smart HTS code search** - Real-time suggestions after 3 digits
+- **Country selection** - 50+ countries with special duty indicators
+- **Value input** - Declared value with optional freight costs
+- **Unit calculations** - Per-unit costs with/without tariffs
+- **Landed cost analysis** - Total cost including all duties
+- **USMCA toggle** - For Canada/Mexico origin certificates
+- **Floating Action Button (FAB)** - 6-button diagonal menu system
+- **Multiple drawer system** - Results, history, news, settings
+- **Field info system** - Contextual help for all inputs
+
+### Data Features
+- **History tracking** - Auto-save option with 50-item limit
+- **Duplicate prevention** - Smart history management
+- **Full result restoration** - Reload complete calculations
+- **Settings persistence** - Remember preferences
+- **Offline functionality** - All data stored locally
+
+### Advanced Features
+- **Trade news feed** - Live trade data and government bulletins
+- **Analytics dashboard** - Trade insights and statistics
+- **First-time guide** - Interactive 4-step walkthrough
+- **Screenshot prevention** - Security for duty calculations
+- **Duty comparison** - Analyze scenarios with/without tariffs
+- **Data attribution** - Shows USITC and Federal Register sources
+- **Responsive design** - Optimized for iPhone and iPad
+
+### Settings & Preferences
+- **Auto-save toggle** - Enable/disable automatic history
+- **Default country** - Pre-populate country selection
+- **Quick tour toggle** - Control first-time guide display
+- **Haptic feedback** - Vibration preferences
+- **Clear all data** - Complete app reset option
 
 ## 🏗️ Building
 
