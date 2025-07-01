@@ -21,10 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Different haptic types: light, medium, heavy, success, error, warning, selection
   - Smart caching to avoid performance impact
   - expo-haptics package integration
-- Smart git pre-commit hook for changelog enforcement: (2025-06-30)
-  - Only requires changelog updates for src/ directory changes
-  - Allows commits to scripts, configs, docs without changelog
-  - Clear messaging about what's required
 
 ### Changed
 

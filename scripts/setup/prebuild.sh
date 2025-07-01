@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # -----------------------------------------------------------------------------
-#  ios_prebuild.sh
+#  prebuild.sh
 # -----------------------------------------------------------------------------
-# Automates the full iOS pre-build workflow defined in docs/build-guides/PREBUILD_INSTRUCTIONS.md.
+# Automates the full iOS and Android pre-build workflow.
 # Run from project root:
-#   chmod +x scripts/setup/ios_prebuild.sh
-#   ./scripts/setup/ios_prebuild.sh
+#   chmod +x scripts/setup/prebuild.sh
+#   ./scripts/setup/prebuild.sh
 # -----------------------------------------------------------------------------
 set -euo pipefail
 
