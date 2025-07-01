@@ -341,7 +341,6 @@ export default function LookupScreen() {
   } as const;
 
   const handleFieldFocus = (field: InfoFieldKey) => {
-    closeHeaderDrawer(); // close header details when user focuses elsewhere
     // User is interacting with the form – collapse FABs
     closeMainFab();
     setActiveField(field);
@@ -923,40 +922,94 @@ export default function LookupScreen() {
       return;
     }
 
+    Keyboard.dismiss();
     setIsLoading(true);
     setResult(null);
-    setShowLoadingModal(true);
-    setLoadedHistoryTimestamp(null); // Clear history timestamp for new lookups
+    setShowInput(false);
+    setIsSaved(false);
 
     try {
-      // Show loading modal for 2 seconds
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // This is redundant as calculateDuty calls findTariffEntry internally
-      // const entry = await findTariffEntryAsync(htsCode);
-      // if (!entry) {
-      //   setShowLoadingModal(false);
-      //   Alert.alert('Not Found', 'HTS code not found in tariff database.');
-      //   setIsLoading(false);
-      //   setLoadingMessage('');
-      //   return;
-      // }
-      // currentEntry.current = entry;
-
-      // Dutiable value is declared value ONLY (freight excluded)
-      const totalValue = parseFloat(declaredValue);
-
-      // Directly call the TariffService instance
-      const dutyCalculation = await tariffService.calculateDuty(
+      console.log("Looking up HTS code:", htsCode);
+      const calculation = await tariffService.calculateDuty(
         htsCode,
-        totalValue,
+        parseFloat(declaredValue),
         selectedCountry.code,
-        true, // Always treat reciprocal tariffs as additive
-        false, // Don't exclude reciprocal tariffs
-        isUSMCAOrigin, // Pass USMCA origin status
+        settings.isReciprocalAdditive,
+        false, // excludeReciprocalTariff is false by default
+        isUSMCAOrigin,
       );
 
-      if (!dutyCalculation) {
+      console.log("Calculation result:", calculation);
+
+      if (calculation) {
+        currentDutyCalculation.current = calculation;
+
+        const lookupResult: LookupResult = {
+          htsCode: calculation.htsCode,
+          description: calculation.description,
+          dutyRate: calculation.totalRate,
+          totalAmount: calculation.amount,
+          breakdown: calculation.breakdown,
+          components: calculation.components,
+          fees: calculation.fees,
+          effectiveDate: calculation.effectiveDate,
+          expirationDate: calculation.expirationDate,
+        };
+
+        // Update the displayed HTS code with the result
+        setHtsCode(calculation.htsCode);
+
+        // Hide loading modal before showing results
+        setShowLoadingModal(false);
+
+        setResult(lookupResult);
+        setResultsDrawerVisible(true);
+
+        // Handle auto-save
+        console.log("[handleLookup] Auto-save check:", {
+          autoSaveEnabled: settings.autoSaveToHistory,
+          hasResult: !!lookupResult,
+          loadedHistoryTimestamp,
+        });
+
+        if (settings.autoSaveToHistory && !loadedHistoryTimestamp) {
+          // Only auto-save if this is NOT a result loaded from history
+          console.log("[handleLookup] Auto-saving lookup result...");
+          const historyItem = {
+            htsCode: lookupResult.htsCode,
+            description: lookupResult.description,
+            countryCode: selectedCountry.code,
+            countryName: selectedCountry.name,
+            declaredValue: parseFloat(declaredValue),
+            freightCost: freightCost ? parseFloat(freightCost) : undefined,
+            totalAmount: lookupResult.totalAmount,
+            dutyRate: lookupResult.dutyRate,
+            breakdown: lookupResult.breakdown,
+            components: lookupResult.components,
+            fees: lookupResult.fees,
+            timestamp: Date.now(),
+            unitCount: unitCount || undefined,
+            unitCalculations: lookupResult.unitCalculations,
+          };
+
+          await saveToHistory(historyItem);
+          console.log("[handleLookup] Auto-save completed");
+          setIsSaved(true);
+        } else if (loadedHistoryTimestamp) {
+          // This is a result loaded from history, mark as already saved
+          console.log(
+            "[handleLookup] Skipping auto-save - result loaded from history with timestamp:",
+            loadedHistoryTimestamp,
+          );
+          setIsSaved(true);
+        } else {
+          console.log("[handleLookup] Auto-save disabled, marking as unsaved");
+          setIsSaved(false); // Reset saved state for manual save button
+        }
+
+        closeMainFab(); // Collapse the floating menu
+        closeAllNavigationDrawers();
+      } else {
         setShowLoadingModal(false);
         Alert.alert(
           "Calculation Error",
@@ -966,74 +1019,6 @@ export default function LookupScreen() {
         setLoadingMessage("");
         return;
       }
-
-      currentDutyCalculation.current = dutyCalculation;
-
-      const lookupResult: LookupResult = {
-        htsCode: dutyCalculation.htsCode,
-        description: dutyCalculation.description,
-        dutyRate: dutyCalculation.totalRate,
-        totalAmount: dutyCalculation.amount,
-        breakdown: dutyCalculation.breakdown,
-        components: dutyCalculation.components,
-        fees: dutyCalculation.fees,
-        effectiveDate: dutyCalculation.effectiveDate,
-        expirationDate: dutyCalculation.expirationDate,
-      };
-
-      // Update the displayed HTS code with the result
-      setHtsCode(dutyCalculation.htsCode);
-
-      // Hide loading modal before showing results
-      setShowLoadingModal(false);
-
-      setResult(lookupResult);
-      setResultsDrawerVisible(true);
-
-      // Handle auto-save
-      console.log("[handleLookup] Auto-save check:", {
-        autoSaveEnabled: settings.autoSaveToHistory,
-        hasResult: !!lookupResult,
-        loadedHistoryTimestamp,
-      });
-
-      if (settings.autoSaveToHistory && !loadedHistoryTimestamp) {
-        // Only auto-save if this is NOT a result loaded from history
-        console.log("[handleLookup] Auto-saving lookup result...");
-        const historyItem = {
-          htsCode: lookupResult.htsCode,
-          description: lookupResult.description,
-          countryCode: selectedCountry.code,
-          countryName: selectedCountry.name,
-          declaredValue: parseFloat(declaredValue),
-          freightCost: freightCost ? parseFloat(freightCost) : undefined,
-          totalAmount: lookupResult.totalAmount,
-          dutyRate: lookupResult.dutyRate,
-          breakdown: lookupResult.breakdown,
-          components: lookupResult.components,
-          fees: lookupResult.fees,
-          timestamp: Date.now(),
-          unitCount: unitCount || undefined,
-          unitCalculations: lookupResult.unitCalculations,
-        };
-
-        await saveToHistory(historyItem);
-        console.log("[handleLookup] Auto-save completed");
-        setIsSaved(true);
-      } else if (loadedHistoryTimestamp) {
-        // This is a result loaded from history, mark as already saved
-        console.log(
-          "[handleLookup] Skipping auto-save - result loaded from history with timestamp:",
-          loadedHistoryTimestamp,
-        );
-        setIsSaved(true);
-      } else {
-        console.log("[handleLookup] Auto-save disabled, marking as unsaved");
-        setIsSaved(false); // Reset saved state for manual save button
-      }
-
-      closeMainFab(); // Collapse the floating menu
-      closeAllNavigationDrawers();
     } catch (error) {
       console.error("Lookup error:", error);
       setShowLoadingModal(false);
@@ -1706,7 +1691,7 @@ export default function LookupScreen() {
     );
   };
 
-  // Unified floating menu animations with arc layout
+  // Unified floating menu animations with diagonal layout
   const toggleMainFab = (recordUserClose: boolean = true) => {
     const toValue = mainFabExpanded ? 0 : 1;
     const isClosing = mainFabExpanded;
@@ -1721,43 +1706,49 @@ export default function LookupScreen() {
 
     if (!mainFabExpanded) closeAllNavigationDrawers();
 
-    const spacing = isTablet() ? getResponsiveValue(80, 110) : 58; // 2px extra margin on phones
+    const spacing = isTablet() ? getResponsiveValue(80, 110) : 54; // iPhone: 49 + 5px more space from main FAB
 
     const animations: Animated.CompositeAnimation[] = [];
 
-    const configX = [
-      { anim: recentFabTranslateX, multiplier: -3 },
-      { anim: historyFabTranslateX, multiplier: -2 },
-      { anim: linksFabTranslateX, multiplier: -1 },
-      { anim: newsFabTranslateX, multiplier: 1 },
-      { anim: statsFabTranslateX, multiplier: 2 },
-      { anim: settingsFabTranslateX, multiplier: 3 },
+    // Diagonal expansion matching hero section angle
+    // The hero section uses a skewY of -2deg, which is approximately 0.035 radians
+    // tan(-2deg) ≈ -0.035, so for every unit of X movement, Y should move by 0.035 units
+    const diagonalSlope = 0.035; // Matches the -2deg skew of the hero section
+
+    const fabConfigs = [
+      { animX: recentFabTranslateX, animY: recentFabTranslateY, multiplier: 1 },
+      {
+        animX: historyFabTranslateX,
+        animY: historyFabTranslateY,
+        multiplier: 2,
+      },
+      { animX: linksFabTranslateX, animY: linksFabTranslateY, multiplier: 3 },
+      { animX: newsFabTranslateX, animY: newsFabTranslateY, multiplier: 4 },
+      { animX: statsFabTranslateX, animY: statsFabTranslateY, multiplier: 5 },
+      {
+        animX: settingsFabTranslateX,
+        animY: settingsFabTranslateY,
+        multiplier: 6,
+      },
     ];
 
-    configX.forEach(({ anim, multiplier }) => {
+    fabConfigs.forEach(({ animX, animY, multiplier }) => {
+      const xPosition = toValue * spacing * multiplier;
+      // Y position follows the diagonal line exactly
+      // All FABs expand to the right and up following the diagonal
+      const yPosition = -xPosition * diagonalSlope;
+
       animations.push(
-        Animated.timing(anim, {
-          toValue: toValue * spacing * multiplier,
+        Animated.timing(animX, {
+          toValue: xPosition,
           duration: 300,
           useNativeDriver: true,
         }),
       );
-    });
 
-    // Y translations all become 0 horizontally
-    const yOffset = isTablet() ? -5 : 0; // raise 5px on iPad
-    const yAnims = [
-      recentFabTranslateY,
-      historyFabTranslateY,
-      linksFabTranslateY,
-      newsFabTranslateY,
-      statsFabTranslateY,
-      settingsFabTranslateY,
-    ];
-    yAnims.forEach((anim) => {
       animations.push(
-        Animated.timing(anim, {
-          toValue: toValue * yOffset, // -5 when opening on iPad, 0 otherwise
+        Animated.timing(animY, {
+          toValue: yPosition,
           duration: 300,
           useNativeDriver: true,
         }),
@@ -1995,49 +1986,9 @@ export default function LookupScreen() {
     }
   };
 
-  // Find the start of state declarations (after existing new drawer state) and insert new state for header details drawer
-  const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
-  const headerDrawerHeight = useRef(new Animated.Value(0)).current;
-  const headerDrawerTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // Removed header drawer state - data source info now in FAB container
 
-  // Insert helper functions for header drawer toggle below other helper funcs (e.g., closeMainFab etc.)
-  const openHeaderDrawer = () => {
-    if (headerDrawerTimerRef.current) {
-      clearTimeout(headerDrawerTimerRef.current);
-    }
-    setIsHeaderDrawerOpen(true);
-    Animated.timing(headerDrawerHeight, {
-      toValue: getResponsiveValue(60, 80), // height to reveal ~2 lines
-      duration: 250,
-      useNativeDriver: false,
-    }).start();
-    headerDrawerTimerRef.current = setTimeout(() => {
-      closeHeaderDrawer();
-    }, 10000); // auto-close after 10s
-  };
-
-  const closeHeaderDrawer = () => {
-    if (!isHeaderDrawerOpen) return;
-    if (headerDrawerTimerRef.current) {
-      clearTimeout(headerDrawerTimerRef.current);
-      headerDrawerTimerRef.current = null;
-    }
-    Animated.timing(headerDrawerHeight, {
-      toValue: 0,
-      duration: 250,
-      useNativeDriver: false,
-    }).start(() => {
-      setIsHeaderDrawerOpen(false);
-    });
-  };
-
-  const toggleHeaderDrawer = () => {
-    if (isHeaderDrawerOpen) {
-      closeHeaderDrawer();
-    } else {
-      openHeaderDrawer();
-    }
-  };
+  // Removed header drawer toggle functions - text now in FAB container
 
   // ----------------------
   // Dynamic layout based on rotation / size
@@ -2055,9 +2006,9 @@ export default function LookupScreen() {
   const dynamicHeaderStyles = React.useMemo(() => {
     const heroHeight = isTabletNow
       ? isLandscape
-        ? windowHeight * 0.18
-        : windowHeight * 0.25
-      : windowHeight * 0.2;
+        ? windowHeight * 0.25 // Increased from 0.18
+        : windowHeight * 0.3 // Increased from 0.25
+      : windowHeight * 0.28; // Increased from 0.2 to accommodate FABs
 
     const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
 
@@ -2229,40 +2180,253 @@ export default function LookupScreen() {
           height={Number(dynamicHeaderStyles.heroSection.height)}
           style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
         >
-          <View style={[styles.logoContainer, { paddingTop: insets.top + 2 }]}>
+          <View
+            style={[
+              styles.logoContainer,
+              { paddingTop: Math.max(insets.top - 18, 0) },
+            ]}
+          >
             <Image
-              source={require("../../assets/Harmony2x.png")}
+              source={require("../../assets/Harmony-white.png")}
               style={dynamicHeaderStyles.logo}
               resizeMode="contain"
             />
           </View>
-          <View
-            style={[
-              styles.dataSourceContainer,
-              dynamicHeaderStyles.dataSourceContainer,
-            ]}
-          >
-            <TouchableOpacity
-              onPress={toggleHeaderDrawer}
-              activeOpacity={0.8}
-              style={styles.headerTabContainer}
-            >
-              <Text style={styles.headerTabText} numberOfLines={1}>
-                {`Data Last Updated: ${tariffService.getLastUpdated() || "Loading..."} | HTS Rev. ${tariffService.getHtsRevision() || "Loading..."}`}
-              </Text>
-            </TouchableOpacity>
+
+          {/* Unified Floating Menu System - Now in hero section */}
+          <View style={styles.heroFloatingMenuContainer}>
+            {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
+
+            {/* Recent Button */}
             <Animated.View
+              pointerEvents={mainFabExpanded ? "auto" : "none"}
               style={[
-                styles.headerDetailsDrawer,
-                { height: headerDrawerHeight },
+                styles.menuFab,
+                {
+                  transform: [
+                    { translateX: recentFabTranslateX },
+                    { translateY: recentFabTranslateY },
+                    { scale: menuFabScale },
+                  ],
+                  opacity: menuFabOpacity,
+                },
               ]}
             >
-              <Text style={styles.dataSourceText}>
-                Data Sources: U.S. International Trade Commission,
-              </Text>
-              <Text style={styles.dataSourceText}>
-                Federal Register Notices for Section 301 tariffs (Lists 1–4A).
-              </Text>
+              <TouchableOpacity
+                style={[
+                  styles.menuFabButton,
+                  { backgroundColor: BRAND_COLORS.electricBlue },
+                ]}
+                onPress={() => {
+                  closeAllDrawers();
+                  closeMainFab(false);
+                  setHistoryDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="time"
+                  size={getResponsiveValue(16, 24)} // 80% size on iPhone (20 * 0.8 = 16)
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+
+            {/* History Button */}
+            <Animated.View
+              pointerEvents={mainFabExpanded ? "auto" : "none"}
+              style={[
+                styles.menuFab,
+                {
+                  transform: [
+                    { translateX: historyFabTranslateX },
+                    { translateY: historyFabTranslateY },
+                    { scale: menuFabScale },
+                  ],
+                  opacity: menuFabOpacity,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.menuFabButton,
+                  { backgroundColor: BRAND_COLORS.mediumBlue },
+                ]}
+                onPress={() => {
+                  closeAllDrawers();
+                  closeMainFab(false);
+                  setMainHistoryDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="library"
+                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+
+            {/* Tariff News Button */}
+            <Animated.View
+              pointerEvents={mainFabExpanded ? "auto" : "none"}
+              style={[
+                styles.menuFab,
+                {
+                  transform: [
+                    { translateX: linksFabTranslateX },
+                    { translateY: linksFabTranslateY },
+                    { scale: menuFabScale },
+                  ],
+                  opacity: menuFabOpacity,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.menuFabButton,
+                  { backgroundColor: BRAND_COLORS.success },
+                ]}
+                onPress={() => {
+                  closeAllDrawers();
+                  closeMainFab(false);
+                  setLinksDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="newspaper-outline"
+                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+
+            {/* News Button */}
+            <Animated.View
+              pointerEvents={mainFabExpanded ? "auto" : "none"}
+              style={[
+                styles.menuFab,
+                {
+                  transform: [
+                    { translateX: newsFabTranslateX },
+                    { translateY: newsFabTranslateY },
+                    { scale: menuFabScale },
+                  ],
+                  opacity: menuFabOpacity,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.menuFabButton,
+                  { backgroundColor: BRAND_COLORS.orange },
+                ]}
+                onPress={() => {
+                  closeAllDrawers();
+                  closeMainFab(false);
+                  setNewsDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="newspaper"
+                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+
+            {/* Stats Button */}
+            <Animated.View
+              pointerEvents={mainFabExpanded ? "auto" : "none"}
+              style={[
+                styles.menuFab,
+                {
+                  transform: [
+                    { translateX: statsFabTranslateX },
+                    { translateY: statsFabTranslateY },
+                    { scale: menuFabScale },
+                  ],
+                  opacity: menuFabOpacity,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.menuFabButton,
+                  { backgroundColor: BRAND_COLORS.info },
+                ]}
+                onPress={() => {
+                  closeAllDrawers();
+                  closeMainFab(false);
+                  setAnalyticsDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="analytics"
+                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+
+            {/* Settings Button */}
+            <Animated.View
+              pointerEvents={mainFabExpanded ? "auto" : "none"}
+              style={[
+                styles.menuFab,
+                {
+                  transform: [
+                    { translateX: settingsFabTranslateX },
+                    { translateY: settingsFabTranslateY },
+                    { scale: menuFabScale },
+                  ],
+                  opacity: menuFabOpacity,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.menuFabButton,
+                  { backgroundColor: BRAND_COLORS.darkGray },
+                ]}
+                onPress={() => {
+                  closeAllDrawers();
+                  closeMainFab(false);
+                  setSettingsDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="settings"
+                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+
+            {/* Main Floating Menu Button */}
+            <Animated.View
+              style={[
+                styles.mainFloatingFab,
+                {
+                  transform: [
+                    {
+                      rotate: mainFabRotation.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ["0deg", "45deg"],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={styles.mainFloatingFabButton}
+                onPress={handleMainFabPress}
+              >
+                <Ionicons
+                  name="menu"
+                  size={getResponsiveValue(19, 28)} // 80% size on iPhone (24 * 0.8 = 19.2 ≈ 19)
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
             </Animated.View>
           </View>
         </DiagonalSection>
@@ -2278,9 +2442,7 @@ export default function LookupScreen() {
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
             <View style={styles.sectionTitleWrapper}>
-              <Text style={styles.sectionTitle}>
-                Enter HTS Code, Country & Values
-              </Text>
+              <Text style={styles.sectionTitle}>Entry Hub</Text>
             </View>
 
             <View style={styles.inputContainer}>
@@ -2508,256 +2670,26 @@ export default function LookupScreen() {
           </View>
         </KeyboardAwareScrollView>
 
-        {/* Unified Floating Menu System */}
-        <View
-          style={[
-            styles.floatingMenuContainer,
-            {
-              bottom: isTablet()
-                ? insets.bottom - 25 // Move up 5px on iPad
-                : insets.bottom - 35, // Move down 15px on iPhone
-            },
-          ]}
-        >
-          {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
-
-          {/* Recent Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.recentFab,
-              {
-                bottom: insets.bottom + getResponsiveValue(28, 37),
-                transform: [
-                  { translateX: recentFabTranslateX },
-                  { translateY: recentFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
+        {/* Data Source Info Text - positioned at bottom of screen */}
+        <View style={styles.dataSourceInfoContainer} pointerEvents="none">
+          <LinearGradient
+            colors={[BRAND_COLORS.gradientStart, BRAND_COLORS.gradientEnd]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.dataSourceGradient}
           >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.electricBlue },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab(false);
-                setHistoryDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="time"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
-          {/* History Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.historyFab,
-              {
-                bottom: insets.bottom + getResponsiveValue(28, 37),
-                transform: [
-                  { translateX: historyFabTranslateX },
-                  { translateY: historyFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.mediumBlue },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab(false);
-                setMainHistoryDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="library"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
-          {/* Tariff News Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.linksFab,
-              {
-                bottom: insets.bottom + getResponsiveValue(28, 37),
-                transform: [
-                  { translateX: linksFabTranslateX },
-                  { translateY: linksFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.success },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab(false);
-                setLinksDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="newspaper-outline"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
-          {/* News Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.newsFab,
-              {
-                bottom: insets.bottom + getResponsiveValue(28, 37),
-                transform: [
-                  { translateX: newsFabTranslateX },
-                  { translateY: newsFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.orange },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab(false);
-                setNewsDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="newspaper"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
-          {/* Stats Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.statsFab,
-              {
-                bottom: insets.bottom + getResponsiveValue(28, 37),
-                transform: [
-                  { translateX: statsFabTranslateX },
-                  { translateY: statsFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.info },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab(false);
-                setAnalyticsDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="analytics"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
-          {/* Settings Button */}
-          <Animated.View
-            style={[
-              styles.menuFab,
-              styles.settingsFab,
-              {
-                bottom: insets.bottom + getResponsiveValue(28, 37),
-                transform: [
-                  { translateX: settingsFabTranslateX },
-                  { translateY: settingsFabTranslateY },
-                  { scale: menuFabScale },
-                ],
-                opacity: menuFabOpacity,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.menuFabButton,
-                { backgroundColor: BRAND_COLORS.darkGray },
-              ]}
-              onPress={() => {
-                closeAllDrawers();
-                closeMainFab(false);
-                setSettingsDrawerVisible(true);
-              }}
-            >
-              <Ionicons
-                name="settings"
-                size={getResponsiveValue(20, 24)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-
-          {/* Main Floating Menu Button */}
-          <Animated.View
-            style={[
-              styles.mainFloatingFab,
-              {
-                transform: [
-                  {
-                    rotate: mainFabRotation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ["0deg", "45deg"],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.mainFloatingFabButton}
-              onPress={handleMainFabPress}
-            >
-              <Ionicons
-                name="menu"
-                size={getResponsiveValue(24, 28)}
-                color={BRAND_COLORS.white}
-              />
-            </TouchableOpacity>
-          </Animated.View>
+            <Text style={styles.dataSourceInfoLine}>
+              Data Last Updated:{" "}
+              {tariffService.getLastUpdated() || "Loading..."} | HTS Rev.{" "}
+              {tariffService.getHtsRevision() || "Loading..."}
+            </Text>
+            <Text style={styles.dataSourceInfoLine}>
+              Data Sources: U.S. International Trade Commission,
+            </Text>
+            <Text style={styles.dataSourceInfoLine}>
+              Federal Register Notices for Section 301 tariffs (Lists 1–4A).
+            </Text>
+          </LinearGradient>
         </View>
 
         {/* Animated Drawers */}
@@ -2995,27 +2927,27 @@ const styles = StyleSheet.create({
     zIndex: 1,
   } as ViewStyle,
   logoContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: getResponsiveValue(getSpacing("xxl"), getSpacing("md")), // More top padding on iPhone for Dynamic Island
-    paddingBottom: getResponsiveValue(getSpacing("xs"), getSpacing("md")), // Tighter gap under the logo on phones, original spacing retained on iPad
-    // Exclusion zone based on "H" symbol height - providing breathing room
-    paddingHorizontal: getResponsiveValue(60, 80), // Exclusion zone proportional to logo size
+    width: "100%", // Make the container span the full width
+    justifyContent: "center", // This handles vertical centering
+    alignItems: "flex-start", // Align the logo to the left within this container
+    paddingLeft: getResponsiveValue(20, 50), // Use responsive padding
+    height: "100%", // Ensure it occupies the full height of the parent
   },
   logo: {
-    width: getResponsiveValue(SCREEN_WIDTH * 0.75, SCREEN_WIDTH * 0.75), // 50% larger than previous mobile size
+    width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.75),
     height: getResponsiveValue(
-      SCREEN_WIDTH * 0.75 * 0.3,
-      SCREEN_WIDTH * 0.75 * 0.3,
+      getTypographySize("lg"),
+      getTypographySize("xl"),
     ),
-    maxWidth: getResponsiveValue(420, 600),
-    maxHeight: getResponsiveValue(126, 180),
+    maxWidth: isTablet() ? 600 : 420,
+    maxHeight: isTablet() ? 180 : 126,
+    resizeMode: "contain",
+    opacity: 0.9,
+    marginTop: getResponsiveValue(-35, -45), // Further up: -20 -> -35, -30 -> -45 (15px more)
   },
   mainScrollView: {
     flex: 1,
-    // Move main content slightly lower on iPhone to expose more of the blue hero backdrop
-    marginTop: getResponsiveValue(-getSpacing("sm"), -getSpacing("xl")), // -8 on phone instead of -20
-    zIndex: 2,
+    zIndex: 8, // Higher than FAB container to ensure overlap works correctly
   },
   scrollContent: {
     paddingHorizontal: getSpacing("md"),
@@ -3028,6 +2960,8 @@ const styles = StyleSheet.create({
     padding: getSpacing("lg"),
     ...BRAND_SHADOWS.medium,
     marginBottom: getSpacing("lg"),
+    zIndex: 10, // Ensure it appears above data source info
+    elevation: 10, // For Android
   },
   sectionTitleWrapper: {
     paddingHorizontal:
@@ -3088,6 +3022,8 @@ const styles = StyleSheet.create({
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
     alignSelf: "flex-start",
+    zIndex: 15, // Ensure suggestions appear above everything
+    elevation: 15, // For Android
   },
   suggestionsScrollView: {
     maxHeight: getResponsiveValue(325, 550), // Match container height
@@ -3219,40 +3155,33 @@ const styles = StyleSheet.create({
   },
 
   // Unified Floating Menu Styles
-  floatingMenuContainer: {
+  heroFloatingMenuContainer: {
     position: "absolute",
-    bottom: getSpacing("xs"),
-    left: 0,
+    bottom: getResponsiveValue(5, 15), // iPhone: -5px more, iPad: -10px more for proportional spacing
+    left: getResponsiveValue(20, 50), // Left padding to match logo alignment
     right: 0,
-    alignItems: "center",
-    zIndex: 2000,
+    alignItems: "flex-start", // Left align the FABs
+    zIndex: 100, // High z-index to ensure FABs are clickable
   },
   menuFab: {
     position: "absolute",
-    bottom: getResponsiveValue(28, 37), // Adjusted spacing for larger buttons on iPad
-    alignSelf: "center",
   },
   menuFabButton: {
-    width: getResponsiveValue(48, 64), // 15% larger on iPad (56 * 1.15 = 64.4 ≈ 64)
-    height: getResponsiveValue(48, 64), // 15% larger on iPad
-    borderRadius: getResponsiveValue(24, 32), // Proportional border radius
+    width: getResponsiveValue(38, 64), // 80% size on iPhone (48 * 0.8 = 38.4 ≈ 38), iPad unchanged
+    height: getResponsiveValue(38, 64), // 80% size on iPhone, iPad unchanged
+    borderRadius: getResponsiveValue(19, 32), // Proportional border radius
     justifyContent: "center",
     alignItems: "center",
     ...BRAND_SHADOWS.medium,
   },
-  recentFab: {},
-  historyFab: {},
-  linksFab: {},
-  newsFab: {},
-  statsFab: {},
-  settingsFab: {},
+
   mainFloatingFab: {
     position: "relative",
   },
   mainFloatingFabButton: {
-    width: getResponsiveValue(56, 74), // 15% larger on iPad (64 * 1.15 = 73.6 ≈ 74)
-    height: getResponsiveValue(56, 74), // 15% larger on iPad
-    borderRadius: getResponsiveValue(28, 37), // Proportional border radius
+    width: getResponsiveValue(45, 74), // 80% size on iPhone (56 * 0.8 = 44.8 ≈ 45), iPad unchanged
+    height: getResponsiveValue(45, 74), // 80% size on iPhone, iPad unchanged
+    borderRadius: getResponsiveValue(22.5, 37), // Proportional border radius
     backgroundColor: BRAND_COLORS.darkNavy,
     justifyContent: "center",
     alignItems: "center",
@@ -3600,23 +3529,6 @@ const styles = StyleSheet.create({
     fontWeight: BRAND_TYPOGRAPHY.weights.medium,
     color: BRAND_COLORS.success,
   },
-  dataSourceContainer: {
-    position: "relative",
-    paddingHorizontal: getResponsiveValue(getSpacing("md"), getSpacing("lg")),
-    paddingBottom: getSpacing("md"), // Extra space so header tab sits flush
-    alignItems: "center",
-  },
-  dataSourceText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("xs") * 0.8,
-      getTypographySize("sm"),
-    ), // Smaller font on iPhone
-    color: BRAND_COLORS.white,
-    textAlign: "center",
-    opacity: 0.9,
-    lineHeight: getResponsiveValue(12, 18), // Reduced line height on iPhone
-    marginBottom: getSpacing("xs"),
-  },
 
   // Drawer screen container
   drawerScreenContainer: {
@@ -3742,26 +3654,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: getSpacing("sm"),
   },
-  headerDetailsDrawer: {
-    overflow: "hidden",
-  },
-  headerTabContainer: {
+  dataSourceInfoContainer: {
     position: "absolute",
-    bottom: -getSpacing("xs"), // sits flush just below header drawer
-    transform: [{ skewY: "-2deg" }], // counter the parent skew
-    zIndex: 100,
-    backgroundColor: BRAND_COLORS.darkNavy,
-    paddingHorizontal: getSpacing("md"),
-    paddingVertical: getSpacing("xs"),
-    borderTopLeftRadius: getBorderRadius("lg"),
-    borderTopRightRadius: getBorderRadius("lg"),
+    bottom: 10, // 10px from bottom of screen
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    borderRadius: getBorderRadius("md"),
+    marginHorizontal: getSpacing("md"),
+    ...BRAND_SHADOWS.small,
+    zIndex: 1, // Above background but below interactive elements
+    overflow: "hidden", // Ensure gradient respects border radius
   },
-  headerTabText: {
+  dataSourceGradient: {
+    width: "100%",
+    paddingVertical: getSpacing("xs"),
+    paddingHorizontal: getSpacing("md"),
+    alignItems: "center",
+  },
+  dataSourceInfoLine: {
     fontSize: getResponsiveValue(
+      getTypographySize("xs"),
       getTypographySize("sm"),
-      getTypographySize("md"),
-    ), // larger than dataSource text
+    ),
     color: BRAND_COLORS.white,
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    textAlign: "center",
+    lineHeight: getResponsiveValue(14, 18),
+    opacity: 0.9,
   },
 });

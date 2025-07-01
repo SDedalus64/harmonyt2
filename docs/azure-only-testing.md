@@ -3,16 +3,19 @@
 ## Changes Made
 
 ✅ **Removed Local Data**
+
 - Deleted `src/data (local copy)/` directory (50MB+ of JSON files)
-- Removed `tariff_processed.json` (49MB)
+- Removed `tariff_processed.json` (49MB) - now using segmented architecture with ~100 smaller files
 - Removed all tariff segment files (1MB+ each)
 
 ✅ **Disabled Preloading**
+
 - Removed tariff data preloading from `App.tsx`
 - App now starts immediately without waiting for data
 - Data loads on-demand during first lookup
 
 ✅ **Pure Azure Implementation**
+
 - TariffService now exclusively uses Azure Blob Storage
 - Enhanced logging with performance metrics
 - Better error handling for network issues
@@ -30,20 +33,24 @@ npx expo start --clear --reset-cache
 ## Expected Performance Characteristics
 
 ### App Startup
+
 - **Before**: 2-5 seconds (preloading 50MB data)
 - **After**: <1 second (no preloading)
 
 ### First Lookup
+
 - **Expected**: 1-3 seconds (Azure fetch + parsing)
 - **Watch for**: Console logs showing Azure loading time
 
 ### Subsequent Lookups
+
 - **Expected**: <500ms (cached data)
 - **Watch for**: "Tariff data already loaded and cached" message
 
 ## Console Logs to Watch For
 
 ### Successful Azure Loading
+
 ```
 🚀 Loading tariff data from Azure Blob Storage (no local fallback)...
 📡 Fetching from: https://harmonytariff.blob.core.windows.net/...
@@ -54,11 +61,13 @@ npx expo start --clear --reset-cache
 ```
 
 ### Cached Data Usage
+
 ```
 📦 Tariff data already loaded and cached
 ```
 
 ### Error Scenarios
+
 ```
 ❌ Failed to initialize tariff data after 5000ms: Network error
 ```
@@ -114,17 +123,20 @@ find src/ -type f -size +1M
 ## Troubleshooting
 
 ### If Azure loading fails:
+
 1. Check internet connection
 2. Verify Azure blob URLs in console
 3. Check for CORS issues
 4. Verify Azure blob storage is accessible
 
 ### If app crashes:
+
 1. Check for missing imports after removing local data
 2. Verify TariffService initialization
 3. Check console for specific error messages
 
 ### If performance is poor:
+
 1. Check network speed
 2. Verify caching is working (subsequent lookups should be fast)
 3. Monitor console for repeated Azure fetches (should only happen once)

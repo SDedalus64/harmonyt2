@@ -138,8 +138,9 @@ const HMF_RATE = 0.00125; // 0.125% Harbor Maintenance Fee
 
 export class TariffService {
   private static instance: TariffService;
-  private tariffData: TariffData | null = null;
+  private tariffData: Partial<TariffData> | null = null;
   private segmentCache: Map<string, TariffEntry[]> = new Map();
+  private segmentIndex: Record<string, string> = {};
   private initialized = false;
   private lastFetchTime: number = 0;
   private readonly CACHE_DURATION = AZURE_CONFIG.cacheDuration;
@@ -208,36 +209,40 @@ export class TariffService {
     const startTime = Date.now();
 
     try {
-      console.log(
-        "🚀 Loading tariff data from Azure Blob Storage (no local fallback)...",
-      );
+      console.log("🚀 Loading tariff segment index from Azure Blob Storage...");
 
       const urls = getAzureUrls();
-      console.log("📡 Fetching from:", urls.mainData);
+      console.log("📡 Fetching from:", urls.segmentIndex);
 
-      // Fetch the main tariff data from Azure
-      const response = await this.fetchWithRetry(urls.mainData);
+      // Fetch the segment index data from Azure
+      const response = await this.fetchWithRetry(urls.segmentIndex);
 
       if (!response.ok) {
         throw new Error(
-          `Failed to fetch tariff data: ${response.status} ${response.statusText}`,
+          `Failed to fetch tariff segment index: ${response.status} ${response.statusText}`,
         );
       }
 
-      const data = await response.json();
+      const indexData = await response.json();
 
-      // The data from Azure has the correct structure
-      this.tariffData = data as TariffData;
+      // Store the segment index and metadata
+      this.segmentIndex = indexData.segments;
+      this.tariffData = {
+        data_last_updated: indexData.metadata.lastUpdated,
+        hts_revision: indexData.metadata.hts_revision,
+        tariffs: [], // Main tariff list is no longer held in memory
+        metadata: indexData.metadata,
+      };
 
       this.lastFetchTime = Date.now();
       this.initialized = true;
 
       const loadTime = Date.now() - startTime;
-      console.log("✅ Successfully loaded tariff data from Azure");
+      console.log("✅ Successfully loaded tariff segment index from Azure");
       console.log(`⏱️  Load time: ${loadTime}ms`);
       console.log(
-        "📊 Total tariff entries loaded:",
-        this.tariffData?.tariffs?.length || 0,
+        "📊 Total segments available:",
+        Object.keys(this.segmentIndex).length,
       );
       console.log(
         "📅 Data last updated:",
@@ -268,13 +273,18 @@ export class TariffService {
 
   // New method to load segment data on demand
   async loadSegment(segmentId: string): Promise<TariffEntry[]> {
-    // Check cache first
     if (this.segmentCache.has(segmentId)) {
       return this.segmentCache.get(segmentId)!;
     }
 
     try {
       const urls = getAzureUrls();
+      const segmentFilename = this.segmentIndex[segmentId];
+      if (!segmentFilename) {
+        console.warn(`No segment file found for prefix ${segmentId}`);
+        return [];
+      }
+
       const segmentUrl = urls.getSegmentUrl(segmentId);
       console.log(`Loading segment ${segmentId} from ${segmentUrl}`);
 
@@ -292,11 +302,12 @@ export class TariffService {
       }
 
       const segmentData = await response.json();
+      const entries = segmentData.entries || [];
 
       // Cache the segment
-      this.segmentCache.set(segmentId, segmentData);
+      this.segmentCache.set(segmentId, entries);
 
-      return segmentData;
+      return entries;
     } catch (error) {
       console.error(`Failed to load segment ${segmentId}:`, error);
       return [];
@@ -310,6 +321,13 @@ export class TariffService {
     // For now, just use the main data since it contains all entries
     // Segment optimization can be added later when all segment files are available
     return this.findTariffEntry(htsCode);
+  }
+
+  private getSegmentIdFromHts(htsCode: string): string | null {
+    if (!htsCode || htsCode.length < 3) {
+      return null;
+    }
+    return htsCode.substring(0, 3);
   }
 
   private getSegmentId(prefix: string): string | null {
@@ -352,26 +370,33 @@ export class TariffService {
     );
   }
 
-  findTariffEntry(htsCode: string): TariffEntry | undefined {
-    if (!this.tariffData?.tariffs) {
-      console.log("No tariff data available");
+  async findTariffEntry(htsCode: string): Promise<TariffEntry | undefined> {
+    if (!this.initialized) {
+      await this.initialize();
+    }
+
+    const segmentId = this.getSegmentIdFromHts(htsCode);
+    if (!segmentId) {
+      console.log("Invalid HTS code, cannot determine segment:", htsCode);
       return undefined;
     }
 
-    console.log("Searching for HTS code:", htsCode);
-    console.log(
-      "First 5 HTS codes in data:",
-      this.tariffData.tariffs.slice(0, 5).map((e) => e.hts8),
-    );
+    const segmentEntries = await this.loadSegment(segmentId);
 
-    const result = this.tariffData.tariffs.find(
-      (entry) => entry.hts8 === htsCode,
-    );
+    if (!segmentEntries || segmentEntries.length === 0) {
+      console.log(
+        `No entries found in segment ${segmentId} for HTS code:`,
+        htsCode,
+      );
+      return undefined;
+    }
+
+    const result = segmentEntries.find((entry) => entry.hts8 === htsCode);
 
     if (!result) {
       console.log(
-        "Code not found. Total entries:",
-        this.tariffData.tariffs.length,
+        `Code not found in segment ${segmentId}. Total entries in segment:`,
+        segmentEntries.length,
       );
     } else {
       console.log("Found entry with fields:", Object.keys(result));
@@ -502,14 +527,14 @@ export class TariffService {
     return dateStr;
   }
 
-  calculateDuty(
+  async calculateDuty(
     htsCode: string,
     declaredValue: number,
     countryCode: string,
     isReciprocalAdditive: boolean = true, // Always treat reciprocal tariffs as additive
     excludeReciprocalTariff: boolean = false, // New parameter to control RT inclusion
     isUSMCAOrigin: boolean = false, // New parameter to specify USMCA origin
-  ): {
+  ): Promise<{
     amount: number;
     dutyOnly: number;
     totalRate: number;
@@ -528,8 +553,8 @@ export class TariffService {
     description: string;
     effectiveDate: string;
     expirationDate: string;
-  } | null {
-    if (!this.tariffData?.tariffs) {
+  } | null> {
+    if (!this.tariffData) {
       throw new Error("Tariff data not initialized");
     }
 
@@ -552,7 +577,7 @@ export class TariffService {
       ? "CN"
       : countryCode;
 
-    const entry = this.findTariffEntry(htsCode);
+    const entry = await this.findTariffEntry(htsCode);
     if (!entry) {
       return {
         amount: 0,
@@ -882,25 +907,23 @@ export class TariffService {
             ""
           ).toLowerCase();
 
-          // Skip duties that duplicate reciprocal_tariffs entries (Fentanyl or Reciprocal Tariff)
-          if (
-            // By explicit type (if defined)
+          // Skip duties that are reciprocal-type ONLY if excludeReciprocalTariff is true
+          const isReciprocalType =
             duty.type === "fentanyl" ||
             duty.type === "reciprocal_tariff" ||
-            // By label text
             dutyLabelLower.includes("fentanyl") ||
             dutyLabelLower.includes("reciprocal tariff") ||
-            // By rule_name text
             dutyRuleNameLower.includes("fentanyl") ||
             dutyRuleNameLower.includes("reciprocal tariff") ||
-            duty.type === "ieepa_tariff"
-          ) {
-            continue; // duplicate – handled later in reciprocal_tariffs pass
+            duty.type === "ieepa_tariff";
+
+          if (isReciprocalType && excludeReciprocalTariff) {
+            continue; // Skip - user wants to exclude these tariffs
           }
 
           console.log("Duty applies to country:", duty);
 
-          // Always add all additive duties (Section 301, Section 232, etc.)
+          // Always add additive duties that apply
           if (duty.type === "section_301") {
             console.log("Adding Section 301:", duty);
             components.push({
@@ -1007,7 +1030,112 @@ export class TariffService {
       }
     }
 
-    // 4. Apply reciprocal tariffs
+    // 4. Dynamically add China tariffs if not in data
+    if (
+      countryCodeForTariffs === "CN" &&
+      !excludeReciprocalTariff &&
+      !entry.reciprocal_tariffs
+    ) {
+      // Check if this HTS is exempt from Reciprocal Tariff
+      const isPharmaceutical = actualHtsCode.startsWith("30");
+      const isMedicalDevice = ["9018", "9019", "9020", "9021", "9022"].some(
+        (prefix) => actualHtsCode.startsWith(prefix),
+      );
+      const isSemiconductor = ["8541", "8542"].some((prefix) =>
+        actualHtsCode.startsWith(prefix),
+      );
+
+      if (!isPharmaceutical && !isMedicalDevice && !isSemiconductor) {
+        // Add Reciprocal Tariff (10%)
+        components.push({
+          type: "reciprocal_tariff",
+          rate: 10.0,
+          amount: (declaredValue * 10.0) / 100,
+          label: "Reciprocal Tariff - China (10%)",
+        });
+        totalRate += 10.0;
+        breakdown.push("Reciprocal Tariff - China (10%): +10%");
+        breakdown.push("  (Temporary 90-day agreement, expires 2025-08-12)");
+      }
+
+      // Check if this HTS is exempt from Fentanyl Tariff
+      const isChapter98 = actualHtsCode.startsWith("98");
+
+      if (!isChapter98) {
+        // Add Fentanyl Tariff (20%)
+        components.push({
+          type: "fentanyl",
+          rate: 20.0,
+          amount: (declaredValue * 20.0) / 100,
+          label: "Fentanyl Anti-Trafficking Tariff - China (20%)",
+        });
+        totalRate += 20.0;
+        breakdown.push("Fentanyl Anti-Trafficking Tariff - China (20%): +20%");
+        breakdown.push("  (Anti-trafficking measure)");
+      }
+    }
+
+    // 5. Dynamically add IEEPA tariffs for Canada/Mexico if not in data
+    if (
+      (countryCodeForTariffs === "CA" || countryCodeForTariffs === "MX") &&
+      !excludeReciprocalTariff &&
+      !entry.ieepa_tariffs
+    ) {
+      // Check for USMCA exemption
+      if (isUSMCAOrigin) {
+        breakdown.push("IEEPA Tariff: Exempt (USMCA origin)");
+      } else {
+        // Check if Section 232 already applies (IEEPA doesn't stack)
+        const hasSection232 = components.some((c) => c.type === "section_232");
+
+        if (hasSection232) {
+          breakdown.push(
+            "IEEPA Tariff: Not applied (Section 232 takes precedence)",
+          );
+        } else {
+          // Determine rate based on product type
+          let ieepaTariffRate = 25.0;
+          let ieepaTariffLabel = "";
+
+          const isEnergy = actualHtsCode.startsWith("27"); // Chapter 27 - mineral fuels, oils
+          const isPotash =
+            actualHtsCode.startsWith("310420") ||
+            actualHtsCode.startsWith("310520");
+
+          if (countryCodeForTariffs === "CA") {
+            if (isEnergy || isPotash) {
+              ieepaTariffRate = 10.0;
+              ieepaTariffLabel = "IEEPA Tariff - Canada (10% - Energy/Potash)";
+            } else {
+              ieepaTariffLabel = "IEEPA Tariff - Canada (25%)";
+            }
+          } else {
+            // Mexico
+            if (isPotash) {
+              ieepaTariffRate = 10.0;
+              ieepaTariffLabel = "IEEPA Tariff - Mexico (10% - Potash)";
+            } else {
+              ieepaTariffLabel = "IEEPA Tariff - Mexico (25%)";
+            }
+          }
+
+          components.push({
+            type: "ieepa_tariff",
+            rate: ieepaTariffRate,
+            amount: (declaredValue * ieepaTariffRate) / 100,
+            label: ieepaTariffLabel,
+          });
+          totalRate += ieepaTariffRate;
+          breakdown.push(`${ieepaTariffLabel}: +${ieepaTariffRate}%`);
+          breakdown.push(
+            "  (USMCA-origin goods exempt; Does not stack with Section 232)",
+          );
+          breakdown.push("  (Under judicial review, currently in effect)");
+        }
+      }
+    }
+
+    // 6. Apply reciprocal tariffs from data (if they exist)
     if (entry.reciprocal_tariffs && !excludeReciprocalTariff) {
       // Only apply RT if not excluded
       for (const reciprocalTariff of entry.reciprocal_tariffs) {
@@ -1075,7 +1203,7 @@ export class TariffService {
       }
     }
 
-    // 5. Apply IEEPA tariffs (Canada/Mexico)
+    // 7. Apply IEEPA tariffs from data (if they exist)
     if (entry.ieepa_tariffs && !excludeReciprocalTariff) {
       // Use same exclusion flag for now
       for (const ieepaTariff of entry.ieepa_tariffs) {
@@ -1140,11 +1268,11 @@ export class TariffService {
     // The components array already contains the correct duties without duplicates
     // totalRate is already correctly calculated from all components
 
-    // 5. Calculate base duty amount
+    // 8. Calculate base duty amount
     dutyOnly = (declaredValue * totalRate) / 100;
     breakdown.push(`Base Duty Amount: $${dutyOnly.toFixed(2)}`);
 
-    // 6. Add MPF (check for USMCA exemption)
+    // 9. Add MPF (check for USMCA exemption)
     let mpf = 0;
     let mpfExempt = false;
 
@@ -1162,14 +1290,14 @@ export class TariffService {
       );
     }
 
-    // 7. Add HMF (always applies, even for USMCA goods)
+    // 10. Add HMF (always applies, even for USMCA goods)
     const hmf = this.calculateHMF(declaredValue);
     const hmfRateFormatted = Number((HMF_RATE * 100).toFixed(4)).toString();
     breakdown.push(
       `Harbor Maintenance Fee (${hmfRateFormatted}%): $${hmf.toFixed(2)}`,
     );
 
-    // 8. Calculate total
+    // 11. Calculate total
     const totalAmount = dutyOnly + mpf + hmf;
     breakdown.push(`Total Duty & Fees: $${totalAmount.toFixed(2)}`);
 
@@ -1250,12 +1378,12 @@ export class TariffService {
   }
 
   // New method to calculate duty differences
-  calculateDutyDifferences(
+  async calculateDutyDifferences(
     htsCode: string,
     declaredValue: number,
     countryCode: string,
     isUSMCAOrigin: boolean = false,
-  ): {
+  ): Promise<{
     toggleOff: {
       withRT: number;
       withoutRT: number;
@@ -1288,9 +1416,9 @@ export class TariffService {
       };
     };
     breakdown: string[];
-  } | null {
+  } | null> {
     // Calculate duties for all scenarios
-    const toggleOffWithRT = this.calculateDuty(
+    const toggleOffWithRT = await this.calculateDuty(
       htsCode,
       declaredValue,
       countryCode,
@@ -1298,7 +1426,7 @@ export class TariffService {
       false,
       isUSMCAOrigin,
     );
-    const toggleOffWithoutRT = this.calculateDuty(
+    const toggleOffWithoutRT = await this.calculateDuty(
       htsCode,
       declaredValue,
       countryCode,
@@ -1306,7 +1434,7 @@ export class TariffService {
       true,
       isUSMCAOrigin,
     );
-    const toggleOnWithRT = this.calculateDuty(
+    const toggleOnWithRT = await this.calculateDuty(
       htsCode,
       declaredValue,
       countryCode,
@@ -1314,7 +1442,7 @@ export class TariffService {
       false,
       isUSMCAOrigin,
     );
-    const toggleOnWithoutRT = this.calculateDuty(
+    const toggleOnWithoutRT = await this.calculateDuty(
       htsCode,
       declaredValue,
       countryCode,
@@ -1363,7 +1491,10 @@ export class TariffService {
       // Sum up all reciprocal-type tariffs (including fentanyl and IEEPA)
       const rtAmount = components
         .filter(
-          (c) => c.type === "reciprocal_tariff" || c.type === "ieepa_tariff",
+          (c) =>
+            c.type === "reciprocal_tariff" ||
+            c.type === "fentanyl" ||
+            c.type === "ieepa_tariff",
         )
         .reduce((sum, c) => sum + c.amount, 0);
 

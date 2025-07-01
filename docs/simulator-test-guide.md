@@ -3,12 +3,14 @@
 ## 🚀 Quick Start Commands
 
 **Terminal 1 - Start Expo Server:**
+
 ```bash
 cd /Users/sdedola/Harmony
 npx expo start --clear
 ```
 
 **Terminal 2 - Launch iOS Simulator:**
+
 ```bash
 cd /Users/sdedola/Harmony
 npx expo run:ios
@@ -17,6 +19,7 @@ npx expo run:ios
 ## 📊 Performance Test Script
 
 Run this to verify bundle optimization:
+
 ```bash
 node scripts/performance-test.js
 ```
@@ -24,6 +27,7 @@ node scripts/performance-test.js
 ## 🧪 Testing Sequence
 
 ### 1. **App Startup Test**
+
 - **Goal**: Verify <1 second startup (no preloading)
 - **Steps**:
   1. Close app completely if running
@@ -33,6 +37,7 @@ node scripts/performance-test.js
 - **Watch for**: No "Preloading tariff data..." message
 
 ### 2. **First Azure Lookup Test**
+
 - **Goal**: Test Azure blob storage loading
 - **Steps**:
   1. Enter HTS code: `84715001`
@@ -51,6 +56,7 @@ node scripts/performance-test.js
   ```
 
 ### 3. **Cached Lookup Test**
+
 - **Goal**: Verify caching works properly
 - **Steps**:
   1. Immediately perform another lookup
@@ -65,6 +71,7 @@ node scripts/performance-test.js
   ```
 
 ### 4. **New UI Features Test**
+
 - **Goal**: Test the elegant drawer interface
 - **Steps**:
   1. Tap bottom FAB (blue) - History drawer
@@ -74,6 +81,7 @@ node scripts/performance-test.js
 - **Expected**: Smooth animations, proper gesture handling
 
 ### 5. **Network Error Test**
+
 - **Goal**: Test error handling
 - **Steps**:
   1. Turn off WiFi/cellular
@@ -83,17 +91,18 @@ node scripts/performance-test.js
 
 ## 📱 Test HTS Codes
 
-| HTS Code | Country | Description | Expected Duty |
-|----------|---------|-------------|---------------|
-| 84715001 | China | Laptop | High (Section 301) |
-| 61091000 | Mexico | T-shirt | Low (USMCA) |
-| 87032310 | Canada | Car engine | Medium |
-| 85171100 | South Korea | Phone | Medium |
-| 94036000 | Vietnam | Furniture | Low |
+| HTS Code | Country     | Description | Expected Duty      |
+| -------- | ----------- | ----------- | ------------------ |
+| 84715001 | China       | Laptop      | High (Section 301) |
+| 61091000 | Mexico      | T-shirt     | Low (USMCA)        |
+| 87032310 | Canada      | Car engine  | Medium             |
+| 85171100 | South Korea | Phone       | Medium             |
+| 94036000 | Vietnam     | Furniture   | Low                |
 
 ## 🎯 Success Criteria
 
 ### ✅ Performance Metrics
+
 - [ ] App startup: <1 second
 - [ ] First lookup: 1-3 seconds
 - [ ] Cached lookup: <500ms
@@ -101,6 +110,7 @@ node scripts/performance-test.js
 - [ ] Memory usage: Lower
 
 ### ✅ Functionality
+
 - [ ] All lookups work correctly
 - [ ] History navigation works
 - [ ] Country selection works
@@ -109,6 +119,7 @@ node scripts/performance-test.js
 - [ ] New drawer UI works
 
 ### ✅ Console Logs
+
 - [ ] Azure loading messages appear
 - [ ] Load times are displayed
 - [ ] Cache hit messages appear
@@ -118,22 +129,26 @@ node scripts/performance-test.js
 ## 🔧 Troubleshooting
 
 ### App Won't Start
+
 ```bash
 # Clear everything and restart
 npx expo start --clear --reset-cache
 ```
 
 ### Azure Loading Fails
+
 1. Check internet connection
 2. Verify Azure URLs in console
-3. Test Azure endpoint: https://harmonytariff.blob.core.windows.net/tariff-data/tariff_processed.json
+3. Test Azure endpoint: https://harmonytariff.blob.core.windows.net/tariff-data/tariff-segments/segment-index.json
 
 ### Performance Issues
+
 1. Check network speed
 2. Verify no local data remains: `ls -la src/`
 3. Check for large files: `find src/ -type f -size +1M`
 
 ### Simulator Issues
+
 ```bash
 # Reset iOS simulator
 npx expo run:ios --clear
@@ -145,6 +160,7 @@ npx expo run:ios --clear
 ## 📊 Expected Console Output
 
 ### Successful Test Run:
+
 ```
 App initializing without tariff data preloading...
 App initialization complete - tariff data will load on first lookup
@@ -158,6 +174,7 @@ App initialization complete - tariff data will load on first lookup
 ```
 
 ### Cached Lookup:
+
 ```
 📦 Tariff data already loaded and cached
 ```
@@ -165,6 +182,7 @@ App initialization complete - tariff data will load on first lookup
 ## 🎉 Test Complete!
 
 If all tests pass, the Azure-only implementation is working correctly:
+
 - ✅ Faster app startup
 - ✅ Smaller bundle size
 - ✅ On-demand data loading

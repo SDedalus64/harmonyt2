@@ -1,16 +1,16 @@
 // Azure Blob Storage Configuration
 export const AZURE_CONFIG = {
   // Base URL for the Azure Blob Storage
-  baseUrl: 'https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data',
+  baseUrl: "https://cs410033fffad325ccb.blob.core.windows.net/$web/TCalc/data",
 
-  // Main tariff data file - now with date stamp
-  mainDataFile: 'tariff_processed_06232025.json',
+  // Main tariff data file - DEPRECATED (no longer uploaded/used)
+  // mainDataFile: 'tariff_processed_06232025.json',
 
   // Segment files directory
-  segmentsPath: 'tariff-segments',
+  segmentsPath: "tariff-segments",
 
   // Index file
-  indexFile: 'segment-index.json',
+  indexFile: "segment-index.json",
 
   // Cache duration in milliseconds (24 hours)
   cacheDuration: 24 * 60 * 60 * 1000,
@@ -22,14 +22,14 @@ export const AZURE_CONFIG = {
   retry: {
     maxAttempts: 3,
     delayMs: 1000,
-    backoffMultiplier: 2
-  }
+    backoffMultiplier: 2,
+  },
 };
 
 // Helper function to get full URLs
 export const getAzureUrls = () => ({
-  mainData: `${AZURE_CONFIG.baseUrl}/${AZURE_CONFIG.mainDataFile}`,
+  // mainData: `${AZURE_CONFIG.baseUrl}/${AZURE_CONFIG.mainDataFile}`, // DEPRECATED - no longer used
   segmentIndex: `${AZURE_CONFIG.baseUrl}/${AZURE_CONFIG.segmentsPath}/${AZURE_CONFIG.indexFile}`,
   getSegmentUrl: (segmentId: string) =>
-    `${AZURE_CONFIG.baseUrl}/${AZURE_CONFIG.segmentsPath}/tariff-${segmentId}.json`
+    `${AZURE_CONFIG.baseUrl}/${AZURE_CONFIG.segmentsPath}/tariff-${segmentId}.json`,
 });

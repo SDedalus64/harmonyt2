@@ -1,76 +1,160 @@
-# HarmonyTi Documentation
+# HarmonyTi - Trade Duty Calculator
 
-This folder contains all project documentation organized by category.
+A React Native mobile application for calculating import duties and tariffs for international trade.
 
-## 📁 Structure
+## 📱 Overview
 
-### `/build-guides`
-Current build and deployment documentation:
-- **PREBUILD_INSTRUCTIONS.md** - Step-by-step prebuild process (includes critical fix script!)
-- **BETA_BUILD_GUIDE.md** - Guide for creating beta builds
-- **XCODE_BUILD_CHECKLIST.md** - Xcode build checklist
+HarmonyTi is a professional-grade iOS and Android application that helps importers, customs brokers, and trade professionals quickly calculate duties, taxes, and fees for importing goods into the United States.
 
-### `/development`
-Development documentation and requirements:
-- **BACKEND_REQUIREMENTS.md** - Comprehensive backend API specifications
-- **SESSION_ACCOMPLISHMENTS.md** - Features and fixes from recent development session
-- **BETA_TEST_CHECKLIST.md** - Checklist for beta testing preparation
+### Key Features
+- Real-time duty calculations based on HTS codes
+- Support for Section 301, Section 232, and other special tariffs
+- Country-specific duty rates and trade agreements (USMCA, etc.)
+- Offline functionality with local data storage
+- Per-unit cost calculations
+- History tracking of previous lookups
 
-### `/cheatsheets`
-Quick reference guides:
-- **📱 HarmonyTi iOS Dev Command Cheat Sheet.md** - Common development commands
-- **CLEAN_COMMANDS.md** - Cleanup and troubleshooting commands
+## 🚀 Getting Started
 
-### `/archive`
-Obsolete or historical documentation (kept for reference):
-- Old sandbox error fixes (resolved by fix-xcode-warnings.sh)
-- Previous cleanup plans (completed)
-- Migration guides (no longer needed)
-- Old Xcode guides (superseded by current documentation)
+### Prerequisites
+- Node.js 18+ 
+- Yarn package manager
+- Xcode 14+ (for iOS development)
+- Android Studio (for Android development)
+- React Native development environment set up
 
-## 🚀 Quick Start
+### Installation
 
-For new developers, start with:
-1. `/build-guides/PREBUILD_INSTRUCTIONS.md` - How to build the project
-2. `/development/BACKEND_REQUIREMENTS.md` - Understanding the API needs
-3. `/cheatsheets/` - Quick command references
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd harmonyt2
+```
 
-## 📝 Note
+2. Install dependencies:
+```bash
+yarn install
+```
 
-Always refer to documentation in `/build-guides` and `/development` for current information.
-Files in `/archive` are kept for historical reference only.
+3. Install iOS pods (iOS only):
+```bash
+cd ios && pod install && cd ..
+```
 
-## TODO
+4. Set up environment:
+```bash
+chmod +x scripts/setup/setup_env.sh
+./scripts/setup/setup_env.sh
+```
 
+### Running the App
 
-1. Add App Store URLs to SettingsScreen
+**iOS Simulator:**
+```bash
+yarn ios
+# or
+expo run:ios
+```
 
-2. Review previous tasks for dependencies
+**Android Emulator:**
+```bash
+yarn android
+# or
+expo run:android
+```
 
-3. Clarify setup for dedola.com sub pages
+**Start Metro bundler:**
+```bash
+yarn start
+# or
+npm start
+```
 
-4. Add Jest test for tariff data integrity
+## 📁 Project Structure
 
-5. Delete and commit eas.json file removal
+See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed project organization.
 
-6. Add jest and update package manifests
+### Key Directories:
+- `/src` - Source code
+- `/scripts` - Build and utility scripts  
+- `/tests` - Test files
+- `/docs` - Documentation
 
-7. Add Jest dependencies and verify tests
-   a. Create tests for lookup errors
+## 🧪 Testing
 
-8. Review project for inconsistencies and improvements
+Run tests:
+```bash
+yarn test
+```
 
-   a. Tablet info icons: show only on active field focus without breaking drawer trigger.
-   b. Refactor FieldWithInfo to support focus-dependent visibility (tablet) without losing drawer functionality.
-   c. Verify full-height gradient stays after future edits.
+Run tests in watch mode:
+```bash
+yarn test:watch
+```
 
-Complete
+Lint code:
+```bash
+yarn lint
+```
 
-| Feature/Fix                                                  | Date      | Coder name |
-| ------------------------------------------------------------ | --------- | ---------- |
-| +0. Improve iPhone Info Tab animation: ensure smooth single fade in/out when switching fields (eliminate "double-wink"). | 6/23/2025 | Stephe D.  |
-| Update tariffs lookup for Hong Kong and Macau<br/>a. …ex/update-tariffs-lookup-for-hong-kong-and-macau | 6/20/2025 | Stephe D.  |
-| Update searchByPrefix behavior based on segment loading      | 6/20/2025 | Stephe D.  |
-| Update README with dev dependencies and test steps           | 6/23/25   | Cursor     |
-| Ensure expo is in dependencies                               | 6/23/25   | Stephe D.  |
+Integration tests are located in `/tests/integration/`
+
+## 📊 Data Management
+
+The app uses segmented tariff data stored locally:
+- Data is split into ~100 JSON segments for performance
+- Updates are processed via `scripts/data/process_tariff_complete.sh`
+- See [scripts/TARIFF_DATA_PROCESSING.md](scripts/TARIFF_DATA_PROCESSING.md) for details
+- See [scripts/SCRIPTS_INVENTORY.md](scripts/SCRIPTS_INVENTORY.md) for all available scripts
+
+## 🔧 Configuration
+
+- **Metro**: Configured with custom resolver for package exports
+- **TypeScript**: Strict mode enabled
+- **ESLint**: Custom rules for React Native
+- **Patch-package**: Applied automatically on install to fix dependencies
+- **Husky**: Git hooks for code quality
+
+## 📱 Features
+
+### Tariff Calculations
+- MFN (Most Favored Nation) rates
+- Section 301 tariffs (China)
+- Section 232 tariffs (Steel/Aluminum)
+- Reciprocal tariffs
+- IEEPA tariffs (Canada/Mexico)
+
+### User Interface
+- Intuitive HTS code search
+- Country selection
+- Value input with freight options
+- Unit calculations
+- History tracking
+- Settings customization
+
+## 🏗️ Building
+
+Create production bundle:
+```bash
+yarn build
+```
+
+## 🛠 Development
+
+For development documentation:
+- Build guides: [docs/build-guides/](docs/build-guides/)
+- Development guides: [docs/development/](docs/development/)
+- API documentation: [docs/api/](docs/api/)
+
+## 📄 License
+
+[License information]
+
+## 👥 Team
+
+[Team information]
+
+---
+
+For more detailed documentation, see the [/docs](docs/) directory.
 

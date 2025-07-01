@@ -8,18 +8,19 @@ import React, {
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const SETTINGS_KEY = "@HarmonyTi:userSettings";
+
 export interface AppSettings {
   autoSaveToHistory: boolean;
+  defaultCountry: string;
+  isReciprocalAdditive: boolean;
   showUnitCalculations: boolean;
   notifications: boolean;
   hapticFeedback: boolean;
   darkMode: boolean;
   cellularData: boolean;
   showQuickTour: boolean;
-  defaultCountry: string;
 }
-
-const SETTINGS_STORAGE_KEY = "@harmony_settings";
 
 const DEFAULT_SETTINGS: AppSettings = {
   autoSaveToHistory: true, // Default to on
@@ -29,7 +30,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   darkMode: false,
   cellularData: true,
   showQuickTour: true,
-  defaultCountry: "",
+  defaultCountry: "US",
+  isReciprocalAdditive: true,
 };
 
 interface SettingsContextValue {
@@ -47,16 +49,44 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(
 );
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<AppSettings>({
+    autoSaveToHistory: true,
+    defaultCountry: "",
+    isReciprocalAdditive: true,
+    showUnitCalculations: false,
+    notifications: true,
+    hapticFeedback: true,
+    darkMode: false,
+    cellularData: true,
+    showQuickTour: true,
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   // Load settings from storage
   const loadSettings = useCallback(async () => {
     try {
-      const savedSettings = await AsyncStorage.getItem(SETTINGS_STORAGE_KEY);
+      const savedSettings = await AsyncStorage.getItem(SETTINGS_KEY);
       if (savedSettings) {
         const parsedSettings = JSON.parse(savedSettings);
-        setSettings({ ...DEFAULT_SETTINGS, ...parsedSettings });
+        setSettings(parsedSettings);
+      } else {
+        // Set default settings if none are found
+        const defaultSettings: AppSettings = {
+          autoSaveToHistory: true,
+          defaultCountry: "",
+          isReciprocalAdditive: true,
+          showUnitCalculations: false,
+          notifications: true,
+          hapticFeedback: true,
+          darkMode: false,
+          cellularData: true,
+          showQuickTour: true,
+        };
+        setSettings(defaultSettings);
+        await AsyncStorage.setItem(
+          SETTINGS_KEY,
+          JSON.stringify(defaultSettings),
+        );
       }
     } catch (error) {
       console.error("Error loading settings:", error);
@@ -71,7 +101,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
       try {
         const updatedSettings = { ...settings, ...newSettings };
         await AsyncStorage.setItem(
-          SETTINGS_STORAGE_KEY,
+          SETTINGS_KEY,
           JSON.stringify(updatedSettings),
         );
         setSettings(updatedSettings);
