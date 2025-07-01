@@ -80,6 +80,7 @@ import {
 } from "react-native-gesture-handler";
 import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { haptics } from "../utils/haptics";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -241,7 +242,9 @@ export default function LookupScreen() {
   >([]);
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
   const [htsSearchMessage, setHtsSearchMessage] = useState<string>("");
-  const [showUnitCalculations, setShowUnitCalculations] = useState(false);
+  const [showUnitCalculations, setShowUnitCalculations] = useState(
+    settings.showUnitCalculations ?? false,
+  );
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const loadingSpinValue = useRef(new Animated.Value(0)).current;
@@ -460,6 +463,7 @@ export default function LookupScreen() {
   ]);
 
   const handleHtsSelection = (code: string) => {
+    haptics.selection();
     setHtsCode(code);
     setShowHtsSuggestions(false);
   };
@@ -692,6 +696,16 @@ export default function LookupScreen() {
     }
   }, [showInput, result]);
 
+  // Sync showUnitCalculations with settings
+  useEffect(() => {
+    setShowUnitCalculations(settings.showUnitCalculations ?? false);
+    // Clear unit count when setting is turned off
+    if (!(settings.showUnitCalculations ?? false)) {
+      setUnitCount("");
+      setFormattedUnitCount("");
+    }
+  }, [settings.showUnitCalculations]);
+
   // Scroll to bottom when unit calculations are shown
   useEffect(() => {
     if (showUnitCalculations && resultScrollViewRef.current) {
@@ -734,6 +748,7 @@ export default function LookupScreen() {
   }, [showInput, result]);
 
   const handleDisclaimerAgree = () => {
+    haptics.success();
     setShowDisclaimer(false);
     // The useEffect listening to showDisclaimer will handle showing the guide
     openMainFab();
@@ -915,12 +930,16 @@ export default function LookupScreen() {
     setShowHtsSuggestions(false);
 
     if (!htsCode || !selectedCountry || !declaredValue) {
+      haptics.error();
       Alert.alert(
         "Missing Information",
         "Please enter HTS code, select a country, and enter a declared value.",
       );
       return;
     }
+
+    // Trigger haptic feedback for calculate action
+    haptics.impact();
 
     Keyboard.dismiss();
     setIsLoading(true);
@@ -964,6 +983,9 @@ export default function LookupScreen() {
 
         setResult(lookupResult);
         setResultsDrawerVisible(true);
+
+        // Success haptic feedback
+        haptics.success();
 
         // Handle auto-save
         console.log("[handleLookup] Auto-save check:", {
@@ -1118,10 +1140,14 @@ export default function LookupScreen() {
         timestamp: Date.now(),
         unitCount: unitCount || undefined,
         unitCalculations: result.unitCalculations,
+        showUnitCalculations: showUnitCalculations, // Save the display state
       };
 
       await saveToHistory(historyItem);
       setIsSaved(true);
+
+      // Success haptic feedback
+      haptics.success();
 
       // Show success feedback only if requested
       if (showAlert) {
@@ -1136,6 +1162,9 @@ export default function LookupScreen() {
   };
 
   const handleClearAll = () => {
+    // Haptic feedback for clear action
+    haptics.impactHeavy();
+
     // Clear all fields for a completely new lookup
     setHtsCode("");
     setSelectedCountry(undefined);
@@ -1148,7 +1177,7 @@ export default function LookupScreen() {
     setResult(null);
     setResultsDrawerVisible(false);
     setIsSaved(false);
-    setShowUnitCalculations(false);
+    setShowUnitCalculations(settings.showUnitCalculations ?? false); // Reset to user preference
     setLoadedHistoryTimestamp(null); // Reset the history timestamp
     setIsUSMCAOrigin(false); // Reset USMCA origin
 
@@ -1163,7 +1192,7 @@ export default function LookupScreen() {
     setResult(null);
     setResultsDrawerVisible(false);
     setIsSaved(false);
-    setShowUnitCalculations(false);
+    // Don't reset showUnitCalculations - keep current state
 
     // Focus on declared value input since all data is preserved
     setTimeout(() => {
@@ -1172,6 +1201,7 @@ export default function LookupScreen() {
   };
 
   const handleHistoryItemSelection = (historyItem: HistoryItem) => {
+    haptics.selection();
     console.log("History item selected:", historyItem);
     setHtsCode(historyItem.htsCode);
 
@@ -1283,6 +1313,13 @@ export default function LookupScreen() {
     } else {
       setUnitCount("");
       setFormattedUnitCount("");
+    }
+
+    // Restore showUnitCalculations state if available, otherwise use settings default
+    if (historyItem.showUnitCalculations !== undefined) {
+      setShowUnitCalculations(historyItem.showUnitCalculations);
+    } else {
+      setShowUnitCalculations(settings.showUnitCalculations ?? false);
     }
 
     // If we have complete result data, restore it directly
@@ -1628,63 +1665,100 @@ export default function LookupScreen() {
             </View>
           )}
 
-          {/* Compact Per Unit */}
+          {/* Unit Calculations Toggle & Display */}
           {unitCount && parseFloat(unitCount) > 0 ? (
-            <View style={styles.compactSection}>
-              <Text style={styles.compactSectionTitle}>
-                Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)
-              </Text>
-              <View style={styles.compactRow}>
-                <Text style={styles.compactLabel}>Duty Cost</Text>
-                <Text style={styles.compactAmount}>
-                  {formatCurrency(result.totalAmount / parseFloat(unitCount))}
-                </Text>
-              </View>
-              {/* Landed cost per unit */}
-              <View style={styles.compactRow}>
-                <Text style={styles.compactLabel}>Landed Cost</Text>
-                <Text style={styles.compactAmount}>
-                  {formatCurrency(
-                    (parseFloat(declaredValue) +
-                      (freightCost ? parseFloat(freightCost) : 0) +
-                      result.totalAmount) /
-                      parseFloat(unitCount),
-                  )}
-                </Text>
-              </View>
-              {(() => {
-                // Show RT cost separately if applicable
-                if (result.components) {
-                  const rtComponent = result.components.find(
-                    (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
-                  );
-                  if (rtComponent && rtComponent.amount > 0) {
-                    return (
-                      <View style={styles.compactRow}>
-                        <Text style={styles.compactLabel}>Addl RT cost</Text>
-                        <Text style={styles.compactHighlight}>
-                          {formatCurrency(
-                            rtComponent.amount / parseFloat(unitCount),
-                          )}
-                        </Text>
-                      </View>
-                    );
-                  }
-                }
-                return null;
-              })()}
-            </View>
+            <>
+              {/* Toggle Button */}
+              <TouchableOpacity
+                style={styles.unitCalculationsToggle}
+                onPress={() => {
+                  haptics.selection();
+                  setShowUnitCalculations(!showUnitCalculations);
+                }}
+              >
+                <View style={styles.unitCalculationsToggleLeft}>
+                  <Ionicons
+                    name="calculator-outline"
+                    size={getResponsiveValue(16, 20)}
+                    color={BRAND_COLORS.electricBlue}
+                  />
+                  <Text style={styles.unitCalculationsToggleText}>
+                    Unit Calculations
+                  </Text>
+                </View>
+                <Ionicons
+                  name={showUnitCalculations ? "chevron-up" : "chevron-down"}
+                  size={getResponsiveValue(16, 20)}
+                  color={BRAND_COLORS.darkGray}
+                />
+              </TouchableOpacity>
+
+              {/* Compact Per Unit - Only show when toggled on */}
+              {showUnitCalculations && (
+                <View style={styles.compactSection}>
+                  <Text style={styles.compactSectionTitle}>
+                    Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)
+                  </Text>
+                  <View style={styles.compactRow}>
+                    <Text style={styles.compactLabel}>Duty Cost</Text>
+                    <Text style={styles.compactAmount}>
+                      {formatCurrency(
+                        result.totalAmount / parseFloat(unitCount),
+                      )}
+                    </Text>
+                  </View>
+                  {/* Landed cost per unit */}
+                  <View style={styles.compactRow}>
+                    <Text style={styles.compactLabel}>Landed Cost</Text>
+                    <Text style={styles.compactAmount}>
+                      {formatCurrency(
+                        (parseFloat(declaredValue) +
+                          (freightCost ? parseFloat(freightCost) : 0) +
+                          result.totalAmount) /
+                          parseFloat(unitCount),
+                      )}
+                    </Text>
+                  </View>
+                  {(() => {
+                    // Show RT cost separately if applicable
+                    if (result.components) {
+                      const rtComponent = result.components.find(
+                        (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
+                      );
+                      if (rtComponent && rtComponent.amount > 0) {
+                        return (
+                          <View style={styles.compactRow}>
+                            <Text style={styles.compactLabel}>
+                              Addl RT cost
+                            </Text>
+                            <Text style={styles.compactHighlight}>
+                              {formatCurrency(
+                                rtComponent.amount / parseFloat(unitCount),
+                              )}
+                            </Text>
+                          </View>
+                        );
+                      }
+                    }
+                    return null;
+                  })()}
+                </View>
+              )}
+            </>
           ) : (
-            <View style={styles.compactMessageSection}>
-              <Ionicons
-                name="information-circle-outline"
-                size={getResponsiveValue(14, 18)}
-                color={BRAND_COLORS.info}
-              />
-              <Text style={styles.compactMessage}>
-                Enter unit count for per unit calculations
-              </Text>
-            </View>
+            // Only show the prompt message if the setting is enabled
+            (settings.showUnitCalculations ?? false) && (
+              <View style={styles.compactMessageSection}>
+                <Ionicons
+                  name="information-circle-outline"
+                  size={getResponsiveValue(14, 18)}
+                  color={BRAND_COLORS.info}
+                />
+                <Text style={styles.compactMessage}>
+                  Enter unit count for per unit calculations
+                </Text>
+              </View>
+            )
           )}
         </ScrollView>
       </View>
@@ -1954,6 +2028,7 @@ export default function LookupScreen() {
     linksDrawerVisible;
 
   const handleMainFabPress = () => {
+    haptics.buttonPress();
     hideInfoTabs();
     if (anyDrawerOpen) {
       // Close all drawers and return to main Lookup screen
@@ -2218,6 +2293,7 @@ export default function LookupScreen() {
                   { backgroundColor: BRAND_COLORS.electricBlue },
                 ]}
                 onPress={() => {
+                  haptics.buttonPress();
                   closeAllDrawers();
                   closeMainFab(false);
                   setHistoryDrawerVisible(true);
@@ -2252,6 +2328,7 @@ export default function LookupScreen() {
                   { backgroundColor: BRAND_COLORS.mediumBlue },
                 ]}
                 onPress={() => {
+                  haptics.buttonPress();
                   closeAllDrawers();
                   closeMainFab(false);
                   setMainHistoryDrawerVisible(true);
@@ -2286,6 +2363,7 @@ export default function LookupScreen() {
                   { backgroundColor: BRAND_COLORS.success },
                 ]}
                 onPress={() => {
+                  haptics.buttonPress();
                   closeAllDrawers();
                   closeMainFab(false);
                   setLinksDrawerVisible(true);
@@ -2320,6 +2398,7 @@ export default function LookupScreen() {
                   { backgroundColor: BRAND_COLORS.orange },
                 ]}
                 onPress={() => {
+                  haptics.buttonPress();
                   closeAllDrawers();
                   closeMainFab(false);
                   setNewsDrawerVisible(true);
@@ -2354,6 +2433,7 @@ export default function LookupScreen() {
                   { backgroundColor: BRAND_COLORS.info },
                 ]}
                 onPress={() => {
+                  haptics.buttonPress();
                   closeAllDrawers();
                   closeMainFab(false);
                   setAnalyticsDrawerVisible(true);
@@ -2388,6 +2468,7 @@ export default function LookupScreen() {
                   { backgroundColor: BRAND_COLORS.darkGray },
                 ]}
                 onPress={() => {
+                  haptics.buttonPress();
                   closeAllDrawers();
                   closeMainFab(false);
                   setSettingsDrawerVisible(true);
@@ -2573,26 +2654,29 @@ export default function LookupScreen() {
                   onFocus={() => handleFieldFocus("freight")}
                 />
               </View>
-              <View
-                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
-                ref={fieldRefs.units}
-              >
-                <FieldWithInfo
-                  placeholder="Unit Count (Optional)"
-                  value={formattedUnitCount}
-                  fieldKey="units"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleUnitCountChange(value);
-                    closeMainFab(false);
-                    closeAllNavigationDrawers();
-                  }}
-                  keyboardType="number-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
-                  onFocus={() => handleFieldFocus("units")}
-                />
-              </View>
+              {/* Only show Unit Count field if Show Unit Calculations is enabled */}
+              {(settings.showUnitCalculations ?? false) && (
+                <View
+                  style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
+                  ref={fieldRefs.units}
+                >
+                  <FieldWithInfo
+                    placeholder="Unit Count (Optional)"
+                    value={formattedUnitCount}
+                    fieldKey="units"
+                    onInfoPress={handleInfoPress}
+                    onChangeText={(value) => {
+                      handleUnitCountChange(value);
+                      closeMainFab(false);
+                      closeAllNavigationDrawers();
+                    }}
+                    keyboardType="number-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[styles.input, dynamicFormStyles.input]}
+                    onFocus={() => handleFieldFocus("units")}
+                  />
+                </View>
+              )}
 
               {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
               {selectedCountry &&
@@ -2608,6 +2692,7 @@ export default function LookupScreen() {
                       <Switch
                         value={isUSMCAOrigin}
                         onValueChange={(value) => {
+                          haptics.selection();
                           setIsUSMCAOrigin(value);
                           closeMainFab(false);
                           closeAllNavigationDrawers();
@@ -3477,6 +3562,27 @@ const styles = StyleSheet.create({
     marginLeft: getSpacing("sm"),
     flex: 1,
     lineHeight: getResponsiveValue(18 * 1.5, 22 * 1.35), // Proportional line height increase
+  },
+  unitCalculationsToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: getResponsiveValue(10, 12),
+    paddingHorizontal: getResponsiveValue(12, 16),
+    marginHorizontal: getResponsiveValue(12, 16),
+    marginTop: getResponsiveValue(8, 10),
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius("md"),
+  },
+  unitCalculationsToggleLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: getResponsiveValue(8, 10),
+  },
+  unitCalculationsToggleText: {
+    fontSize: getTypographySize("sm"),
+    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    color: BRAND_COLORS.darkNavy,
   },
 
   // Header button styles

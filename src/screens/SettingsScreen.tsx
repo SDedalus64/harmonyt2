@@ -26,6 +26,7 @@ import { useHistory } from "../hooks/useHistory";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getCountryName } from "../utils/countries";
 import { BRAND_COLORS as COLORS } from "../config/brandColors";
+import { haptics } from "../utils/haptics";
 
 export default function SettingsScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -36,6 +37,7 @@ export default function SettingsScreen() {
   const logoMarginTop = isTablet() ? 32 : insets.top + 8;
 
   const handleLogout = async () => {
+    haptics.warning();
     Alert.alert(
       "Logout",
       "Are you sure you want to logout?",
@@ -48,6 +50,7 @@ export default function SettingsScreen() {
           text: "Logout",
           onPress: async () => {
             try {
+              haptics.success();
               await logout();
               // @ts-ignore
               navigation.reset({
@@ -56,6 +59,7 @@ export default function SettingsScreen() {
               });
             } catch (error) {
               console.error("Logout error:", error);
+              haptics.error();
               Alert.alert("Error", "Failed to logout");
             }
           },
@@ -180,7 +184,10 @@ export default function SettingsScreen() {
 
           <TouchableOpacity
             style={styles.settingItem}
-            onPress={() => navigation.navigate("Profile")}
+            onPress={() => {
+              haptics.buttonPress();
+              navigation.navigate("Profile");
+            }}
           >
             <View style={styles.settingItemContent}>
               <Ionicons
@@ -222,9 +229,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.autoSaveToHistory}
-              onValueChange={(value) =>
-                updateSetting("autoSaveToHistory", value)
-              }
+              onValueChange={(value) => {
+                haptics.selection();
+                updateSetting("autoSaveToHistory", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -241,9 +249,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.showUnitCalculations ?? false}
-              onValueChange={(value) =>
-                updateSetting("showUnitCalculations", value)
-              }
+              onValueChange={(value) => {
+                haptics.selection();
+                updateSetting("showUnitCalculations", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -263,7 +272,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.showQuickTour ?? true}
-              onValueChange={(value) => updateSetting("showQuickTour", value)}
+              onValueChange={(value) => {
+                haptics.selection();
+                updateSetting("showQuickTour", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -280,7 +292,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.notifications ?? true}
-              onValueChange={(value) => updateSetting("notifications", value)}
+              onValueChange={(value) => {
+                haptics.selection();
+                updateSetting("notifications", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -297,7 +312,13 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.hapticFeedback ?? true}
-              onValueChange={(value) => updateSetting("hapticFeedback", value)}
+              onValueChange={(value) => {
+                // Only provide haptic feedback if it's being turned ON
+                if (value) {
+                  haptics.selection();
+                }
+                updateSetting("hapticFeedback", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -314,7 +335,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.darkMode ?? false}
-              onValueChange={(value) => updateSetting("darkMode", value)}
+              onValueChange={(value) => {
+                haptics.selection();
+                updateSetting("darkMode", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />
@@ -369,7 +393,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               value={settings.cellularData ?? true}
-              onValueChange={(value) => updateSetting("cellularData", value)}
+              onValueChange={(value) => {
+                haptics.selection();
+                updateSetting("cellularData", value);
+              }}
               trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
               thumbColor={COLORS.white}
             />

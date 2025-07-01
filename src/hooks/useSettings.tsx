@@ -7,6 +7,7 @@ import React, {
   ReactNode,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateHapticSettings } from "../utils/haptics";
 
 const SETTINGS_KEY = "@HarmonyTi:userSettings";
 
@@ -69,6 +70,10 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
       if (savedSettings) {
         const parsedSettings = JSON.parse(savedSettings);
         setSettings(parsedSettings);
+        // Initialize haptic settings cache
+        if (parsedSettings.hapticFeedback !== undefined) {
+          updateHapticSettings(parsedSettings.hapticFeedback);
+        }
       } else {
         // Set default settings if none are found
         const defaultSettings: AppSettings = {
@@ -116,6 +121,11 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const updateSetting = useCallback(
     async <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
       await saveSettings({ [key]: value });
+
+      // Update haptic settings cache when haptic feedback setting changes
+      if (key === "hapticFeedback") {
+        updateHapticSettings(value as boolean);
+      }
     },
     [saveSettings],
   );

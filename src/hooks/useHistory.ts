@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useCallback } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState, useCallback } from "react";
 
 export interface HistoryItem {
   id: string;
@@ -34,9 +34,11 @@ export interface HistoryItem {
     additionalPerUnit?: number;
     hasRT: boolean;
   };
+  // Display preference for unit calculations
+  showUnitCalculations?: boolean;
 }
 
-const HISTORY_STORAGE_KEY = '@HarmonyTi:history';
+const HISTORY_STORAGE_KEY = "@HarmonyTi:history";
 
 export function useHistory() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -45,12 +47,15 @@ export function useHistory() {
   const loadHistory = useCallback(async () => {
     setHistoryLoading(true);
     try {
-      console.log('[loadHistory] Loading from key:', HISTORY_STORAGE_KEY);
+      console.log("[loadHistory] Loading from key:", HISTORY_STORAGE_KEY);
       const savedHistory = await AsyncStorage.getItem(HISTORY_STORAGE_KEY);
-      console.log('[loadHistory] Raw data from storage:', savedHistory);
+      console.log("[loadHistory] Raw data from storage:", savedHistory);
       if (savedHistory) {
         const parsedHistory = JSON.parse(savedHistory);
-        console.log('[loadHistory] Parsed history length:', parsedHistory.length);
+        console.log(
+          "[loadHistory] Parsed history length:",
+          parsedHistory.length,
+        );
 
         // Handle backward compatibility for older history items
         const updatedHistory = parsedHistory.map((item: any) => {
@@ -58,40 +63,40 @@ export function useHistory() {
           if (item.country && (!item.countryCode || !item.countryName)) {
             // Try to find the country name from our countries list
             const countries = [
-              { code: 'AU', name: 'Australia' },
-              { code: 'BR', name: 'Brazil' },
-              { code: 'CA', name: 'Canada' },
-              { code: 'CH', name: 'Switzerland' },
-              { code: 'CL', name: 'Chile' },
-              { code: 'CN', name: 'China' },
-              { code: 'CU', name: 'Cuba' },
-              { code: 'DE', name: 'Germany' },
-              { code: 'EU', name: 'European Union' },
-              { code: 'FR', name: 'France' },
-              { code: 'GB', name: 'United Kingdom' },
-              { code: 'IL', name: 'Israel' },
-              { code: 'IN', name: 'India' },
-              { code: 'IT', name: 'Italy' },
-              { code: 'JP', name: 'Japan' },
-              { code: 'KP', name: 'North Korea' },
-              { code: 'KR', name: 'South Korea' },
-              { code: 'MX', name: 'Mexico' },
-              { code: 'MY', name: 'Malaysia' },
-              { code: 'NO', name: 'Norway' },
-              { code: 'NL', name: 'Netherlands' },
-              { code: 'NZ', name: 'New Zealand' },
-              { code: 'PE', name: 'Peru' },
-              { code: 'PH', name: 'Philippines' },
-              { code: 'RU', name: 'Russia' },
-              { code: 'SG', name: 'Singapore' },
-              { code: 'TH', name: 'Thailand' },
-              { code: 'TR', name: 'Turkey' },
-              { code: 'US', name: 'United States' },
-              { code: 'VN', name: 'Vietnam' },
-              { code: 'ZA', name: 'South Africa' },
+              { code: "AU", name: "Australia" },
+              { code: "BR", name: "Brazil" },
+              { code: "CA", name: "Canada" },
+              { code: "CH", name: "Switzerland" },
+              { code: "CL", name: "Chile" },
+              { code: "CN", name: "China" },
+              { code: "CU", name: "Cuba" },
+              { code: "DE", name: "Germany" },
+              { code: "EU", name: "European Union" },
+              { code: "FR", name: "France" },
+              { code: "GB", name: "United Kingdom" },
+              { code: "IL", name: "Israel" },
+              { code: "IN", name: "India" },
+              { code: "IT", name: "Italy" },
+              { code: "JP", name: "Japan" },
+              { code: "KP", name: "North Korea" },
+              { code: "KR", name: "South Korea" },
+              { code: "MX", name: "Mexico" },
+              { code: "MY", name: "Malaysia" },
+              { code: "NO", name: "Norway" },
+              { code: "NL", name: "Netherlands" },
+              { code: "NZ", name: "New Zealand" },
+              { code: "PE", name: "Peru" },
+              { code: "PH", name: "Philippines" },
+              { code: "RU", name: "Russia" },
+              { code: "SG", name: "Singapore" },
+              { code: "TH", name: "Thailand" },
+              { code: "TR", name: "Turkey" },
+              { code: "US", name: "United States" },
+              { code: "VN", name: "Vietnam" },
+              { code: "ZA", name: "South Africa" },
             ];
 
-            const foundCountry = countries.find(c => c.code === item.country);
+            const foundCountry = countries.find((c) => c.code === item.country);
             const countryName = foundCountry ? foundCountry.name : item.country;
 
             return {
@@ -108,74 +113,90 @@ export function useHistory() {
         setHistory([]);
       }
     } catch (error) {
-      console.error('Error loading history:', error);
+      console.error("Error loading history:", error);
       setHistory([]);
     } finally {
       setHistoryLoading(false);
     }
   }, []);
 
-  const saveToHistory = useCallback(async (item: Omit<HistoryItem, 'id' | 'timestamp'>) => {
-    if (historyLoading) {
-      // Prevent saving while loading/clearing
-      console.warn('[saveToHistory] Blocked: history is loading/clearing');
-      return;
-    }
-    try {
-      console.log('[saveToHistory] Saving item with country:', {
-        code: item.countryCode,
-        name: item.countryName
-      });
-
-      // Always get the latest history from storage
-      const existingHistory = await AsyncStorage.getItem(HISTORY_STORAGE_KEY);
-      const historyItems: HistoryItem[] = existingHistory ? JSON.parse(existingHistory) : [];
-
-      // Check for duplicates based on key fields (regardless of when it was saved)
-      const isDuplicate = historyItems.some(existingItem => {
-        // Check if it's the same lookup (same HTS, country, value, freight, and units)
-        return existingItem.htsCode === item.htsCode &&
-          existingItem.countryCode === item.countryCode &&
-          existingItem.declaredValue === item.declaredValue &&
-          existingItem.freightCost === item.freightCost &&
-          existingItem.unitCount === item.unitCount;
-      });
-
-      if (isDuplicate) {
-        console.log('[saveToHistory] Duplicate detected, skipping save');
+  const saveToHistory = useCallback(
+    async (item: Omit<HistoryItem, "id" | "timestamp">) => {
+      if (historyLoading) {
+        // Prevent saving while loading/clearing
+        console.warn("[saveToHistory] Blocked: history is loading/clearing");
         return;
       }
+      try {
+        console.log("[saveToHistory] Saving item with country:", {
+          code: item.countryCode,
+          name: item.countryName,
+        });
 
-      // Create new history item
-      const newItem: HistoryItem = {
-        ...item,
-        id: Math.random().toString(36).substr(2, 9),
-        timestamp: Date.now(),
-      };
+        // Always get the latest history from storage
+        const existingHistory = await AsyncStorage.getItem(HISTORY_STORAGE_KEY);
+        const historyItems: HistoryItem[] = existingHistory
+          ? JSON.parse(existingHistory)
+          : [];
 
-      // Add to start of array (most recent first)
-      const updatedHistory = [newItem, ...historyItems];
+        // Check for duplicates based on key fields (regardless of when it was saved)
+        const isDuplicate = historyItems.some((existingItem) => {
+          // Check if it's the same lookup (same HTS, country, value, freight, and units)
+          return (
+            existingItem.htsCode === item.htsCode &&
+            existingItem.countryCode === item.countryCode &&
+            existingItem.declaredValue === item.declaredValue &&
+            existingItem.freightCost === item.freightCost &&
+            existingItem.unitCount === item.unitCount
+          );
+        });
 
-      // Keep only last 50 items
-      const trimmedHistory = updatedHistory.slice(0, 50);
+        if (isDuplicate) {
+          console.log("[saveToHistory] Duplicate detected, skipping save");
+          return;
+        }
 
-      // Save to storage
-      await AsyncStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(trimmedHistory));
-      console.log('[saveToHistory] Saved to AsyncStorage with key:', HISTORY_STORAGE_KEY);
-      console.log('[saveToHistory] Total items in history:', trimmedHistory.length);
-      console.log('[saveToHistory] Latest item:', trimmedHistory[0]);
+        // Create new history item
+        const newItem: HistoryItem = {
+          ...item,
+          id: Math.random().toString(36).substr(2, 9),
+          timestamp: Date.now(),
+        };
 
-      // Update local state immediately to reflect changes
-      setHistory(trimmedHistory);
-    } catch (error) {
-      console.error('Error saving to history:', error);
-    }
-  }, [historyLoading]);
+        // Add to start of array (most recent first)
+        const updatedHistory = [newItem, ...historyItems];
+
+        // Keep only last 50 items
+        const trimmedHistory = updatedHistory.slice(0, 50);
+
+        // Save to storage
+        await AsyncStorage.setItem(
+          HISTORY_STORAGE_KEY,
+          JSON.stringify(trimmedHistory),
+        );
+        console.log(
+          "[saveToHistory] Saved to AsyncStorage with key:",
+          HISTORY_STORAGE_KEY,
+        );
+        console.log(
+          "[saveToHistory] Total items in history:",
+          trimmedHistory.length,
+        );
+        console.log("[saveToHistory] Latest item:", trimmedHistory[0]);
+
+        // Update local state immediately to reflect changes
+        setHistory(trimmedHistory);
+      } catch (error) {
+        console.error("Error saving to history:", error);
+      }
+    },
+    [historyLoading],
+  );
 
   const clearHistory = useCallback(async () => {
     setHistoryLoading(true);
     try {
-      console.log('[clearHistory] Removing history from storage...');
+      console.log("[clearHistory] Removing history from storage...");
       await AsyncStorage.removeItem(HISTORY_STORAGE_KEY);
       // Fallback: force set to empty array in case removeItem fails
       await AsyncStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify([]));
@@ -183,9 +204,9 @@ export function useHistory() {
       // Directly update the local state to empty array
       setHistory([]);
 
-      console.log('[clearHistory] History cleared.');
+      console.log("[clearHistory] History cleared.");
     } catch (error) {
-      console.error('Error clearing history:', error);
+      console.error("Error clearing history:", error);
       // Force local state to empty even on error
       setHistory([]);
     } finally {
