@@ -1,1 +1,38 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run lint-staged
 npx lint-staged
+
+# Get staged files
+staged_files=$(git diff --cached --name-only)
+
+# Check if any staged files are in src/ directory
+src_files=$(echo "$staged_files" | grep '^src/' || true)
+
+# If there are src files but CHANGELOG.md is not staged, block the commit
+if [ -n "$src_files" ] && ! echo "$staged_files" | grep -q '^CHANGELOG.md$'; then
+  echo ""
+  echo "\033[1;33m📋 CHANGELOG UPDATE REQUIRED\033[0m"
+  echo ""
+  echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  echo "\033[0;31m❌ COMMIT BLOCKED - Source code changes require documentation\033[0m"
+  echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  echo ""
+  echo "\033[1;33mYou have changes in src/ but haven't updated CHANGELOG.md\033[0m"
+  echo ""
+  echo "\033[0;34mAdd appropriate entries under [Unreleased]:\033[0m"
+  echo "  • Added - for new features"
+  echo "  • Changed - for changes in existing functionality"
+  echo "  • Fixed - for bug fixes"
+  echo "  • Removed - for removed features"
+  echo ""
+  echo "\033[0;32mNext steps:\033[0m"
+  echo "  1. Edit CHANGELOG.md"
+  echo "  2. Stage both files: git add CHANGELOG.md src/..."
+  echo "  3. Commit again"
+  echo ""
+  echo "\033[1;33mFor emergency commits only:\033[0m git commit --no-verify"
+  echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  exit 1
+fi

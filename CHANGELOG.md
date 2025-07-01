@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<!-- AI/Developer: Add new entries under the appropriate sections below -->
+
+### Added
+
+<!-- New features -->
+
+- Haptic feedback functionality throughout the app
+  - Light impact for button presses
+  - Medium impact for calculate action
+  - Heavy impact for destructive actions (Clear button)
+  - Success/error/warning patterns for various states
+  - Selection feedback for toggles and list items
+  - Smart caching to avoid performance impact
+- expo-haptics package integration
+- Test feature file for validating changelog enforcement system
+
+### Changed
+
+<!-- Changes in existing functionality -->
+
+### Deprecated
+
+<!-- Soon-to-be removed features -->
+
+### Removed
+
+<!-- Now removed features -->
+
+### Fixed
+
+<!-- Bug fixes -->
+
+- "Show Unit Calculations" setting now properly controls visibility
+  - Unit Count field only appears when setting is enabled
+  - Results respect the user's display preference
+  - Setting syncs with local state changes
+  - History items preserve unit calculation display state
+
+### Security
+
+<!-- Vulnerability fixes -->
+
+### Performance
+
+<!-- Performance improvements -->
+
 ### To Do
 
 - Automated tariff data update pipeline
