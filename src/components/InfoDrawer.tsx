@@ -1,24 +1,24 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
-import { AnimatedDrawer } from './shared/AnimatedDrawer';
+import { AnimatedDrawer } from "./shared/AnimatedDrawer";
 import {
   BRAND_COLORS,
   getResponsiveValue,
   getSpacing,
   isTablet,
-} from '../config/brandColors';
+} from "../config/brandColors";
 
-export type InfoFieldKey = 'code' | 'declared' | 'freight' | 'units' | null;
+export type InfoFieldKey = "code" | "declared" | "freight" | "units" | null;
 
 interface InfoDrawerProps {
   isOpen: boolean;
@@ -26,9 +26,12 @@ interface InfoDrawerProps {
   field: InfoFieldKey;
 }
 
-const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, { title: string; body: string }> = {
+const FIELD_CONTENT: Record<
+  Exclude<InfoFieldKey, null>,
+  { title: string; body: string }
+> = {
   code: {
-    title: '🎯 Why We Only Ask for 8 Digits of the HTS Code',
+    title: "🎯 Why We Only Ask for 8 Digits of the HTS Code",
     body: `✅ 6 digits = global HS code
 
     ⸻
@@ -48,92 +51,82 @@ const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, { title: string; body: 
 • 🔹 Additional 9–10 digits are optional and intended for data/statistical purposes.
 
 
-🛠️ Pro Tip: Start with the first 3 digits and you'll be good to go.`,
+🛠️ Pro Tip: Enter the first 3 digits to activate smart code search.`,
   },
   declared: {
-    title: '💵 Declared Value — What & Why',
-    body: `✅ What Is It?
-• 💵 The Declared Value is the price you (the importer) paid for the goods
-• 💵 It should reflect the true transaction value — the amount on your commercial invoice
-
-⸻
-
-📦 What's Included?
-• 🔹 Product cost (before duty or freight)
-• 🔹 Commissions or selling fees (if not excluded)
-• 🔹 Royalties or license fees (if applicable)
-• 🔹 Value of any "assists" (e.g. free tooling or molds provided by the buyer)
-
-⸻
-
-❌ What's Not Included?
-• 🚫 International freight (if separately itemized)
-• 🚫 Insurance (if separately stated)
-• 🚫 U.S. duties or brokerage fees
-
-⸻
-
-📊 Why We Ask for It
-• 🔹 It's the basis for duty calculations under CBP rules (Transaction Value Method)
-• 🔹 Our system uses it to:
-• 📈 Calculate estimated duties and taxes
-• 📊 Run profitability and landed cost projections
-• 🧾 Assist in compliance reviews or pre-classification
-
-⸻
-
-🛠️ Pro Tip: 
-• 🔹 Be consistent with your commercial invoice. CBP can reject values that appear artificially low.`,
-  },
-  freight: {
-    title: "🚚 Import Costs – When are they Dutiable",
+    title: "📦 Declared Value: What to Include vs. What May Be Excluded¹",
     body: `⸻
 
-✅ What Is Included (CIF/DDP)
-• 🚛 Local Freight at Origin (e.g. factory to port)
-• 🏗️ Handling fees at Origin (pre-export.)
-• ⛴️ Air/Ocean Freight When (not listed separately)
+✅ Include in Declared Value
 
-
-⸻
-
-❌ What Isn't (Itemized or Paid by Importer)
-• 🌊 Air/Ocean freight (FOB/FAS)
-• 🛡️ Insurance
-• 🇺🇸 Inland freight in the U.S.
-• 🧾 Duties, brokerage, and port fees
+• 💵 Price Paid for Goods – Total paid to seller
+• 📦 Packing Costs – Boxes, crates, materials
+• 💼 Selling Commissions – Paid to seller's agent
+• 🔧 Assists – Tools, designs, parts you supplied
+• 📄 Royalties – If required to buy the goods³
+• 💰 Resale Proceeds to Seller – If seller gets a cut
+• 🚛 Foreign Inland Freight – Factory to export port⁴
 
 ⸻
 
-📊 Why We Ask for Freight
-• 💰 Estimate your landed cost with more precision
-• 📈 Understand your true cost per unit
-• 💵 Accurate costing = accurate pricing
+❌ May Be Excluded (see footnotes**)
 
-• 💵 Valuable data when evaluating quotes or projecting margins.
+• 🇺🇸 U.S. Duties & Taxes (always)
+• 🚢 International Freight⁵
+• 👤 Buying Commissions – Paid to your agent only²
+• 🔧 Post-Import Services⁶
+• 🛡️ Marine Insurance⁵
+• 🚚 U.S. Inland Freight⁵
 
 ⸻
 
-💡 Pro Tip: If your commercial invoice doesn't break out freight, Customs may count it as dutiable. Protect your margins by knowing all your costs.`,
+🔎 Footnotes
+
+• 1️⃣ Exclusions must be clearly listed and backed by documentation
+• 2️⃣ Buying commissions are only excludable if the agent works solely for the buyer
+• 3️⃣ Royalties are only dutiable if required as a condition of sale of good
+• 4️⃣ Foreign inland freight is usually dutiable unless the seller pays and it's clearly not part of the sale price
+• 5️⃣ International freight, insurance, and U.S. inland freight are excludable only if itemized separately and verifiable
+• 6️⃣ Post-importation work (e.g., setup, maintenance) is not dutiable if cost incurred by buyer`,
+  },
+  freight: {
+    title: "🚚 Import Costs – Not Included in Declared Value",
+    body: `⸻
+
+✅ Additional Landed Costs Paid by You. Such as:
+• ⛴️ International Freight
+• 🚛 Freight Drayage (port to warehouse) 
+• 🏗️ Warehousing (at discharge and destination)
+• 🚛 U.S. Inland Freight
+• 🚛 Distribution
+• 💰 Other costs
+⸻
+📊 Why Enter Cost Estimates? HarmonyTi 
+• 💰 Adds to declared value to calculate estimated landed cost
+• 📈 Divides est. landed cost by unit count for per-unit landed cost
+⸻
+
+💡 Pro Tip: If your commercial invoice doesn't itemize freight and other supplier-paid costs, Customs will include them in the dutiable value. A small adjustment to your invoice can help you avoid overpaying on duties.`,
   },
   units: {
-    title: '📦 Units – Optional, but Useful',
+    title: "📦 Units – Optional, but Useful",
     body: `✅ What It Is
 
     ⸻
 
-
     • 📦 Per Units Duties, Special Tariffs, and Landed cost estimates.
-• 📦 Better projections for pricing and margin analysis.
+• 📦 Projections for pricing and margin analysis.
 
 ⸻
 
 📝 Totally Optional
-• 📦 You can leave it blank — your freight and duty estimates will still work
-• 📦 But adding unit count unlocks better business visibility, especially for:
-• 📦 Product managers
-• 📦 Sales teams
-• 📦 Margin-sensitive clients
+• 📦 You can leave it blank — your duty estimates and landed cost estimates will still work
+• 📦 You can turn it off in settings if you don't want to use it at all
+• ✅ Use if you want better business visibility for:
+📦 Product managers
+💰 Sales teams 
+👤 Margin-sensitive clients
+📈 CFOs
 
 ⸻
 
@@ -148,16 +141,18 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
 
   const containerStyles = [
     styles.container,
-    { paddingTop: insets.top + getSpacing('lg') },
+    { paddingTop: insets.top + getSpacing("lg") },
   ];
 
   const renderBody = (bodyString: string) => {
-    return bodyString.split('\n').map((raw, idx) => {
+    return bodyString.split("\n").map((raw, idx) => {
       const trimmed = raw.trim();
       if (!trimmed) return <View key={idx} style={{ height: 4 }} />;
-      if (trimmed === '⸻') return <View key={idx} style={styles.separator} />;
+      if (trimmed === "⸻") return <View key={idx} style={styles.separator} />;
 
-      const normalized = trimmed.startsWith('•') ? trimmed.slice(1).trim() : trimmed;
+      const normalized = trimmed.startsWith("•")
+        ? trimmed.slice(1).trim()
+        : trimmed;
       const match = normalized.match(/^([^\s]+)\s+(.*)$/);
 
       if (match) {
@@ -214,59 +209,59 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: getSpacing('lg'),
-  },
-  title: {
-    fontSize: getResponsiveValue(20, 26),
-    fontWeight: 'bold',
-    color: BRAND_COLORS.white,
-    marginBottom: getSpacing('sm'),
-  },
   bodyText: {
+    color: BRAND_COLORS.white,
     fontSize: getResponsiveValue(14, 18),
     lineHeight: getResponsiveValue(18, 22),
-    color: BRAND_COLORS.white,
   },
-  pullTab: {
-    position: 'absolute',
-    right: isTablet() ? -56 : -40,
-    top: 60,
-    width: isTablet() ? 56 : 40,
-    height: isTablet() ? 112 : 80,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+  bulletIcon: {
+    color: BRAND_COLORS.white,
+    fontSize: getResponsiveValue(14, 18),
+    width: 26,
+  },
+  bulletRow: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    marginBottom: 4,
+  },
+  bulletText: {
+    color: BRAND_COLORS.white,
+    flex: 1,
+    fontSize: getResponsiveValue(14, 18),
+    lineHeight: getResponsiveValue(18, 22),
+  },
+  container: {
+    flex: 1,
+    padding: getSpacing("lg"),
   },
   gradientContainer: {
     flex: 1,
-    minHeight: '100%',
+    minHeight: "100%",
   },
-  bulletRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 4,
-  },
-  bulletIcon: {
-    width: 26,
-    fontSize: getResponsiveValue(14, 18),
-    color: BRAND_COLORS.white,
-  },
-  bulletText: {
-    flex: 1,
-    fontSize: getResponsiveValue(14, 18),
-    lineHeight: getResponsiveValue(18, 22),
-    color: BRAND_COLORS.white,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    marginVertical: getSpacing('sm'),
+  pullTab: {
+    alignItems: "center",
+    borderBottomRightRadius: 20,
+    borderTopRightRadius: 20,
+    height: isTablet() ? 112 : 80,
+    justifyContent: "center",
+    position: "absolute",
+    right: isTablet() ? -56 : -40,
+    top: 60,
+    width: isTablet() ? 56 : 40,
   },
   scrollContent: {
     flexGrow: 1,
+  },
+  separator: {
+    backgroundColor: "rgba(255,255,255,0.3)",
+    height: 1,
+    marginVertical: getSpacing("sm"),
+  },
+  title: {
+    color: BRAND_COLORS.white,
+    fontSize: getResponsiveValue(20, 26),
+    fontWeight: "bold",
+    marginBottom: getSpacing("sm"),
   },
 });
 

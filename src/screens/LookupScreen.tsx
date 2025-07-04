@@ -19,6 +19,8 @@ import {
   Modal,
   useWindowDimensions,
   ImageStyle,
+  UIManager,
+  findNodeHandle,
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -351,51 +353,74 @@ export default function LookupScreen() {
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
       // Add a small delay on Android to ensure layout is complete
-      const measureDelay = Platform.OS === "android" ? 200 : 0;
+      const measureDelay = Platform.OS === "android" ? 300 : 0;
 
       setTimeout(() => {
         if (ref.current) {
-          // Always use measureInWindow for consistency
-          ref.current.measureInWindow((x, y, width, height) => {
-            // Log raw values for debugging
-            console.log(
-              `[InfoTab] Field: ${field}, measureInWindow - x: ${x}, y: ${y}, width: ${width}, height: ${height}`,
-            );
+          // Use UIManager.measure for Android as measureInWindow can be unreliable
+          if (Platform.OS === "android") {
+            const handle = findNodeHandle(ref.current);
+            if (handle) {
+              UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                console.log(
+                  `[InfoTab] Android UIManager.measure - Field: ${field}, x: ${x}, y: ${y}, width: ${width}, height: ${height}, pageX: ${pageX}, pageY: ${pageY}`,
+                );
 
-            if (
-              typeof y === "number" &&
-              typeof height === "number" &&
-              !isNaN(y) &&
-              !isNaN(height) &&
-              y > 0 &&
-              height > 0
-            ) {
-              const tabHeight = 40;
+                if (
+                  typeof pageY === "number" &&
+                  typeof height === "number" &&
+                  !isNaN(pageY) &&
+                  !isNaN(height) &&
+                  pageY > 0 &&
+                  height > 0
+                ) {
+                  const tabHeight = 40;
+                  // pageY is already screen-relative, don't subtract insets.top
+                  // Instead, just use pageY directly and center the tab
+                  const centerY = pageY + height / 2 - tabHeight / 2;
 
-              // On Android, measureInWindow includes the status bar, so we need to adjust
-              let adjustedY = y;
-              if (Platform.OS === "android") {
-                // Android includes status bar in measureInWindow, subtract it
-                adjustedY = y - insets.top;
-              }
+                  console.log(
+                    `[InfoTab] Android calculated - pageY: ${pageY}, height: ${height}, centerY: ${centerY}, insets.top: ${insets.top}`,
+                  );
 
-              // Center the tab on the field
-              const centerY = adjustedY + height / 2 - tabHeight / 2;
-
-              // Log calculated position
-              console.log(
-                `[InfoTab] Field: ${field}, adjustedY: ${adjustedY}, centerY: ${centerY}, insets.top: ${insets.top}`,
-              );
-
-              setTabY(Math.max(50, centerY)); // Ensure minimum position
-            } else {
-              // Fallback position
-              console.log(
-                `[InfoTab] Measurement failed for field: ${field}, using fallback`,
-              );
-              setTabY(200);
+                  setTabY(Math.max(50, centerY));
+                } else {
+                  // Fallback with a better default based on field
+                  // Final positions - perfectly aligned
+                  const fieldDefaults = {
+                    code: 322, // Perfect!
+                    declared: 433, // Perfect!
+                    freight: 489, // Added 2px more
+                    units: 546, // Perfect!
+                  };
+                  const fallbackY = field ? fieldDefaults[field] : 200;
+                  console.log(
+                    `[InfoTab] Android measure failed for field: ${field}, using fallback: ${fallbackY}`,
+                  );
+                  setTabY(fallbackY || 200);
+                }
+              });
             }
-          });
+          } else {
+            // iOS uses measureInWindow as before
+            ref.current.measureInWindow((x, y, width, height) => {
+              if (
+                typeof y === "number" &&
+                typeof height === "number" &&
+                !isNaN(y) &&
+                !isNaN(height) &&
+                y > 0 &&
+                height > 0
+              ) {
+                const spacing = getSpacing("sm");
+                if (typeof spacing === "number" && !isNaN(spacing)) {
+                  setTabY(y + height / 2 - 20 - spacing);
+                }
+              } else {
+                setTabY(200);
+              }
+            });
+          }
         }
       }, measureDelay);
     }
@@ -2683,7 +2708,7 @@ export default function LookupScreen() {
                 ref={fieldRefs.freight}
               >
                 <FieldWithInfo
-                  placeholder="Freight Cost in USD (Optional)"
+                  placeholder="Est. Other Costs"
                   value={formattedFreightCost}
                   fieldKey="freight"
                   onInfoPress={handleInfoPress}

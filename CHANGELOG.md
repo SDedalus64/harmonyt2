@@ -26,7 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Changes in existing functionality -->
 
-Changed text on Settings screen - Show Quick Tour
+- Updated InfoDrawer content for clarity, including revised titles and descriptions for declared value and import costs.
+  (2025-07-04)
+
+- Changed text on Settings screen - Show Quick Tour
 
 ### Deprecated
 
@@ -40,6 +43,7 @@ Changed text on Settings screen - Show Quick Tour
 
 <!-- Bug fixes -->
 
+- Added field-specific fallback positions when measurement fails to ensure proper tab alignment.
 - Android build issues with Expo SDK 52 compatibility (2025-07-03)
   - Excluded problematic `expo-system-ui` module from Android builds
   - Fixed signing configuration to use debug keystore when release credentials not configured
@@ -56,6 +60,9 @@ Changed text on Settings screen - Show Quick Tour
   - Increased measurement delay to 200ms on Android for more reliable layout calculations
   - Added debug logging to track measurement values and positioning calculations
   - Unified measurement approach using measureInWindow for both platforms
+  - Switched to UIManager.measure for Android to resolve measureInWindow returning undefined
+  - Added field-specific fallback positions when measurement fails
+  - Increased delay to 300ms for more reliable Android layout measurements
 - Prebuild script improvements (2025-07-03)
   - Modified script to backup and restore critical Android configuration files
   - Preserves custom Android fixes (expo-system-ui exclusion) across prebuilds
