@@ -268,8 +268,8 @@ export default function LookupScreen() {
 
   // Animation values for unified floating menu
   const mainFabRotation = useRef(new Animated.Value(0)).current;
-  const menuFabScale = useRef(new Animated.Value(1)).current;
-  const menuFabOpacity = useRef(new Animated.Value(1)).current;
+  const menuFabScale = useRef(new Animated.Value(0)).current; // Start at 0 since menu starts collapsed
+  const menuFabOpacity = useRef(new Animated.Value(0)).current; // Start at 0 since menu starts collapsed
 
   // Individual menu button animations for arc layout (6 buttons)
   const recentFabTranslateX = useRef(new Animated.Value(0)).current;
@@ -350,9 +350,32 @@ export default function LookupScreen() {
     // measure position
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
-      ref.current.measureInWindow((_x, y, _w, h) => {
-        setTabY(y + h / 2 - 20 - getSpacing("sm")); // align center assuming tab height 40
-      });
+      // Add a small delay on Android to ensure layout is complete
+      const measureDelay = Platform.OS === "android" ? 100 : 0;
+
+      setTimeout(() => {
+        if (ref.current) {
+          ref.current.measureInWindow((_x, y, _w, h) => {
+            // Add null/undefined checks to prevent NaN
+            if (
+              typeof y === "number" &&
+              typeof h === "number" &&
+              !isNaN(y) &&
+              !isNaN(h) &&
+              y > 0 &&
+              h > 0
+            ) {
+              const spacing = getSpacing("sm");
+              if (typeof spacing === "number" && !isNaN(spacing)) {
+                setTabY(y + h / 2 - 20 - spacing); // align center assuming tab height 40
+              }
+            } else {
+              // Fallback to a default position if measurement fails
+              setTabY(200); // Default position
+            }
+          });
+        }
+      }, measureDelay);
     }
   };
 
@@ -2957,13 +2980,10 @@ export default function LookupScreen() {
         />
 
         {/* Info tab for iPhone fades in/out */}
-        {!isTablet() && (
-          <PanGestureHandler
-            onGestureEvent={handleInfoTabDrag}
-            enabled={shouldShowInfoTab}
-          >
+        {!isTablet() && shouldShowInfoTab && tabY > 0 && (
+          <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={true}>
             <Animated.View
-              pointerEvents={shouldShowInfoTab ? "auto" : "none"}
+              pointerEvents="auto"
               style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
             >
               <TouchableOpacity

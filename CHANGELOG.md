@@ -38,6 +38,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Bug fixes -->
 
+- Android build issues with Expo SDK 52 compatibility (2025-07-03)
+  - Excluded problematic `expo-system-ui` module from Android builds
+  - Fixed signing configuration to use debug keystore when release credentials not configured
+  - Resolved `expo-module-gradle-plugin` not found error
+  - Fixed `components.release` not found error in expo-modules-core
+- Android-specific NaN error in info tab positioning (2025-07-03)
+  - Added delay for Android layout measurement to ensure components are fully rendered
+  - Added validation checks for measurement values to prevent NaN
+  - Added fallback position when measurement fails
+  - Fixed animation initial values for FAB menu components
+  - Prevented info tab from rendering until valid position is calculated
 - "Show Unit Calculations" setting now properly controls visibility (2025-06-30)
   - Unit Count field only appears when setting is enabled
   - Results respect the user's display preference
