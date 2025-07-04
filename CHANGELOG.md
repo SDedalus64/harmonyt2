@@ -2,6 +2,25 @@
 
 All notable changes to HarmonyTi will be documented in this file.
 
+## [2025-07-04]
+
+### Changed
+
+- Updated all fonts to use Geologica font family
+- Modified BRAND_TYPOGRAPHY configuration to use Geologica as primary and secondary font
+- Added getFontFamily helper function to handle font weights properly
+- Created react-native.config.js for font asset configuration
+
+### Added
+
+- Created GEOLOGICA_FONT_IMPLEMENTATION.md guide with detailed instructions for adding Geologica font files
+- Added font weight mapping for Geologica font variants (Light, Regular, Medium, SemiBold, Bold)
+
+### Note
+
+- Font files need to be downloaded and added to assets/fonts/ directory
+- Native configurations (iOS and Android) need to be updated after adding font files
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -25,6 +44,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 <!-- Changes in existing functionality -->
+
+- Geologica font integration across components: (2025-07-04)
+  - Added a new configuration file for React Native to manage font assets
+  - Introduced a CustomText component to standardize text rendering with Geologica fonts
+  - Updated existing components (CountryLookup, LoginScreen, ProfileScreen, SettingsScreen) to utilize the new typography styles
+  - Removed the deprecated CountrySelectionScreen to streamline navigation
+  - Enhanced text styles for consistency and improved readability across the application
+  - Fixed Android font rendering by updating all screens to use custom Text component instead of React Native's default Text
 
 fix: update placeholder text in LookupScreen for clarity
 

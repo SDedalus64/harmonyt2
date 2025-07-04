@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment, @typescript-eslint/no-require-imports, react-native/no-unused-styles, react-native/no-color-literals */
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, react-native/no-unused-styles, react-native/no-color-literals */
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Switch,
@@ -11,6 +10,7 @@ import {
   Image,
   Linking,
 } from "react-native";
+import { Text } from "../components/Text";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
@@ -24,17 +24,64 @@ import { isTablet } from "../platform/deviceUtils";
 import { useSettings } from "../hooks/useSettings";
 import { useHistory } from "../hooks/useHistory";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getCountryName } from "../utils/countries";
-import { BRAND_COLORS as COLORS } from "../config/brandColors";
+import { getCountryName, COUNTRIES, Country } from "../utils/countries";
+import {
+  BRAND_COLORS as COLORS,
+  BRAND_TYPOGRAPHY,
+} from "../config/brandColors";
 import { haptics } from "../utils/haptics";
+import { AnimatedDrawer } from "../components/shared/AnimatedDrawer";
+import ProfileScreen from "./ProfileScreen";
 
-export default function SettingsScreen() {
+interface SettingsScreenProps {
+  onNavigate?: () => void;
+}
+
+export default function SettingsScreen({
+  onNavigate,
+}: SettingsScreenProps = {}) {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { logout } = useAuth();
   const { settings, updateSetting } = useSettings();
   const { clearHistory } = useHistory();
   const insets = useSafeAreaInsets();
   const logoMarginTop = isTablet() ? 32 : insets.top + 8;
+  const [profileDrawerVisible, setProfileDrawerVisible] = useState(false);
+  const [countryDropdownVisible, setCountryDropdownVisible] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const countryDropdownRef = useRef<View>(null);
+
+  // List of countries for the dropdown
+  const countries: Country[] = [{ code: "", name: "None" }, ...COUNTRIES];
+
+  const handleCountryDropdownToggle = () => {
+    setCountryDropdownVisible(!countryDropdownVisible);
+
+    // Scroll to the dropdown when opening
+    if (!countryDropdownVisible && countryDropdownRef.current) {
+      setTimeout(() => {
+        countryDropdownRef.current?.measureLayout(
+          scrollViewRef.current as any,
+          (x, y) => {
+            scrollViewRef.current?.scrollTo({ y: y - 20, animated: true });
+          },
+          () => {},
+        );
+      }, 100);
+    }
+  };
+
+  const handleCountrySelect = async (countryCode: string) => {
+    haptics.selection();
+    setCountryDropdownVisible(false);
+    await updateSetting("defaultCountry", countryCode);
+  };
+
+  const handleClearDefaultCountry = async () => {
+    haptics.selection();
+    await updateSetting("defaultCountry", "");
+    setCountryDropdownVisible(false);
+  };
 
   const handleLogout = async () => {
     haptics.warning();
@@ -52,11 +99,7 @@ export default function SettingsScreen() {
             try {
               haptics.success();
               await logout();
-              // @ts-ignore
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "Login" }],
-              });
+              // Navigation will be handled by AuthContext/App level
             } catch (error) {
               console.error("Logout error:", error);
               haptics.error();
@@ -126,7 +169,7 @@ export default function SettingsScreen() {
               await updateSetting("notifications", true);
               await updateSetting("darkMode", false);
               await updateSetting("cellularData", true);
-              await updateSetting("showUnitCalculations", false);
+              await updateSetting("showUnitCalculations", true);
               await updateSetting("defaultCountry", "");
               await updateSetting("hapticFeedback", true);
             } catch (error) {
@@ -141,17 +184,23 @@ export default function SettingsScreen() {
   };
 
   const handlePrivacyPolicy = () => {
-    navigation.navigate("InAppWebView", {
-      url: "https://www.ratecast.com/privacy-policy",
-      title: "Privacy Policy",
-    });
+    onNavigate?.();
+    setTimeout(() => {
+      navigation.navigate("InAppWebView", {
+        url: "https://www.ratecast.com/privacy-policy",
+        title: "Privacy Policy",
+      });
+    }, 100);
   };
 
   const handleTermsOfService = () => {
-    navigation.navigate("InAppWebView", {
-      url: "https://www.ratecast.com/terms-of-service",
-      title: "Terms of Service",
-    });
+    onNavigate?.();
+    setTimeout(() => {
+      navigation.navigate("InAppWebView", {
+        url: "https://www.ratecast.com/terms-of-service",
+        title: "Terms of Service",
+      });
+    }, 100);
   };
 
   const handleContactSupport = () => {
@@ -167,15 +216,18 @@ export default function SettingsScreen() {
   };
 
   const handleCompanyWebsite = () => {
-    navigation.navigate("InAppWebView", {
-      url: "https://dedola.com",
-      title: "Company Website",
-    });
+    onNavigate?.();
+    setTimeout(() => {
+      navigation.navigate("InAppWebView", {
+        url: "https://dedola.com",
+        title: "Company Website",
+      });
+    }, 100);
   };
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView ref={scrollViewRef} style={styles.scrollView}>
         <Text style={styles.sectionTitle}>Settings</Text>
 
         {/* Account Section */}
@@ -186,7 +238,7 @@ export default function SettingsScreen() {
             style={styles.settingItem}
             onPress={() => {
               haptics.buttonPress();
-              navigation.navigate("Profile");
+              setProfileDrawerVisible(true);
             }}
           >
             <View style={styles.settingItemContent}>
@@ -248,7 +300,7 @@ export default function SettingsScreen() {
               <Text style={styles.settingItemText}>Show Unit Calcs </Text>
             </View>
             <Switch
-              value={settings.showUnitCalculations ?? false}
+              value={settings.showUnitCalculations ?? true}
               onValueChange={(value) => {
                 haptics.selection();
                 updateSetting("showUnitCalculations", value);
@@ -344,7 +396,8 @@ export default function SettingsScreen() {
 
           <TouchableOpacity
             style={styles.settingItem}
-            onPress={() => navigation.navigate("CountrySelection")}
+            onPress={handleCountryDropdownToggle}
+            ref={countryDropdownRef}
           >
             <View style={styles.settingItemContent}>
               <Ionicons
@@ -367,13 +420,72 @@ export default function SettingsScreen() {
                   ? getCountryName(settings.defaultCountry)
                   : "None"}
               </Text>
+              {settings.defaultCountry && settings.defaultCountry !== "" && (
+                <TouchableOpacity
+                  onPress={handleClearDefaultCountry}
+                  style={styles.clearButton}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                  <Ionicons
+                    name="close-circle"
+                    size={20}
+                    color={COLORS.darkGray}
+                  />
+                </TouchableOpacity>
+              )}
               <Ionicons
-                name="chevron-forward"
+                name={countryDropdownVisible ? "chevron-up" : "chevron-down"}
                 size={20}
                 color={COLORS.darkGray}
               />
             </View>
           </TouchableOpacity>
+
+          {/* Country Dropdown */}
+          {countryDropdownVisible && (
+            <View style={styles.countryDropdown}>
+              <ScrollView
+                style={styles.countryDropdownScroll}
+                nestedScrollEnabled
+              >
+                {countries.map((country) => {
+                  const isSelected =
+                    country.code === ""
+                      ? !settings.defaultCountry ||
+                        settings.defaultCountry === ""
+                      : settings.defaultCountry === country.code;
+
+                  return (
+                    <TouchableOpacity
+                      key={country.code}
+                      style={[
+                        styles.countryDropdownItem,
+                        isSelected && styles.countryDropdownItemSelected,
+                      ]}
+                      onPress={() => handleCountrySelect(country.code)}
+                    >
+                      <Text
+                        style={[
+                          styles.countryDropdownItemText,
+                          isSelected && styles.countryDropdownItemTextSelected,
+                          country.code === "" && styles.noneText,
+                        ]}
+                      >
+                        {country.name}
+                      </Text>
+                      {isSelected && (
+                        <Ionicons
+                          name="checkmark"
+                          size={20}
+                          color={COLORS.lightBlue}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+          )}
         </View>
 
         {/* Data & Storage Section */}
@@ -555,6 +667,19 @@ export default function SettingsScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* Profile Drawer */}
+      <AnimatedDrawer
+        isVisible={profileDrawerVisible}
+        onClose={() => setProfileDrawerVisible(false)}
+        position="left"
+      >
+        <ProfileScreen
+          onNavigate={() => {
+            setProfileDrawerVisible(false);
+          }}
+        />
+      </AnimatedDrawer>
     </SafeAreaView>
   );
 }
@@ -569,6 +694,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     width: 360,
   },
+  clearButton: {
+    marginRight: 8,
+  },
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
@@ -576,6 +704,40 @@ const styles = StyleSheet.create({
   copyrightText: {
     color: COLORS.darkGray,
     fontSize: 12,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+  },
+  countryDropdown: {
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.mediumGray,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 8,
+    marginTop: 8,
+    overflow: "hidden",
+  },
+  countryDropdownItem: {
+    alignItems: "center",
+    borderBottomColor: COLORS.lightGray,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  countryDropdownItemSelected: {
+    backgroundColor: COLORS.lightGray,
+  },
+  countryDropdownItemText: {
+    color: COLORS.darkBlue,
+    fontSize: 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+  },
+  countryDropdownItemTextSelected: {
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: COLORS.lightBlue,
+  },
+  countryDropdownScroll: {
+    maxHeight: 200,
   },
   headerContainer: {
     alignItems: "center",
@@ -616,13 +778,13 @@ const styles = StyleSheet.create({
   sectionHeader: {
     color: COLORS.darkBlue,
     fontSize: 16,
-    fontWeight: "600",
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     marginBottom: 16,
   },
   sectionTitle: {
     color: COLORS.darkBlue,
     fontSize: 28,
-    fontWeight: "700",
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     marginBottom: 16,
     marginHorizontal: 16,
     marginTop: 24,
@@ -643,6 +805,7 @@ const styles = StyleSheet.create({
     color: COLORS.darkBlue,
     fontSize: 16,
     marginLeft: 12,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   settingValue: {
     alignItems: "center",
@@ -652,10 +815,12 @@ const styles = StyleSheet.create({
     color: COLORS.darkBlue,
     fontSize: 16,
     marginRight: 12,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   versionText: {
     color: COLORS.darkBlue,
     fontSize: 14,
     marginBottom: 8,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
 });

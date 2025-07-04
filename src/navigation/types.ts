@@ -1,6 +1,6 @@
-import { HistoryItem } from '../hooks/useHistory';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { RouteProp } from '@react-navigation/native';
+import { HistoryItem } from "../hooks/useHistory";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RouteProp } from "@react-navigation/native";
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -8,7 +8,6 @@ export type RootStackParamList = {
   InAppWebView: { url: string; title?: string };
   Login: undefined;
   Registration: undefined;
-  CountrySelection: undefined;
   Profile: undefined;
 };
 
@@ -18,16 +17,21 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Lookup: { htsCode?: string; declaredValue?: string; countryOfOrigin?: string, historyItem?: any };
+  Lookup: {
+    htsCode?: string;
+    declaredValue?: string;
+    countryOfOrigin?: string;
+    historyItem?: any;
+  };
   History: undefined;
   Links: undefined;
   Settings: undefined;
 };
 
 export type LookupScreenProps = {
-  navigation: BottomTabNavigationProp<MainTabParamList, 'Lookup'>;
-  route: RouteProp<MainTabParamList, 'Lookup'>;
+  navigation: BottomTabNavigationProp<MainTabParamList, "Lookup">;
+  route: RouteProp<MainTabParamList, "Lookup">;
 };
 
 // Re-export types for convenience
-export type { HistoryItem } from '../hooks/useHistory';
+export type { HistoryItem } from "../hooks/useHistory";

@@ -322,6 +322,7 @@ const styles = StyleSheet.create({
   input: {
     color: COLORS.black,
     fontSize: 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   inputContainer: {
     alignSelf: isTablet() ? "center" : "stretch",
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: COLORS.white,
     fontSize: 18,
-    fontWeight: "600",
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
   },
   logo: {
     height: isTablet() ? 240 : 140,
@@ -370,6 +371,7 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     flex: 1,
     fontSize: 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   passwordWrapper: {
     alignItems: "center",
@@ -396,7 +398,7 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     color: COLORS.lightBlue,
     fontSize: 16,
-    fontWeight: "600",
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
   },
   welcomeText: {
     color: BRAND_COLORS.darkNavy,
@@ -404,7 +406,7 @@ const styles = StyleSheet.create({
       getTypographySize("xl"),
       getTypographySize("xxxl"),
     ),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     marginBottom: 32,
     textAlign: "center",
   },
