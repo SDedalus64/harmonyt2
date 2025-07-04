@@ -351,27 +351,49 @@ export default function LookupScreen() {
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
       // Add a small delay on Android to ensure layout is complete
-      const measureDelay = Platform.OS === "android" ? 100 : 0;
+      const measureDelay = Platform.OS === "android" ? 200 : 0;
 
       setTimeout(() => {
         if (ref.current) {
-          ref.current.measureInWindow((_x, y, _w, h) => {
-            // Add null/undefined checks to prevent NaN
+          // Always use measureInWindow for consistency
+          ref.current.measureInWindow((x, y, width, height) => {
+            // Log raw values for debugging
+            console.log(
+              `[InfoTab] Field: ${field}, measureInWindow - x: ${x}, y: ${y}, width: ${width}, height: ${height}`,
+            );
+
             if (
               typeof y === "number" &&
-              typeof h === "number" &&
+              typeof height === "number" &&
               !isNaN(y) &&
-              !isNaN(h) &&
+              !isNaN(height) &&
               y > 0 &&
-              h > 0
+              height > 0
             ) {
-              const spacing = getSpacing("sm");
-              if (typeof spacing === "number" && !isNaN(spacing)) {
-                setTabY(y + h / 2 - 20 - spacing); // align center assuming tab height 40
+              const tabHeight = 40;
+
+              // On Android, measureInWindow includes the status bar, so we need to adjust
+              let adjustedY = y;
+              if (Platform.OS === "android") {
+                // Android includes status bar in measureInWindow, subtract it
+                adjustedY = y - insets.top;
               }
+
+              // Center the tab on the field
+              const centerY = adjustedY + height / 2 - tabHeight / 2;
+
+              // Log calculated position
+              console.log(
+                `[InfoTab] Field: ${field}, adjustedY: ${adjustedY}, centerY: ${centerY}, insets.top: ${insets.top}`,
+              );
+
+              setTabY(Math.max(50, centerY)); // Ensure minimum position
             } else {
-              // Fallback to a default position if measurement fails
-              setTabY(200); // Default position
+              // Fallback position
+              console.log(
+                `[InfoTab] Measurement failed for field: ${field}, using fallback`,
+              );
+              setTabY(200);
             }
           });
         }

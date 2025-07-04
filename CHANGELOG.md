@@ -51,6 +51,11 @@ Changed text on Settings screen - Show Quick Tour
   - Added fallback position when measurement fails
   - Fixed animation initial values for FAB menu components
   - Prevented info tab from rendering until valid position is calculated
+- Android info drawer tab alignment issues (2025-07-03)
+  - Fixed tab positioning by properly accounting for status bar height using safe area insets
+  - Increased measurement delay to 200ms on Android for more reliable layout calculations
+  - Added debug logging to track measurement values and positioning calculations
+  - Unified measurement approach using measureInWindow for both platforms
 - "Show Unit Calculations" setting now properly controls visibility (2025-06-30)
   - Unit Count field only appears when setting is enabled
   - Results respect the user's display preference
