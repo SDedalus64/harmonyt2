@@ -1,0 +1,12 @@
+android {
+  }
+}
+
+afterEvaluate {
+  useExpoPublishing()
+}
+
+configurations {
+  compileOnly {
+  }
+} 

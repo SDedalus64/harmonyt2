@@ -3,6 +3,8 @@ pluginManagement {
 }
 plugins { id("com.facebook.react.settings") }
 
+apply from: file("expo-modules-plugin-fix.gradle")
+
 extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   if (System.getenv('EXPO_USE_COMMUNITY_AUTOLINKING') == '1') {
     ex.autolinkLibrariesFromCommand()

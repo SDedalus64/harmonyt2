@@ -1,0 +1,17 @@
+diff --git a/node_modules/expo-modules-core/android/ExpoModulesCorePlugin.gradle b/node_modules/expo-modules-core/android/ExpoModulesCorePlugin.gradle
+index 1234567..abcdefg 100644
+--- a/node_modules/expo-modules-core/android/ExpoModulesCorePlugin.gradle
++++ b/node_modules/expo-modules-core/android/ExpoModulesCorePlugin.gradle
+@@ -92,7 +92,11 @@ def useExpoPublishing() {
+         artifactId = "expo-modules-core"
+       }
+ 
+-      from components.release
++      afterEvaluate {
++        if (components.hasProperty('release')) {
++          from components.release
++        }
++      }
+     }
+   }
+ } 
