@@ -56,6 +56,15 @@ Changed text on Settings screen - Show Quick Tour
   - Increased measurement delay to 200ms on Android for more reliable layout calculations
   - Added debug logging to track measurement values and positioning calculations
   - Unified measurement approach using measureInWindow for both platforms
+- Prebuild script improvements (2025-07-03)
+  - Modified script to backup and restore critical Android configuration files
+  - Preserves custom Android fixes (expo-system-ui exclusion) across prebuilds
+  - Prevents need to manually reapply Android fixes after each prebuild
+  - Successfully builds both iOS and Android platforms
+- Git pre-commit hook improvements (2025-07-03)
+  - Enhanced error messages to detect when CHANGELOG.md is modified but not staged
+  - Shows clear actionable command: `git add CHANGELOG.md`
+  - Better developer experience with specific guidance for different scenarios
 - "Show Unit Calculations" setting now properly controls visibility (2025-06-30)
   - Unit Count field only appears when setting is enabled
   - Results respect the user's display preference
