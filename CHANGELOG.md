@@ -53,6 +53,7 @@ feat: implement Geologica font integration across components (2025-07-04)
 - Removed the deprecated CountrySelectionScreen to streamline navigation.
 - Enhanced text styles for consistency and improved readability across the application.
 - Fixed Android font rendering by updating all screens to use custom Text component instead of React Native's default Text.
+- Moved Default Country setting to first position in Preferences for better dropdown expansion room.
 
 fix: update placeholder text in LookupScreen for clarity
 

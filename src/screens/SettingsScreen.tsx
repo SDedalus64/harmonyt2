@@ -270,6 +270,99 @@ export default function SettingsScreen({
         <View style={styles.section}>
           <Text style={styles.sectionHeader}>Preferences</Text>
 
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleCountryDropdownToggle}
+            ref={countryDropdownRef}
+          >
+            <View style={styles.settingItemContent}>
+              <Ionicons
+                name="flag-outline"
+                size={22}
+                color={COLORS.lightBlue}
+              />
+              <Text style={styles.settingItemText}>Default Country</Text>
+            </View>
+            <View style={styles.settingValue}>
+              <Text
+                style={[
+                  styles.settingValueText,
+                  (!settings.defaultCountry ||
+                    settings.defaultCountry === "") &&
+                    styles.noneText,
+                ]}
+              >
+                {settings.defaultCountry && settings.defaultCountry !== ""
+                  ? getCountryName(settings.defaultCountry)
+                  : "None"}
+              </Text>
+              {settings.defaultCountry && settings.defaultCountry !== "" && (
+                <TouchableOpacity
+                  onPress={handleClearDefaultCountry}
+                  style={styles.clearButton}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                  <Ionicons
+                    name="close-circle"
+                    size={20}
+                    color={COLORS.darkGray}
+                  />
+                </TouchableOpacity>
+              )}
+              <Ionicons
+                name={countryDropdownVisible ? "chevron-up" : "chevron-down"}
+                size={20}
+                color={COLORS.darkGray}
+              />
+            </View>
+          </TouchableOpacity>
+
+          {/* Country Dropdown */}
+          {countryDropdownVisible && (
+            <View style={styles.countryDropdown}>
+              <ScrollView
+                style={styles.countryDropdownScroll}
+                nestedScrollEnabled
+              >
+                {countries.map((country) => {
+                  const isSelected =
+                    country.code === ""
+                      ? !settings.defaultCountry ||
+                        settings.defaultCountry === ""
+                      : settings.defaultCountry === country.code;
+
+                  return (
+                    <TouchableOpacity
+                      key={country.code}
+                      style={[
+                        styles.countryDropdownItem,
+                        isSelected && styles.countryDropdownItemSelected,
+                      ]}
+                      onPress={() => handleCountrySelect(country.code)}
+                    >
+                      <Text
+                        style={[
+                          styles.countryDropdownItemText,
+                          isSelected && styles.countryDropdownItemTextSelected,
+                          country.code === "" && styles.noneText,
+                        ]}
+                      >
+                        {country.name}
+                      </Text>
+                      {isSelected && (
+                        <Ionicons
+                          name="checkmark"
+                          size={20}
+                          color={COLORS.lightBlue}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+          )}
+
           <View style={styles.settingItem}>
             <View style={styles.settingItemContent}>
               <Ionicons
@@ -393,99 +486,6 @@ export default function SettingsScreen({
               thumbColor={COLORS.white}
             />
           </View>
-
-          <TouchableOpacity
-            style={styles.settingItem}
-            onPress={handleCountryDropdownToggle}
-            ref={countryDropdownRef}
-          >
-            <View style={styles.settingItemContent}>
-              <Ionicons
-                name="flag-outline"
-                size={22}
-                color={COLORS.lightBlue}
-              />
-              <Text style={styles.settingItemText}>Default Country</Text>
-            </View>
-            <View style={styles.settingValue}>
-              <Text
-                style={[
-                  styles.settingValueText,
-                  (!settings.defaultCountry ||
-                    settings.defaultCountry === "") &&
-                    styles.noneText,
-                ]}
-              >
-                {settings.defaultCountry && settings.defaultCountry !== ""
-                  ? getCountryName(settings.defaultCountry)
-                  : "None"}
-              </Text>
-              {settings.defaultCountry && settings.defaultCountry !== "" && (
-                <TouchableOpacity
-                  onPress={handleClearDefaultCountry}
-                  style={styles.clearButton}
-                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                >
-                  <Ionicons
-                    name="close-circle"
-                    size={20}
-                    color={COLORS.darkGray}
-                  />
-                </TouchableOpacity>
-              )}
-              <Ionicons
-                name={countryDropdownVisible ? "chevron-up" : "chevron-down"}
-                size={20}
-                color={COLORS.darkGray}
-              />
-            </View>
-          </TouchableOpacity>
-
-          {/* Country Dropdown */}
-          {countryDropdownVisible && (
-            <View style={styles.countryDropdown}>
-              <ScrollView
-                style={styles.countryDropdownScroll}
-                nestedScrollEnabled
-              >
-                {countries.map((country) => {
-                  const isSelected =
-                    country.code === ""
-                      ? !settings.defaultCountry ||
-                        settings.defaultCountry === ""
-                      : settings.defaultCountry === country.code;
-
-                  return (
-                    <TouchableOpacity
-                      key={country.code}
-                      style={[
-                        styles.countryDropdownItem,
-                        isSelected && styles.countryDropdownItemSelected,
-                      ]}
-                      onPress={() => handleCountrySelect(country.code)}
-                    >
-                      <Text
-                        style={[
-                          styles.countryDropdownItemText,
-                          isSelected && styles.countryDropdownItemTextSelected,
-                          country.code === "" && styles.noneText,
-                        ]}
-                      >
-                        {country.name}
-                      </Text>
-                      {isSelected && (
-                        <Ionicons
-                          name="checkmark"
-                          size={20}
-                          color={COLORS.lightBlue}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  );
-                })}
-              </ScrollView>
-            </View>
-          )}
         </View>
 
         {/* Data & Storage Section */}
