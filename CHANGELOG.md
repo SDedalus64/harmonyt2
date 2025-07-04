@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Changes in existing functionality -->
 
+Changed text on Settings screen - Show Quick Tour
+
 ### Deprecated
 
 <!-- Soon-to-be removed features -->

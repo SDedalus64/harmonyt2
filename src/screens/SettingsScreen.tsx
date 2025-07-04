@@ -245,7 +245,7 @@ export default function SettingsScreen() {
                 size={22}
                 color={COLORS.lightBlue}
               />
-              <Text style={styles.settingItemText}>Show Unit Calculations</Text>
+              <Text style={styles.settingItemText}>Show Unit Calcs </Text>
             </View>
             <Switch
               value={settings.showUnitCalculations ?? false}
@@ -266,9 +266,7 @@ export default function SettingsScreen() {
                 size={22}
                 color={COLORS.lightBlue}
               />
-              <Text style={styles.settingItemText}>
-                Show Quick Tour On Startup
-              </Text>
+              <Text style={styles.settingItemText}>Show Quick Tour</Text>
             </View>
             <Switch
               value={settings.showQuickTour ?? true}
