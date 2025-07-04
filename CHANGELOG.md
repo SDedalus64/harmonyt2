@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Changes in existing functionality -->
 
+fix: update placeholder text in LookupScreen for clarity
+
+- Changed the placeholder text from "Est. Other Costs" to "Est. Other Costs (Optional)" to better indicate that the field is not mandatory.
 - Updated InfoDrawer content for clarity, including revised titles and descriptions for declared value and import costs.
   (2025-07-04)
 

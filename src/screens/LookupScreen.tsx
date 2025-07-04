@@ -2708,7 +2708,7 @@ export default function LookupScreen() {
                 ref={fieldRefs.freight}
               >
                 <FieldWithInfo
-                  placeholder="Est. Other Costs"
+                  placeholder="Est. Other Costs (Optional)"
                   value={formattedFreightCost}
                   fieldKey="freight"
                   onInfoPress={handleInfoPress}
