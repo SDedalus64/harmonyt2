@@ -34,8 +34,42 @@ export const BRAND_COLORS = {
 
 export const BRAND_TYPOGRAPHY = {
   // Font families
-  primary: "System",
-  secondary: "System",
+  primary: "Geologica",
+  secondary: "Geologica",
+
+  // Helper function to get correct font family with weight
+  getFontFamily: (
+    weight: "light" | "regular" | "medium" | "semibold" | "bold" = "regular",
+  ) => {
+    const fontMap: Record<string, string> = {
+      light: "Geologica-Light",
+      regular: "Geologica-Regular",
+      medium: "Geologica-Medium",
+      semibold: "Geologica-SemiBold",
+      bold: "Geologica-Bold",
+    };
+
+    return (
+      Platform.select({
+        ios: fontMap[weight],
+        android: fontMap[weight],
+        default: "Geologica",
+      }) || "Geologica"
+    );
+  },
+
+  // Helper function to get font style object with both family and weight
+  getFontStyle: (
+    weight: "light" | "regular" | "medium" | "semibold" | "bold" = "regular",
+  ) => {
+    const fontFamily = BRAND_TYPOGRAPHY.getFontFamily(weight);
+    const fontWeightValue = BRAND_TYPOGRAPHY.weights[weight];
+
+    return {
+      fontFamily,
+      fontWeight: fontWeightValue,
+    };
+  },
 
   // Responsive font sizes (backward compatible)
   sizes: {

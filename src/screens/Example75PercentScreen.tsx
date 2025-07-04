@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { BRAND_COLORS as COLORS } from '../config/brandColors';
+import { View, StyleSheet, Dimensions } from "react-native";
+import { Text } from "../components/Text";
+import React from "react";
+import { BRAND_COLORS as COLORS } from "../config/brandColors";
 
 // Get device dimensions
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 // Calculate 75% of screen dimensions
 const containerWidth = screenWidth * 0.75;
@@ -17,10 +18,12 @@ const Example75PercentScreen = () => {
           This container is 75% of the screen size
         </Text>
         <Text style={styles.subText}>
-          Width: {containerWidth.toFixed(0)}px ({screenWidth.toFixed(0)}px screen)
+          Width: {containerWidth.toFixed(0)}px ({screenWidth.toFixed(0)}px
+          screen)
         </Text>
         <Text style={styles.subText}>
-          Height: {containerHeight.toFixed(0)}px ({screenHeight.toFixed(0)}px screen)
+          Height: {containerHeight.toFixed(0)}px ({screenHeight.toFixed(0)}px
+          screen)
         </Text>
       </View>
     </View>
@@ -28,37 +31,37 @@ const Example75PercentScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  fullScreen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.lightGray,
-  },
   container75: {
-    width: containerWidth,
-    height: containerHeight,
+    alignItems: "center",
     backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 10,
-    shadowColor: '#000',
+    elevation: 5,
+    height: containerHeight,
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    width: containerWidth,
+  },
+  fullScreen: {
+    alignItems: "center",
+    backgroundColor: COLORS.lightGray,
+    flex: 1,
+    justifyContent: "center",
+  },
+  subText: {
+    color: "#666",
+    fontSize: 14,
+    marginVertical: 5,
   },
   text: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-  },
-  subText: {
-    fontSize: 14,
-    color: '#666',
-    marginVertical: 5,
   },
 });
 

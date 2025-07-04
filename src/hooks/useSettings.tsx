@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useCallback,
   useEffect,
   useContext,
   createContext,
@@ -24,8 +23,8 @@ export interface AppSettings {
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
-  autoSaveToHistory: true, // Default to on
-  showUnitCalculations: false,
+  autoSaveToHistory: true,
+  showUnitCalculations: true,
   notifications: true,
   hapticFeedback: true,
   darkMode: false,
@@ -50,90 +49,63 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(
 );
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [settings, setSettings] = useState<AppSettings>({
-    autoSaveToHistory: true,
-    defaultCountry: "",
-    isReciprocalAdditive: true,
-    showUnitCalculations: false,
-    notifications: true,
-    hapticFeedback: true,
-    darkMode: false,
-    cellularData: true,
-    showQuickTour: true,
-  });
+  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
   const [isLoading, setIsLoading] = useState(true);
 
   // Load settings from storage
-  const loadSettings = useCallback(async () => {
-    try {
-      const savedSettings = await AsyncStorage.getItem(SETTINGS_KEY);
-      if (savedSettings) {
-        const parsedSettings = JSON.parse(savedSettings);
-        setSettings(parsedSettings);
-        // Initialize haptic settings cache
-        if (parsedSettings.hapticFeedback !== undefined) {
-          updateHapticSettings(parsedSettings.hapticFeedback);
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const savedSettings = await AsyncStorage.getItem(SETTINGS_KEY);
+        if (savedSettings) {
+          const parsedSettings = JSON.parse(savedSettings);
+          setSettings(parsedSettings);
+          // Initialize haptic settings cache
+          if (parsedSettings.hapticFeedback !== undefined) {
+            updateHapticSettings(parsedSettings.hapticFeedback);
+          }
         }
-      } else {
-        // Set default settings if none are found
-        const defaultSettings: AppSettings = {
-          autoSaveToHistory: true,
-          defaultCountry: "",
-          isReciprocalAdditive: true,
-          showUnitCalculations: false,
-          notifications: true,
-          hapticFeedback: true,
-          darkMode: false,
-          cellularData: true,
-          showQuickTour: true,
-        };
-        setSettings(defaultSettings);
-        await AsyncStorage.setItem(
-          SETTINGS_KEY,
-          JSON.stringify(defaultSettings),
-        );
+      } catch (error) {
+        console.error("Error loading settings:", error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("Error loading settings:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    };
+
+    loadSettings();
   }, []);
 
   // Save settings to storage
-  const saveSettings = useCallback(
-    async (newSettings: Partial<AppSettings>) => {
-      try {
-        const updatedSettings = { ...settings, ...newSettings };
-        await AsyncStorage.setItem(
-          SETTINGS_KEY,
-          JSON.stringify(updatedSettings),
-        );
-        setSettings(updatedSettings);
-      } catch (error) {
-        console.error("Error saving settings:", error);
-      }
-    },
-    [settings],
-  );
+  const saveSettings = async (newSettings: Partial<AppSettings>) => {
+    return new Promise<void>((resolve) => {
+      setSettings((prevSettings) => {
+        const updatedSettings = { ...prevSettings, ...newSettings };
+
+        // Save to AsyncStorage
+        AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(updatedSettings))
+          .then(() => resolve())
+          .catch((error) => {
+            console.error("Error saving settings:", error);
+            resolve(); // Still resolve to not block UI
+          });
+
+        return updatedSettings;
+      });
+    });
+  };
 
   // Update a specific setting
-  const updateSetting = useCallback(
-    async <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
-      await saveSettings({ [key]: value });
+  const updateSetting = async <K extends keyof AppSettings>(
+    key: K,
+    value: AppSettings[K],
+  ) => {
+    await saveSettings({ [key]: value });
 
-      // Update haptic settings cache when haptic feedback setting changes
-      if (key === "hapticFeedback") {
-        updateHapticSettings(value as boolean);
-      }
-    },
-    [saveSettings],
-  );
-
-  // Load settings on mount
-  useEffect(() => {
-    loadSettings();
-  }, [loadSettings]);
+    // Update haptic settings cache when haptic feedback setting changes
+    if (key === "hapticFeedback") {
+      updateHapticSettings(value as boolean);
+    }
+  };
 
   return (
     <SettingsContext.Provider

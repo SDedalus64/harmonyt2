@@ -33,7 +33,6 @@ import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
 import LinksScreen from "../screens/LinksScreen";
 import InAppWebViewScreen from "../screens/InAppWebViewScreen";
-import CountrySelectionScreen from "../screens/CountrySelectionScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 // Brand colors
@@ -284,14 +283,6 @@ export function AppNavigator({
                 fontWeight: "600",
               },
             })}
-          />
-          <Stack.Screen
-            name="CountrySelection"
-            component={CountrySelectionScreen}
-            options={{
-              headerShown: false,
-              presentation: "modal",
-            }}
           />
           <Stack.Screen
             name="Profile"

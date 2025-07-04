@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,76 +9,71 @@ import {
   Linking,
   ActivityIndicator,
   AppState,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { isTablet } from '../platform/deviceUtils';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/types';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { isTablet } from "../platform/deviceUtils";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../navigation/types";
+
+import { BRAND_TYPOGRAPHY } from "../config/brandColors";
+import { blogService, BlogPost } from "../services/blogService";
 
 // Brand colors
 const COLORS = {
-  darkBlue: '#0B2953',
-  lightBlue: '#4397EC',
-  orange: '#E67E23',
-  white: '#FFFFFF',
-  lightGray: '#F8F8F8',
-  mediumGray: '#E1E1E1',
-  darkGray: '#666666',
+  darkBlue: "#0B2953",
+  lightBlue: "#4397EC",
+  orange: "#E67E23",
+  white: "#FFFFFF",
+  lightGray: "#F8F8F8",
+  mediumGray: "#E1E1E1",
+  darkGray: "#666666",
 };
 
-const DEDOLA_LOGO = 'https://dedola.com/wp-content/uploads/2025/04/DedolaLogo2025.png';
+// Using local Dedola logo from assets
+const DEDOLA_LOGO = require("../../assets/Dedola_Colorful.png");
 
 interface SocialPost {
   id: string;
-  platform: 'linkedin' | 'twitter' | 'instagram' | 'facebook';
+  platform: "linkedin" | "twitter" | "instagram" | "facebook";
   title: string;
   preview: string;
   date: string;
   url: string;
 }
 
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  url: string;
-  image?: string;
-}
-
 const recentSocialPosts: SocialPost[] = [
   {
-    id: '1',
-    platform: 'linkedin',
-    title: 'Dedola Global Logistics on LinkedIn',
-    preview: 'Follow us for logistics news, insights, and company updates.',
-    date: 'Now',
-    url: 'https://www.linkedin.com/company/dedola-global-logistics/',
+    id: "1",
+    platform: "linkedin",
+    title: "Dedola Global Logistics on LinkedIn",
+    preview: "Follow us for logistics news, insights, and company updates.",
+    date: "Now",
+    url: "https://www.linkedin.com/company/dedola-global-logistics/",
   },
   {
-    id: '2',
-    platform: 'twitter',
-    title: 'Dedola Global on Twitter',
-    preview: 'Real-time supply chain updates and industry news.',
-    date: 'Now',
-    url: 'https://twitter.com/dglsupplychain',
+    id: "2",
+    platform: "twitter",
+    title: "Dedola Global on Twitter",
+    preview: "Real-time supply chain updates and industry news.",
+    date: "Now",
+    url: "https://twitter.com/dglsupplychain",
   },
   {
-    id: '3',
-    platform: 'instagram',
-    title: 'Dedola Global on Instagram',
-    preview: 'See our team and operations in action.',
-    date: 'Now',
-    url: 'https://www.instagram.com/dedola_global',
+    id: "3",
+    platform: "instagram",
+    title: "Dedola Global on Instagram",
+    preview: "See our team and operations in action.",
+    date: "Now",
+    url: "https://www.instagram.com/dedola_global",
   },
   {
-    id: '4',
-    platform: 'facebook',
-    title: 'Dedola Global on Facebook',
-    preview: 'Connect with us for company news and events.',
-    date: 'Now',
-    url: 'https://www.facebook.com/DedolaGlobalLogistics',
+    id: "4",
+    platform: "facebook",
+    title: "Dedola Global on Facebook",
+    preview: "Connect with us for company news and events.",
+    date: "Now",
+    url: "https://www.facebook.com/DedolaGlobalLogistics",
   },
 ];
 
@@ -91,15 +86,18 @@ const RightColumnContent = () => {
   // Handle app state changes to refresh when returning from external links
   useEffect(() => {
     const handleAppStateChange = (nextAppState: any) => {
-      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      if (appState.match(/inactive|background/) && nextAppState === "active") {
         // App has come to the foreground, refresh data if needed
-        console.log('App returned to foreground, refreshing data...');
+        console.log("App returned to foreground, refreshing data...");
         fetchBlogs();
       }
       setAppState(nextAppState);
     };
 
-    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange,
+    );
     return () => subscription?.remove();
   }, [appState]);
 
@@ -110,51 +108,25 @@ const RightColumnContent = () => {
       if (blogPosts.length === 0) {
         fetchBlogs();
       }
-    }, [blogPosts.length])
+    }, [blogPosts.length]),
   );
 
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const response = await fetch('https://dedola.com/wp-json/wp/v2/posts?per_page=15&_embed');
 
-      if (response.ok) {
-        const posts = await response.json();
-
-        const transformedPosts = posts.map((post: any) => {
-          let featuredImage = DEDOLA_LOGO;
-
-          try {
-            if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
-              const media = post._embedded['wp:featuredmedia'][0];
-              if (media.media_details && media.media_details.sizes) {
-                featuredImage = media.media_details.sizes.medium?.source_url ||
-                              media.media_details.sizes.thumbnail?.source_url ||
-                              media.media_details.sizes.full?.source_url ||
-                              media.source_url ||
-                              DEDOLA_LOGO;
-              } else if (media.source_url) {
-                featuredImage = media.source_url;
-              }
-            }
-          } catch (e) {
-            console.log('Error extracting featured image');
-          }
-
-          return {
-            id: String(post.id),
-            title: post.title.rendered,
-            excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
-            date: new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-            url: post.link,
-            image: featuredImage
-          };
-        });
-
-        setBlogPosts(transformedPosts);
+      // First check if we have cached posts
+      const cachedPosts = blogService.getCachedPosts();
+      if (cachedPosts.length > 0) {
+        setBlogPosts(cachedPosts);
+        setLoading(false);
       }
+
+      // Then fetch fresh data (which will update the cache)
+      const posts = await blogService.fetchBlogs();
+      setBlogPosts(posts);
     } catch (e) {
-      console.error('Error fetching blog posts:', e);
+      console.error("Error fetching blog posts:", e);
     } finally {
       setLoading(false);
     }
@@ -165,7 +137,7 @@ const RightColumnContent = () => {
   }, []);
 
   const handleInAppPress = (url: string, title?: string) => {
-    navigation.navigate('InAppWebView', { url, title });
+    navigation.navigate("InAppWebView", { url, title });
   };
 
   const handleExternalPress = async (url: string) => {
@@ -176,50 +148,57 @@ const RightColumnContent = () => {
       } else {
         console.log("Don't know how to open URI: " + url);
         // Fallback to in-app browser
-        navigation.navigate('InAppWebView', { url, title: 'External Link' });
+        navigation.navigate("InAppWebView", { url, title: "External Link" });
       }
     } catch (error) {
-      console.error('Error opening external link:', error);
+      console.error("Error opening external link:", error);
       // Fallback to in-app browser
-      navigation.navigate('InAppWebView', { url, title: 'External Link' });
+      navigation.navigate("InAppWebView", { url, title: "External Link" });
     }
   };
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case 'linkedin':
-        return 'logo-linkedin';
-      case 'twitter':
-        return 'logo-twitter';
-      case 'instagram':
-        return 'logo-instagram';
-      case 'facebook':
-        return 'logo-facebook';
+      case "linkedin":
+        return "logo-linkedin";
+      case "twitter":
+        return "logo-twitter";
+      case "instagram":
+        return "logo-instagram";
+      case "facebook":
+        return "logo-facebook";
       default:
-        return 'globe-outline';
+        return "globe-outline";
     }
   };
 
   const getPlatformColor = (platform: string) => {
     switch (platform) {
-      case 'linkedin':
-        return '#0077B5';
-      case 'twitter':
-        return '#1DA1F2';
-      case 'instagram':
-        return '#E1306C';
-      case 'facebook':
-        return '#1877F3';
+      case "linkedin":
+        return "#0077B5";
+      case "twitter":
+        return "#1DA1F2";
+      case "instagram":
+        return "#E1306C";
+      case "facebook":
+        return "#1877F3";
       default:
         return COLORS.lightBlue;
     }
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+    >
       {/* Dedola Logo at the top */}
       <View style={styles.logoContainer}>
-        <Image source={{ uri: DEDOLA_LOGO }} style={styles.logoImage} resizeMode="contain" />
+        <Image
+          source={DEDOLA_LOGO}
+          style={styles.logoImage}
+          resizeMode="contain"
+        />
 
         {/* Social Icons Row */}
         <View style={styles.socialIconsRow}>
@@ -243,18 +222,23 @@ const RightColumnContent = () => {
       <View style={styles.ctaSection}>
         <Text style={styles.ctaTitle}>Stay Updated with Dedola</Text>
         <Text style={styles.ctaText}>
-          Follow us on social media and subscribe to our blog for the latest updates in international logistics and supply chain.
+          Follow us on social media and subscribe to our blog for the latest
+          updates in international logistics and supply chain.
         </Text>
         <View style={styles.ctaButtons}>
           <TouchableOpacity
             style={[styles.ctaButton, styles.primaryButton]}
-            onPress={() => handleInAppPress('https://dedola.com/blog/', 'Dedola Blog')}
+            onPress={() =>
+              handleInAppPress("https://dedola.com/blog/", "Dedola Blog")
+            }
           >
             <Text style={styles.primaryButtonText}>Visit Blog</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.ctaButton, styles.secondaryButton]}
-            onPress={() => handleInAppPress('https://dedola.com/contact/', 'Contact Dedola')}
+            onPress={() =>
+              handleInAppPress("https://dedola.com/contact/", "Contact Dedola")
+            }
           >
             <Text style={styles.secondaryButtonText}>Contact Us</Text>
           </TouchableOpacity>
@@ -265,176 +249,190 @@ const RightColumnContent = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Latest Blog Posts</Text>
         {loading ? (
-          <ActivityIndicator size="small" color={COLORS.lightBlue} style={{ marginVertical: 20 }} />
+          <ActivityIndicator
+            size="small"
+            color={COLORS.lightBlue}
+            style={{ marginVertical: 20 }}
+          />
         ) : (
           blogPosts.map((post) => (
-          <TouchableOpacity
-            key={post.id}
-            style={styles.blogCard}
-            onPress={() => handleInAppPress(post.url, post.title)}
-          >
-            <View style={styles.blogHeader}>
-              <Image source={{ uri: post.image || DEDOLA_LOGO }} style={styles.blogImage} />
-              <Text style={styles.blogTitle} numberOfLines={2}>{post.title}</Text>
-            </View>
-            <Text style={styles.blogExcerpt} numberOfLines={2}>
-              {post.excerpt}
-            </Text>
-            <Text style={styles.date}>{post.date}</Text>
-          </TouchableOpacity>
-        )))}
+            <TouchableOpacity
+              key={post.id}
+              style={styles.blogCard}
+              onPress={() => handleInAppPress(post.url, post.title)}
+            >
+              <View style={styles.blogHeader}>
+                <Image
+                  source={post.image ? { uri: post.image } : DEDOLA_LOGO}
+                  style={styles.blogImage}
+                />
+                <Text style={styles.blogTitle} numberOfLines={2}>
+                  {post.title}
+                </Text>
+              </View>
+              <Text style={styles.blogExcerpt} numberOfLines={2}>
+                {post.excerpt}
+              </Text>
+              <Text style={styles.date}>{post.date}</Text>
+            </TouchableOpacity>
+          ))
+        )}
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.white,
+  blogCard: {
+    backgroundColor: COLORS.lightGray,
+    borderRadius: 6,
+    marginBottom: 8,
+    padding: 8,
   },
-  scrollContent: {
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+  blogExcerpt: {
+    color: COLORS.darkGray,
+    fontSize: isTablet() ? 18 : 16.5,
+    lineHeight: isTablet() ? 24 : 21,
+    marginBottom: 4,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+  },
+  blogHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: 4,
+  },
+  blogImage: {
+    backgroundColor: COLORS.white,
+    borderRadius: 4,
+    height: 28,
+    marginRight: 8,
+    width: 28,
+  },
+  blogTitle: {
+    fontSize: isTablet() ? 19.5 : 18,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: COLORS.darkBlue,
+    flex: 1,
+  },
+  container: {
+    backgroundColor: COLORS.white,
+    flex: 1,
+  },
+  ctaButton: {
+    alignItems: "center",
+    borderRadius: 6,
+    flex: 1,
+    padding: 8,
+  },
+  ctaButtons: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  ctaSection: {
+    backgroundColor: COLORS.lightBlue,
+    borderRadius: 8,
+    marginBottom: 10,
+    padding: 12,
+  },
+  ctaText: {
+    color: COLORS.white,
+    fontSize: isTablet() ? 13 : 12,
+    lineHeight: isTablet() ? 18 : 16,
+    marginBottom: 10,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+  },
+  ctaTitle: {
+    fontSize: isTablet() ? 18 : 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: COLORS.white,
+    marginBottom: 4,
+  },
+  date: {
+    color: COLORS.darkGray,
+    fontSize: isTablet() ? 16.5 : 15,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 12,
     marginTop: 32,
   },
   logoImage: {
-    width: 240,
-    height: 80,
+    height: 160,
+    width: 480,
   },
-  ctaSection: {
-    padding: 12,
-    backgroundColor: COLORS.lightBlue,
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-  ctaTitle: {
-    fontSize: isTablet() ? 18 : 16,
-    fontWeight: '600',
-    color: COLORS.white,
-    marginBottom: 4,
-  },
-  ctaText: {
+  platformName: {
     fontSize: isTablet() ? 13 : 12,
-    color: COLORS.white,
-    marginBottom: 10,
-    lineHeight: isTablet() ? 18 : 16,
-  },
-  ctaButtons: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  ctaButton: {
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: COLORS.darkBlue,
     flex: 1,
-    padding: 8,
-    borderRadius: 6,
-    alignItems: 'center',
+  },
+  postPreview: {
+    color: COLORS.darkGray,
+    fontSize: isTablet() ? 12 : 11,
+    lineHeight: isTablet() ? 16 : 14,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   primaryButton: {
     backgroundColor: COLORS.white,
   },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: COLORS.white,
-  },
   primaryButtonText: {
     color: COLORS.lightBlue,
     fontSize: isTablet() ? 13 : 12,
-    fontWeight: '600',
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+  },
+  scrollContent: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  },
+  secondaryButton: {
+    backgroundColor: "transparent",
+    borderColor: COLORS.white,
+    borderWidth: 1,
   },
   secondaryButtonText: {
     color: COLORS.white,
     fontSize: isTablet() ? 13 : 12,
-    fontWeight: '600',
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
   },
   section: {
-    padding: 8,
-    borderBottomWidth: 1,
     borderBottomColor: COLORS.mediumGray,
+    borderBottomWidth: 1,
+    padding: 8,
   },
   sectionTitle: {
-    fontSize: isTablet() ? 15 : 14,
-    fontWeight: '600',
+    fontSize: isTablet() ? 22.5 : 21,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: COLORS.darkBlue,
     marginBottom: 8,
   },
   socialCard: {
     backgroundColor: COLORS.lightGray,
     borderRadius: 6,
-    padding: 8,
     marginBottom: 8,
+    padding: 8,
   },
   socialHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: "center",
+    flexDirection: "row",
     marginBottom: 4,
   },
   socialIcon: {
     marginRight: 8,
   },
-  platformName: {
-    fontSize: isTablet() ? 13 : 12,
-    fontWeight: '600',
-    color: COLORS.darkBlue,
-    flex: 1,
-  },
-  postPreview: {
-    fontSize: isTablet() ? 12 : 11,
-    color: COLORS.darkGray,
-    lineHeight: isTablet() ? 16 : 14,
-  },
-  blogCard: {
+  socialIconButton: {
+    alignItems: "center",
     backgroundColor: COLORS.lightGray,
-    borderRadius: 6,
-    padding: 8,
-    marginBottom: 8,
-  },
-  blogHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  blogImage: {
-    width: 28,
-    height: 28,
-    borderRadius: 4,
-    marginRight: 8,
-    backgroundColor: COLORS.white,
-  },
-  blogTitle: {
-    fontSize: isTablet() ? 13 : 12,
-    fontWeight: '600',
-    color: COLORS.darkBlue,
-    flex: 1,
-  },
-  blogExcerpt: {
-    fontSize: isTablet() ? 12 : 11,
-    color: COLORS.darkGray,
-    lineHeight: isTablet() ? 16 : 14,
-    marginBottom: 4,
-  },
-  date: {
-    fontSize: isTablet() ? 11 : 10,
-    color: COLORS.darkGray,
+    borderRadius: 20,
+    justifyContent: "center",
+    padding: 6,
   },
   socialIconsRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 12,
+    alignItems: "center",
+    flexDirection: "row",
     gap: 12,
-  },
-  socialIconButton: {
-    padding: 6,
-    borderRadius: 20,
-    backgroundColor: COLORS.lightGray,
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "center",
+    marginTop: 12,
   },
 });
 

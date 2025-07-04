@@ -45,13 +45,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Changes in existing functionality -->
 
-- Geologica font integration across components: (2025-07-04)
-  - Added a new configuration file for React Native to manage font assets
-  - Introduced a CustomText component to standardize text rendering with Geologica fonts
-  - Updated existing components (CountryLookup, LoginScreen, ProfileScreen, SettingsScreen) to utilize the new typography styles
-  - Removed the deprecated CountrySelectionScreen to streamline navigation
-  - Enhanced text styles for consistency and improved readability across the application
-  - Fixed Android font rendering by updating all screens to use custom Text component instead of React Native's default Text
+feat: implement Geologica font integration across components (2025-07-04)
+
+- Added a new configuration file for React Native to manage font assets.
+- Introduced a CustomText component to standardize text rendering with Geologica fonts.
+- Updated existing components (CountryLookup, LoginScreen, ProfileScreen, SettingsScreen) to utilize the new typography styles.
+- Removed the deprecated CountrySelectionScreen to streamline navigation.
+- Enhanced text styles for consistency and improved readability across the application.
+- Fixed Android font rendering by updating all screens to use custom Text component instead of React Native's default Text.
 
 fix: update placeholder text in LookupScreen for clarity
 

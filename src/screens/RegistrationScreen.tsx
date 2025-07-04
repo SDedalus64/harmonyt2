@@ -19,7 +19,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootStackParamList } from "../navigation/types";
 import { useAuth } from "../navigation/contexts/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
-import { BRAND_COLORS as COLORS } from "../config/brandColors";
+import {
+  BRAND_COLORS as COLORS,
+  BRAND_TYPOGRAPHY,
+} from "../config/brandColors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Storage key to track if user has previously signed in
@@ -367,6 +370,7 @@ const styles = StyleSheet.create({
     color: COLORS.error,
     fontSize: 14,
     marginTop: 4,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   form: {
     gap: 20,
@@ -378,6 +382,7 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     flex: 1,
     fontSize: 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   inputContainer: {
     marginBottom: 4,
@@ -401,13 +406,13 @@ const styles = StyleSheet.create({
   label: {
     color: COLORS.black,
     fontSize: 16,
-    fontWeight: "500",
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     marginBottom: 8,
   },
   loginLink: {
     color: COLORS.lightBlue,
     fontSize: 16,
-    fontWeight: "600",
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     marginLeft: 4,
   },
   loginLinkContainer: {
@@ -419,6 +424,7 @@ const styles = StyleSheet.create({
   loginText: {
     color: COLORS.darkGray,
     fontSize: 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   registerButton: {
     alignItems: "center",
@@ -442,7 +448,7 @@ const styles = StyleSheet.create({
   registerButtonText: {
     color: COLORS.white,
     fontSize: 18,
-    fontWeight: "600",
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
   },
   scrollContent: {
     flexGrow: 1,
@@ -452,6 +458,7 @@ const styles = StyleSheet.create({
   subtitle: {
     color: COLORS.darkGray,
     fontSize: 16,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   switchContainer: {
     alignItems: "center",
@@ -463,11 +470,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     marginLeft: 12,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   title: {
     color: COLORS.darkBlue,
     fontSize: 28,
-    fontWeight: "700",
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     marginBottom: 8,
   },
 });

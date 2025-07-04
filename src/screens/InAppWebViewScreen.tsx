@@ -1,12 +1,25 @@
 // InAppWebViewScreen.tsx //
-import React, { useRef, useState } from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/types';
-import { BRAND_COLORS as COLORS } from '../config/brandColors';
+import React, { useRef, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Platform,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
+import { Text } from "../components/Text";
+import { WebView } from "react-native-webview";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { RootStackParamList } from "../navigation/types";
+import { BRAND_COLORS as COLORS } from "../config/brandColors";
 
-type InAppWebViewScreenRouteProp = RouteProp<RootStackParamList, 'InAppWebView'>;
+type InAppWebViewScreenRouteProp = RouteProp<
+  RootStackParamList,
+  "InAppWebView"
+>;
 
 interface Props {
   route: InAppWebViewScreenRouteProp;
@@ -42,40 +55,40 @@ export default function InAppWebViewScreen({ route }: Props) {
     <View style={styles.container}>
       {/* Navigation Bar (with back and forward buttons) */}
       <View style={styles.navBar}>
-         <TouchableOpacity
-            onPress={handleBack}
-            disabled={!canGoBack}
-            style={[styles.navButton, !canGoBack && styles.disabledButton]}
-         >
-            <Text style={styles.navButtonText}>←</Text>
-         </TouchableOpacity>
-         <TouchableOpacity
-            onPress={handleForward}
-            disabled={!canGoForward}
-            style={[styles.navButton, !canGoForward && styles.disabledButton]}
-         >
-            <Text style={styles.navButtonText}>→</Text>
-         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleBack}
+          disabled={!canGoBack}
+          style={[styles.navButton, !canGoBack && styles.disabledButton]}
+        >
+          <Text style={styles.navButtonText}>←</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleForward}
+          disabled={!canGoForward}
+          style={[styles.navButton, !canGoForward && styles.disabledButton]}
+        >
+          <Text style={styles.navButtonText}>→</Text>
+        </TouchableOpacity>
       </View>
 
       {/* In‑App WebView (below the navigation bar) */}
       <WebView
-         ref={webViewRef}
-         source={{ uri: url }}
-         userAgent="Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
-         startInLoadingState={true}
-         renderLoading={() => <LoadingIndicatorView />}
-         style={styles.webview}
-         sharedCookiesEnabled={true}
-         cacheEnabled={true}
-         onNavigationStateChange={(navState) => {
-            setCanGoBack(navState.canGoBack);
-            setCanGoForward(navState.canGoForward);
-         }}
-         onError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.warn('WebView error: ', nativeEvent);
-         }}
+        ref={webViewRef}
+        source={{ uri: url }}
+        userAgent="Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
+        startInLoadingState={true}
+        renderLoading={() => <LoadingIndicatorView />}
+        style={styles.webview}
+        sharedCookiesEnabled={true}
+        cacheEnabled={true}
+        onNavigationStateChange={(navState) => {
+          setCanGoBack(navState.canGoBack);
+          setCanGoForward(navState.canGoForward);
+        }}
+        onError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.warn("WebView error: ", nativeEvent);
+        }}
       />
     </View>
   );
@@ -83,20 +96,33 @@ export default function InAppWebViewScreen({ route }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.white,
+    flex: 1,
   },
-  navBar: { flexDirection: 'row', paddingVertical: 8, paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: COLORS.mediumGray, backgroundColor: COLORS.lightGray },
-  navButton: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 4, marginHorizontal: 4, backgroundColor: COLORS.lightBlue },
   disabledButton: { opacity: 0.5 },
-  navButtonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 18 },
+  loadingContainer: {
+    alignItems: "center",
+    backgroundColor: COLORS.white,
+    flex: 1,
+    justifyContent: "center",
+  },
+  navBar: {
+    backgroundColor: COLORS.lightGray,
+    borderBottomColor: COLORS.mediumGray,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  navButton: {
+    backgroundColor: COLORS.lightBlue,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  navButtonText: { color: COLORS.white, fontSize: 18, fontWeight: "bold" },
   webview: {
     flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.white,
   },
 });

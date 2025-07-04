@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScaledSize } from 'react-native';
-import { BRAND_COLORS as COLORS } from '../config/brandColors';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Dimensions, ScaledSize } from "react-native";
+import { Text } from "../components/Text";
+import { BRAND_COLORS as COLORS } from "../config/brandColors";
 
 const DynamicExample75PercentScreen = () => {
   const [dimensions, setDimensions] = useState(() => {
-    const { width, height } = Dimensions.get('window');
+    const { width, height } = Dimensions.get("window");
     return {
       screenWidth: width,
       screenHeight: height,
@@ -23,26 +24,27 @@ const DynamicExample75PercentScreen = () => {
       });
     };
 
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    const subscription = Dimensions.addEventListener(
+      "change",
+      updateDimensions,
+    );
 
     return () => subscription?.remove();
   }, []);
 
   return (
     <View style={styles.fullScreen}>
-      <View style={[
-        styles.container75,
-        {
-          width: dimensions.containerWidth,
-          height: dimensions.containerHeight,
-        }
-      ]}>
-        <Text style={styles.text}>
-          Dynamic 75% Container
-        </Text>
-        <Text style={styles.subText}>
-          This updates on orientation change
-        </Text>
+      <View
+        style={[
+          styles.container75,
+          {
+            width: dimensions.containerWidth,
+            height: dimensions.containerHeight,
+          },
+        ]}
+      >
+        <Text style={styles.text}>Dynamic 75% Container</Text>
+        <Text style={styles.subText}>This updates on orientation change</Text>
         <Text style={styles.subText}>
           Width: {dimensions.containerWidth.toFixed(0)}px
         </Text>
@@ -55,38 +57,38 @@ const DynamicExample75PercentScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  fullScreen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.lightGray,
-  },
   container75: {
+    alignItems: "center",
     backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 10,
-    shadowColor: '#000',
+    elevation: 5,
+    justifyContent: "center",
+    padding: 20,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-    padding: 20,
+  },
+  fullScreen: {
+    alignItems: "center",
+    backgroundColor: COLORS.lightGray,
+    flex: 1,
+    justifyContent: "center",
+  },
+  subText: {
+    color: COLORS.darkGray,
+    fontSize: 14,
+    marginVertical: 5,
+    textAlign: "center",
   },
   text: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
-  },
-  subText: {
-    fontSize: 14,
-    color: COLORS.darkGray,
-    marginVertical: 5,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 

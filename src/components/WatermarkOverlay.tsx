@@ -1,14 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from "react-native";
+import { Text } from "./Text";
+import React from "react";
 
 interface WatermarkOverlayProps {
   visible: boolean;
   userName?: string;
 }
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
-const WatermarkOverlay: React.FC<WatermarkOverlayProps> = ({ visible, userName = 'CONFIDENTIAL' }) => {
+const WatermarkOverlay: React.FC<WatermarkOverlayProps> = ({
+  visible,
+  userName = "CONFIDENTIAL",
+}) => {
   if (!visible) return null;
 
   const watermarkText = `${userName} - ${new Date().toLocaleString()}`;
@@ -24,14 +28,16 @@ const WatermarkOverlay: React.FC<WatermarkOverlayProps> = ({ visible, userName =
             {
               top: (index * height) / 4 - 100,
               transform: [
-                { rotate: '-45deg' },
+                { rotate: "-45deg" },
                 { translateX: (index % 2) * 100 },
               ],
             },
           ]}
         >
           <Text style={styles.watermarkText}>{watermarkText}</Text>
-          <Text style={styles.watermarkSubtext}>PROPRIETARY - DO NOT DISTRIBUTE</Text>
+          <Text style={styles.watermarkSubtext}>
+            PROPRIETARY - DO NOT DISTRIBUTE
+          </Text>
         </View>
       ))}
     </View>
@@ -41,26 +47,26 @@ const WatermarkOverlay: React.FC<WatermarkOverlayProps> = ({ visible, userName =
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: 9999,
     elevation: 9999,
+    zIndex: 9999,
   },
   watermarkContainer: {
-    position: 'absolute',
+    alignItems: "center",
+    position: "absolute",
     width: width * 1.5,
-    alignItems: 'center',
-  },
-  watermarkText: {
-    fontSize: 20,
-    color: 'rgba(255, 0, 0, 0.15)',
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   watermarkSubtext: {
+    color: "rgba(255, 0, 0, 0.12)",
     fontSize: 16,
-    color: 'rgba(255, 0, 0, 0.12)',
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
     marginTop: 4,
+    textAlign: "center",
+  },
+  watermarkText: {
+    color: "rgba(255, 0, 0, 0.15)",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

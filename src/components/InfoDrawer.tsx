@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AnimatedDrawer } from "./shared/AnimatedDrawer";
 import {
   BRAND_COLORS,
+  BRAND_TYPOGRAPHY,
   getResponsiveValue,
   getSpacing,
   isTablet,
@@ -213,11 +214,13 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.white,
     fontSize: getResponsiveValue(14, 18),
     lineHeight: getResponsiveValue(18, 22),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   bulletIcon: {
     color: BRAND_COLORS.white,
     fontSize: getResponsiveValue(14, 18),
     width: 26,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   bulletRow: {
     alignItems: "flex-start",
@@ -229,6 +232,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: getResponsiveValue(14, 18),
     lineHeight: getResponsiveValue(18, 22),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   container: {
     flex: 1,
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
   title: {
     color: BRAND_COLORS.white,
     fontSize: getResponsiveValue(20, 26),
-    fontWeight: "bold",
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     marginBottom: getSpacing("sm"),
   },
 });

@@ -245,7 +245,7 @@ export default function LookupScreen() {
   const [showHtsSuggestions, setShowHtsSuggestions] = useState(false);
   const [htsSearchMessage, setHtsSearchMessage] = useState<string>("");
   const [showUnitCalculations, setShowUnitCalculations] = useState(
-    settings.showUnitCalculations ?? false,
+    settings.showUnitCalculations ?? true,
   );
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [showLoadingModal, setShowLoadingModal] = useState(false);
@@ -257,6 +257,7 @@ export default function LookupScreen() {
   const [newsDrawerVisible, setNewsDrawerVisible] = useState(false);
   const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
   const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
 
   // Navigation drawer states
   const [mainHistoryDrawerVisible, setMainHistoryDrawerVisible] =
@@ -290,9 +291,6 @@ export default function LookupScreen() {
   // Navigation drawer animations
   const historyDrawerTranslateX = useRef(
     new Animated.Value(getResponsiveValue(SCREEN_WIDTH * 0.85, 400)),
-  ).current;
-  const settingsDrawerTranslateX = useRef(
-    new Animated.Value(-getResponsiveValue(SCREEN_WIDTH * 0.85, 400)),
   ).current;
   const linksDrawerTranslateY = useRef(
     new Animated.Value(SCREEN_HEIGHT),
@@ -442,10 +440,6 @@ export default function LookupScreen() {
   }, [mainHistoryDrawerVisible]);
 
   useEffect(() => {
-    animateSettingsDrawer(settingsDrawerVisible);
-  }, [settingsDrawerVisible]);
-
-  useEffect(() => {
     animateLinksDrawer(linksDrawerVisible);
   }, [linksDrawerVisible]);
 
@@ -584,9 +578,8 @@ export default function LookupScreen() {
     setFormattedUnitCount(formatNumberWithCommas(numericValue));
 
     // Hide calculations when value changes (user must click Calc)
-    if (showUnitCalculations) {
-      setShowUnitCalculations(false);
-    }
+    // Unit calculations now always show when units are provided
+    // No need to reset showUnitCalculations state
   };
 
   // Handle navigation params
@@ -766,26 +759,29 @@ export default function LookupScreen() {
     }
   }, [showInput, result]);
 
-  // Sync showUnitCalculations with settings
+  // Clear unit count when setting is turned off
   useEffect(() => {
-    setShowUnitCalculations(settings.showUnitCalculations ?? false);
-    // Clear unit count when setting is turned off
-    if (!(settings.showUnitCalculations ?? false)) {
+    if (!(settings.showUnitCalculations ?? true)) {
       setUnitCount("");
       setFormattedUnitCount("");
     }
   }, [settings.showUnitCalculations]);
 
-  // Scroll to bottom when unit calculations are shown
+  // Scroll to bottom when unit count is entered and results are shown
   useEffect(() => {
-    if (showUnitCalculations && resultScrollViewRef.current) {
+    if (
+      unitCount &&
+      parseFloat(unitCount) > 0 &&
+      result &&
+      resultScrollViewRef.current
+    ) {
       setTimeout(() => {
         resultScrollViewRef.current?.scrollToEnd({
           animated: true,
         });
       }, 100); // Small delay to ensure calculations are rendered
     }
-  }, [showUnitCalculations]);
+  }, [unitCount, result]);
 
   // Prevent screenshots when results are shown
   useFocusEffect(
@@ -1247,7 +1243,7 @@ export default function LookupScreen() {
     setResult(null);
     setResultsDrawerVisible(false);
     setIsSaved(false);
-    setShowUnitCalculations(settings.showUnitCalculations ?? false); // Reset to user preference
+    setShowUnitCalculations(settings.showUnitCalculations ?? true); // Reset to user preference
     setLoadedHistoryTimestamp(null); // Reset the history timestamp
     setIsUSMCAOrigin(false); // Reset USMCA origin
 
@@ -1389,7 +1385,7 @@ export default function LookupScreen() {
     if (historyItem.showUnitCalculations !== undefined) {
       setShowUnitCalculations(historyItem.showUnitCalculations);
     } else {
-      setShowUnitCalculations(settings.showUnitCalculations ?? false);
+      setShowUnitCalculations(settings.showUnitCalculations ?? true);
     }
 
     // If we have complete result data, restore it directly
@@ -1578,6 +1574,29 @@ export default function LookupScreen() {
             <Text style={styles.resultsDrawerSubtitle}>
               {result.htsCode} • {selectedCountry?.name}
             </Text>
+            {result.description && (
+              <TouchableOpacity
+                activeOpacity={1}
+                onPressIn={() => {
+                  haptics.selection();
+                  setDescriptionExpanded(true);
+                }}
+                onPressOut={() => setDescriptionExpanded(false)}
+                delayLongPress={200}
+              >
+                <Text
+                  style={[
+                    styles.resultsDrawerDescription,
+                    descriptionExpanded &&
+                      styles.resultsDrawerDescriptionExpanded,
+                  ]}
+                  numberOfLines={descriptionExpanded ? undefined : 2}
+                  ellipsizeMode="tail"
+                >
+                  {result.description}
+                </Text>
+              </TouchableOpacity>
+            )}
             <Text style={styles.resultsDrawerTimestamp}>
               {currentTimestamp}
             </Text>
@@ -1644,11 +1663,28 @@ export default function LookupScreen() {
             const merchandiseValueForLanded =
               dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
             const landedCost = merchandiseValueForLanded + result.totalAmount;
+            const hasFreightCost = freightCost && parseFloat(freightCost) > 0;
+
             return (
-              <View style={styles.totalAmountRow}>
+              <View
+                style={[
+                  styles.totalAmountRow,
+                  {
+                    justifyContent: hasFreightCost
+                      ? "space-between"
+                      : "flex-end",
+                  },
+                ]}
+              >
                 {/* Duties */}
                 <View
-                  style={[styles.totalAmountCard, { marginRight: 8, flex: 1 }]}
+                  style={[
+                    styles.totalAmountCard,
+                    {
+                      marginRight: hasFreightCost ? 8 : 0,
+                      flex: hasFreightCost ? 1 : undefined,
+                    },
+                  ]}
                 >
                   <Text style={styles.totalAmountLabel}>
                     Est. Duties & Fees
@@ -1660,18 +1696,22 @@ export default function LookupScreen() {
                     on {formatCurrency(dutiableValue)} value
                   </Text>
                 </View>
-                {/* Landed Cost */}
-                <View
-                  style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}
-                >
-                  <Text style={styles.totalAmountLabel}>Est. Landed Cost</Text>
-                  <Text style={styles.totalAmountValue}>
-                    {formatCurrency(landedCost)}
-                  </Text>
-                  <Text style={styles.totalAmountSubtext}>
-                    COGs+duties+freight
-                  </Text>
-                </View>
+                {/* Landed Cost - only show if freight cost is provided */}
+                {hasFreightCost && (
+                  <View
+                    style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}
+                  >
+                    <Text style={styles.totalAmountLabel}>
+                      Est. Landed Cost
+                    </Text>
+                    <Text style={styles.totalAmountValue}>
+                      {formatCurrency(landedCost)}
+                    </Text>
+                    <Text style={styles.totalAmountSubtext}>
+                      COGs+duties+other costs
+                    </Text>
+                  </View>
+                )}
               </View>
             );
           })()}
@@ -1735,100 +1775,54 @@ export default function LookupScreen() {
             </View>
           )}
 
-          {/* Unit Calculations Toggle & Display */}
-          {unitCount && parseFloat(unitCount) > 0 ? (
-            <>
-              {/* Toggle Button */}
-              <TouchableOpacity
-                style={styles.unitCalculationsToggle}
-                onPress={() => {
-                  haptics.selection();
-                  setShowUnitCalculations(!showUnitCalculations);
-                }}
-              >
-                <View style={styles.unitCalculationsToggleLeft}>
-                  <Ionicons
-                    name="calculator-outline"
-                    size={getResponsiveValue(16, 20)}
-                    color={BRAND_COLORS.electricBlue}
-                  />
-                  <Text style={styles.unitCalculationsToggleText}>
-                    Unit Calculations
-                  </Text>
-                </View>
-                <Ionicons
-                  name={showUnitCalculations ? "chevron-up" : "chevron-down"}
-                  size={getResponsiveValue(16, 20)}
-                  color={BRAND_COLORS.darkGray}
-                />
-              </TouchableOpacity>
-
-              {/* Compact Per Unit - Only show when toggled on */}
-              {showUnitCalculations && (
-                <View style={styles.compactSection}>
-                  <Text style={styles.compactSectionTitle}>
-                    Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)
-                  </Text>
-                  <View style={styles.compactRow}>
-                    <Text style={styles.compactLabel}>Duty Cost</Text>
-                    <Text style={styles.compactAmount}>
-                      {formatCurrency(
-                        result.totalAmount / parseFloat(unitCount),
-                      )}
-                    </Text>
-                  </View>
-                  {/* Landed cost per unit */}
-                  <View style={styles.compactRow}>
-                    <Text style={styles.compactLabel}>Landed Cost</Text>
-                    <Text style={styles.compactAmount}>
-                      {formatCurrency(
-                        (parseFloat(declaredValue) +
-                          (freightCost ? parseFloat(freightCost) : 0) +
-                          result.totalAmount) /
-                          parseFloat(unitCount),
-                      )}
-                    </Text>
-                  </View>
-                  {(() => {
-                    // Show RT cost separately if applicable
-                    if (result.components) {
-                      const rtComponent = result.components.find(
-                        (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
-                      );
-                      if (rtComponent && rtComponent.amount > 0) {
-                        return (
-                          <View style={styles.compactRow}>
-                            <Text style={styles.compactLabel}>
-                              Addl RT cost
-                            </Text>
-                            <Text style={styles.compactHighlight}>
-                              {formatCurrency(
-                                rtComponent.amount / parseFloat(unitCount),
-                              )}
-                            </Text>
-                          </View>
-                        );
-                      }
-                    }
-                    return null;
-                  })()}
-                </View>
-              )}
-            </>
-          ) : (
-            // Only show the prompt message if the setting is enabled
-            (settings.showUnitCalculations ?? false) && (
-              <View style={styles.compactMessageSection}>
-                <Ionicons
-                  name="information-circle-outline"
-                  size={getResponsiveValue(14, 18)}
-                  color={BRAND_COLORS.info}
-                />
-                <Text style={styles.compactMessage}>
-                  Enter unit count for per unit calculations
+          {/* Unit Calculations - Display directly when units are provided */}
+          {unitCount && parseFloat(unitCount) > 0 && (
+            <View style={styles.compactSection}>
+              <Text style={styles.compactSectionTitle}>
+                Per Unit ({formatNumber(parseFloat(unitCount), 0)} units)
+              </Text>
+              <View style={styles.compactRow}>
+                <Text style={styles.compactLabel}>Duty Cost</Text>
+                <Text style={styles.compactAmount}>
+                  {formatCurrency(result.totalAmount / parseFloat(unitCount))}
                 </Text>
               </View>
-            )
+              {/* Landed cost per unit - only show if freight cost is provided */}
+              {freightCost && parseFloat(freightCost) > 0 && (
+                <View style={styles.compactRow}>
+                  <Text style={styles.compactLabel}>Landed Cost</Text>
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(
+                      (parseFloat(declaredValue) +
+                        (freightCost ? parseFloat(freightCost) : 0) +
+                        result.totalAmount) /
+                        parseFloat(unitCount),
+                    )}
+                  </Text>
+                </View>
+              )}
+              {(() => {
+                // Show RT cost separately if applicable
+                if (result.components) {
+                  const rtComponent = result.components.find(
+                    (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
+                  );
+                  if (rtComponent && rtComponent.amount > 0) {
+                    return (
+                      <View style={styles.compactRow}>
+                        <Text style={styles.compactLabel}>Addl RT cost</Text>
+                        <Text style={styles.compactHighlight}>
+                          {formatCurrency(
+                            rtComponent.amount / parseFloat(unitCount),
+                          )}
+                        </Text>
+                      </View>
+                    );
+                  }
+                }
+                return null;
+              })()}
+            </View>
           )}
         </ScrollView>
       </View>
@@ -1983,6 +1977,7 @@ export default function LookupScreen() {
 
     const closeAndOpenFab = () => {
       setResultsDrawerVisible(false);
+      setDescriptionExpanded(false); // Reset description expansion
       // Open FAB after closing results
       setTimeout(() => {
         setUserClosedFab(false);
@@ -2036,21 +2031,6 @@ export default function LookupScreen() {
     Animated.parallel([
       Animated.timing(historyDrawerTranslateX, {
         toValue: show ? 0 : getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(navDrawerOpacity, {
-        toValue: show ? 1 : 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-
-  const animateSettingsDrawer = (show: boolean) => {
-    Animated.parallel([
-      Animated.timing(settingsDrawerTranslateX, {
-        toValue: show ? 0 : -getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
         duration: 300,
         useNativeDriver: true,
       }),
@@ -2207,16 +2187,12 @@ export default function LookupScreen() {
     if (!historyDrawerVisible && !mainHistoryDrawerVisible) {
       historyDrawerTranslateX.setValue(hiddenX);
     }
-    if (!settingsDrawerVisible) {
-      settingsDrawerTranslateX.setValue(-hiddenX);
-    }
   }, [
     windowWidth,
     windowHeight,
     linksDrawerVisible,
     historyDrawerVisible,
     mainHistoryDrawerVisible,
-    settingsDrawerVisible,
   ]);
 
   // ... after dynamicFormStyles definition ...
@@ -2240,23 +2216,35 @@ export default function LookupScreen() {
       console.log(
         "[FirstTimeGuide] Checking guide - showDisclaimer:",
         showDisclaimer,
+        "showQuickTour:",
+        settings.showQuickTour,
       );
       // Only check if the disclaimer has also been dealt with
-      if (!showDisclaimer && (settings.showQuickTour ?? true)) {
-        const hasSeenGuide = await AsyncStorage.getItem(GUIDE_STORAGE_KEY);
-        console.log("[FirstTimeGuide] hasSeenGuide value:", hasSeenGuide);
-        if (hasSeenGuide === null) {
-          // If the key doesn't exist, show the guide after a delay to let disclaimer modal fully dismiss
+      if (!showDisclaimer) {
+        // Check if we should show the quick tour based on settings
+        if (settings.showQuickTour === true) {
           console.log(
-            "[FirstTimeGuide] Showing guide for first time after delay",
+            "[FirstTimeGuide] Showing guide because showQuickTour is enabled",
           );
           setTimeout(() => {
             setShowFirstTimeGuide(true);
           }, 500); // 500ms delay to ensure disclaimer modal is fully dismissed
-        } else {
+        } else if (settings.showQuickTour === false) {
           console.log(
-            "[FirstTimeGuide] Guide has been seen before, not showing",
+            "[FirstTimeGuide] Not showing guide because showQuickTour is disabled",
           );
+        } else {
+          // showQuickTour is undefined/null, check if first time
+          const hasSeenGuide = await AsyncStorage.getItem(GUIDE_STORAGE_KEY);
+          console.log("[FirstTimeGuide] hasSeenGuide value:", hasSeenGuide);
+          if (hasSeenGuide === null) {
+            console.log(
+              "[FirstTimeGuide] Showing guide for first time (setting not configured)",
+            );
+            setTimeout(() => {
+              setShowFirstTimeGuide(true);
+            }, 500);
+          }
         }
       } else {
         console.log(
@@ -2265,7 +2253,7 @@ export default function LookupScreen() {
       }
     };
     checkFirstTimeGuide();
-  }, [showDisclaimer]);
+  }, [showDisclaimer, settings.showQuickTour]);
 
   // Automatically reopen FAB menu when all drawers are closed (unless user manually closed it)
   useEffect(() => {
@@ -2725,7 +2713,7 @@ export default function LookupScreen() {
                 />
               </View>
               {/* Only show Unit Count field if Show Unit Calculations is enabled */}
-              {(settings.showUnitCalculations ?? false) && (
+              {(settings.showUnitCalculations ?? true) && (
                 <View
                   style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
                   ref={fieldRefs.units}
@@ -2867,6 +2855,11 @@ export default function LookupScreen() {
           isVisible={newsDrawerVisible}
           onClose={() => {
             setNewsDrawerVisible(false);
+            // Open FAB after closing news drawer
+            setTimeout(() => {
+              setUserClosedFab(false);
+              openMainFab();
+            }, 300);
           }}
           position="right"
         >
@@ -2877,6 +2870,11 @@ export default function LookupScreen() {
           isVisible={analyticsDrawerVisible}
           onClose={() => {
             setAnalyticsDrawerVisible(false);
+            // Open FAB after closing analytics drawer
+            setTimeout(() => {
+              setUserClosedFab(false);
+              openMainFab();
+            }, 300);
           }}
           position="left"
         >
@@ -2886,7 +2884,14 @@ export default function LookupScreen() {
         {/* Tariff News Drawer */}
         <AnimatedDrawer
           isVisible={linksDrawerVisible}
-          onClose={() => setLinksDrawerVisible(false)}
+          onClose={() => {
+            setLinksDrawerVisible(false);
+            // Open FAB after closing links drawer
+            setTimeout(() => {
+              setUserClosedFab(false);
+              openMainFab();
+            }, 300);
+          }}
           position="right"
           customDrawerConfig={getTradeNewsDrawerConfig()}
         >
@@ -2932,30 +2937,7 @@ export default function LookupScreen() {
           {renderResultsDrawerContent()}
         </AnimatedDrawer>
 
-        {/* Navigation Screen Drawers - Custom implementation to avoid ScrollView nesting */}
-        {settingsDrawerVisible && (
-          <TouchableOpacity
-            style={styles.overlay}
-            activeOpacity={1}
-            onPress={() => {
-              const wasHistoryOpen = mainHistoryDrawerVisible;
-              setMainHistoryDrawerVisible(false);
-              setSettingsDrawerVisible(false);
-              setLinksDrawerVisible(false);
-              // Open FAB if history drawer was open
-              if (wasHistoryOpen) {
-                setTimeout(() => {
-                  setUserClosedFab(false);
-                  openMainFab();
-                }, 300);
-              }
-            }}
-          >
-            <Animated.View
-              style={[styles.overlayBackground, { opacity: navDrawerOpacity }]}
-            />
-          </TouchableOpacity>
-        )}
+        {/* Settings Drawer - Now using AnimatedDrawer for gesture support */}
 
         {/* History Drawer */}
         {false && (
@@ -2987,20 +2969,25 @@ export default function LookupScreen() {
         )}
 
         {/* Settings Drawer */}
-        <Animated.View
-          style={[
-            styles.drawer,
-            styles.leftDrawer,
-            {
-              transform: [{ translateX: settingsDrawerTranslateX }],
-              pointerEvents: settingsDrawerVisible ? "auto" : "none",
-            },
-          ]}
+        <AnimatedDrawer
+          isVisible={settingsDrawerVisible}
+          onClose={() => {
+            setSettingsDrawerVisible(false);
+            // Open FAB after closing settings drawer
+            setTimeout(() => {
+              setUserClosedFab(false);
+              openMainFab();
+            }, 300);
+          }}
+          position="left"
         >
-          <View style={styles.drawerScreenContainer}>
-            <SettingsScreen />
-          </View>
-        </Animated.View>
+          <SettingsScreen
+            onNavigate={() => {
+              setSettingsDrawerVisible(false);
+              // Don't open FAB when navigating to another screen
+            }}
+          />
+        </AnimatedDrawer>
 
         {/* Links Drawer */}
         {false && (
@@ -3125,11 +3112,11 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("xl"),
+      getTypographySize("lg"),
+      getTypographySize("xxl"),
     ),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
-    color: BRAND_COLORS.orange,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
+    color: BRAND_COLORS.darkNavy,
     marginBottom: getSpacing("md"),
     textAlign: "center",
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
@@ -3155,6 +3142,7 @@ const styles = StyleSheet.create({
       getTypographySize("md"),
       getTypographySize("md") * 1.2,
     ), // 20% larger on iPad
+    fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
     color: BRAND_COLORS.darkNavy,
     marginBottom: getSpacing("md"),
     borderWidth: 1,
@@ -3193,7 +3181,7 @@ const styles = StyleSheet.create({
       getTypographySize("sm"),
       getTypographySize("md") * 1.2,
     ), // Match input field size on iPad
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.electricBlue,
     marginBottom: 1,
     flexShrink: 1,
@@ -3255,7 +3243,7 @@ const styles = StyleSheet.create({
       getTypographySize("md") * 1.2,
     ), // 20% larger on iPad
     color: BRAND_COLORS.darkNavy,
-    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     flex: 1,
   },
   searchButton: {
@@ -3283,7 +3271,7 @@ const styles = StyleSheet.create({
   searchButtonText: {
     color: BRAND_COLORS.white,
     fontSize: getTypographySize("md"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     marginLeft: getSpacing("sm"),
     lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
@@ -3301,7 +3289,7 @@ const styles = StyleSheet.create({
   },
   loadingMessageText: {
     fontSize: getTypographySize("md"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.electricBlue,
     textAlign: "center",
   },
@@ -3354,7 +3342,7 @@ const styles = StyleSheet.create({
   },
   drawerTitle: {
     fontSize: getTypographySize("lg"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.darkNavy,
     marginLeft: getSpacing("sm"),
   },
@@ -3385,14 +3373,14 @@ const styles = StyleSheet.create({
   countryCode: {
     color: BRAND_COLORS.white,
     fontSize: getTypographySize("xs"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
   },
   historyItemInfo: {
     flex: 1,
   },
   historyItemCode: {
     fontSize: getTypographySize("md"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
   },
   historyItemDesc: {
@@ -3402,7 +3390,7 @@ const styles = StyleSheet.create({
   },
   historyItemAmount: {
     fontSize: getTypographySize("sm"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.electricBlue,
   },
   newsItem: {
@@ -3422,11 +3410,11 @@ const styles = StyleSheet.create({
   newsTagText: {
     color: BRAND_COLORS.white,
     fontSize: getTypographySize("xs"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
   },
   newsTitle: {
     fontSize: getTypographySize("md"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
     marginBottom: getSpacing("xs"),
   },
@@ -3450,7 +3438,7 @@ const styles = StyleSheet.create({
   },
   analyticsValue: {
     fontSize: getTypographySize("lg"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.white,
     marginBottom: getSpacing("xs"),
   },
@@ -3482,7 +3470,7 @@ const styles = StyleSheet.create({
       getTypographySize("lg"),
       getTypographySize("lg") * 1.35,
     ), // 35% larger on iPad (reduced from 50%)
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.darkNavy,
   },
   resultsDrawerSubtitle: {
@@ -3501,6 +3489,22 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.darkGray,
     marginTop: 4,
     fontStyle: "italic",
+  },
+  resultsDrawerDescription: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ),
+    color: BRAND_COLORS.darkGray,
+    marginTop: 4,
+    marginBottom: 2,
+    lineHeight: getResponsiveValue(18, 22),
+  },
+  resultsDrawerDescriptionExpanded: {
+    backgroundColor: BRAND_COLORS.lightGray,
+    padding: getSpacing("xs"),
+    borderRadius: getBorderRadius("sm"),
+    marginHorizontal: -getSpacing("xs"),
   },
   resultsScrollView: {
     flex: 1,
@@ -3530,7 +3534,7 @@ const styles = StyleSheet.create({
       getTypographySize("xl"),
       getTypographySize("xxl") * 1.35,
     ), // 35% larger on iPad (reduced from 50%)
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.white,
     marginBottom: getResponsiveValue(1, 2), // Reduced margin to save space
     textAlign: "center",
@@ -3564,7 +3568,7 @@ const styles = StyleSheet.create({
       getTypographySize("md"),
       getTypographySize("lg") * 1.35,
     ), // 35% larger on iPad (reduced from 50%)
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
     marginBottom: getResponsiveValue(getSpacing("sm"), getSpacing("xs")), // Reduced margin on iPad to save space
   },
@@ -3600,7 +3604,7 @@ const styles = StyleSheet.create({
       getTypographySize("md"),
       getTypographySize("lg") * 1.35,
     ), // 35% larger on iPad (reduced from 50%)
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
   },
   compactHighlight: {
@@ -3608,7 +3612,7 @@ const styles = StyleSheet.create({
       getTypographySize("md"),
       getTypographySize("lg") * 1.35,
     ), // 35% larger on iPad (reduced from 50%)
-    fontWeight: BRAND_TYPOGRAPHY.weights.bold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.electricBlue,
   },
   compactMessageSection: {
@@ -3648,7 +3652,7 @@ const styles = StyleSheet.create({
   },
   unitCalculationsToggleText: {
     fontSize: getTypographySize("sm"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.darkNavy,
   },
 
@@ -3684,7 +3688,7 @@ const styles = StyleSheet.create({
       getTypographySize("sm"),
       getTypographySize("sm") * 1.35,
     ), // 35% larger on iPad (reduced from 50%)
-    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.electricBlue,
   },
   savedHeaderButtonText: {
@@ -3699,7 +3703,7 @@ const styles = StyleSheet.create({
       getTypographySize("sm"),
       getTypographySize("sm") * 1.35,
     ),
-    fontWeight: BRAND_TYPOGRAPHY.weights.medium,
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.success,
   },
 
@@ -3773,7 +3777,7 @@ const styles = StyleSheet.create({
   },
   loadingModalText: {
     fontSize: getTypographySize("lg"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
   },
   actionButtonsRow: {
@@ -3803,7 +3807,7 @@ const styles = StyleSheet.create({
   clearButtonText: {
     color: BRAND_COLORS.white,
     fontSize: getTypographySize("md"),
-    fontWeight: BRAND_TYPOGRAPHY.weights.semibold,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     marginLeft: getSpacing("sm"),
     lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
