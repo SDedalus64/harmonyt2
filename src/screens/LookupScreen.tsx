@@ -51,7 +51,7 @@ import {
   removeScreenshotListener,
 } from "../utils/screenshotPrevention";
 import { AnimatedDrawer } from "../components/shared/AnimatedDrawer";
-import { DiagonalSection } from "../components/shared/DiagonalSection";
+import { HorizontalSection } from "../components/shared/HorizontalSection";
 import {
   BRAND_COLORS,
   BRAND_TYPOGRAPHY,
@@ -204,6 +204,7 @@ export default function LookupScreen() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const { saveToHistory, history, loadHistory } = useHistory();
   const { settings, isLoading: settingsLoading } = useSettings();
+  const [selectedDescription, setSelectedDescription] = useState(""); // Add this line
 
   // Log settings when they change
   useEffect(() => {
@@ -351,7 +352,7 @@ export default function LookupScreen() {
     const ref = fieldRefs[field as keyof typeof fieldRefs];
     if (ref && ref.current) {
       // Add a small delay on Android to ensure layout is complete
-      const measureDelay = Platform.OS === "android" ? 300 : 0;
+      const measureDelay = Platform.OS === "android" ? 50 : 0;
 
       setTimeout(() => {
         if (ref.current) {
@@ -493,7 +494,7 @@ export default function LookupScreen() {
       }
     };
 
-    const debounceTimer = setTimeout(searchForSuggestions, 300);
+    const debounceTimer = setTimeout(searchForSuggestions, 150);
     return () => clearTimeout(debounceTimer);
   }, [htsCode]);
 
@@ -526,9 +527,10 @@ export default function LookupScreen() {
     linksDrawerVisible,
   ]);
 
-  const handleHtsSelection = (code: string) => {
+  const handleHtsSelection = (code: string, description?: string) => {
     haptics.selection();
     setHtsCode(code);
+    setSelectedDescription(description || ""); // Store the description
     setShowHtsSuggestions(false);
   };
 
@@ -749,13 +751,14 @@ export default function LookupScreen() {
   // Scroll to bottom when results are displayed
   useEffect(() => {
     if (!showInput && result && resultScrollViewRef.current) {
-      setTimeout(() => {
+      // Use requestAnimationFrame for immediate scroll after render
+      requestAnimationFrame(() => {
         // Scroll to the bottom to show the save buttons
         // Since header now scrolls with content, we can go all the way down
         resultScrollViewRef.current?.scrollToEnd({
           animated: true,
         });
-      }, 300); // Delay to ensure content is rendered
+      });
     }
   }, [showInput, result]);
 
@@ -775,11 +778,11 @@ export default function LookupScreen() {
       result &&
       resultScrollViewRef.current
     ) {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         resultScrollViewRef.current?.scrollToEnd({
           animated: true,
         });
-      }, 100); // Small delay to ensure calculations are rendered
+      });
     }
   }, [unitCount, result]);
 
@@ -1248,9 +1251,9 @@ export default function LookupScreen() {
     setIsUSMCAOrigin(false); // Reset USMCA origin
 
     // Focus on HTS code input for new lookup
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       htsCodeInputRef.current?.focus();
-    }, 100);
+    });
   };
 
   const handleRepeatLookup = () => {
@@ -1261,9 +1264,9 @@ export default function LookupScreen() {
     // Don't reset showUnitCalculations - keep current state
 
     // Focus on declared value input since all data is preserved
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       declaredValueInputRef.current?.focus();
-    }, 100);
+    });
   };
 
   const handleHistoryItemSelection = (historyItem: HistoryItem) => {
@@ -1461,11 +1464,9 @@ export default function LookupScreen() {
               const closeAndNavigate = () => {
                 setHistoryDrawerVisible(false);
                 navigation.navigate("Lookup", { historyItem: item });
-                // Open FAB after selecting history item
-                setTimeout(() => {
-                  setUserClosedFab(false);
-                  openMainFab();
-                }, 300);
+                // Open FAB immediately after selecting history item
+                setUserClosedFab(false);
+                openMainFab();
               };
 
               // Check for unsaved results before navigating
@@ -1572,7 +1573,7 @@ export default function LookupScreen() {
           <View style={styles.resultsHeaderLeft}>
             <Text style={styles.resultsDrawerTitle}>Search Results</Text>
             <Text style={styles.resultsDrawerSubtitle}>
-              {result.htsCode} • {selectedCountry?.name}
+              {selectedCountry?.name}
             </Text>
             {result.description && (
               <TouchableOpacity
@@ -1829,7 +1830,7 @@ export default function LookupScreen() {
     );
   };
 
-  // Unified floating menu animations with diagonal layout
+  // Unified floating menu animations with horizontal layout
   const toggleMainFab = (recordUserClose: boolean = true) => {
     const toValue = mainFabExpanded ? 0 : 1;
     const isClosing = mainFabExpanded;
@@ -1847,11 +1848,6 @@ export default function LookupScreen() {
     const spacing = isTablet() ? getResponsiveValue(80, 110) : 54; // iPhone: 49 + 5px more space from main FAB
 
     const animations: Animated.CompositeAnimation[] = [];
-
-    // Diagonal expansion matching hero section angle
-    // The hero section uses a skewY of -2deg, which is approximately 0.035 radians
-    // tan(-2deg) ≈ -0.035, so for every unit of X movement, Y should move by 0.035 units
-    const diagonalSlope = 0.035; // Matches the -2deg skew of the hero section
 
     const fabConfigs = [
       { animX: recentFabTranslateX, animY: recentFabTranslateY, multiplier: 1 },
@@ -1872,22 +1868,20 @@ export default function LookupScreen() {
 
     fabConfigs.forEach(({ animX, animY, multiplier }) => {
       const xPosition = toValue * spacing * multiplier;
-      // Y position follows the diagonal line exactly
-      // All FABs expand to the right and up following the diagonal
-      const yPosition = -xPosition * diagonalSlope;
 
       animations.push(
         Animated.timing(animX, {
           toValue: xPosition,
-          duration: 300,
+          duration: 200,
           useNativeDriver: true,
         }),
       );
 
+      // Keep Y at 0 for all FABs - perfect horizontal alignment
       animations.push(
         Animated.timing(animY, {
-          toValue: yPosition,
-          duration: 300,
+          toValue: 0,
+          duration: 200,
           useNativeDriver: true,
         }),
       );
@@ -1897,7 +1891,7 @@ export default function LookupScreen() {
     animations.push(
       Animated.timing(mainFabRotation, {
         toValue,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     );
@@ -1906,14 +1900,14 @@ export default function LookupScreen() {
     animations.push(
       Animated.timing(menuFabScale, {
         toValue,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     );
     animations.push(
       Animated.timing(menuFabOpacity, {
         toValue,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     );
@@ -1978,11 +1972,9 @@ export default function LookupScreen() {
     const closeAndOpenFab = () => {
       setResultsDrawerVisible(false);
       setDescriptionExpanded(false); // Reset description expansion
-      // Open FAB after closing results
-      setTimeout(() => {
-        setUserClosedFab(false);
-        openMainFab();
-      }, 300);
+      // Open FAB immediately without delay
+      setUserClosedFab(false);
+      openMainFab();
     };
 
     if (
@@ -2226,9 +2218,10 @@ export default function LookupScreen() {
           console.log(
             "[FirstTimeGuide] Showing guide because showQuickTour is enabled",
           );
-          setTimeout(() => {
+          // Use requestAnimationFrame to show after next paint
+          requestAnimationFrame(() => {
             setShowFirstTimeGuide(true);
-          }, 500); // 500ms delay to ensure disclaimer modal is fully dismissed
+          });
         } else if (settings.showQuickTour === false) {
           console.log(
             "[FirstTimeGuide] Not showing guide because showQuickTour is disabled",
@@ -2241,9 +2234,9 @@ export default function LookupScreen() {
             console.log(
               "[FirstTimeGuide] Showing guide for first time (setting not configured)",
             );
-            setTimeout(() => {
+            requestAnimationFrame(() => {
               setShowFirstTimeGuide(true);
-            }, 500);
+            });
           }
         }
       } else {
@@ -2258,7 +2251,10 @@ export default function LookupScreen() {
   // Automatically reopen FAB menu when all drawers are closed (unless user manually closed it)
   useEffect(() => {
     if (!anyDrawerOpen && !userClosedFab) {
-      openMainFab();
+      // Use requestAnimationFrame to ensure smooth transition
+      requestAnimationFrame(() => {
+        openMainFab();
+      });
     } else if (anyDrawerOpen && mainFabExpanded) {
       closeMainFab();
     }
@@ -2308,8 +2304,8 @@ export default function LookupScreen() {
 
       {/* Main Content */}
       <View style={styles.content}>
-        {/* Diagonal Background Section */}
-        <DiagonalSection
+        {/* Horizontal Background Section */}
+        <HorizontalSection
           height={Number(dynamicHeaderStyles.heroSection.height)}
           style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
         >
@@ -2568,7 +2564,7 @@ export default function LookupScreen() {
               </TouchableOpacity>
             </Animated.View>
           </View>
-        </DiagonalSection>
+        </HorizontalSection>
 
         {/* Main Content Area */}
         <KeyboardAwareScrollView
@@ -2576,7 +2572,13 @@ export default function LookupScreen() {
           style={styles.mainScrollView}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
-          extraScrollHeight={20}
+          extraScrollHeight={40}
+          enableOnAndroid={true}
+          enableAutomaticScroll={true}
+          keyboardShouldPersistTaps="handled"
+          keyboardOpeningTime={250}
+          bounces={false}
+          enableResetScrollToCoords={false}
         >
           {/* Input Form - Always visible */}
           <View style={styles.inputSection}>
@@ -2627,7 +2629,10 @@ export default function LookupScreen() {
                             key={index}
                             style={styles.suggestionItem}
                             onPress={() => {
-                              handleHtsSelection(suggestion.code);
+                              handleHtsSelection(
+                                suggestion.code,
+                                suggestion.description,
+                              );
                               closeMainFab(false);
                               closeAllNavigationDrawers();
                             }}
@@ -2655,6 +2660,20 @@ export default function LookupScreen() {
                         )}
                       </ScrollView>
                     ) : null}
+                  </View>
+                )}
+
+                {/* Display selected HTS description */}
+                {!showHtsSuggestions && selectedDescription && htsCode && (
+                  <View
+                    style={[
+                      styles.selectedDescriptionContainer,
+                      dynamicFormStyles.suggestionWidth,
+                    ]}
+                  >
+                    <Text style={styles.selectedDescriptionText}>
+                      {selectedDescription}
+                    </Text>
                   </View>
                 )}
               </View>
@@ -2760,6 +2779,9 @@ export default function LookupScreen() {
                           true: BRAND_COLORS.electricBlue,
                         }}
                         thumbColor={BRAND_COLORS.white}
+                        style={{
+                          transform: [{ scale: 0.75 }], // 75% scale to match reduced text
+                        }}
                       />
                     </View>
                   </View>
@@ -2840,11 +2862,9 @@ export default function LookupScreen() {
           isVisible={historyDrawerVisible}
           onClose={() => {
             setHistoryDrawerVisible(false);
-            // Open FAB after closing history drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
+            // Open FAB immediately
+            setUserClosedFab(false);
+            openMainFab();
           }}
           position="bottom"
         >
@@ -2855,11 +2875,9 @@ export default function LookupScreen() {
           isVisible={newsDrawerVisible}
           onClose={() => {
             setNewsDrawerVisible(false);
-            // Open FAB after closing news drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
+            // Open FAB immediately
+            setUserClosedFab(false);
+            openMainFab();
           }}
           position="right"
         >
@@ -2870,11 +2888,9 @@ export default function LookupScreen() {
           isVisible={analyticsDrawerVisible}
           onClose={() => {
             setAnalyticsDrawerVisible(false);
-            // Open FAB after closing analytics drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
+            // Open FAB immediately
+            setUserClosedFab(false);
+            openMainFab();
           }}
           position="left"
         >
@@ -2886,11 +2902,9 @@ export default function LookupScreen() {
           isVisible={linksDrawerVisible}
           onClose={() => {
             setLinksDrawerVisible(false);
-            // Open FAB after closing links drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
+            // Open FAB immediately
+            setUserClosedFab(false);
+            openMainFab();
           }}
           position="right"
           customDrawerConfig={getTradeNewsDrawerConfig()}
@@ -2903,11 +2917,9 @@ export default function LookupScreen() {
           isVisible={mainHistoryDrawerVisible}
           onClose={() => {
             setMainHistoryDrawerVisible(false);
-            // Open FAB after closing history drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
+            // Open FAB immediately
+            setUserClosedFab(false);
+            openMainFab();
           }}
           position="right"
           wrapScroll={false}
@@ -2919,11 +2931,9 @@ export default function LookupScreen() {
               setMainHistoryDrawerVisible(false);
               // Populate the form with the selected history item
               handleHistoryItemSelection(item);
-              // Open FAB after selecting history item
-              setTimeout(() => {
-                setUserClosedFab(false);
-                openMainFab();
-              }, 300);
+              // Open FAB immediately
+              setUserClosedFab(false);
+              openMainFab();
             }}
           />
         </AnimatedDrawer>
@@ -2958,10 +2968,9 @@ export default function LookupScreen() {
                   // Close the history drawer
                   setMainHistoryDrawerVisible(false);
                   handleHistoryItemSelection(item);
-                  setTimeout(() => {
-                    setUserClosedFab(false);
-                    openMainFab();
-                  }, 300);
+                  // Open FAB immediately
+                  setUserClosedFab(false);
+                  openMainFab();
                 }}
               />
             </View>
@@ -2973,11 +2982,9 @@ export default function LookupScreen() {
           isVisible={settingsDrawerVisible}
           onClose={() => {
             setSettingsDrawerVisible(false);
-            // Open FAB after closing settings drawer
-            setTimeout(() => {
-              setUserClosedFab(false);
-              openMainFab();
-            }, 300);
+            // Open FAB immediately
+            setUserClosedFab(false);
+            openMainFab();
           }}
           position="left"
         >
@@ -3089,16 +3096,16 @@ const styles = StyleSheet.create({
     zIndex: 8, // Higher than FAB container to ensure overlap works correctly
   },
   scrollContent: {
-    paddingHorizontal: getSpacing("md"),
-    paddingTop: getSpacing("lg"),
-    paddingBottom: getSpacing("xxxl"),
+    paddingHorizontal: getResponsiveValue(12, 16), // Reduced horizontal padding
+    paddingTop: getResponsiveValue(8, 12), // Reduced top padding
+    paddingBottom: getResponsiveValue(40, 60), // Reduced bottom padding
   },
   inputSection: {
     backgroundColor: BRAND_COLORS.white,
     borderRadius: getBorderRadius("lg"),
-    padding: getSpacing("lg"),
+    padding: getResponsiveValue(12, 16), // Reduced padding
     ...BRAND_SHADOWS.medium,
-    marginBottom: getSpacing("lg"),
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
     zIndex: 10, // Ensure it appears above data source info
     elevation: 10, // For Android
   },
@@ -3117,13 +3124,13 @@ const styles = StyleSheet.create({
     ),
     ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.darkNavy,
-    marginBottom: getSpacing("md"),
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
     textAlign: "center",
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
   },
   inputContainer: {
-    marginBottom: getSpacing("md"),
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
   },
   inputWrapper: {
     width: "100%",
@@ -3137,17 +3144,17 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.lightGray,
     borderRadius: getBorderRadius("md"),
     paddingHorizontal: getSpacing("md"),
-    paddingVertical: getSpacing("sm"),
+    paddingVertical: getResponsiveValue(4, 6), // Reduced vertical padding
     fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("md") * 2,
+      getTypographySize("md") * 2.4,
+    ), // 100% larger (doubled font size)
     fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
     color: BRAND_COLORS.darkNavy,
-    marginBottom: getSpacing("md"),
+    marginBottom: getResponsiveValue(8, 12), // Reduced bottom margin
     borderWidth: 1,
     borderColor: BRAND_COLORS.mediumGray,
-    height: getInputConfig().height,
+    height: getResponsiveValue(48, 56), // Tightened height for large font
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
   },
@@ -3169,7 +3176,7 @@ const styles = StyleSheet.create({
     maxHeight: getResponsiveValue(325, 550), // Match container height
   },
   suggestionItem: {
-    paddingVertical: getResponsiveValue(4, 8), // More padding on iPad for larger text
+    paddingVertical: getResponsiveValue(8, 16), // Increased padding for larger text
     paddingHorizontal: getSpacing("sm"),
     borderBottomWidth: 1,
     borderBottomColor: BRAND_COLORS.lightGray,
@@ -3178,18 +3185,18 @@ const styles = StyleSheet.create({
   },
   suggestionCode: {
     fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("md") * 1.2,
-    ), // Match input field size on iPad
+      getTypographySize("sm") * 2,
+      getTypographySize("md") * 2.4,
+    ), // Match doubled input field size
     ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.electricBlue,
     marginBottom: 1,
     flexShrink: 1,
   },
   suggestionDescription: {
-    fontSize: getResponsiveValue(10, getTypographySize("sm") * 1.1), // Slightly smaller on iPad
+    fontSize: getResponsiveValue(20, getTypographySize("sm") * 2.2), // Doubled font size
     color: BRAND_COLORS.darkGray,
-    lineHeight: getResponsiveValue(12, getTypographySize("sm") * 1.3), // Proportional line height
+    lineHeight: getResponsiveValue(24, getTypographySize("sm") * 2.6), // Proportional line height
     marginTop: 0,
     flexShrink: 1,
     flexWrap: "wrap",
@@ -3232,37 +3239,49 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: BRAND_COLORS.lightGray,
     borderRadius: getBorderRadius("md"),
-    padding: getSpacing("md"),
-    marginBottom: getSpacing("md"),
+    padding: getResponsiveValue(6, 8), // Reduced padding for smaller toggle
+    marginBottom: getResponsiveValue(8, 12), // Reduced bottom margin
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
+    height: getResponsiveValue(40, 48), // Reduced height for smaller content
   },
   toggleLabel: {
     fontSize: getResponsiveValue(
       getTypographySize("md"),
       getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
+    ), // 50% smaller than doubled size
     color: BRAND_COLORS.darkNavy,
     ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     flex: 1,
   },
+  selectedDescriptionContainer: {
+    marginTop: getResponsiveValue(8, 12),
+    marginBottom: getResponsiveValue(12, 16),
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+  },
+  selectedDescriptionText: {
+    fontSize: getTypographySize("sm"),
+    color: BRAND_COLORS.darkGray,
+    fontFamily: "Geologica-Regular",
+    fontStyle: "italic",
+  },
   searchButton: {
     backgroundColor: BRAND_COLORS.electricBlue,
     borderRadius: getBorderRadius("md"),
-    paddingVertical: getSpacing("md"),
-    paddingHorizontal: getSpacing("lg"),
+    paddingVertical: getResponsiveValue(8, 12), // Reduced padding
+    paddingHorizontal: getResponsiveValue(16, 20), // Reduced padding
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     ...BRAND_SHADOWS.small,
-    height:
-      Platform.OS === "ios" && Platform.isPad
-        ? getButtonConfig().height + 12
-        : getButtonConfig().height,
+    height: getResponsiveValue(40, 48), // Reduced height
     marginLeft:
       Platform.OS === "ios" && Platform.isPad
         ? SCREEN_WIDTH * 0.25
-        : getSpacing("md"),
+        : getResponsiveValue(8, 12),
     alignSelf: "flex-start",
   },
   searchButtonDisabled: {
@@ -3300,11 +3319,15 @@ const styles = StyleSheet.create({
     bottom: getResponsiveValue(5, 15), // iPhone: -5px more, iPad: -10px more for proportional spacing
     left: getResponsiveValue(20, 50), // Left padding to match logo alignment
     right: 0,
-    alignItems: "flex-start", // Left align the FABs
+    height: getResponsiveValue(45, 74), // Match main FAB height to ensure consistent alignment
+    alignItems: "center", // Center vertically to ensure all FABs are on same horizontal line
+    justifyContent: "flex-start", // Left align horizontally
+    flexDirection: "row", // Ensure horizontal layout
     zIndex: 100, // High z-index to ensure FABs are clickable
   },
   menuFab: {
     position: "absolute",
+    alignSelf: "center", // Ensure vertical centering
   },
   menuFabButton: {
     width: getResponsiveValue(38, 64), // 80% size on iPhone (48 * 0.8 = 38.4 ≈ 38), iPad unchanged
@@ -3317,6 +3340,7 @@ const styles = StyleSheet.create({
 
   mainFloatingFab: {
     position: "relative",
+    alignSelf: "center", // Ensure vertical centering
   },
   mainFloatingFabButton: {
     width: getResponsiveValue(45, 74), // 80% size on iPhone (56 * 0.8 = 44.8 ≈ 45), iPad unchanged
@@ -3784,25 +3808,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: getSpacing("md"),
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
     paddingHorizontal:
       Platform.OS === "ios" && Platform.isPad
         ? SCREEN_WIDTH * 0.25
-        : getSpacing("md"),
+        : getResponsiveValue(8, 12), // Reduced padding
   },
   clearButton: {
     backgroundColor: BRAND_COLORS.orange,
     borderRadius: getBorderRadius("md"),
-    paddingVertical: getSpacing("md"),
-    paddingHorizontal: getSpacing("lg"),
+    paddingVertical: getResponsiveValue(8, 12), // Reduced padding
+    paddingHorizontal: getResponsiveValue(16, 20), // Reduced padding
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     ...BRAND_SHADOWS.small,
-    height:
-      Platform.OS === "ios" && Platform.isPad
-        ? getButtonConfig().height + 12
-        : getButtonConfig().height,
+    height: getResponsiveValue(40, 48), // Reduced height
   },
   clearButtonText: {
     color: BRAND_COLORS.white,

@@ -153,9 +153,6 @@ export default function HistoryScreen({
       style={styles.historyItem}
       onPress={() => handleItemPress(item)}
     >
-      <View style={styles.historyItemHeader}>
-        <Text style={styles.historyItemHtsCode}>{item.htsCode}</Text>
-      </View>
       <Text style={styles.historyItemDescription}>{item.description}</Text>
       <View style={styles.historyItemDetails}>
         <View style={styles.historyItemDetail}>

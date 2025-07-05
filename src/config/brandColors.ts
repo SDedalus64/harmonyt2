@@ -179,12 +179,12 @@ export const BRAND_PRINCIPLES = {
 // Animation configurations
 export const BRAND_ANIMATIONS = {
   spring: {
-    damping: 15,
-    stiffness: 150,
-    mass: 1,
+    damping: 20,
+    stiffness: 200,
+    mass: 0.8,
   },
   timing: {
-    duration: 300,
+    duration: 200,
   },
   easing: {
     ease: "easeInOut",

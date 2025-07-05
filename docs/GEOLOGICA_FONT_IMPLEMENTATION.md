@@ -162,6 +162,64 @@ To verify fonts are loaded correctly:
 - Ensure font files are not corrupted
 - Try using the exact PostScript name of the font
 
+### Fonts Missing After iOS Build
+
+If fonts are missing after building the iOS app, this is likely due to Xcode stripping resources during optimization. To fix this:
+
+1. **Ensure fonts are linked properly:**
+
+   ```bash
+   npx react-native-asset
+   ```
+
+2. **Add build settings to prevent font stripping:**
+   In `ios/HarmonyTi.xcodeproj/project.pbxproj`, add these settings to both Debug and Release configurations:
+
+   ```
+   DEAD_CODE_STRIPPING = NO;
+   PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
+   ```
+
+3. **Verify fonts after build:**
+
+   ```bash
+   ./scripts/utilities/verify-fonts.sh
+   ```
+
+4. **Clean rebuild if needed:**
+   ```bash
+   cd ios
+   rm -rf build/
+   xcodebuild clean
+   pod install
+   ```
+
+### Prebuild Script
+
+The `scripts/build/prebuild.sh` script now includes font linking as step 7:
+
+```bash
+info "Linking custom fonts …"
+npx react-native-asset || warn "Font linking failed. You may need to run 'npx react-native-asset' manually."
+```
+
+This ensures fonts are properly linked every time you run a full prebuild.
+
+## Build Process
+
+1. Run prebuild script to set up iOS/Android projects
+2. Font files are linked via `react-native-asset`
+3. Fonts are included in Resources build phase
+4. Build settings prevent font stripping
+5. Fonts are copied to app bundle during build
+
+## Implementation Notes
+
+- All text components should use the custom Text component to ensure consistent font usage
+- The fontFamily must be specified as 'Geologica-[Weight]' not just 'Geologica'
+- Both fontFamily and fontWeight can be used together for proper rendering
+- System fonts are fallback if Geologica fails to load
+
 ## Font Weight Mapping
 
 The app uses the following font weights throughout:

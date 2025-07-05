@@ -352,17 +352,17 @@ const styles = StyleSheet.create({
     borderRadius: getBorderRadius("md"),
     borderWidth: 1,
     flexDirection: "row",
-    height: getInputConfig().height,
+    height: getResponsiveValue(48, 56), // Tightened height for larger font
     paddingHorizontal: getSpacing("md"),
-    paddingVertical: getSpacing("sm"),
+    paddingVertical: getResponsiveValue(4, 6), // Reduced vertical padding
     width: "100%",
   },
   searchButtonText: {
     marginLeft: getSpacing("sm"),
     fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("md") * 2,
+      getTypographySize("md") * 2.4,
+    ), // 100% larger (doubled font size)
     color: BRAND_COLORS.electricBlue,
     flex: 1,
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
@@ -372,10 +372,10 @@ const styles = StyleSheet.create({
     borderColor: BRAND_COLORS.mediumGray,
     borderRadius: getBorderRadius("md"),
     borderWidth: 1,
-    height: getInputConfig().height,
+    height: getResponsiveValue(48, 56), // Tightened height for larger font
     justifyContent: "center",
     paddingHorizontal: getSpacing("md"),
-    paddingVertical: getSpacing("sm"),
+    paddingVertical: getResponsiveValue(4, 6), // Reduced vertical padding
     width: "100%",
   },
   selectedCountryContent: {
@@ -385,9 +385,9 @@ const styles = StyleSheet.create({
   },
   selectedCountryText: {
     fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("md") * 2,
+      getTypographySize("md") * 2.4,
+    ), // 100% larger (doubled font size)
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
     color: BRAND_COLORS.darkNavy,
     flex: 1,

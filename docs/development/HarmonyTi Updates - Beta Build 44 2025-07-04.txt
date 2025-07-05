@@ -1,0 +1,145 @@
+"What's new in build #44
+
+HarmonyTi Improvements - Beta Tester Edition
+
+Visual & User Experience Improvements
+1. Typography Upgrade
+•	All text now uses the new DGL brand Geologica font family
+•	Consistent font styling across iOS and Android
+•	Improved readability throughout the app
+2. Settings Screen Redesign
+•	Country selection now uses a dropdown instead of separate screen
+•	Added clear button (X) next to selected country for easy removal
+•	Scrolling Dropdown shows options when opened
+•	More streamlined and intuitive interface
+3. Profile Screen Navigation
+•	Profile now properly closes when backing out
+•	Changed back arrow to close icon (X) for clearer intent
+•	Smoother drawer animations
+4. Input Field Clarity
+•	"Est. Other Costs" instead of "Freight Cost" to gen a better landed cost estimate. 
+•	Info drawer content rewritten for better understanding
+•	Clearer field descriptions and help text
+5. First Time Guide Behavior
+•	"Show Quick Tour" toggle now works as expected:
+•	ON = Always shows tour after login
+•	OFF = Never shows tour
+•	More predictable onboarding experience
+
+New Features
+1. News Integration
+•	Foundation for trade news feed (coming soon)
+2. Blog posts update in the background. No wait.
+3. Enhanced Default Country Selection (Settings)
+•	Inline dropdown replaces full-screen selection
+•	Clear button to remove default or to select new country
+•	Visual feedback with checkmarks for selected country
+
+Fixes You Can Test
+1. Android Display Issues
+•	Info tabs now align properly on Android devices
+•	No more misaligned drawer tabs
+2. Settings Persistence
+•	Settings changes reflect after CLEAR is tapped in Search screen
+
+What Beta Testers Should Focus On
+1. Check the new fonts - Do they look good on your device?
+2. Try the Settings dropdown - Is country selection easier?
+3. Test the Profile screen - Does it close properly?
+4. Play with History - Any duplicates appearing?
+5. Toggle "Show Quick Tour" - Does it behave as expected?
+6. Android users - Are all screens displaying correctly?
+
+The app should feel more polished, professional, and responsive across all devices! 🚀
+
+Technical Improvements (Behind the Scenes)
+
+1. Build System
+•	Automated pre-build script for both iOS and Android
+•	Faster, more reliable app builds
+•	Better error handling during builds
+2. Performance
+•	Fixed memory leaks in settings management
+•	Optimized font loading system
+•	Improved Android layout calculations
+3. Code Quality
+•	30+ files updated for consistency
+•	Removed deprecated components
+•	Better error prevention
+4. Developer Experience
+•	Comprehensive documentation updates
+•	Organized script structure
+•	Automated build fixes
+
+
+
+What's new in build #43
+
+Code Fixes
+
+New features
+• Haptic feedback everywhere – added Expo-Haptics; button taps, calculate action, toggles and list selections now give light / medium / heavy vibration cues (Settings → Haptic Feedback toggle).  
+• “Show Unit Calculations” option – new switch in Settings drawer; when ON the Unit Count field and per-unit cost lines appear in results and are preserved in History.  
+• Refreshed look & feel – replaced app icon and splash-screen/logo assets across all resolutions (iOS & Android).  
+• Lookup screen refresh – cleaner spacing, smoother floating-action-button animation, and conditional recording of user interactions for better history tracking.  
+• Improved Disclaimer scroll-hint – clearer prompt so first-time users don’t miss the “Accept” button.
+
+Fixes & improvements
+• Unit-calculation toggle now reliably hides/shows both the field and result rows and syncs with stored preferences.  
+• Faster, more consistent layouts on tablets – FAB padding & animation offsets adjusted for iPad vs. iPhone.  
+• IEEPA tariff logic refactor – duty calculation now keys off “dutyType” instead of rule name (prevents false positives).  
+• Numerous obsolete files removed and pre-build script streamlined (smaller app size, quicker CI).
+• Section 201 logic refactor (HTS Codes: 8541200 and 8541900? Solar Panels) – duty calculation now properly identifies and applies correct tariffs - please test. Note: only panel, not diodes and other components, are covered by 201.) 
+
+If you notice anything odd, shake the device (or Ctrl-M) to open the debug menu and send feedback. Enjoy the new haptics!
+
+Performance improvements - code dropdown loads faster - no "Not found" before load
+Info Drawers - Both tap and swipe to open and close
+Instructions - "First time" welcome and quick rundown on Search screen functions. Toggle to dismiss forever.
+Coming soon: 
+Live feeds with news and stats
+UX improvements to the results drawer
+UX improvements to in-app browser - smoother scrolling.
+UX improvements to landscape on iPad
+
+What’s New in Build #38
+
+New & Enhanced Features
+
+Landed Cost Enhancements
+	•	Landed Cost Display: Now shown alongside “Total Duties & Fees,” with a new per-unit landed                     cost row for added clarity.
+	•	Duty Calculation Update: Freight is excluded from duty calculations but included in landed cost  
+                totals.
+
+Contextual Info System
+	•       “Drawer”-style panels for Code, Declared Value, Freight, and Units:
+	•	Full-height blue gradient
+	•	Bullet-aligned rich text
+	•	Mobile-optimized (360dp drawer width)
+
+Device-Specific Enhancements
+	• iPhone:
+	•	Pull-out info tab appears on field focus and disappears on blur—quick drawer access via swipe.
+	• iPad:
+	•	Large (42dp) info icons in the left gutter, always visible (for now)  Tap to open corresponding 
+                drawers.
+
+Overlays & Drawers
+	•	Side and bottom drawers layer correctly—above interface elements, below the Dynamic Island.
+	•	Disclaimer modal now includes a scroll-hint to guide users until “Agree” is visible.
+
+Visual and Layout Refinements
+	•	Adjusted spacing to protect content from iPhone notches and Dynamic Island.
+	•	Tighter text layout in InfoDrawers for better readability.
+	•	Updated branding: wider mobile drawers and a fresh orange accent color.
+	•	Improved Access: Blog and social icons are now easier to reach on smaller screens.
+
+
+What to Test
+	•	Do all tap and gesture-based drawers (excluding Settings) respond as expected?
+	•	Does the per-unit landed cost display make sense and appear correctly?
+	•	Are info drawers accessible and visually consistent across devices?
+	•	On iPad, do icons only show when a field is focused—and still allow drawer activation?
+	•	Does the Clear button on Search work reliably?
+	•	Is the new scroll-hint on the disclaimer noticeable and helpful?
+	•	Are blog and social links easier to reach and tap?"

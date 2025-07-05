@@ -1,6 +1,14 @@
 # Changelog
 
 All notable changes to HarmonyTi will be documented in this file.
+feat: integrate Geologica font family and update typography across the app
+
+- Added Geologica font files (Bold, Light, Medium, Regular, SemiBold) to the project assets.
+- Updated Info.plist to include new font resources for proper rendering.
+- Enhanced typography across various components to utilize Geologica fonts for improved consistency and readability.
+- Introduced a new HorizontalSection component for better layout management.
+- Adjusted styles in multiple screens and components to accommodate the new font sizes and improve user experience.
+- Implemented a verification script to ensure fonts are correctly included in the iOS app bundle.
 
 ## [2025-07-04]
 

@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
-    fontSize: 16,
-    height: 44,
+    fontSize: 32, // Doubled from 16
+    height: 48, // Tightened to match LookupScreen input height
     width: "100%",
   },
   inputGroup: {

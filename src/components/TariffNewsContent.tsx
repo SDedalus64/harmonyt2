@@ -143,9 +143,8 @@ const TariffNewsContent: React.FC = () => {
         console.log(
           "Trade News: App returned to foreground, refreshing data...",
         );
-        setTimeout(() => {
-          fetchPosts();
-        }, 500); // Small delay to ensure app is fully active
+        // Fetch immediately when app returns to foreground
+        fetchPosts();
       }
       setAppState(nextAppState);
     };

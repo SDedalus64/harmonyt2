@@ -252,9 +252,9 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({
                   setAgreed(value);
                   // Scroll to bottom when user toggles the switch on
                   if (value) {
-                    setTimeout(() => {
+                    requestAnimationFrame(() => {
                       scrollViewRef.current?.scrollToEnd({ animated: true });
-                    }, 100);
+                    });
                   }
                 }}
                 trackColor={{ false: "#E1E1E1", true: "#2EAAF2" }}
