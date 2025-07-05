@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 
 /**
  * Utility script that parses a U.S. HTS tariff CSV export, derives semantic
@@ -55,6 +54,34 @@ interface SemanticDB {
 
 const DEFAULT_THRESHOLD = 0.25; // Jaccard score
 const DEFAULT_TOP_N = 8;
+
+// Harmonized Tariff chapters (two-digit strings) broadly covering consumer goods.
+// This list is opinionated and can be tuned. It attempts to capture apparel,
+// footwear, furniture, electronics, toys, etc.
+const CONSUMER_GOODS_CHAPTERS = new Set([
+  '42', // articles of leather; handbags, etc.
+  '61', // apparel and clothing accessories, knitted
+  '62', // apparel and clothing accessories, not knitted
+  '63', // other made up textile articles
+  '64', // footwear
+  '65', // headgear
+  '69', // ceramic products (housewares)
+  '70', // glassware
+  '71', // jewellery
+  '73', // articles of iron or steel (household items)
+  '82', // tools, cutlery
+  '84', // machinery – includes some consumer appliances
+  '85', // electrical machinery – consumer electronics
+  '90', // optical, photographic, medical – consumer devices
+  '91', // clocks and watches
+  '94', // furniture, bedding, lamps
+  '95', // toys, games, sports equipment
+  '96', // miscellaneous manufactured articles – pencils, lighters, etc.
+]);
+
+function isConsumerChapter(code: string): boolean {
+  return CONSUMER_GOODS_CHAPTERS.has(code.slice(0, 2));
+}
 
 /** Clean and tokenize a description string. */
 function tokenize(raw: string): TokenSet {
@@ -172,15 +199,34 @@ function buildSemanticDB(
 }
 
 function main() {
-  const [csvPath, outPath] = process.argv.slice(2);
+  const args = process.argv.slice(2);
+  const csvPath = args[0];
+  const outPath = args[1];
+  const focusConsumer = args.includes('--consumer');
   if (!csvPath || !outPath) {
     /* eslint-disable no-console */
-    console.error('Usage: ts-node scripts/generateSemanticDB.ts <input.csv> <output.json>');
+    console.error('Usage: ts-node scripts/generateSemanticDB.ts <input.csv> <output.json> [--consumer]');
     process.exit(1);
   }
 
-  console.log(`Generating semantic links from ${csvPath} ...`);
-  const db = buildSemanticDB(csvPath);
+  // Optional consumer filter: if requested, we will post-filter database to
+  // only include records that belong to consumer chapters.
+  const dbRaw = buildSemanticDB(csvPath);
+  const db = focusConsumer
+    ? Object.fromEntries(
+        Object.entries(dbRaw)
+          .filter(([code]) => isConsumerChapter(code))
+          .map(([code, links]) => [
+            code,
+            links.filter((l) => isConsumerChapter(l.code)),
+          ]),
+      )
+    : dbRaw;
+
+  console.log(
+    `Semantic database built with${focusConsumer ? ' consumer-goods filter, ' : ' '}` +
+      `${Object.keys(db).length} HTS codes`,
+  );
   fs.writeFileSync(outPath, JSON.stringify(db, null, 2), 'utf8');
   console.log(`Semantic database written to ${outPath}`);
 }
