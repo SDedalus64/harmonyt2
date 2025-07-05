@@ -46,12 +46,12 @@ const SecureView: React.FC<SecureViewProps> = ({ children, enabled = true }) => 
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   blurOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  container: {
+    flex: 1,
   },
 });
 

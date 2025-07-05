@@ -7,7 +7,7 @@ export interface LinkSuggestion {
 }
 
 function getLinks(db: any, normalized: string): LinkSuggestion[] {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+   
   const suggestions = (db as Record<string, LinkSuggestion[]>)[normalized] ?? [];
   return suggestions;
 }

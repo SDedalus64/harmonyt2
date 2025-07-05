@@ -101,14 +101,11 @@ export default function DraggableList({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  listContent: {
-    paddingVertical: getLayoutValue('small', 'spacing'),
-  },
   columnWrapper: {
     justifyContent: 'space-between',
+  },
+  container: {
+    flex: 1,
   },
   item: {
     flex: 1,
@@ -116,5 +113,8 @@ const styles = StyleSheet.create({
   },
   itemTablet: {
     marginHorizontal: getLayoutValue('medium', 'spacing'),
+  },
+  listContent: {
+    paddingVertical: getLayoutValue('small', 'spacing'),
   },
 });

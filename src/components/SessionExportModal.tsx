@@ -157,19 +157,52 @@ export default function SessionExportModal({
 }
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
+  buttonContainer: {
+    gap: 12,
+  },
+  cancelButton: {
     alignItems: 'center',
-    padding: 24,
+    backgroundColor: '#E1E1E1',
+    borderRadius: 28,
+    height: 56,
+    justifyContent: 'center',
+  },
+  cancelButtonText: {
+    color: '#666',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  closeButton: {
+    padding: 4,
+  },
+  errorText: {
+    color: '#FF3B30',
+    fontSize: 14,
+    marginTop: 4,
+  },
+  input: {
+    backgroundColor: '#F8F8F8',
+    borderColor: '#E1E1E1',
+    borderRadius: 12,
+    borderWidth: 1,
+    color: '#333',
+    fontSize: 16,
+    height: 50,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  inputContainer: {
+    marginBottom: 16,
+  },
+  inputError: {
+    borderColor: '#FF3B30',
   },
   modalContainer: {
     backgroundColor: '#fff',
     borderRadius: 16,
-    padding: 24,
-    width: '100%',
+    elevation: 5,
     maxWidth: 500,
+    padding: 24,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -177,88 +210,40 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#217DB2',
-    flex: 1,
-  },
-  closeButton: {
-    padding: 4,
+    width: '100%',
   },
   modalDescription: {
-    fontSize: 16,
     color: '#333',
-    marginBottom: 24,
+    fontSize: 16,
     lineHeight: 22,
-  },
-  inputContainer: {
-    marginBottom: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#E1E1E1',
-    borderRadius: 12,
-    backgroundColor: '#F8F8F8',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#333',
-    height: 50,
-  },
-  inputError: {
-    borderColor: '#FF3B30',
-  },
-  errorText: {
-    color: '#FF3B30',
-    fontSize: 14,
-    marginTop: 4,
-  },
-  userInfoContainer: {
-    backgroundColor: '#F8F8F8',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-  },
-  userInfoLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
-  },
-  userInfoValue: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '500',
-    marginBottom: 4,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 24,
   },
-  switchLabel: {
-    flex: 1,
-    marginLeft: 12,
-    fontSize: 14,
-    color: '#666',
+  modalHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
   },
-  buttonContainer: {
-    gap: 12,
+  modalOverlay: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+  },
+  modalTitle: {
+    color: '#217DB2',
+    flex: 1,
+    fontSize: 24,
+    fontWeight: '700',
   },
   sendButton: {
-    backgroundColor: '#2EAAF2',
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#2EAAF2',
+    borderRadius: 28,
+    elevation: 8,
+    height: 56,
+    justifyContent: 'center',
     shadowColor: '#2EAAF2',
     shadowOffset: {
       width: 0,
@@ -266,23 +251,38 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
-    elevation: 8,
   },
   sendButtonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
   },
-  cancelButton: {
-    backgroundColor: '#E1E1E1',
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
+  switchContainer: {
     alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 24,
   },
-  cancelButtonText: {
+  switchLabel: {
     color: '#666',
-    fontSize: 18,
-    fontWeight: '600',
+    flex: 1,
+    fontSize: 14,
+    marginLeft: 12,
+  },
+  userInfoContainer: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    marginBottom: 16,
+    padding: 16,
+  },
+  userInfoLabel: {
+    color: '#666',
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  userInfoValue: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 4,
   },
 });

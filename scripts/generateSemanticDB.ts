@@ -200,7 +200,7 @@ function main() {
   const outPath = args[1];
   const focusConsumer = args.includes('--consumer');
   if (!csvPath || !outPath) {
-    /* eslint-disable no-console */
+     
     console.error('Usage: ts-node scripts/generateSemanticDB.ts <input.csv> <output.json> [--consumer]');
     process.exit(1);
   }

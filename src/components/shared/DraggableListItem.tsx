@@ -145,10 +145,11 @@ export default function DraggableListItem({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: getLayoutValue('small', 'spacing'),
-    marginHorizontal: getLayoutValue('medium', 'spacing'),
-    borderRadius: getLayoutValue('borderRadius', 'dimensions'),
     backgroundColor: '#fff',
+    borderRadius: getLayoutValue('borderRadius', 'dimensions'),
+    elevation: 3,
+    marginHorizontal: getLayoutValue('medium', 'spacing'),
+    marginVertical: getLayoutValue('small', 'spacing'),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -156,40 +157,39 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    elevation: 3,
   },
   content: {
-    padding: getLayoutValue('medium', 'spacing'),
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    padding: getLayoutValue('medium', 'spacing'),
   },
   dragging: {
+    elevation: 5,
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    elevation: 5,
   },
   pencilActive: {
     backgroundColor: '#F8F8F8',
   },
-  textContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: getLayoutValue('medium', 'typography'),
-    color: '#333',
-    fontWeight: '500',
-  },
-  titleTablet: {
-    fontSize: getLayoutValue('large', 'typography'),
-  },
   subtitle: {
-    fontSize: getLayoutValue('small', 'typography'),
     color: '#666',
+    fontSize: getLayoutValue('small', 'typography'),
     marginTop: 4,
   },
   subtitleTablet: {
     fontSize: getLayoutValue('medium', 'typography'),
     marginTop: 6,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  title: {
+    color: '#333',
+    fontSize: getLayoutValue('medium', 'typography'),
+    fontWeight: '500',
+  },
+  titleTablet: {
+    fontSize: getLayoutValue('large', 'typography'),
   },
 });

@@ -84,55 +84,55 @@ export default function TariffEngineeringScreen() {
 }
 
 const styles = StyleSheet.create({
+  code: {
+    fontSize: 16,
+  },
   container: {
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 6,
-    marginBottom: 12,
-  },
-  section: {
-    marginTop: 24,
-    marginBottom: 4,
-    fontWeight: '600',
-  },
-  list: {
-    marginTop: 8,
-  },
-  listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  code: {
-    fontSize: 16,
-  },
-  score: {
-    fontSize: 16,
-    color: '#666',
-  },
   empty: {
-    marginTop: 24,
-    fontStyle: 'italic',
     color: '#888',
+    fontStyle: 'italic',
+    marginTop: 24,
   },
   error: {
     color: 'red',
     marginTop: 8,
   },
+  input: {
+    borderColor: '#ccc',
+    borderRadius: 6,
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  list: {
+    marginTop: 8,
+  },
+  listItem: {
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+  },
   loadingIndicator: {
     marginTop: 8,
+  },
+  score: {
+    color: '#666',
+    fontSize: 16,
+  },
+  section: {
+    fontWeight: '600',
+    marginBottom: 4,
+    marginTop: 24,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 12,
   },
 });
