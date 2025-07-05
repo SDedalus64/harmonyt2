@@ -47,6 +47,7 @@ interface Link {
   code: string;
   score: number;
   reason: string;
+  reasonType: 'MATERIAL' | 'PROCESS' | 'ORIGIN' | 'SEMANTIC';
 }
 
 interface SemanticDB {
@@ -209,13 +210,21 @@ function buildSemanticDB(
       if (score >= threshold) {
         // crude reasoning: determine main differing token bucket
         let reason = 'Similar description';
+        let reasonType: Link['reasonType'] = 'SEMANTIC';
         const otherTokens = other.tokens;
         const newMat = [...otherTokens].find((t) => !item.tokens.has(t) && ['plastic','leather','metal','wood','cotton','rubber','glass','aluminium','polycarbonate'].includes(t));
-        if (newMat) reason = `Material swap: ${newMat}`;
-        else if (PROCESS_TOKENS.some((p) => otherTokens.has(p) && !item.tokens.has(p))) reason = 'Different manufacturing stage';
-        else if (ORIGIN_TOKENS.some((o) => otherTokens.has(o) && !item.tokens.has(o))) reason = 'Country-of-origin leverage';
+        if (newMat) {
+          reason = `Material swap: ${newMat}`;
+          reasonType = 'MATERIAL';
+        } else if (PROCESS_TOKENS.some((p) => otherTokens.has(p) && !item.tokens.has(p))) {
+          reason = 'Different manufacturing stage';
+          reasonType = 'PROCESS';
+        } else if (ORIGIN_TOKENS.some((o) => otherTokens.has(o) && !item.tokens.has(o))) {
+          reason = 'Country-of-origin leverage';
+          reasonType = 'ORIGIN';
+        }
 
-        candidates.push({ code: other.code, score: Number(score.toFixed(3)), reason });
+        candidates.push({ code: other.code, score: Number(score.toFixed(3)), reason, reasonType });
       }
     });
 

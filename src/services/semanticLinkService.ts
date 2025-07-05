@@ -5,6 +5,7 @@ export interface LinkSuggestion {
   code: string;
   score: number;
   reason?: string;
+  reasonType?: 'MATERIAL' | 'PROCESS' | 'ORIGIN' | 'SEMANTIC';
 }
 
 function getLinks(db: any, normalized: string): LinkSuggestion[] {
@@ -26,14 +27,14 @@ export function getMaterialSuggestions(code: string): LinkSuggestion[] {
 export function getAllTariffSuggestions(code: string): LinkSuggestion[] {
   const byCode: Record<string, LinkSuggestion> = {};
   getSemanticSuggestions(code).forEach((s) => {
-    byCode[s.code] = { code: s.code, score: s.score, reason: s.reason };
+    byCode[s.code] = { code: s.code, score: s.score, reason: s.reason, reasonType: s.reasonType };
   });
   getMaterialSuggestions(code).forEach((s) => {
     if (byCode[s.code]) {
       // average scores if duplicate
       byCode[s.code].score = Number(((byCode[s.code].score + s.score) / 2).toFixed(3));
     } else {
-      byCode[s.code] = { code: s.code, score: s.score, reason: s.reason };
+      byCode[s.code] = { code: s.code, score: s.score, reason: s.reason, reasonType: s.reasonType };
     }
   });
   return Object.values(byCode).sort((a, b) => b.score - a.score);

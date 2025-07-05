@@ -67,7 +67,7 @@ export default function TariffEngineeringScreen() {
               <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
               {item.reason && <Text style={styles.reason}>{item.reason}</Text>}
             </View>
-            <Text style={styles.tag}>SEM</Text>
+            <Text style={[styles.tag, tagStyle(item.reasonType)]}>{getTag(item.reasonType)}</Text>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>None</Text>}
@@ -86,7 +86,7 @@ export default function TariffEngineeringScreen() {
               <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
               {item.reason && <Text style={styles.reason}>{item.reason}</Text>}
             </View>
-            <Text style={[styles.tag, styles.material]}>MAT</Text>
+            <Text style={[styles.tag, tagStyle(item.reasonType)]}>{getTag(item.reasonType)}</Text>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>None</Text>}
@@ -152,3 +152,29 @@ const styles = StyleSheet.create({
   material: { backgroundColor: '#E67E23' },
   reason: { fontSize:12, color:'#666', maxWidth:140 },
 });
+
+function getTag(reasonType?: string) {
+  switch (reasonType) {
+    case 'MATERIAL':
+      return 'MAT';
+    case 'PROCESS':
+      return 'PROC';
+    case 'ORIGIN':
+      return 'ORI';
+    default:
+      return 'SEM';
+  }
+}
+
+function tagStyle(reasonType?: string) {
+  switch (reasonType) {
+    case 'MATERIAL':
+      return { backgroundColor: '#E67E23' };
+    case 'PROCESS':
+      return { backgroundColor: '#6C5CE7' };
+    case 'ORIGIN':
+      return { backgroundColor: '#0984e3' };
+    default:
+      return { backgroundColor: '#0A99F2' };
+  }
+}
