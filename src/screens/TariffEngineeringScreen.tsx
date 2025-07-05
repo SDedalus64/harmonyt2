@@ -7,15 +7,20 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import { getTariffSuggestions, LinkSuggestion } from '../services/semanticLinkService';
+import {
+  getSemanticSuggestions,
+  getMaterialSuggestions,
+  LinkSuggestion,
+} from '../services/semanticLinkService';
 
 export default function TariffEngineeringScreen() {
   const [code, setCode] = useState('');
-  const [results, setResults] = useState<LinkSuggestion[]>([]);
+  const [semanticResults, setSemanticResults] = useState<LinkSuggestion[]>([]);
+  const [materialResults, setMaterialResults] = useState<LinkSuggestion[]>([]);
 
   const handleSearch = () => {
-    const sugg = getTariffSuggestions(code);
-    setResults(sugg);
+    setSemanticResults(getSemanticSuggestions(code));
+    setMaterialResults(getMaterialSuggestions(code));
   };
 
   return (
@@ -31,8 +36,9 @@ export default function TariffEngineeringScreen() {
       />
       <Button title="Find Alternatives" onPress={handleSearch} />
 
+      <Text style={styles.section}>Semantic Similar Codes</Text>
       <FlatList
-        data={results}
+        data={semanticResults}
         keyExtractor={(item) => item.code}
         style={styles.list}
         renderItem={({ item }) => (
@@ -41,7 +47,22 @@ export default function TariffEngineeringScreen() {
             <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
           </View>
         )}
-        ListEmptyComponent={<Text style={styles.empty}>No suggestions yet.</Text>}
+        ListEmptyComponent={<Text style={styles.empty}>None</Text>}
+      />
+
+      <Text style={styles.section}>Material Alternatives</Text>
+
+      <FlatList
+        data={materialResults}
+        keyExtractor={(item) => item.code}
+        style={styles.list}
+        renderItem={({ item }) => (
+          <View style={styles.listItem}>
+            <Text style={styles.code}>{item.code}</Text>
+            <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+          </View>
+        )}
+        ListEmptyComponent={<Text style={styles.empty}>None</Text>}
       />
     </View>
   );
@@ -65,8 +86,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 12,
   },
+  section: {
+    marginTop: 24,
+    marginBottom: 4,
+    fontWeight: '600',
+  },
   list: {
-    marginTop: 16,
+    marginTop: 8,
   },
   listItem: {
     flexDirection: 'row',
