@@ -259,6 +259,12 @@ export default function LookupScreen() {
   const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
   const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  
+  // Multi-field states
+  const [currentAdditionalCost, setCurrentAdditionalCost] = useState("");
+  const [additionalCosts, setAdditionalCosts] = useState<Array<{id: string, amount: number, label?: string}>>([]);
+  const [currentUnitCount, setCurrentUnitCount] = useState("");
+  const [unitCounts, setUnitCounts] = useState<Array<{id: string, amount: number, label?: string}>>([]); 
 
   // Navigation drawer states
   const [mainHistoryDrawerVisible, setMainHistoryDrawerVisible] =
@@ -4039,22 +4045,28 @@ const styles = StyleSheet.create({
     paddingHorizontal:
       Platform.OS === "ios" && Platform.isPad
         ? SCREEN_WIDTH * 0.25
-        : getResponsiveValue(20, 40),
+        : getSpacing("md"), // Match other fields padding
+    alignItems: "flex-start",
+    width: "100%",
   },
   valueFieldColumn: {
     flex: 1,
   },
   valueInput: {
-    fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
+    fontSize: getResponsiveValue(
+      getTypographySize("md") * 1.5 * 0.75,  // EXACT same as HTS code
+      getTypographySize("md") * 1.8 * 0.75,
+    ),
     height: getResponsiveValue(46, 54), // Same height as HTS input
     paddingHorizontal: getResponsiveValue(15, 20),
     backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getResponsiveValue(12, 16),
+    borderRadius: getBorderRadius("md"),
     color: BRAND_COLORS.mediumBlue, // Medium blue color
     textAlign: "right", // Right-justify numbers
     width: "100%",
     borderWidth: 1,
     borderColor: BRAND_COLORS.mediumGray,
+    marginBottom: getResponsiveValue(20, 24), // Space for another field between
   },
   multiFieldContainer: {
     marginTop: getResponsiveValue(10, 12),
@@ -4066,11 +4078,14 @@ const styles = StyleSheet.create({
   },
   multiFieldInput: {
     flex: 1,
-    fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
+    fontSize: getResponsiveValue(
+      getTypographySize("md") * 1.5 * 0.75,  // EXACT same as HTS code
+      getTypographySize("md") * 1.8 * 0.75,
+    ),
     height: getResponsiveValue(46, 54), // Same height as value input
     paddingHorizontal: getResponsiveValue(15, 20),
     backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getResponsiveValue(12, 16),
+    borderRadius: getBorderRadius("md"),
     color: BRAND_COLORS.mediumBlue, // Same medium blue
     textAlign: "right", // Right-justify numbers
     borderWidth: 1,
