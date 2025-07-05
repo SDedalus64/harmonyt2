@@ -46,6 +46,7 @@ interface HTSItem {
 interface Link {
   code: string;
   score: number;
+  reason: string;
 }
 
 interface SemanticDB {
@@ -54,6 +55,29 @@ interface SemanticDB {
 
 const DEFAULT_THRESHOLD = 0.25; // Jaccard score
 const DEFAULT_TOP_N = 8;
+
+// Additional token buckets to capture tariff-engineering levers
+const PROCESS_TOKENS = [
+  'assembled',
+  'unassembled',
+  'finished',
+  'unfinished',
+  'knocked', // as in CKD (complete-knocked-down)
+  'ckd',
+  'sdk',
+  'kit',
+  'parts',
+  'component',
+];
+
+const ORIGIN_TOKENS = [
+  'mexico',
+  'canada',
+  'china',
+  'vietnam',
+  'assembled', // country found near assembled in X
+  'processed',
+];
 
 // Chapters retained focus on high-value, evergreen finished goods and parts.
 // We explicitly omit animals, produce, perishables, heavy industry, and heavy
@@ -183,7 +207,15 @@ function buildSemanticDB(
       if (other.chapter === item.chapter) return; // cross-chapter only
       const score = jaccard(item.tokens, other.tokens);
       if (score >= threshold) {
-        candidates.push({ code: other.code, score: Number(score.toFixed(3)) });
+        // crude reasoning: determine main differing token bucket
+        let reason = 'Similar description';
+        const otherTokens = other.tokens;
+        const newMat = [...otherTokens].find((t) => !item.tokens.has(t) && ['plastic','leather','metal','wood','cotton','rubber','glass','aluminium','polycarbonate'].includes(t));
+        if (newMat) reason = `Material swap: ${newMat}`;
+        else if (PROCESS_TOKENS.some((p) => otherTokens.has(p) && !item.tokens.has(p))) reason = 'Different manufacturing stage';
+        else if (ORIGIN_TOKENS.some((o) => otherTokens.has(o) && !item.tokens.has(o))) reason = 'Country-of-origin leverage';
+
+        candidates.push({ code: other.code, score: Number(score.toFixed(3)), reason });
       }
     });
 

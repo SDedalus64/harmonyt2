@@ -63,7 +63,10 @@ export default function TariffEngineeringScreen() {
         renderItem={({ item }) => (
           <View style={styles.listItem}>
             <Text style={styles.code}>{item.code}</Text>
-            <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+            <View style={{alignItems:'flex-end'}}>
+              <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+              {item.reason && <Text style={styles.reason}>{item.reason}</Text>}
+            </View>
             <Text style={styles.tag}>SEM</Text>
           </View>
         )}
@@ -79,7 +82,10 @@ export default function TariffEngineeringScreen() {
         renderItem={({ item }) => (
           <View style={styles.listItem}>
             <Text style={styles.code}>{item.code}</Text>
-            <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+            <View style={{alignItems:'flex-end'}}>
+              <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+              {item.reason && <Text style={styles.reason}>{item.reason}</Text>}
+            </View>
             <Text style={[styles.tag, styles.material]}>MAT</Text>
           </View>
         )}
@@ -129,8 +135,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   score: {
-    color: '#666',
     fontSize: 16,
+    color: '#666',
   },
   section: {
     fontWeight: '600',
@@ -144,4 +150,5 @@ const styles = StyleSheet.create({
   },
   tag: { backgroundColor: '#0A99F2', color: '#fff', paddingHorizontal: 4, borderRadius: 4, fontSize: 12 },
   material: { backgroundColor: '#E67E23' },
+  reason: { fontSize:12, color:'#666', maxWidth:140 },
 });
