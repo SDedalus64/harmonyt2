@@ -23,6 +23,10 @@ export default function TariffEngineeringScreen() {
   const [error, setError] = useState('');
 
   const handleSearch = () => {
+    if (!/^\d{6,10}$/.test(code)) {
+      setError('Enter 6–10 digits.');
+      return;
+    }
     setError('');
     setLoading(true);
     fetchAllTariffSuggestions(code)
@@ -60,6 +64,7 @@ export default function TariffEngineeringScreen() {
           <View style={styles.listItem}>
             <Text style={styles.code}>{item.code}</Text>
             <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+            <Text style={styles.tag}>SEM</Text>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>None</Text>}
@@ -75,6 +80,7 @@ export default function TariffEngineeringScreen() {
           <View style={styles.listItem}>
             <Text style={styles.code}>{item.code}</Text>
             <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
+            <Text style={[styles.tag, styles.material]}>MAT</Text>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>None</Text>}
@@ -112,11 +118,12 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   listItem: {
-    borderBottomWidth: 1,
-    borderColor: '#eee',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    alignItems: 'center',
   },
   loadingIndicator: {
     marginTop: 8,
@@ -135,4 +142,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 12,
   },
+  tag: { backgroundColor: '#0A99F2', color: '#fff', paddingHorizontal: 4, borderRadius: 4, fontSize: 12 },
+  material: { backgroundColor: '#E67E23' },
 });

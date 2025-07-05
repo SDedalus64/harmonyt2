@@ -44,9 +44,14 @@ export async function fetchAllTariffSuggestions(code: string): Promise<LinkSugge
     throw new Error('Please enter a valid 6–10 digit HTS code.');
   }
   // Simulate async latency to allow loading indicator
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(getAllTariffSuggestions(code));
-    }, 300);
-  });
+  try {
+    return await new Promise<LinkSuggestion[]>((resolve) => {
+      setTimeout(() => {
+        resolve(getAllTariffSuggestions(code));
+      }, 300);
+    });
+  } catch (err) {
+    console.error('⚠️ Failed to generate suggestions:', err);
+    return [];
+  }
 }
