@@ -37,3 +37,16 @@ export function getAllTariffSuggestions(code: string): LinkSuggestion[] {
   });
   return Object.values(byCode).sort((a, b) => b.score - a.score);
 }
+
+export async function fetchAllTariffSuggestions(code: string): Promise<LinkSuggestion[]> {
+  const normalized = code.replace(/\D/g, '');
+  if (normalized.length < 6 || normalized.length > 10) {
+    throw new Error('Please enter a valid 6–10 digit HTS code.');
+  }
+  // Simulate async latency to allow loading indicator
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getAllTariffSuggestions(code));
+    }, 300);
+  });
+}

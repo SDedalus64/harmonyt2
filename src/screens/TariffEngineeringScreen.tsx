@@ -10,6 +10,7 @@ import {
 import {
   getSemanticSuggestions,
   getMaterialSuggestions,
+  fetchAllTariffSuggestions,
   LinkSuggestion,
 } from '../services/semanticLinkService';
 
@@ -17,10 +18,21 @@ export default function TariffEngineeringScreen() {
   const [code, setCode] = useState('');
   const [semanticResults, setSemanticResults] = useState<LinkSuggestion[]>([]);
   const [materialResults, setMaterialResults] = useState<LinkSuggestion[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSearch = () => {
-    setSemanticResults(getSemanticSuggestions(code));
-    setMaterialResults(getMaterialSuggestions(code));
+    setError('');
+    setLoading(true);
+    fetchAllTariffSuggestions(code)
+      .then((all) => {
+        // split back into two categories for display
+        const codesSet = new Set(all.map((s) => s.code));
+        setSemanticResults(getSemanticSuggestions(code).filter((s) => codesSet.has(s.code)));
+        setMaterialResults(getMaterialSuggestions(code).filter((s) => codesSet.has(s.code)));
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -35,6 +47,8 @@ export default function TariffEngineeringScreen() {
         maxLength={10}
       />
       <Button title="Find Alternatives" onPress={handleSearch} />
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {loading && <Text style={styles.loading}>Loading suggestions...</Text>}
 
       <Text style={styles.section}>Semantic Similar Codes</Text>
       <FlatList
@@ -112,5 +126,13 @@ const styles = StyleSheet.create({
     marginTop: 24,
     fontStyle: 'italic',
     color: '#888',
+  },
+  error: {
+    color: 'red',
+    marginTop: 8,
+  },
+  loading: {
+    marginTop: 8,
+    fontStyle: 'italic',
   },
 });
