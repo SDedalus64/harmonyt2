@@ -55,28 +55,24 @@ interface SemanticDB {
 const DEFAULT_THRESHOLD = 0.25; // Jaccard score
 const DEFAULT_TOP_N = 8;
 
-// Harmonized Tariff chapters (two-digit strings) broadly covering consumer goods.
-// This list is opinionated and can be tuned. It attempts to capture apparel,
-// footwear, furniture, electronics, toys, etc.
+// Chapters retained focus on high-value, evergreen finished goods and parts.
+// We explicitly omit animals, produce, perishables, heavy industry, and heavy
+// machinery. Fine-tune as business logic evolves.
 const CONSUMER_GOODS_CHAPTERS = new Set([
-  '42', // articles of leather; handbags, etc.
-  '61', // apparel and clothing accessories, knitted
-  '62', // apparel and clothing accessories, not knitted
-  '63', // other made up textile articles
+  '42', // leather goods, handbags, wallets
+  '61', // apparel & accessories, knitted/crocheted
+  '62', // apparel & accessories, not knitted
+  '63', // other made-up textile articles (home textiles)
   '64', // footwear
   '65', // headgear
-  '69', // ceramic products (housewares)
-  '70', // glassware
-  '71', // jewellery
-  '73', // articles of iron or steel (household items)
-  '82', // tools, cutlery
-  '84', // machinery – includes some consumer appliances
-  '85', // electrical machinery – consumer electronics
-  '90', // optical, photographic, medical – consumer devices
-  '91', // clocks and watches
-  '94', // furniture, bedding, lamps
-  '95', // toys, games, sports equipment
-  '96', // miscellaneous manufactured articles – pencils, lighters, etc.
+  '71', // jewellery & precious metals
+  '82', // tools, cutlery & parts
+  '85', // electrical machinery – consumer electronics & parts
+  '90', // optical, photographic, measuring instruments
+  '91', // clocks & watches
+  '94', // furniture, bedding, lighting
+  '95', // toys, games, sporting goods
+  '96', // miscellaneous manufactured articles – pens, lighters, etc.
 ]);
 
 function isConsumerChapter(code: string): boolean {

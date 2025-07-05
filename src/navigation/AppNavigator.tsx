@@ -34,6 +34,7 @@ import RegistrationScreen from "../screens/RegistrationScreen";
 import LinksScreen from "../screens/LinksScreen";
 import InAppWebViewScreen from "../screens/InAppWebViewScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import TariffEngineeringScreen from "../screens/TariffEngineeringScreen";
 
 // Brand colors
 const COLORS = {
@@ -191,6 +192,15 @@ const CustomDrawerContent = (props: any) => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="TariffEngineering"
+        component={TariffEngineeringScreen}
+        options={{
+          drawerIcon: ({ color, size }: DrawerIconProps) => (
+            <Ionicons name="construct" size={size} color={color} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };
@@ -207,6 +217,7 @@ function MainStack() {
       <MainStackNavigator.Screen name="Lookup" component={LookupScreen} />
       <MainStackNavigator.Screen name="History" component={HistoryScreen} />
       <MainStackNavigator.Screen name="Settings" component={SettingsScreen} />
+      <MainStackNavigator.Screen name="TariffEngineering" component={TariffEngineeringScreen} />
       <MainStackNavigator.Screen name="Links" component={LinksScreen} />
     </MainStackNavigator.Navigator>
   );
