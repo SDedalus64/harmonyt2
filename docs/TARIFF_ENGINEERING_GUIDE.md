@@ -36,3 +36,18 @@ npx ts-node -P tsconfig.scripts.json scripts/generateMaterialAltDB.ts \
 ```
 
 Feel free to extend `PROCESS_TOKENS` and `ORIGIN_TOKENS` in `scripts/generateSemanticDB.ts` to detect other engineering levers.
+
+## Advanced weighted scoring (v2)
+The engine now assigns composite points:
+| Lever | Weight |
+|-------|--------|
+| Semantic text similarity | 0.40 |
+| Material swap | 0.30 |
+| Manufacturing‐process change | 0.20 |
+| Country-of-origin lever | 0.10 |
+
+Total score = *semanticScore × 0.40* + weights for each lever detected.
+
+Suggestions are ordered by this composite score so multi-factor opportunities rise to the top.
+
+Tap the colored chip to see a pop-up explaining the lever(s) detected.

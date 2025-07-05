@@ -7,6 +7,8 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
+  Pressable,
+  Alert,
 } from 'react-native';
 import {
   getSemanticSuggestions,
@@ -67,7 +69,11 @@ export default function TariffEngineeringScreen() {
               <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
               {item.reason && <Text style={styles.reason}>{item.reason}</Text>}
             </View>
-            <Text style={[styles.tag, tagStyle(item.reasonType)]}>{getTag(item.reasonType)}</Text>
+            <Pressable
+              onPress={() => Alert.alert('Why this code?', item.reason || 'High similarity')}
+            >
+              <Text style={[styles.tag, tagStyle(item.reasonType)]}>{getTag(item.reasonType)}</Text>
+            </Pressable>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>None</Text>}
@@ -86,7 +92,11 @@ export default function TariffEngineeringScreen() {
               <Text style={styles.score}>{(item.score * 100).toFixed(1)}%</Text>
               {item.reason && <Text style={styles.reason}>{item.reason}</Text>}
             </View>
-            <Text style={[styles.tag, tagStyle(item.reasonType)]}>{getTag(item.reasonType)}</Text>
+            <Pressable
+              onPress={() => Alert.alert('Why this code?', item.reason || 'High similarity')}
+            >
+              <Text style={[styles.tag, tagStyle(item.reasonType)]}>{getTag(item.reasonType)}</Text>
+            </Pressable>
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>None</Text>}

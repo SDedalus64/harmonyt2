@@ -206,25 +206,29 @@ function buildSemanticDB(
     candidateIdxSet.forEach((j) => {
       const other = items[j];
       if (other.chapter === item.chapter) return; // cross-chapter only
-      const score = jaccard(item.tokens, other.tokens);
-      if (score >= threshold) {
-        // crude reasoning: determine main differing token bucket
-        let reason = 'Similar description';
-        let reasonType: Link['reasonType'] = 'SEMANTIC';
-        const otherTokens = other.tokens;
-        const newMat = [...otherTokens].find((t) => !item.tokens.has(t) && ['plastic','leather','metal','wood','cotton','rubber','glass','aluminium','polycarbonate'].includes(t));
-        if (newMat) {
-          reason = `Material swap: ${newMat}`;
-          reasonType = 'MATERIAL';
-        } else if (PROCESS_TOKENS.some((p) => otherTokens.has(p) && !item.tokens.has(p))) {
-          reason = 'Different manufacturing stage';
-          reasonType = 'PROCESS';
-        } else if (ORIGIN_TOKENS.some((o) => otherTokens.has(o) && !item.tokens.has(o))) {
-          reason = 'Country-of-origin leverage';
-          reasonType = 'ORIGIN';
-        }
+      const baseScore = jaccard(item.tokens, other.tokens);
+      let reason = 'Similar description';
+      let reasonType: Link['reasonType'] = 'SEMANTIC';
+      const otherTokens = other.tokens;
+      const newMat = [...otherTokens].find((t) => !item.tokens.has(t) && ['plastic','leather','metal','wood','cotton','rubber','glass','aluminium','polycarbonate'].includes(t));
+      if (newMat) {
+        reason = `Material swap: ${newMat}`;
+        reasonType = 'MATERIAL';
+      } else if (PROCESS_TOKENS.some((p) => otherTokens.has(p) && !item.tokens.has(p))) {
+        reason = 'Different manufacturing stage';
+        reasonType = 'PROCESS';
+      } else if (ORIGIN_TOKENS.some((o) => otherTokens.has(o) && !item.tokens.has(o))) {
+        reason = 'Country-of-origin leverage';
+        reasonType = 'ORIGIN';
+      }
 
-        candidates.push({ code: other.code, score: Number(score.toFixed(3)), reason, reasonType });
+      let composite = baseScore * 0.4; // semantic weight
+      if (reasonType === 'MATERIAL') composite += 0.3;
+      if (reasonType === 'PROCESS')  composite += 0.2;
+      if (reasonType === 'ORIGIN')   composite += 0.1;
+
+      if (composite >= threshold) {
+        candidates.push({ code: other.code, score: Number(composite.toFixed(3)), reason, reasonType });
       }
     });
 
