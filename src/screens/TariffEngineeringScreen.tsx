@@ -6,6 +6,7 @@ import {
   FlatList,
   Text,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import {
   getSemanticSuggestions,
@@ -46,9 +47,9 @@ export default function TariffEngineeringScreen() {
         keyboardType="numeric"
         maxLength={10}
       />
-      <Button title="Find Alternatives" onPress={handleSearch} />
+      <Button title="Find Alternatives" onPress={handleSearch} disabled={loading} />
+      {loading && <ActivityIndicator style={styles.loadingIndicator} size="small" color="#0A99F2" />}
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      {loading && <Text style={styles.loading}>Loading suggestions...</Text>}
 
       <Text style={styles.section}>Semantic Similar Codes</Text>
       <FlatList
@@ -131,8 +132,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 8,
   },
-  loading: {
+  loadingIndicator: {
     marginTop: 8,
-    fontStyle: 'italic',
   },
 });
