@@ -2570,7 +2570,7 @@ export default function LookupScreen() {
             <View style={{
               position: "absolute",
               bottom: getResponsiveValue(70, 100), // Just above FABs
-              right: getResponsiveValue(20, 50), // Right side near FABs
+              left: getResponsiveValue(20, 50), // LEFT side near FABs
               flexDirection: "row",
               gap: getResponsiveValue(10, 15),
             }}>
