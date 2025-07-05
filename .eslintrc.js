@@ -7,6 +7,12 @@ module.exports = {
     "prettier",
   ],
   parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: ["./tsconfig.json", "./tsconfig.scripts.json"],
+    tsconfigRootDir: __dirname,
+    ecmaVersion: 2021,
+    sourceType: "module",
+  },
   plugins: ["@typescript-eslint", "react", "react-native"],
   rules: {
     "@typescript-eslint/no-unused-vars": [
