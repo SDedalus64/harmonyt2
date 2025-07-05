@@ -2689,71 +2689,178 @@ export default function LookupScreen() {
                   }}
                 />
               </View>
-              <View
-                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
-                ref={fieldRefs.declared}
-              >
-                <FieldWithInfo
-                  placeholder="Declared Value (USD)"
-                  value={formattedDeclaredValue}
-                  fieldKey="declared"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleDeclaredValueChange(value);
-                    closeMainFab(false);
-                    closeAllNavigationDrawers();
-                  }}
-                  inputRef={declaredValueInputRef}
-                  keyboardType="decimal-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
-                  onFocus={() => handleFieldFocus("declared")}
-                />
-              </View>
-              <View
-                style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
-                ref={fieldRefs.freight}
-              >
-                <FieldWithInfo
-                  placeholder="Est. Other Costs (Optional)"
-                  value={formattedFreightCost}
-                  fieldKey="freight"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleFreightCostChange(value);
-                    closeMainFab(false);
-                    closeAllNavigationDrawers();
-                  }}
-                  inputRef={freightCostInputRef}
-                  keyboardType="decimal-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[styles.input, dynamicFormStyles.input]}
-                  onFocus={() => handleFieldFocus("freight")}
-                />
-              </View>
-              {/* Only show Unit Count field if Show Unit Calculations is enabled */}
-              {(settings.showUnitCalculations ?? true) && (
-                <View
-                  style={[styles.inputWrapper, dynamicFormStyles.wrapper]}
-                  ref={fieldRefs.units}
-                >
-                  <FieldWithInfo
-                    placeholder="Unit Count (Optional)"
-                    value={formattedUnitCount}
-                    fieldKey="units"
-                    onInfoPress={handleInfoPress}
-                    onChangeText={(value) => {
-                      handleUnitCountChange(value);
-                      closeMainFab(false);
-                      closeAllNavigationDrawers();
-                    }}
-                    keyboardType="number-pad"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={[styles.input, dynamicFormStyles.input]}
-                    onFocus={() => handleFieldFocus("units")}
-                  />
+              {/* Two column layout for value fields */}
+              <View style={styles.valueFieldsRow}>
+                {/* Left column - Declared Value and Additional Costs */}
+                <View style={styles.valueFieldColumn}>
+                  <View ref={fieldRefs.declared}>
+                    <TextInput
+                      placeholder="Declared $"
+                      value={formattedDeclaredValue}
+                      onChangeText={(value) => {
+                        handleDeclaredValueChange(value);
+                        closeMainFab(false);
+                        closeAllNavigationDrawers();
+                      }}
+                      ref={declaredValueInputRef}
+                      keyboardType="decimal-pad"
+                      placeholderTextColor={BRAND_COLORS.electricBlue}
+                      style={[styles.input, styles.valueInput]}
+                      onFocus={() => {
+                        // Remove $ formatting on focus
+                        setFormattedDeclaredValue(declaredValue);
+                      }}
+                      onBlur={() => {
+                        // Format with $ and commas on blur
+                        if (declaredValue) {
+                          setFormattedDeclaredValue(`$${formatNumberWithCommas(declaredValue)}`);
+                        }
+                      }}
+                    />
+                  </View>
+                  
+                  {/* Additional Costs Multi-field */}
+                  <View style={styles.multiFieldContainer}>
+                    <View style={styles.multiFieldInputRow}>
+                      <TextInput
+                        ref={additionalCostInputRef}
+                        placeholder="+ costs"
+                        value={currentAdditionalCost}
+                        onChangeText={setCurrentAdditionalCost}
+                        keyboardType="decimal-pad"
+                        placeholderTextColor={BRAND_COLORS.electricBlue}
+                        style={[styles.input, styles.multiFieldInput]}
+                        onSubmitEditing={handleAddAdditionalCost}
+                        returnKeyType="done"
+                        onBlur={() => {
+                          // Format with $ and commas on blur
+                          if (currentAdditionalCost) {
+                            setCurrentAdditionalCost(`$${formatNumberWithCommas(currentAdditionalCost.replace(/[^0-9.]/g, ""))}`);
+                          }
+                        }}
+                        onFocus={() => {
+                          // Remove $ on focus
+                          setCurrentAdditionalCost(currentAdditionalCost.replace(/[$,]/g, ""));
+                        }}
+                      />
+                      <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={handleAddAdditionalCost}
+                      >
+                        <Ionicons
+                          name="add-circle"
+                          size={getResponsiveValue(24, 28)}
+                          color={BRAND_COLORS.electricBlue}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    
+                    {/* Added costs chips */}
+                    {additionalCosts.length > 0 && (
+                      <View style={styles.chipsContainer}>
+                        {additionalCosts.map((cost, index) => (
+                          <TouchableOpacity
+                            key={cost.id}
+                            style={styles.chip}
+                            onPress={() => handleDeleteAdditionalCost(cost.id)}
+                            activeOpacity={0.7}
+                          >
+                            <View style={styles.chipContent}>
+                              <Text style={styles.chipText}>
+                                ${formatNumberWithCommas(cost.amount.toString())}
+                              </Text>
+                              <Ionicons
+                                name="close-circle"
+                                size={getResponsiveValue(16, 20)}
+                                color={BRAND_COLORS.orange}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    )}
+                    
+                    {/* Total arithmetic */}
+                    {(declaredValue || additionalCosts.length > 0) && (
+                      <View style={styles.arithmeticContainer}>
+                        {formatArithmetic()}
+                      </View>
+                    )}
+                  </View>
                 </View>
-              )}
+                
+                {/* Right column - Units */}
+                {(settings.showUnitCalculations ?? true) && (
+                  <View style={styles.valueFieldColumn}>
+                    <View ref={fieldRefs.units}>
+                      <View style={[styles.multiFieldContainer, { marginTop: 0 }]}>
+                        <View style={styles.multiFieldInputRow}>
+                          <TextInput
+                            ref={unitCountInputRef}
+                            placeholder="Units"
+                            value={currentUnitCount}
+                            onChangeText={(value) => {
+                              // Allow only numbers and one decimal point
+                              const cleaned = value.replace(/[^0-9.]/g, "");
+                              const parts = cleaned.split(".");
+                              if (parts.length > 2) return; // Don't allow multiple decimals
+                              if (parts[1] && parts[1].length > 1) return; // Only one decimal place
+                              setCurrentUnitCount(cleaned);
+                            }}
+                            keyboardType="decimal-pad"
+                            placeholderTextColor={BRAND_COLORS.electricBlue}
+                            style={[styles.input, styles.valueInput]}
+                            onSubmitEditing={handleAddUnitCount}
+                            returnKeyType="done"
+                          />
+                          <TouchableOpacity
+                            style={styles.addButton}
+                            onPress={handleAddUnitCount}
+                          >
+                            <Ionicons
+                              name="add-circle"
+                              size={getResponsiveValue(24, 28)}
+                              color={BRAND_COLORS.electricBlue}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        
+                        {/* Added units chips */}
+                        {unitCounts.length > 0 && (
+                          <View style={styles.chipsContainer}>
+                            {unitCounts.map((unit, index) => (
+                              <TouchableOpacity
+                                key={unit.id}
+                                style={styles.chip}
+                                onPress={() => handleDeleteUnitCount(unit.id)}
+                                activeOpacity={0.7}
+                              >
+                                <View style={styles.chipContent}>
+                                  <Text style={styles.chipText}>
+                                    {formatNumberWithCommas(unit.amount.toString())}
+                                  </Text>
+                                  <Ionicons
+                                    name="close-circle"
+                                    size={getResponsiveValue(16, 20)}
+                                    color={BRAND_COLORS.orange}
+                                  />
+                                </View>
+                              </TouchableOpacity>
+                            ))}
+                          </View>
+                        )}
+                        
+                        {/* Units total */}
+                        {unitCounts.length > 0 && (
+                          <View style={styles.arithmeticContainer}>
+                            {formatUnitArithmetic()}
+                          </View>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                )}
+              </View>
 
               {/* USMCA Origin Checkbox - Only show for Canada/Mexico */}
               {selectedCountry &&
@@ -3114,18 +3221,18 @@ const styles = StyleSheet.create({
       Platform.OS === "ios" && Platform.isPad
         ? SCREEN_WIDTH * 0.25
         : getSpacing("md"),
-    alignItems: "center",
+    alignItems: "flex-start", // Left align
     width: "100%",
   },
   sectionTitle: {
     fontSize: getResponsiveValue(
-      getTypographySize("lg"),
-      getTypographySize("xxl"),
+      getTypographySize("lg") * 1.75,
+      getTypographySize("xxl") * 1.75,
     ),
     ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.darkNavy,
     marginBottom: getResponsiveValue(8, 12), // Reduced margin
-    textAlign: "center",
+    textAlign: "left", // Left align
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
   },
@@ -3879,5 +3986,93 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: getResponsiveValue(14, 18),
     opacity: 0.9,
+  },
+  valueFieldsRow: {
+    flexDirection: "row",
+    gap: getResponsiveValue(8, 12), // Same gap as dropdown fields
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getResponsiveValue(20, 40),
+  },
+  valueFieldColumn: {
+    flex: 1,
+  },
+  valueInput: {
+    fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
+    height: getResponsiveValue(46, 54), // Same height as HTS input
+    paddingHorizontal: getResponsiveValue(15, 20),
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getResponsiveValue(12, 16),
+    color: BRAND_COLORS.mediumBlue, // Medium blue color
+    textAlign: "right", // Right-justify numbers
+    width: "100%",
+    borderWidth: 1,
+    borderColor: BRAND_COLORS.mediumGray,
+  },
+  multiFieldContainer: {
+    marginTop: getResponsiveValue(10, 12),
+  },
+  multiFieldInputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: getResponsiveValue(8, 10),
+  },
+  multiFieldInput: {
+    flex: 1,
+    fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
+    height: getResponsiveValue(46, 54), // Same height as value input
+    paddingHorizontal: getResponsiveValue(15, 20),
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getResponsiveValue(12, 16),
+    color: BRAND_COLORS.mediumBlue, // Same medium blue
+    textAlign: "right", // Right-justify numbers
+    borderWidth: 1,
+    borderColor: BRAND_COLORS.mediumGray,
+  },
+  addButton: {
+    padding: getResponsiveValue(4, 6),
+  },
+  chipsContainer: {
+    marginTop: getResponsiveValue(8, 10),
+    gap: getResponsiveValue(6, 8),
+  },
+  chip: {
+    backgroundColor: BRAND_COLORS.lightGray,
+    paddingHorizontal: getResponsiveValue(12, 16),
+    paddingVertical: getResponsiveValue(6, 8),
+    borderRadius: getResponsiveValue(8, 10),
+    marginBottom: getResponsiveValue(4, 6),
+  },
+  chipContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  chipText: {
+    fontSize: getResponsiveValue(11, 13),
+    color: BRAND_COLORS.darkNavy,
+    marginRight: getResponsiveValue(8, 10),
+  },
+  arithmeticContainer: {
+    marginTop: getResponsiveValue(8, 10),
+    paddingTop: getResponsiveValue(8, 10),
+    borderTopWidth: 1,
+    borderTopColor: BRAND_COLORS.lightGray,
+  },
+  arithmeticText: {
+    fontSize: getResponsiveValue(12, 14),
+    fontWeight: "600",
+    color: BRAND_COLORS.darkNavy,
+    textAlign: "right",
+  },
+  arithmeticDivider: {
+    height: 1,
+    backgroundColor: BRAND_COLORS.darkNavy,
+    marginVertical: getResponsiveValue(4, 6),
+  },
+  arithmeticTotal: {
+    fontSize: getResponsiveValue(14, 16),
+    fontWeight: "700",
   },
 });
