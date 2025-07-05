@@ -2564,6 +2564,50 @@ export default function LookupScreen() {
               </TouchableOpacity>
             </Animated.View>
           </View>
+          
+          {/* Action Buttons for iPad - positioned near FABs */}
+          {Platform.OS === "ios" && Platform.isPad && (
+            <View style={{
+              position: "absolute",
+              bottom: getResponsiveValue(70, 100), // Just above FABs
+              right: getResponsiveValue(20, 50), // Right side near FABs
+              flexDirection: "row",
+              gap: getResponsiveValue(10, 15),
+            }}>
+              <TouchableOpacity
+                style={styles.clearButton}
+                onPress={handleClearAll}
+              >
+                <Ionicons
+                  name="backspace-outline"
+                  size={getResponsiveValue(18, 22)}
+                  color={BRAND_COLORS.white}
+                />
+                <Text style={styles.clearButtonText}>Clear</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.searchButton,
+                  isLoading && styles.searchButtonDisabled,
+                ]}
+                onPress={handleLookup}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ActivityIndicator color={BRAND_COLORS.white} />
+                ) : (
+                  <>
+                    <Ionicons
+                      name="search"
+                      size={getResponsiveValue(18, 22)}
+                      color={BRAND_COLORS.white}
+                    />
+                    <Text style={styles.searchButtonText}>Calculate</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+            </View>
+          )}
         </HorizontalSection>
 
         {/* Main Content Area */}
@@ -2895,43 +2939,45 @@ export default function LookupScreen() {
                 )}
             </View>
 
-            {/* Action Buttons Row */}
-            <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
-              <TouchableOpacity
-                style={[
-                  styles.searchButton,
-                  dynamicActionStyles.searchButton,
-                  isLoading && styles.searchButtonDisabled,
-                ]}
-                onPress={handleLookup}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color={BRAND_COLORS.white} />
-                ) : (
-                  <>
-                    <Ionicons
-                      name="search"
-                      size={getResponsiveValue(18, 22)}
-                      color={BRAND_COLORS.white}
-                    />
-                    <Text style={styles.searchButtonText}>Calculate</Text>
-                  </>
-                )}
-              </TouchableOpacity>
+            {/* Action Buttons Row - Position near FABs for iPad */}
+            {Platform.OS === "ios" && Platform.isPad ? null : (
+              <View style={[styles.actionButtonsRow, dynamicActionStyles.row]}>
+                <TouchableOpacity
+                  style={[
+                    styles.searchButton,
+                    dynamicActionStyles.searchButton,
+                    isLoading && styles.searchButtonDisabled,
+                  ]}
+                  onPress={handleLookup}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator color={BRAND_COLORS.white} />
+                  ) : (
+                    <>
+                      <Ionicons
+                        name="search"
+                        size={getResponsiveValue(18, 22)}
+                        color={BRAND_COLORS.white}
+                      />
+                      <Text style={styles.searchButtonText}>Calculate</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={handleClearAll}
-              >
-                <Ionicons
-                  name="backspace-outline"
-                  size={getResponsiveValue(18, 22)}
-                  color={BRAND_COLORS.white}
-                />
-                <Text style={styles.clearButtonText}>Clear</Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={styles.clearButton}
+                  onPress={handleClearAll}
+                >
+                  <Ionicons
+                    name="backspace-outline"
+                    size={getResponsiveValue(18, 22)}
+                    color={BRAND_COLORS.white}
+                  />
+                  <Text style={styles.clearButtonText}>Clear</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             {/* Loading Message Display */}
             {loadingMessage && (
