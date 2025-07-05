@@ -237,6 +237,8 @@ export default function LookupScreen() {
   const declaredValueInputRef = useRef<TextInput>(null);
   const freightCostInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
+  const additionalCostInputRef = useRef<TextInput>(null);
+  const unitCountInputRef = useRef<TextInput>(null);
   // Use generic ref to support both ScrollView and KeyboardAwareScrollView
   const resultScrollViewRef = useRef<any>(null);
   const unitEntryRef = useRef<View>(null);
@@ -588,6 +590,98 @@ export default function LookupScreen() {
     // Hide calculations when value changes (user must click Calc)
     // Unit calculations now always show when units are provided
     // No need to reset showUnitCalculations state
+  };
+
+  // Multi-field handlers
+  const handleAddAdditionalCost = () => {
+    const amount = parseFloat(currentAdditionalCost.replace(/[^0-9.]/g, ""));
+    if (!isNaN(amount) && amount > 0) {
+      setAdditionalCosts([...additionalCosts, {
+        id: Date.now().toString(),
+        amount
+      }]);
+      setCurrentAdditionalCost("");
+      haptics.selection();
+    }
+  };
+
+  const handleDeleteAdditionalCost = (id: string) => {
+    setAdditionalCosts(additionalCosts.filter(cost => cost.id !== id));
+    haptics.selection();
+  };
+
+  const handleAddUnitCount = () => {
+    const amount = parseFloat(currentUnitCount);
+    if (!isNaN(amount) && amount > 0) {
+      setUnitCounts([...unitCounts, {
+        id: Date.now().toString(),
+        amount
+      }]);
+      setCurrentUnitCount("");
+      haptics.selection();
+    }
+  };
+
+  const handleDeleteUnitCount = (id: string) => {
+    setUnitCounts(unitCounts.filter(unit => unit.id !== id));
+    haptics.selection();
+  };
+
+  const formatArithmetic = () => {
+    const declaredVal = parseFloat(declaredValue) || 0;
+    const additionalTotal = additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+    const total = declaredVal + additionalTotal;
+    
+    if (additionalCosts.length === 0) {
+      return (
+        <Text style={styles.arithmeticText}>
+          ${formatNumberWithCommas(declaredVal.toString())}
+        </Text>
+      );
+    }
+    
+    return (
+      <View>
+        <Text style={styles.arithmeticText}>
+          ${formatNumberWithCommas(declaredVal.toString())}
+        </Text>
+        {additionalCosts.map((cost, index) => (
+          <Text key={cost.id} style={styles.arithmeticText}>
+            + ${formatNumberWithCommas(cost.amount.toString())}
+          </Text>
+        ))}
+        <View style={styles.arithmeticDivider} />
+        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
+          ${formatNumberWithCommas(total.toString())}
+        </Text>
+      </View>
+    );
+  };
+
+  const formatUnitArithmetic = () => {
+    const total = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
+    
+    if (unitCounts.length === 1) {
+      return (
+        <Text style={styles.arithmeticText}>
+          {formatNumberWithCommas(total.toFixed(1))} units
+        </Text>
+      );
+    }
+    
+    return (
+      <View>
+        {unitCounts.map((unit, index) => (
+          <Text key={unit.id} style={styles.arithmeticText}>
+            {index === 0 ? "" : "+ "}{formatNumberWithCommas(unit.amount.toFixed(1))}
+          </Text>
+        ))}
+        <View style={styles.arithmeticDivider} />
+        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
+          {formatNumberWithCommas(total.toFixed(1))} units
+        </Text>
+      </View>
+    );
   };
 
   // Handle navigation params
@@ -1024,9 +1118,13 @@ export default function LookupScreen() {
 
     try {
       console.log("Looking up HTS code:", htsCode);
+      // Calculate total declared value including additional costs
+      const totalDeclaredValue = parseFloat(declaredValue) + 
+        additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+      
       const calculation = await tariffService.calculateDuty(
         htsCode,
-        parseFloat(declaredValue),
+        totalDeclaredValue,
         selectedCountry.code,
         settings.isReciprocalAdditive,
         false, // excludeReciprocalTariff is false by default
