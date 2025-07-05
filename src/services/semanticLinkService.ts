@@ -1,5 +1,5 @@
-import semanticLinks from '../../data/semantic_links_sample.json';
-import materialLinks from '../../data/material_alt_links_sample.json';
+import semanticLinksData from '../../data/semantic_links.json';
+import materialLinksData from '../../data/material_alt_links.json';
 
 export interface LinkSuggestion {
   code: string;
@@ -16,12 +16,12 @@ function getLinks(db: any, normalized: string): LinkSuggestion[] {
 
 export function getSemanticSuggestions(code: string): LinkSuggestion[] {
   const normalized = code.replace(/\D/g, '').padEnd(8, '0').slice(0, 8);
-  return getLinks(semanticLinks, normalized);
+  return getLinks(semanticLinksData, normalized);
 }
 
 export function getMaterialSuggestions(code: string): LinkSuggestion[] {
   const normalized = code.replace(/\D/g, '').padEnd(8, '0').slice(0, 8);
-  return getLinks(materialLinks, normalized);
+  return getLinks(materialLinksData, normalized);
 }
 
 export function getAllTariffSuggestions(code: string): LinkSuggestion[] {
