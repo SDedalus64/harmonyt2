@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, type ViewStyle } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { BRAND_COLORS } from '../../config/brandColors';
+import React from "react";
+import { View, StyleSheet, type ViewStyle } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { BRAND_COLORS } from "../../config/brandColors";
 
 export interface DiagonalSectionProps {
   /** Content rendered inside the diagonal section */
@@ -19,7 +19,10 @@ export interface DiagonalSectionProps {
 export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
   children,
   style,
-  gradientColors = [BRAND_COLORS.gradientStart, BRAND_COLORS.gradientEnd] as const,
+  gradientColors = [
+    BRAND_COLORS.gradientStart,
+    BRAND_COLORS.gradientEnd,
+  ] as const,
   angle = 45,
   height = 200,
 }) => {
@@ -31,9 +34,7 @@ export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
-        <View style={styles.content}>
-          {children}
-        </View>
+        <View style={styles.content}>{children}</View>
       </LinearGradient>
     </View>
   );
@@ -41,19 +42,19 @@ export const DiagonalSection: React.FC<DiagonalSectionProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'visible',
+    overflow: "visible",
   },
   content: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: 20,
-    transform: [{ skewY: '2deg' }],
+    transform: [{ skewY: "2deg" }],
   },
   gradient: {
     flex: 1,
     marginBottom: -10,
     marginTop: -10,
-    transform: [{ skewY: '-2deg' }],
+    transform: [{ skewY: "-2deg" }],
   },
 });

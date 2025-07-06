@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,13 @@ import {
   Animated,
   LayoutAnimation,
   Platform,
-} from 'react-native';
-import { isTablet, getLayoutValue } from '../../platform/deviceUtils';
-import { usePencilInteraction, isPreciseInteraction, PENCIL_CONSTANTS } from '../../platform/pencilUtils';
+} from "react-native";
+import { isTablet, getLayoutValue } from "../../platform/deviceUtils";
+import {
+  usePencilInteraction,
+  isPreciseInteraction,
+  PENCIL_CONSTANTS,
+} from "../../platform/pencilUtils";
 
 interface DraggableListItemProps {
   id: string;
@@ -41,15 +45,21 @@ export default function DraggableListItem({
 
   // Handle Apple Pencil interactions
   usePencilInteraction((event) => {
-    if (event.type === 'hover') {
+    if (event.type === "hover") {
       setIsPencilActive(true);
       Animated.spring(scale, {
         toValue: 1.02,
         useNativeDriver: true,
       }).start();
-    } else if (event.type === 'tap' && isPreciseInteraction(event.pressure, event.altitude)) {
+    } else if (
+      event.type === "tap" &&
+      isPreciseInteraction(event.pressure, event.altitude)
+    ) {
       onPress?.();
-    } else if (event.type === 'longPress' && isPreciseInteraction(event.pressure, event.altitude)) {
+    } else if (
+      event.type === "longPress" &&
+      isPreciseInteraction(event.pressure, event.altitude)
+    ) {
       onLongPress?.();
     }
   }, isTablet());
@@ -70,10 +80,9 @@ export default function DraggableListItem({
           useNativeDriver: true,
         }).start();
       },
-      onPanResponderMove: Animated.event(
-        [null, { dx: pan.x, dy: pan.y }],
-        { useNativeDriver: false }
-      ),
+      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
+        useNativeDriver: false,
+      }),
       onPanResponderRelease: (_, gestureState) => {
         setIsDragging(false);
         setIsPencilActive(false);
@@ -92,7 +101,7 @@ export default function DraggableListItem({
           onDragEnd?.(newIndex);
         });
       },
-    })
+    }),
   ).current;
 
   // Animate layout changes
@@ -116,23 +125,21 @@ export default function DraggableListItem({
       ]}
       {...panResponder.panHandlers}
     >
-      <View style={[
-        styles.content,
-        isDragging && styles.dragging,
-        isPencilActive && styles.pencilActive,
-      ]}>
+      <View
+        style={[
+          styles.content,
+          isDragging && styles.dragging,
+          isPencilActive && styles.pencilActive,
+        ]}
+      >
         <View style={styles.textContainer}>
-          <Text style={[
-            styles.title,
-            isTablet() && styles.titleTablet,
-          ]}>
+          <Text style={[styles.title, isTablet() && styles.titleTablet]}>
             {title}
           </Text>
           {subtitle && (
-            <Text style={[
-              styles.subtitle,
-              isTablet() && styles.subtitleTablet,
-            ]}>
+            <Text
+              style={[styles.subtitle, isTablet() && styles.subtitleTablet]}
+            >
               {subtitle}
             </Text>
           )}
@@ -145,12 +152,12 @@ export default function DraggableListItem({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    borderRadius: getLayoutValue('borderRadius', 'dimensions'),
+    backgroundColor: "#fff",
+    borderRadius: getLayoutValue("borderRadius", "dimensions"),
     elevation: 3,
-    marginHorizontal: getLayoutValue('medium', 'spacing'),
-    marginVertical: getLayoutValue('small', 'spacing'),
-    shadowColor: '#000',
+    marginHorizontal: getLayoutValue("medium", "spacing"),
+    marginVertical: getLayoutValue("small", "spacing"),
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -159,10 +166,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   content: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: getLayoutValue('medium', 'spacing'),
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: getLayoutValue("medium", "spacing"),
   },
   dragging: {
     elevation: 5,
@@ -170,26 +177,26 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   pencilActive: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: "#F8F8F8",
   },
   subtitle: {
-    color: '#666',
-    fontSize: getLayoutValue('small', 'typography'),
+    color: "#666",
+    fontSize: getLayoutValue("small", "typography"),
     marginTop: 4,
   },
   subtitleTablet: {
-    fontSize: getLayoutValue('medium', 'typography'),
+    fontSize: getLayoutValue("medium", "typography"),
     marginTop: 6,
   },
   textContainer: {
     flex: 1,
   },
   title: {
-    color: '#333',
-    fontSize: getLayoutValue('medium', 'typography'),
-    fontWeight: '500',
+    color: "#333",
+    fontSize: getLayoutValue("medium", "typography"),
+    fontWeight: "500",
   },
   titleTablet: {
-    fontSize: getLayoutValue('large', 'typography'),
+    fontSize: getLayoutValue("large", "typography"),
   },
 });

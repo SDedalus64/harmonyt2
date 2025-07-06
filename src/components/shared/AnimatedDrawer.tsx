@@ -68,10 +68,11 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
 
   function getInitialTranslateValue() {
     const width = customDrawerConfig?.width || drawerConfig.width;
-    const actualWidth = typeof width === 'string' && width.includes('%') 
-      ? SCREEN_WIDTH * (parseFloat(width.replace('%', '')) / 100)
-      : (width as number);
-    
+    const actualWidth =
+      typeof width === "string" && width.includes("%")
+        ? SCREEN_WIDTH * (parseFloat(width.replace("%", "")) / 100)
+        : (width as number);
+
     switch (position) {
       case "left":
         return -actualWidth;
@@ -143,9 +144,10 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     };
 
     const width = customDrawerConfig?.width || drawerConfig.width;
-    const actualWidth = typeof width === 'string' && width.includes('%') 
-      ? SCREEN_WIDTH * (parseFloat(width.replace('%', '')) / 100)
-      : (width as number);
+    const actualWidth =
+      typeof width === "string" && width.includes("%")
+        ? SCREEN_WIDTH * (parseFloat(width.replace("%", "")) / 100)
+        : (width as number);
 
     switch (position) {
       case "left":
@@ -167,9 +169,9 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           width: actualWidth,
         };
       case "bottom":
-        const maxHeight = customDrawerConfig?.maxHeight || drawerConfig.maxHeight;
-        const maxHeightPercent =
-          parseFloat(maxHeight.replace("%", "")) / 100;
+        const maxHeight =
+          customDrawerConfig?.maxHeight || drawerConfig.maxHeight;
+        const maxHeightPercent = parseFloat(maxHeight.replace("%", "")) / 100;
         return {
           ...baseStyle,
           transform: [{ translateY }],
@@ -206,13 +208,13 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
               </View>
             )}
             {wrapScroll ? (
-            <ScrollView
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-            >
-              {children}
-            </ScrollView>
+              <ScrollView
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+              >
+                {children}
+              </ScrollView>
             ) : (
               <View style={{ flex: 1 }}>{children}</View>
             )}

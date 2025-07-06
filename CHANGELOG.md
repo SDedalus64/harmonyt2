@@ -3,6 +3,18 @@
 All notable changes to HarmonyTi will be documented in this file.
 feat: integrate Geologica font family and update typography across the app
 
+refactor: remove Android and iOS project files, update component styles and structure
+
+[2025-07-06]
+
+- Deleted Android project files including build configurations, resources, and Gradle settings.
+- Removed iOS project files including AppDelegate, Info.plist, and other related resources.
+- Updated CountryLookup, DiagonalSection, and other components for improved styling and layout.
+- Adjusted button and input styles for better consistency across the application.
+- Enhanced the SaveWorkCard and SessionExportModal components for improved user experience.
+
+[2025-07-05]
+
 - Added Geologica font files (Bold, Light, Medium, Regular, SemiBold) to the project assets.
 - Updated Info.plist to include new font resources for proper rendering.
 - Enhanced typography across various components to utilize Geologica fonts for improved consistency and readability.

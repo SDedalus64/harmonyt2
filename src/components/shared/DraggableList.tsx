@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,12 +6,12 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
-} from 'react-native';
-import { isTablet, getLayoutValue } from '../../platform/deviceUtils';
-import DraggableListItem from './DraggableListItem';
+} from "react-native";
+import { isTablet, getLayoutValue } from "../../platform/deviceUtils";
+import DraggableListItem from "./DraggableListItem";
 
 // Enable LayoutAnimation for Android
-if (Platform.OS === 'android') {
+if (Platform.OS === "android") {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
@@ -52,7 +52,7 @@ export default function DraggableList({
   const handleDragEnd = (item: DraggableItem, newIndex: number) => {
     if (!draggedItem) return;
 
-    const currentIndex = localItems.findIndex(i => i.id === item.id);
+    const currentIndex = localItems.findIndex((i) => i.id === item.id);
     const newItems = [...localItems];
 
     // Remove item from current position
@@ -67,7 +67,13 @@ export default function DraggableList({
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
 
-  const renderItem = ({ item, index }: { item: DraggableItem; index: number }) => (
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: DraggableItem;
+    index: number;
+  }) => (
     <DraggableListItem
       id={item.id}
       title={item.title}
@@ -76,10 +82,7 @@ export default function DraggableList({
       onDragEnd={(newIndex) => handleDragEnd(item, newIndex)}
       onPress={() => onItemPress?.(item)}
       onLongPress={() => onItemLongPress?.(item)}
-      style={[
-        styles.item,
-        isTablet() && styles.itemTablet,
-      ]}
+      style={[styles.item, isTablet() && styles.itemTablet]}
     >
       {renderItemContent?.(item)}
     </DraggableListItem>
@@ -90,7 +93,7 @@ export default function DraggableList({
       <FlatList
         data={localItems}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         numColumns={isTablet() ? 2 : 1}
@@ -102,19 +105,19 @@ export default function DraggableList({
 
 const styles = StyleSheet.create({
   columnWrapper: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   container: {
     flex: 1,
   },
   item: {
     flex: 1,
-    marginHorizontal: getLayoutValue('small', 'spacing'),
+    marginHorizontal: getLayoutValue("small", "spacing"),
   },
   itemTablet: {
-    marginHorizontal: getLayoutValue('medium', 'spacing'),
+    marginHorizontal: getLayoutValue("medium", "spacing"),
   },
   listContent: {
-    paddingVertical: getLayoutValue('small', 'spacing'),
+    paddingVertical: getLayoutValue("small", "spacing"),
   },
 });

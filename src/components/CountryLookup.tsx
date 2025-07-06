@@ -10,21 +10,23 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  Modal,
-  TouchableWithoutFeedback,
   Platform,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { isTablet } from "../platform/deviceUtils";
 import {
   BRAND_COLORS,
   BRAND_TYPOGRAPHY,
+  BRAND_SHADOWS,
   getTypographySize,
   getSpacing,
   getBorderRadius,
   getInputConfig,
   getResponsiveValue,
 } from "../config/brandColors";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 interface Country {
   code: string;
@@ -182,81 +184,63 @@ const CountryLookup = forwardRef<CountryLookupRef, CountryLookupProps>(
             style={styles.searchButton}
             onPress={() => setIsExpanded(true)}
           >
-            <Ionicons
-              name="globe-outline"
-              size={getResponsiveValue(20, 24)}
-              color={BRAND_COLORS.electricBlue}
-            />
-            <Text style={styles.searchButtonText}>
-              Select Country of Origin
-            </Text>
+            <Text style={styles.searchButtonText}>Select Origin</Text>
           </TouchableOpacity>
         )}
 
-        <Modal
-          visible={isExpanded}
-          transparent={true}
-          animationType="fade"
-          onRequestClose={() => setIsExpanded(false)}
-        >
-          <TouchableWithoutFeedback onPress={() => setIsExpanded(false)}>
-            <View style={styles.modalOverlay}>
-              <TouchableWithoutFeedback>
-                <View style={styles.dropdown}>
-                  <View style={styles.dropdownHeader}>
-                    <Text style={styles.dropdownTitle}>Select Country</Text>
-                    <TouchableOpacity
-                      onPress={() => setIsExpanded(false)}
-                      style={styles.closeButton}
-                    >
-                      <Ionicons
-                        name="close"
-                        size={getResponsiveValue(24, 28)}
-                        color={BRAND_COLORS.darkGray}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <FlatList
-                    ref={flatListRef}
-                    data={countries}
-                    keyExtractor={(item) => item.code}
-                    style={styles.list}
-                    keyboardShouldPersistTaps="handled"
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        style={[
-                          styles.countryItem,
-                          selectedCountry?.code === item.code &&
-                            styles.selectedItem,
-                        ]}
-                        onPress={() => handleCountrySelect(item)}
-                      >
-                        <Text
-                          style={[
-                            styles.countryName,
-                            selectedCountry?.code === item.code &&
-                              styles.selectedText,
-                          ]}
-                        >
-                          {item.name}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.countryCode,
-                            selectedCountry?.code === item.code &&
-                              styles.selectedText,
-                          ]}
-                        >
-                          {item.code}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
+        {isExpanded && (
+          <View style={styles.inlineDropdown}>
+            <View style={styles.dropdownHeader}>
+              <Text style={styles.dropdownTitle}>Select Country</Text>
+              <TouchableOpacity
+                onPress={() => setIsExpanded(false)}
+                style={styles.closeButton}
+              >
+                <Ionicons
+                  name="close"
+                  size={getResponsiveValue(20, 24)}
+                  color={BRAND_COLORS.darkGray}
+                />
+              </TouchableOpacity>
             </View>
-          </TouchableWithoutFeedback>
-        </Modal>
+            <FlatList
+              ref={flatListRef}
+              data={countries}
+              keyExtractor={(item) => item.code}
+              style={styles.list}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={true}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={[
+                    styles.countryItem,
+                    selectedCountry?.code === item.code && styles.selectedItem,
+                  ]}
+                  onPress={() => handleCountrySelect(item)}
+                >
+                  <Text
+                    style={[
+                      styles.countryName,
+                      selectedCountry?.code === item.code &&
+                        styles.selectedText,
+                    ]}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.countryCode,
+                      selectedCountry?.code === item.code &&
+                        styles.selectedText,
+                    ]}
+                  >
+                    {item.code}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        )}
       </View>
     );
   },
@@ -271,15 +255,15 @@ const styles = StyleSheet.create({
     padding: getSpacing("xs"),
   },
   container: {
-    marginBottom: getSpacing("md"),
     maxWidth: "100%",
-    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    position: "relative",
+    width: "100%", // Full width of parent
   },
   countryCode: {
     fontSize: getResponsiveValue(
-      getTypographySize("sm"),
       getTypographySize("sm") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("sm") * 1.4,
+    ), // Larger for better readability
     color: BRAND_COLORS.darkGray,
     flexShrink: 0,
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
@@ -290,60 +274,52 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    minHeight: getResponsiveValue(48, 56),
-    paddingHorizontal: getSpacing("md"),
-    paddingVertical: getSpacing("sm"), // Larger touch targets
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getResponsiveValue(8, 10),
   },
   countryName: {
     fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("md") * 1.3,
+      getTypographySize("md") * 1.5,
+    ), // Larger for better readability
     color: BRAND_COLORS.darkNavy,
     flex: 1,
     marginRight: getSpacing("sm"),
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
-  dropdown: {
-    backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius("lg"),
-    elevation: 10,
-    maxHeight: "80%",
-    maxWidth: getResponsiveValue(400, 600),
-    shadowColor: BRAND_COLORS.darkNavy,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    width: "100%",
-  },
+
   dropdownHeader: {
     alignItems: "center",
     borderBottomColor: BRAND_COLORS.lightGray,
     borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: getSpacing("md"),
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
   },
   dropdownTitle: {
     fontSize: getResponsiveValue(
-      getTypographySize("lg"),
       getTypographySize("lg") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("lg") * 1.4,
+    ), // Larger for consistency
     ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
   },
+  inlineDropdown: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius("md"),
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: "100%",
+    ...BRAND_SHADOWS.medium,
+    elevation: 50000,
+    marginTop: getSpacing("xs"),
+    maxHeight: getResponsiveValue(200, 250),
+    zIndex: 50000,
+  },
   list: {
     maxHeight: getResponsiveValue(400, 500),
-  },
-  modalOverlay: {
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    flex: 1,
-    justifyContent: "center",
-    padding: getSpacing("lg"),
   },
   searchButton: {
     alignItems: "center",
@@ -352,19 +328,18 @@ const styles = StyleSheet.create({
     borderRadius: getBorderRadius("md"),
     borderWidth: 1,
     flexDirection: "row",
-    height: getResponsiveValue(48, 56), // Tightened height for larger font
+    height: getResponsiveValue(46, 54), // Adjusted height
     paddingHorizontal: getSpacing("md"),
-    paddingVertical: getResponsiveValue(4, 6), // Reduced vertical padding
+    paddingVertical: getResponsiveValue(6, 8), // Adjusted vertical padding
     width: "100%",
   },
   searchButtonText: {
-    marginLeft: getSpacing("sm"),
-    fontSize: getResponsiveValue(
-      getTypographySize("md") * 2,
-      getTypographySize("md") * 2.4,
-    ), // 100% larger (doubled font size)
     color: BRAND_COLORS.electricBlue,
     flex: 1,
+    fontSize: getResponsiveValue(
+      getTypographySize("md") * 1.5 * 0.75, // 75% of current size
+      getTypographySize("md") * 1.8 * 0.75, // 75% of current size
+    ),
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   selectedCountry: {
@@ -372,10 +347,10 @@ const styles = StyleSheet.create({
     borderColor: BRAND_COLORS.mediumGray,
     borderRadius: getBorderRadius("md"),
     borderWidth: 1,
-    height: getResponsiveValue(48, 56), // Tightened height for larger font
+    height: getResponsiveValue(46, 54), // Adjusted height
     justifyContent: "center",
     paddingHorizontal: getSpacing("md"),
-    paddingVertical: getResponsiveValue(4, 6), // Reduced vertical padding
+    paddingVertical: getResponsiveValue(6, 8), // Adjusted vertical padding
     width: "100%",
   },
   selectedCountryContent: {
@@ -385,9 +360,9 @@ const styles = StyleSheet.create({
   },
   selectedCountryText: {
     fontSize: getResponsiveValue(
-      getTypographySize("md") * 2,
-      getTypographySize("md") * 2.4,
-    ), // 100% larger (doubled font size)
+      getTypographySize("md") * 1.5 * 0.75, // 75% of current size
+      getTypographySize("md") * 1.8 * 0.75, // 75% of current size
+    ),
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
     color: BRAND_COLORS.darkNavy,
     flex: 1,

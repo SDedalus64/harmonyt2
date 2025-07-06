@@ -56,14 +56,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     bottom: 0,
     justifyContent: "center",
-    left: -54,
+    left: -56, // Moved 2px further left
     position: "absolute",
     top: 0,
     transform: [{ translateY: -7 }],
   },
   input: {
     fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
-    fontSize: 32, // Doubled from 16
+    fontSize: 24, // 75% of 32
     height: 48, // Tightened to match LookupScreen input height
     width: "100%",
   },
