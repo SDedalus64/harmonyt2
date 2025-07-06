@@ -7,6 +7,12 @@ refactor: remove Android and iOS project files, update component styles and stru
 
 [2025-07-06]
 
+- chore: update expo version in package.json and refresh yarn.lock
+
+  \- Upgraded expo from version 52.0.6 to 53.0.17 in package.json for improved features and performance.
+
+  \- Regenerated yarn.lock to reflect the updated dependencies and ensure compatibility.
+
 - Deleted Android project files including build configurations, resources, and Gradle settings.
 - Removed iOS project files including AppDelegate, Info.plist, and other related resources.
 - Updated CountryLookup, DiagonalSection, and other components for improved styling and layout.
