@@ -98,7 +98,7 @@ const tariffService = TariffService.getInstance();
 const COLORS = {
   "#003559": BRAND_COLORS.darkNavy,
   "#0A99F2": BRAND_COLORS.electricBlue,
-  "#FFCC01": BRAND_COLORS.supernova,
+  "#FFCC01": BRAND_COLORS.orange,
   white: BRAND_COLORS.white,
   lightGray: BRAND_COLORS.lightGray,
   mediumGray: BRAND_COLORS.mediumGray,
@@ -619,7 +619,7 @@ export default function LookupScreen() {
       {(
         (parseFloat(declaredValue) || 0) +
         (parseFloat(freightCost) || 0) +
-        (parseFloat(additionalCost) || 0)
+        (additionalCosts.reduce((sum, cost) => sum + cost.amount, 0) || 0)
       ).toFixed(2)}
     </Text>
   </View>;
@@ -2632,7 +2632,7 @@ export default function LookupScreen() {
               <TouchableOpacity
                 style={[
                   styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.supernova },
+                  { backgroundColor: BRAND_COLORS.orange },
                 ]}
                 onPress={() => {
                   haptics.buttonPress();
@@ -2950,7 +2950,7 @@ export default function LookupScreen() {
                               <Ionicons
                                 name="close-circle"
                                 size={getResponsiveValue(16, 20)}
-                                color={BRAND_COLORS.supernova}
+                                color={BRAND_COLORS.orange}
                               />
                             </View>
                           </TouchableOpacity>
@@ -3024,7 +3024,7 @@ export default function LookupScreen() {
                                   <Ionicons
                                     name="close-circle"
                                     size={getResponsiveValue(16, 20)}
-                                    color={BRAND_COLORS.supernova}
+                                    color={BRAND_COLORS.orange}
                                   />
                                 </View>
                               </TouchableOpacity>
@@ -4233,7 +4233,7 @@ const styles = StyleSheet.create({
         : getResponsiveValue(8, 12), // Reduced padding
   },
   clearButton: {
-    backgroundColor: BRAND_COLORS.supernova,
+    backgroundColor: BRAND_COLORS.orange,
     borderRadius: getBorderRadius("md"),
     paddingVertical: getResponsiveValue(8, 12), // Reduced padding
     paddingHorizontal: getResponsiveValue(16, 20), // Reduced padding

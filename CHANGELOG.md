@@ -7,6 +7,8 @@ refactor: remove Android and iOS project files, update component styles and stru
 
 [2025-07-06]
 
+- Upgraded expo from version 52.0.6 to 53.0.17 in package.json for improved features and performance.
+- Regenerated yarn.lock to reflect the updated dependencies and ensure compatibility.
 - chore: update expo version in package.json and refresh yarn.lock
 
   \- Upgraded expo from version 52.0.6 to 53.0.17 in package.json for improved features and performance.
@@ -277,7 +279,7 @@ feat: integrate Geologica font family and update typography across the app
 
 ## [2025-07-05]
 
-### Added
+Added
 
 - Enhanced Tariff Engineering feature with real duty rate comparisons
   - Shows current vs suggested duty rates with savings calculations
@@ -289,33 +291,33 @@ feat: integrate Geologica font family and update typography across the app
 - New `tariffEngineeringService.ts` that provides actionable duty savings opportunities
 - Scripts to analyze tariff data and find classification pivot points
 
-### Changed
+Changed
 
 - Tariff Engineering screen now shows actual duty rate differences instead of similarity scores
 - Improved UI with duty rate arrows (20% → 5.7%) and savings badges
 - Search button text changed to "Find Lower Duty Rates" for clarity
 - Empty state message when no lower-duty alternatives exist
 
-### Fixed
+Fixed
 
 - HTS dropdown now properly displays search results in Tariff Engineering screen
 - Semantic link service imports corrected to use generated data files
 
 ## [2025-07-04]
 
-### Changed
+Changed
 
 - Updated all fonts to use Geologica font family
 - Modified BRAND_TYPOGRAPHY configuration to use Geologica as primary and secondary font
 - Added getFontFamily helper function to handle font weights properly
 - Created react-native.config.js for font asset configuration
 
-### Added
+Added
 
 - Created GEOLOGICA_FONT_IMPLEMENTATION.md guide with detailed instructions for adding Geologica font files
 - Added font weight mapping for Geologica font variants (Light, Regular, Medium, SemiBold, Bold)
 
-### Note
+Note
 
 - Font files need to be downloaded and added to assets/fonts/ directory
 - Native configurations (iOS and Android) need to be updated after adding font files
@@ -325,7 +327,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+Added
 
 <!-- New features -->
 
@@ -340,7 +342,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Smart caching to avoid performance impact
   - expo-haptics package integration
 
-### Changed
+Changed
 
 <!-- Changes in existing functionality -->
 
@@ -362,15 +364,15 @@ fix: update placeholder text in LookupScreen for clarity
 
 - Changed text on Settings screen - Show Quick Tour
 
-### Deprecated
+Deprecated
 
 <!-- Soon-to-be removed features -->
 
-### Removed
+Removed
 
 <!-- Now removed features -->
 
-### Fixed
+Fixed
 
 <!-- Bug fixes -->
 
@@ -409,15 +411,15 @@ fix: update placeholder text in LookupScreen for clarity
   - Setting syncs with local state changes
   - History items preserve unit calculation display state
 
-### Security
+Security
 
 <!-- Vulnerability fixes -->
 
-### Performance
+Performance
 
 <!-- Performance improvements -->
 
-### To Do
+To Do
 
 - Automated tariff data update pipeline
 - Backend API implementation for authentication
@@ -427,7 +429,7 @@ fix: update placeholder text in LookupScreen for clarity
 
 ## [2.5.0] - 2025-06-25
 
-### Added
+Added
 
 - Tariff Data Revision 14 with new global rates
 - USMCA Origin Certificate toggle for Canada/Mexico imports
@@ -449,7 +451,7 @@ fix: update placeholder text in LookupScreen for clarity
 - Automated build number increment script
 - Comprehensive backend requirements documentation
 
-### Changed
+Changed
 
 - Brand color theming throughout the app:
   - Placeholder text now uses electricBlue (#0099FF)
@@ -466,13 +468,13 @@ fix: update placeholder text in LookupScreen for clarity
 - History button labels now dynamic based on context
 - Improved scroll positioning for unit entry field
 
-### Fixed
+Fixed
 
 - SettingsProvider context error resolved
 - USMCA origin calculation logic corrected
 - Blank splash screen on iPhone
 - Registration screen scrolling issues on iPhone
-- "Text string must be rendered within <Text/>" error
+- "Text string must be rendered within Text" error
 - Metro bundler connection issues
 - Unit count not restoring from history
 - Navigation type import paths
@@ -480,13 +482,13 @@ fix: update placeholder text in LookupScreen for clarity
 - Parallel initialization preventing startup blocks
 - Context hook errors with proper provider wrapping
 
-### Removed
+Removed
 
 - "Make Reciprocal Tariffs Additive" toggle (now always additive)
 - Automatic login feature (now requires login each time)
 - Excessive padding on iPhone registration screen
 
-### Performance
+Performance
 
 - Implemented segmented tariff data system for faster searches
 - Parallel initialization of tariffSearchService and TariffService
@@ -496,7 +498,7 @@ fix: update placeholder text in LookupScreen for clarity
 
 ## [2.4.0] - 2025-06-19
 
-### Added
+Added
 
 - Authentication flow with login required on startup
 - Build system improvements with automatic versioning
@@ -504,14 +506,14 @@ fix: update placeholder text in LookupScreen for clarity
 - Local user persistence for beta testing
 - Mock authentication with test credentials
 
-### Changed
+Changed
 
 - Build number updated to 26 (from 18)
 - Fresh prebuild process documented
 
 ## [2.3.0] - 2025-06-03
 
-### Added
+Added
 
 - Initial beta release preparation
 - Core duty calculation features
