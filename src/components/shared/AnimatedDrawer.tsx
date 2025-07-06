@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals */
+/* eslint-disable react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals */
 import React, { useRef, useEffect } from "react";
 import {
   View,

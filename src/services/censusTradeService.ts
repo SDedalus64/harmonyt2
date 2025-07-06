@@ -89,10 +89,10 @@ export class CensusTradeService {
     header.forEach((h, idx) => (colIndex[h] = idx));
 
     const mapped: CensusTradeRow[] = rows.map(r => ({
-      CTY_CODE: r[colIndex['CTY_CODE']],
-      E_COMMODITY: r[colIndex['E_COMMODITY']],
-      GEN_VAL_YEP: r[colIndex['GEN_VAL_YEP']],
-      time: r[colIndex['time']]
+      CTY_CODE: r[colIndex.CTY_CODE],
+      E_COMMODITY: r[colIndex.E_COMMODITY],
+      GEN_VAL_YEP: r[colIndex.GEN_VAL_YEP],
+      time: r[colIndex.time]
     }));
 
     this.cache.set(key, { data: mapped, ts: Date.now() });

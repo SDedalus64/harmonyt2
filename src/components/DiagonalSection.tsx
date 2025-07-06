@@ -92,42 +92,42 @@ export const GeometricPattern: React.FC<GeometricPatternProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     overflow: 'hidden',
+    position: 'relative',
+  },
+  content: {
+    flex: 1,
+    position: 'relative',
+    zIndex: 1,
   },
   diagonalWrapper: {
-    position: 'absolute',
-    top: -50,
-    left: -50,
-    right: -50,
     bottom: -50,
+    left: -50,
     overflow: 'hidden',
+    position: 'absolute',
+    right: -50,
+    top: -50,
   },
   gradient: {
     flex: 1,
   },
-  content: {
-    position: 'relative',
-    zIndex: 1,
-    flex: 1,
+  patternBlock: {
+    height: 40,
+    margin: 5,
+    transform: [{ rotate: '-45deg' }],
+    width: 40,
   },
   patternContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
+    alignItems: 'center',
     bottom: 0,
     justifyContent: 'center',
-    alignItems: 'center',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
   },
   patternRow: {
     flexDirection: 'row',
     transform: [{ rotate: '45deg' }],
-  },
-  patternBlock: {
-    width: 40,
-    height: 40,
-    margin: 5,
-    transform: [{ rotate: '-45deg' }],
   },
 });

@@ -43,17 +43,17 @@ const styles = StyleSheet.create({
   container: {
     overflow: 'visible',
   },
+  content: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    transform: [{ skewY: '2deg' }],
+  },
   gradient: {
     flex: 1,
-    transform: [{ skewY: '-2deg' }],
-    marginTop: -10,
     marginBottom: -10,
-  },
-  content: {
-    flex: 1,
-    transform: [{ skewY: '2deg' }],
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    marginTop: -10,
+    transform: [{ skewY: '-2deg' }],
   },
 });

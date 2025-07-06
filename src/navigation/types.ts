@@ -26,6 +26,7 @@ export type MainTabParamList = {
   History: undefined;
   Links: undefined;
   Settings: undefined;
+  TariffEngineering: undefined;
 };
 
 export type LookupScreenProps = {
