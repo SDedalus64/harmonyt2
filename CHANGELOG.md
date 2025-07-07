@@ -6,6 +6,16 @@ feat: integrate Geologica font family and update typography across the app
 refactor: remove Android and iOS project files, update component styles and structure
 feat: enhance LookupScreen with duty calculation and new UI elements
 
+chore: update Xcode project configuration and add Expo modules support
+
+[2025-07-07]
+
+- Added new font files (Geologica-Bold, Geologica-Regular, Geologica-Light, Geologica-SemiBold, Geologica-Medium) to the project.
+- Included ExpoModulesProvider.swift and PrivacyInfo.xcprivacy in the project structure.
+- Updated build phases to include new shell scripts for Expo configuration and embedding Pods frameworks.
+- Refactored project groups to better organize resources and frameworks.
+- Adjusted build settings for Debug and Release configurations to include new xcconfig files.
+
 - Integrated duty calculation functionality using the new calculateDuty method.
 - Added a results drawer for displaying calculation results.
 - Improved error handling for duty calculation failures.
