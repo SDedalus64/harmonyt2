@@ -4,10 +4,11 @@
   "description": "Harmony React Native App",
   "main": "index.ts",
   "scripts": {
-    "start": "react-native start",
+    "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "test": "jest",
+    "web": "expo start --web",
+    "test": "jest --watchAll",
     "test:watch": "jest --watch",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "react-native bundle --entry-file index.ts --platform ios --dev false --bundle-output build/main.jsbundle --assets-dest build",
@@ -15,7 +16,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/bottom-tabs": "^7.3.17",
     "@react-navigation/drawer": "^7.4.4",
     "@react-navigation/native": "^7.1.13",
@@ -78,5 +79,8 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "jest": {
+    "preset": "jest-expo"
+  }
 }

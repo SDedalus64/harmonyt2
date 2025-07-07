@@ -381,65 +381,79 @@ export default function LookupScreen() {
           if (Platform.OS === "android") {
             const handle = findNodeHandle(ref.current);
             if (handle) {
-              UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-                console.log(
-                  `[InfoTab] Android UIManager.measure - Field: ${field}, x: ${x}, y: ${y}, width: ${width}, height: ${height}, pageX: ${pageX}, pageY: ${pageY}`,
-                );
-
-                if (
-                  typeof pageY === "number" &&
-                  typeof height === "number" &&
-                  !isNaN(pageY) &&
-                  !isNaN(height) &&
-                  pageY > 0 &&
-                  height > 0
-                ) {
-                  const tabHeight = 40;
-                  // pageY is already screen-relative, don't subtract insets.top
-                  // Instead, just use pageY directly and center the tab
-                  const centerY = pageY + height / 2 - tabHeight / 2;
-
+              UIManager.measure(
+                handle,
+                (
+                  x: number,
+                  y: number,
+                  width: number,
+                  height: number,
+                  pageX: number,
+                  pageY: number,
+                ) => {
                   console.log(
-                    `[InfoTab] Android calculated - pageY: ${pageY}, height: ${height}, centerY: ${centerY}, insets.top: ${insets.top}`,
+                    `[InfoTab] Android UIManager.measure - Field: ${field}, x: ${x}, y: ${y}, width: ${width}, height: ${height}, pageX: ${pageX}, pageY: ${pageY}`,
                   );
 
-                  setTabY(Math.max(50, centerY));
-                } else {
-                  // Fallback with a better default based on field
-                  // Final positions - perfectly aligned
-                  const fieldDefaults = {
-                    code: 322, // Perfect!
-                    declared: 433, // Perfect!
-                    freight: 489, // Added 2px more
-                    units: 546, // Perfect!
-                  };
-                  const fallbackY = field ? fieldDefaults[field] : 200;
-                  console.log(
-                    `[InfoTab] Android measure failed for field: ${field}, using fallback: ${fallbackY}`,
-                  );
-                  setTabY(fallbackY || 200);
-                }
-              });
+                  if (
+                    typeof pageY === "number" &&
+                    typeof height === "number" &&
+                    !isNaN(pageY) &&
+                    !isNaN(height) &&
+                    pageY > 0 &&
+                    height > 0
+                  ) {
+                    const tabHeight = 40;
+                    // pageY is already screen-relative, don't subtract insets.top
+                    // Instead, just use pageY directly and center the tab
+                    const centerY = pageY + height / 2 - tabHeight / 2;
+
+                    console.log(
+                      `[InfoTab] Android calculated - pageY: ${pageY}, height: ${height}, centerY: ${centerY}, insets.top: ${insets.top}`,
+                    );
+
+                    setTabY(Math.max(50, centerY));
+                  } else {
+                    // Fallback with a better default based on field
+                    // Final positions - perfectly aligned
+                    const fieldDefaults = {
+                      code: 322, // Perfect!
+                      declared: 433, // Perfect!
+                      freight: 489, // Added 2px more
+                      units: 546, // Perfect!
+                    };
+                    const fallbackY = field
+                      ? fieldDefaults[field as keyof typeof fieldDefaults]
+                      : 200;
+                    console.log(
+                      `[InfoTab] Android measure failed for field: ${field}, using fallback: ${fallbackY}`,
+                    );
+                    setTabY(fallbackY || 200);
+                  }
+                },
+              );
             }
           } else {
             // iOS uses measureInWindow as before
-            ref.current.measureInWindow((x, y, width, height) => {
-              if (
-                typeof y === "number" &&
-                typeof height === "number" &&
-                !isNaN(y) &&
-                !isNaN(height) &&
-                y > 0 &&
-                height > 0
-              ) {
-                const spacing = getSpacing("sm");
-                if (typeof spacing === "number" && !isNaN(spacing)) {
-                  setTabY(y + height / 2 - 20 - spacing);
+            ref.current.measureInWindow(
+              (x: number, y: number, width: number, height: number) => {
+                if (
+                  typeof y === "number" &&
+                  typeof height === "number" &&
+                  !isNaN(y) &&
+                  !isNaN(height) &&
+                  y > 0 &&
+                  height > 0
+                ) {
+                  const spacing = getSpacing("sm");
+                  if (typeof spacing === "number" && !isNaN(spacing)) {
+                    setTabY(y + height / 2 - 20 - spacing);
+                  }
+                } else {
+                  setTabY(200);
                 }
-              } else {
-                setTabY(200);
-              }
-            });
+              },
+            );
           }
         }
       }, measureDelay);
@@ -630,7 +644,9 @@ export default function LookupScreen() {
   };
 
   const handleDeleteAdditionalCost = (id: string) => {
-    setAdditionalCosts(additionalCosts.filter((cost) => cost.id !== id));
+    setAdditionalCosts(
+      additionalCosts.filter((cost: { id: string }) => cost.id !== id),
+    );
     haptics.selection();
   };
 
@@ -650,14 +666,14 @@ export default function LookupScreen() {
   };
 
   const handleDeleteUnitCount = (id: string) => {
-    setUnitCounts(unitCounts.filter((unit) => unit.id !== id));
+    setUnitCounts(unitCounts.filter((unit: { id: string }) => unit.id !== id));
     haptics.selection();
   };
 
   const formatArithmetic = () => {
     const declaredVal = parseFloat(declaredValue) || 0;
     const additionalTotal = additionalCosts.reduce(
-      (sum, cost) => sum + cost.amount,
+      (sum: number, cost: { amount: number }) => sum + cost.amount,
       0,
     );
     const total = declaredVal + additionalTotal;
@@ -675,11 +691,13 @@ export default function LookupScreen() {
         <Text style={styles.arithmeticText}>
           ${formatNumberWithCommas(declaredVal.toString())}
         </Text>
-        {additionalCosts.map((cost, index) => (
-          <Text key={cost.id} style={styles.arithmeticText}>
-            + ${formatNumberWithCommas(cost.amount.toString())}
-          </Text>
-        ))}
+        {additionalCosts.map(
+          (cost: { id: string; amount: number }, index: number) => (
+            <Text key={cost.id} style={styles.arithmeticText}>
+              + ${formatNumberWithCommas(cost.amount.toString())}
+            </Text>
+          ),
+        )}
         <View style={styles.arithmeticDivider} />
         <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
           ${formatNumberWithCommas(total.toString())}
@@ -689,7 +707,10 @@ export default function LookupScreen() {
   };
 
   const formatUnitArithmetic = () => {
-    const total = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
+    const total = unitCounts.reduce(
+      (sum: number, unit: { amount: number }) => sum + unit.amount,
+      0,
+    );
 
     if (unitCounts.length === 1) {
       return (
@@ -699,12 +720,14 @@ export default function LookupScreen() {
 
     return (
       <View>
-        {unitCounts.map((unit, index) => (
-          <Text key={unit.id} style={styles.arithmeticText}>
-            {index === 0 ? "" : "+ "}
-            {unit.amount.toFixed(1)}
-          </Text>
-        ))}
+        {unitCounts.map(
+          (unit: { id: string; amount: number }, index: number) => (
+            <Text key={unit.id} style={styles.arithmeticText}>
+              {index === 0 ? "" : "+ "}
+              {unit.amount.toFixed(1)}
+            </Text>
+          ),
+        )}
         <View style={styles.arithmeticDivider} />
         <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
           {total.toFixed(1)} units
@@ -1154,7 +1177,10 @@ export default function LookupScreen() {
       // Calculate total declared value including additional costs
       const totalDeclaredValue =
         parseFloat(declaredValue) +
-        additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+        additionalCosts.reduce(
+          (sum: number, cost: { amount: number }) => sum + cost.amount,
+          0,
+        );
 
       const calculation = await tariffService.calculateDuty(
         htsCode,
@@ -1596,7 +1622,7 @@ export default function LookupScreen() {
         <Text style={styles.drawerTitle}>Recent Lookups</Text>
       </View>
       <ScrollView style={styles.drawerScrollView}>
-        {history.slice(0, 10).map((item, index) => (
+        {history.slice(0, 10).map((item: HistoryItem, index: number) => (
           <TouchableOpacity
             key={item.id}
             style={styles.historyDrawerItem}
@@ -1917,12 +1943,15 @@ export default function LookupScreen() {
           {/* Unit Calculations - Display directly when units are provided */}
           {(() => {
             const totalUnitCount = unitCounts.reduce(
-              (sum, unit) => sum + unit.amount,
+              (sum: number, unit: { amount: number }) => sum + unit.amount,
               0,
             );
             const totalDeclaredValue =
               parseFloat(declaredValue) +
-              additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+              additionalCosts.reduce(
+                (sum: number, cost: { amount: number }) => sum + cost.amount,
+                0,
+              );
 
             if (totalUnitCount > 0) {
               return (
@@ -2433,6 +2462,293 @@ export default function LookupScreen() {
     }
   }, [anyDrawerOpen]);
 
+  // Render results inline
+  const renderResults = () => {
+    if (!result) return null;
+
+    const currentTimestamp = new Date().toLocaleString([], {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return (
+      <View style={styles.resultsContent}>
+        {/* Header */}
+        <View style={styles.resultsHeader}>
+          <View style={styles.resultsHeaderLeft}>
+            <Text style={styles.resultsTitle}>Search Results</Text>
+            <Text style={styles.resultsSubtitle}>{selectedCountry?.name}</Text>
+            {result.description && (
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => {
+                  haptics.selection();
+                  setDescriptionExpanded(!descriptionExpanded);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.resultsDescription,
+                    descriptionExpanded && styles.resultsDescriptionExpanded,
+                  ]}
+                  numberOfLines={descriptionExpanded ? undefined : 1}
+                  ellipsizeMode="tail"
+                >
+                  {result.description}
+                </Text>
+              </TouchableOpacity>
+            )}
+            <Text style={styles.resultsTimestamp}>{currentTimestamp}</Text>
+          </View>
+          <View style={styles.headerButtons}>
+            {settings.autoSaveToHistory ? (
+              <View style={[styles.headerButton, styles.autoSaveIndicator]}>
+                <Ionicons
+                  name="checkmark-circle"
+                  size={getResponsiveValue(16, 20)}
+                  color={BRAND_COLORS.success}
+                />
+                <Text style={styles.autoSaveText}>AutoSave On</Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={[
+                  styles.headerButton,
+                  styles.saveHeaderButton,
+                  isSaved && styles.savedHeaderButton,
+                ]}
+                onPress={() => handleSaveToHistory()}
+                disabled={isSaved}
+              >
+                <Ionicons
+                  name={isSaved ? "checkmark-circle" : "bookmark-outline"}
+                  size={getResponsiveValue(16, 20)}
+                  color={
+                    isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue
+                  }
+                />
+                <Text
+                  style={[
+                    styles.headerButtonText,
+                    isSaved && styles.savedHeaderButtonText,
+                  ]}
+                >
+                  {isSaved ? "Saved" : "Save"}
+                </Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              style={[styles.headerButton, styles.newHeaderButton]}
+              onPress={handleNewLookup}
+            >
+              <Ionicons
+                name="add"
+                size={getResponsiveValue(16, 20)}
+                color={BRAND_COLORS.electricBlue}
+              />
+              <Text style={styles.headerButtonText}>New</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Duties vs Landed Cost */}
+        {(() => {
+          const dutiableValue = parseFloat(declaredValue);
+          const merchandiseValueForLanded =
+            dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
+          const landedCost = merchandiseValueForLanded + result.totalAmount;
+          const hasFreightCost = freightCost && parseFloat(freightCost) > 0;
+
+          return (
+            <View
+              style={[
+                styles.totalAmountRow,
+                {
+                  justifyContent: hasFreightCost ? "space-between" : "flex-end",
+                },
+              ]}
+            >
+              {/* Duties */}
+              <View
+                style={[
+                  styles.totalAmountCard,
+                  {
+                    marginRight: hasFreightCost ? 8 : 0,
+                    flex: hasFreightCost ? 1 : undefined,
+                  },
+                ]}
+              >
+                <Text style={styles.totalAmountLabel}>Est. Duties & Fees</Text>
+                <Text style={styles.totalAmountValue}>
+                  {formatCurrency(result.totalAmount)}
+                </Text>
+                <Text style={styles.totalAmountSubtext}>
+                  on {formatCurrency(dutiableValue)} value
+                </Text>
+              </View>
+              {/* Landed Cost - only show if freight cost is provided */}
+              {hasFreightCost && (
+                <View
+                  style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}
+                >
+                  <Text style={styles.totalAmountLabel}>Est. Landed Cost</Text>
+                  <Text style={styles.totalAmountValue}>
+                    {formatCurrency(landedCost)}
+                  </Text>
+                  <Text style={styles.totalAmountSubtext}>
+                    COGs+duties+other costs
+                  </Text>
+                </View>
+              )}
+            </View>
+          );
+        })()}
+
+        {/* Compact Breakdown */}
+        {result.components && result.components.length > 0 && (
+          <View style={styles.compactSection}>
+            <Text style={styles.compactSectionTitle}>Duty Breakdown</Text>
+            {result.components.map(
+              (component: DutyComponent, index: number) => (
+                <View key={index} style={styles.compactRow}>
+                  <View style={styles.compactRowLeft}>
+                    <Text style={styles.compactLabel}>
+                      {getLineItemLabel(component)}
+                    </Text>
+                    {component.rate > 0 && (
+                      <Text style={styles.compactRate}>
+                        {component.rate.toFixed(2)}%
+                      </Text>
+                    )}
+                  </View>
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(component.amount)}
+                  </Text>
+                </View>
+              ),
+            )}
+          </View>
+        )}
+
+        {/* Compact Fees */}
+        {result.fees && (
+          <View style={styles.compactSection}>
+            <Text style={styles.compactSectionTitle}>Processing Fees</Text>
+            <View style={styles.compactRow}>
+              <View style={styles.compactRowLeft}>
+                <Text style={styles.compactLabel}>
+                  Merchandise Processing Fee
+                </Text>
+                <Text style={styles.compactRate}>
+                  {result.fees.mpf.rate.toFixed(4)}%
+                </Text>
+              </View>
+              <Text style={styles.compactAmount}>
+                {formatCurrency(result.fees.mpf.amount)}
+              </Text>
+            </View>
+            <View style={styles.compactRow}>
+              <View style={styles.compactRowLeft}>
+                <Text style={styles.compactLabel}>Harbor Maintenance Fee</Text>
+                <Text style={styles.compactRate}>
+                  {result.fees.hmf.rate.toFixed(3)}%
+                </Text>
+              </View>
+              <Text style={styles.compactAmount}>
+                {formatCurrency(result.fees.hmf.amount)}
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {/* Unit Calculations - Display directly when units are provided */}
+        {(() => {
+          const totalUnitCount = unitCounts.reduce(
+            (sum: number, unit: { amount: number }) => sum + unit.amount,
+            0,
+          );
+          const totalDeclaredValue =
+            parseFloat(declaredValue) +
+            additionalCosts.reduce(
+              (sum: number, cost: { amount: number }) => sum + cost.amount,
+              0,
+            );
+
+          if (totalUnitCount > 0) {
+            return (
+              <View style={styles.compactSection}>
+                <Text style={styles.compactSectionTitle}>
+                  Per Unit ({formatNumber(totalUnitCount, 0)} units)
+                </Text>
+                <View style={styles.compactRow}>
+                  <Text style={styles.compactLabel}>Duty Cost</Text>
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(result.totalAmount / totalUnitCount)}
+                  </Text>
+                </View>
+                {/* Landed cost per unit - show total value including all costs */}
+                <View style={styles.compactRow}>
+                  <Text style={styles.compactLabel}>Landed Cost</Text>
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(
+                      (totalDeclaredValue + result.totalAmount) /
+                        totalUnitCount,
+                    )}
+                  </Text>
+                </View>
+                {(() => {
+                  // Show RT cost separately if applicable
+                  if (result.components) {
+                    const rtComponent = result.components.find(
+                      (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
+                    );
+                    if (rtComponent && rtComponent.amount > 0) {
+                      return (
+                        <View style={styles.compactRow}>
+                          <Text style={styles.compactLabel}>Addl RT cost</Text>
+                          <Text style={styles.compactHighlight}>
+                            {formatCurrency(
+                              rtComponent.amount / totalUnitCount,
+                            )}
+                          </Text>
+                        </View>
+                      );
+                    }
+                  }
+                  return null;
+                })()}
+              </View>
+            );
+          }
+          return null;
+        })()}
+
+        {/* Tariff Engineering Button - Outside ScrollView */}
+        <TouchableOpacity
+          style={styles.tariffEngineeringButton}
+          onPress={() => {
+            haptics.selection();
+            // Close results drawer and open tariff engineering with current data
+            setResultsDrawerVisible(false);
+            setTariffEngineeringDrawerVisible(true);
+          }}
+        >
+          <Ionicons
+            name="git-compare"
+            size={getResponsiveValue(18, 22)}
+            color={BRAND_COLORS.white}
+          />
+          <Text style={styles.tariffEngineeringButtonText}>
+            Tariff Engineering
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <DisclaimerModal
@@ -2477,267 +2793,300 @@ export default function LookupScreen() {
 
       {/* Main Content */}
       <View style={styles.content}>
-        {/* Horizontal Background Section */}
-        <HorizontalSection
-          height={Number(dynamicHeaderStyles.heroSection.height)}
-          style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
+        {/* Main scroll view for results */}
+        <KeyboardAwareScrollView
+          ref={resultScrollViewRef}
+          style={styles.mainScrollView}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingTop: 236 + insets.top },
+          ]}
+          showsVerticalScrollIndicator={false}
+          extraScrollHeight={40}
+          enableOnAndroid={true}
+          enableAutomaticScroll={true}
+          keyboardShouldPersistTaps="handled"
+          keyboardOpeningTime={250}
+          bounces={false}
+          enableResetScrollToCoords={false}
         >
-          <View
-            style={[
-              styles.logoContainer,
-              { paddingTop: Math.max(insets.top - 18, 0) },
-            ]}
+          {/* Inline Results Container */}
+          {result && (
+            <View style={styles.resultsContainer}>{renderResults()}</View>
+          )}
+        </KeyboardAwareScrollView>
+
+        {/* Fixed Header Container */}
+        <View
+          style={[
+            styles.fixedHeaderContainer,
+            { height: 236 + insets.top, paddingTop: insets.top },
+          ]}
+        >
+          {/* 1. Logo Section */}
+          <HorizontalSection
+            height={100}
+            style={{ ...styles.heroSection, height: 100 }}
           >
-            <Image
-              source={require("../../assets/Harmony-white.png")}
-              style={dynamicHeaderStyles.logo}
-              resizeMode="contain"
-            />
-          </View>
-
-          {/* Unified Floating Menu System - Now in hero section */}
-          <View style={styles.heroFloatingMenuContainer}>
-            {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
-
-            {/* Recent Button */}
-            <Animated.View
-              pointerEvents={mainFabExpanded ? "auto" : "none"}
+            <View
               style={[
-                styles.menuFab,
-                {
-                  transform: [
-                    { translateX: recentFabTranslateX },
-                    { translateY: recentFabTranslateY },
-                    { scale: menuFabScale },
-                  ],
-                  opacity: menuFabOpacity,
-                },
+                styles.logoContainer,
+                { paddingTop: 0 /* Adjusted for fixed header */ },
               ]}
             >
-              <TouchableOpacity
+              <Image
+                source={require("../../assets/Harmony-white.png")}
+                style={dynamicHeaderStyles.logo}
+                resizeMode="contain"
+              />
+            </View>
+
+            {/* Unified Floating Menu System - Now in hero section */}
+            <View style={styles.heroFloatingMenuContainer}>
+              {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
+
+              {/* Recent Button */}
+              <Animated.View
+                pointerEvents={mainFabExpanded ? "auto" : "none"}
                 style={[
-                  styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.electricBlue },
+                  styles.menuFab,
+                  {
+                    transform: [
+                      { translateX: recentFabTranslateX },
+                      { translateY: recentFabTranslateY },
+                      { scale: menuFabScale },
+                    ],
+                    opacity: menuFabOpacity,
+                  },
                 ]}
-                onPress={() => {
-                  haptics.buttonPress();
-                  closeAllDrawers();
-                  closeMainFab(false);
-                  setHistoryDrawerVisible(true);
-                }}
               >
-                <Ionicons
-                  name="time"
-                  size={getResponsiveValue(16, 24)} // 80% size on iPhone (20 * 0.8 = 16)
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
+                <TouchableOpacity
+                  style={[
+                    styles.menuFabButton,
+                    { backgroundColor: BRAND_COLORS.electricBlue },
+                  ]}
+                  onPress={() => {
+                    haptics.buttonPress();
+                    closeAllDrawers();
+                    closeMainFab(false);
+                    setHistoryDrawerVisible(true);
+                  }}
+                >
+                  <Ionicons
+                    name="time"
+                    size={getResponsiveValue(16, 24)} // 80% size on iPhone (20 * 0.8 = 16)
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
 
-            {/* History Button */}
-            <Animated.View
-              pointerEvents={mainFabExpanded ? "auto" : "none"}
-              style={[
-                styles.menuFab,
-                {
-                  transform: [
-                    { translateX: historyFabTranslateX },
-                    { translateY: historyFabTranslateY },
-                    { scale: menuFabScale },
-                  ],
-                  opacity: menuFabOpacity,
-                },
-              ]}
-            >
-              <TouchableOpacity
+              {/* History Button */}
+              <Animated.View
+                pointerEvents={mainFabExpanded ? "auto" : "none"}
                 style={[
-                  styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.mediumBlue },
+                  styles.menuFab,
+                  {
+                    transform: [
+                      { translateX: historyFabTranslateX },
+                      { translateY: historyFabTranslateY },
+                      { scale: menuFabScale },
+                    ],
+                    opacity: menuFabOpacity,
+                  },
                 ]}
-                onPress={() => {
-                  haptics.buttonPress();
-                  closeAllDrawers();
-                  closeMainFab(false);
-                  setMainHistoryDrawerVisible(true);
-                }}
               >
-                <Ionicons
-                  name="library"
-                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
+                <TouchableOpacity
+                  style={[
+                    styles.menuFabButton,
+                    { backgroundColor: BRAND_COLORS.mediumBlue },
+                  ]}
+                  onPress={() => {
+                    haptics.buttonPress();
+                    closeAllDrawers();
+                    closeMainFab(false);
+                    setMainHistoryDrawerVisible(true);
+                  }}
+                >
+                  <Ionicons
+                    name="library"
+                    size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
 
-            {/* Tariff News Button */}
-            <Animated.View
-              pointerEvents={mainFabExpanded ? "auto" : "none"}
-              style={[
-                styles.menuFab,
-                {
-                  transform: [
-                    { translateX: linksFabTranslateX },
-                    { translateY: linksFabTranslateY },
-                    { scale: menuFabScale },
-                  ],
-                  opacity: menuFabOpacity,
-                },
-              ]}
-            >
-              <TouchableOpacity
+              {/* Tariff News Button */}
+              <Animated.View
+                pointerEvents={mainFabExpanded ? "auto" : "none"}
                 style={[
-                  styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.success },
+                  styles.menuFab,
+                  {
+                    transform: [
+                      { translateX: linksFabTranslateX },
+                      { translateY: linksFabTranslateY },
+                      { scale: menuFabScale },
+                    ],
+                    opacity: menuFabOpacity,
+                  },
                 ]}
-                onPress={() => {
-                  haptics.buttonPress();
-                  closeAllDrawers();
-                  closeMainFab(false);
-                  setLinksDrawerVisible(true);
-                }}
               >
-                <Ionicons
-                  name="newspaper-outline"
-                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
+                <TouchableOpacity
+                  style={[
+                    styles.menuFabButton,
+                    { backgroundColor: BRAND_COLORS.success },
+                  ]}
+                  onPress={() => {
+                    haptics.buttonPress();
+                    closeAllDrawers();
+                    closeMainFab(false);
+                    setLinksDrawerVisible(true);
+                  }}
+                >
+                  <Ionicons
+                    name="newspaper-outline"
+                    size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
 
-            {/* News Button */}
-            <Animated.View
-              pointerEvents={mainFabExpanded ? "auto" : "none"}
-              style={[
-                styles.menuFab,
-                {
-                  transform: [
-                    { translateX: newsFabTranslateX },
-                    { translateY: newsFabTranslateY },
-                    { scale: menuFabScale },
-                  ],
-                  opacity: menuFabOpacity,
-                },
-              ]}
-            >
-              <TouchableOpacity
+              {/* News Button */}
+              <Animated.View
+                pointerEvents={mainFabExpanded ? "auto" : "none"}
                 style={[
-                  styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.orange },
+                  styles.menuFab,
+                  {
+                    transform: [
+                      { translateX: newsFabTranslateX },
+                      { translateY: newsFabTranslateY },
+                      { scale: menuFabScale },
+                    ],
+                    opacity: menuFabOpacity,
+                  },
                 ]}
-                onPress={() => {
-                  haptics.buttonPress();
-                  closeAllDrawers();
-                  closeMainFab(false);
-                  setNewsDrawerVisible(true);
-                }}
               >
-                <Ionicons
-                  name="newspaper"
-                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
+                <TouchableOpacity
+                  style={[
+                    styles.menuFabButton,
+                    { backgroundColor: BRAND_COLORS.orange },
+                  ]}
+                  onPress={() => {
+                    haptics.buttonPress();
+                    closeAllDrawers();
+                    closeMainFab(false);
+                    setNewsDrawerVisible(true);
+                  }}
+                >
+                  <Ionicons
+                    name="newspaper"
+                    size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
 
-            {/* Tariff Engineering Button */}
-            <Animated.View
-              pointerEvents={mainFabExpanded ? "auto" : "none"}
-              style={[
-                styles.menuFab,
-                {
-                  transform: [
-                    { translateX: statsFabTranslateX },
-                    { translateY: statsFabTranslateY },
-                    { scale: menuFabScale },
-                  ],
-                  opacity: menuFabOpacity,
-                },
-              ]}
-            >
-              <TouchableOpacity
+              {/* Tariff Engineering Button */}
+              <Animated.View
+                pointerEvents={mainFabExpanded ? "auto" : "none"}
                 style={[
-                  styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.info },
+                  styles.menuFab,
+                  {
+                    transform: [
+                      { translateX: statsFabTranslateX },
+                      { translateY: statsFabTranslateY },
+                      { scale: menuFabScale },
+                    ],
+                    opacity: menuFabOpacity,
+                  },
                 ]}
-                onPress={() => {
-                  haptics.buttonPress();
-                  closeAllDrawers();
-                  closeMainFab(false);
-                  setTariffEngineeringDrawerVisible(true);
-                }}
               >
-                <Ionicons
-                  name="construct"
-                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
+                <TouchableOpacity
+                  style={[
+                    styles.menuFabButton,
+                    { backgroundColor: BRAND_COLORS.info },
+                  ]}
+                  onPress={() => {
+                    haptics.buttonPress();
+                    closeAllDrawers();
+                    closeMainFab(false);
+                    setTariffEngineeringDrawerVisible(true);
+                  }}
+                >
+                  <Ionicons
+                    name="construct"
+                    size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
 
-            {/* Settings Button */}
-            <Animated.View
-              pointerEvents={mainFabExpanded ? "auto" : "none"}
-              style={[
-                styles.menuFab,
-                {
-                  transform: [
-                    { translateX: settingsFabTranslateX },
-                    { translateY: settingsFabTranslateY },
-                    { scale: menuFabScale },
-                  ],
-                  opacity: menuFabOpacity,
-                },
-              ]}
-            >
-              <TouchableOpacity
+              {/* Settings Button */}
+              <Animated.View
+                pointerEvents={mainFabExpanded ? "auto" : "none"}
                 style={[
-                  styles.menuFabButton,
-                  { backgroundColor: BRAND_COLORS.darkGray },
+                  styles.menuFab,
+                  {
+                    transform: [
+                      { translateX: settingsFabTranslateX },
+                      { translateY: settingsFabTranslateY },
+                      { scale: menuFabScale },
+                    ],
+                    opacity: menuFabOpacity,
+                  },
                 ]}
-                onPress={() => {
-                  haptics.buttonPress();
-                  closeAllDrawers();
-                  closeMainFab(false);
-                  setSettingsDrawerVisible(true);
-                }}
               >
-                <Ionicons
-                  name="settings"
-                  size={getResponsiveValue(16, 24)} // 80% size on iPhone
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
+                <TouchableOpacity
+                  style={[
+                    styles.menuFabButton,
+                    { backgroundColor: BRAND_COLORS.darkGray },
+                  ]}
+                  onPress={() => {
+                    haptics.buttonPress();
+                    closeAllDrawers();
+                    closeMainFab(false);
+                    setSettingsDrawerVisible(true);
+                  }}
+                >
+                  <Ionicons
+                    name="settings"
+                    size={getResponsiveValue(16, 24)} // 80% size on iPhone
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
 
-            {/* Main Floating Menu Button */}
-            <Animated.View
-              style={[
-                styles.mainFloatingFab,
-                {
-                  transform: [
-                    {
-                      rotate: mainFabRotation.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ["0deg", "45deg"],
-                      }),
-                    },
-                  ],
-                },
-              ]}
-            >
-              <TouchableOpacity
-                style={styles.mainFloatingFabButton}
-                onPress={handleMainFabPress}
+              {/* Main Floating Menu Button */}
+              <Animated.View
+                style={[
+                  styles.mainFloatingFab,
+                  {
+                    transform: [
+                      {
+                        rotate: mainFabRotation.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: ["0deg", "45deg"],
+                        }),
+                      },
+                    ],
+                  },
+                ]}
               >
-                <Ionicons
-                  name="menu"
-                  size={getResponsiveValue(19, 28)} // 80% size on iPhone (24 * 0.8 = 19.2 ≈ 19)
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
-          </View>
-        </HorizontalSection>
+                <TouchableOpacity
+                  style={styles.mainFloatingFabButton}
+                  onPress={handleMainFabPress}
+                >
+                  <Ionicons
+                    name="menu"
+                    size={getResponsiveValue(19, 28)} // 80% size on iPhone (24 * 0.8 = 19.2 ≈ 19)
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
+              </Animated.View>
+            </View>
+          </HorizontalSection>
+
+          {/* Fixed Header Container - Close the missing HorizontalSection */}
+        </View>
 
         {/* Main Content Area */}
         <KeyboardAwareScrollView
@@ -2800,7 +3149,7 @@ export default function LookupScreen() {
                       value={htsCode}
                       fieldKey="code"
                       onInfoPress={handleInfoPress}
-                      onChangeText={(text) => {
+                      onChangeText={(text: string) => {
                         const cleanedText = text.replace(/\D/g, "").slice(0, 8);
                         setHtsCode(cleanedText);
                         setUserClosedFab(false);
@@ -2826,27 +3175,32 @@ export default function LookupScreen() {
                           showsVerticalScrollIndicator={true}
                           keyboardShouldPersistTaps="handled"
                         >
-                          {htsSuggestions.map((suggestion, index) => (
-                            <TouchableOpacity
-                              key={index}
-                              style={styles.suggestionItem}
-                              onPress={() => {
-                                handleHtsSelection(
-                                  suggestion.code,
-                                  suggestion.description,
-                                );
-                                closeMainFab(false);
-                                closeAllNavigationDrawers();
-                              }}
-                            >
-                              <Text style={styles.suggestionCode}>
-                                {suggestion.code}
-                              </Text>
-                              <Text style={styles.suggestionDescription}>
-                                {suggestion.description}
-                              </Text>
-                            </TouchableOpacity>
-                          ))}
+                          {htsSuggestions.map(
+                            (
+                              suggestion: { code: string; description: string },
+                              index: number,
+                            ) => (
+                              <TouchableOpacity
+                                key={index}
+                                style={styles.suggestionItem}
+                                onPress={() => {
+                                  handleHtsSelection(
+                                    suggestion.code,
+                                    suggestion.description,
+                                  );
+                                  closeMainFab(false);
+                                  closeAllNavigationDrawers();
+                                }}
+                              >
+                                <Text style={styles.suggestionCode}>
+                                  {suggestion.code}
+                                </Text>
+                                <Text style={styles.suggestionDescription}>
+                                  {suggestion.description}
+                                </Text>
+                              </TouchableOpacity>
+                            ),
+                          )}
                         </ScrollView>
                       </View>
                     )}
@@ -2861,7 +3215,7 @@ export default function LookupScreen() {
                   <CountryLookup
                     ref={countryInputRef}
                     selectedCountry={selectedCountry}
-                    onSelect={(country) => {
+                    onSelect={(country: Country) => {
                       setSelectedCountry(country);
                       setUserClosedFab(false);
                       closeMainFab(false);
@@ -2882,7 +3236,7 @@ export default function LookupScreen() {
                     <TextInput
                       placeholder="Declared $"
                       value={formattedDeclaredValue}
-                      onChangeText={(value) => {
+                      onChangeText={(value: string) => {
                         handleDeclaredValueChange(value);
                         closeMainFab(false);
                         closeAllNavigationDrawers();
@@ -2949,26 +3303,35 @@ export default function LookupScreen() {
                     {/* Added costs chips */}
                     {additionalCosts.length > 0 && (
                       <View style={styles.chipsContainer}>
-                        {additionalCosts.map((cost, index) => (
-                          <TouchableOpacity
-                            key={cost.id}
-                            style={styles.chip}
-                            onPress={() => handleDeleteAdditionalCost(cost.id)}
-                            activeOpacity={0.7}
-                          >
-                            <View style={styles.chipContent}>
-                              <Text style={styles.chipText}>
-                                $
-                                {formatNumberWithCommas(cost.amount.toString())}
-                              </Text>
-                              <Ionicons
-                                name="close-circle"
-                                size={getResponsiveValue(16, 20)}
-                                color={BRAND_COLORS.orange}
-                              />
-                            </View>
-                          </TouchableOpacity>
-                        ))}
+                        {additionalCosts.map(
+                          (
+                            cost: { id: string; amount: number },
+                            index: number,
+                          ) => (
+                            <TouchableOpacity
+                              key={cost.id}
+                              style={styles.chip}
+                              onPress={() =>
+                                handleDeleteAdditionalCost(cost.id)
+                              }
+                              activeOpacity={0.7}
+                            >
+                              <View style={styles.chipContent}>
+                                <Text style={styles.chipText}>
+                                  $
+                                  {formatNumberWithCommas(
+                                    cost.amount.toString(),
+                                  )}
+                                </Text>
+                                <Ionicons
+                                  name="close-circle"
+                                  size={getResponsiveValue(16, 20)}
+                                  color={BRAND_COLORS.orange}
+                                />
+                              </View>
+                            </TouchableOpacity>
+                          ),
+                        )}
                       </View>
                     )}
 
@@ -2993,7 +3356,7 @@ export default function LookupScreen() {
                             ref={unitCountInputRef}
                             placeholder="Units"
                             value={currentUnitCount}
-                            onChangeText={(value) => {
+                            onChangeText={(value: string) => {
                               // Allow only numbers and one decimal point
                               const cleaned = value.replace(/[^0-9.]/g, "");
                               const parts = cleaned.split(".");
@@ -3022,27 +3385,32 @@ export default function LookupScreen() {
                         {/* Added units chips */}
                         {unitCounts.length > 0 && (
                           <View style={styles.chipsContainer}>
-                            {unitCounts.map((unit, index) => (
-                              <TouchableOpacity
-                                key={unit.id}
-                                style={styles.chip}
-                                onPress={() => handleDeleteUnitCount(unit.id)}
-                                activeOpacity={0.7}
-                              >
-                                <View style={styles.chipContent}>
-                                  <Text style={styles.chipText}>
-                                    {formatNumberWithCommas(
-                                      unit.amount.toString(),
-                                    )}
-                                  </Text>
-                                  <Ionicons
-                                    name="close-circle"
-                                    size={getResponsiveValue(16, 20)}
-                                    color={BRAND_COLORS.orange}
-                                  />
-                                </View>
-                              </TouchableOpacity>
-                            ))}
+                            {unitCounts.map(
+                              (
+                                unit: { id: string; amount: number },
+                                index: number,
+                              ) => (
+                                <TouchableOpacity
+                                  key={unit.id}
+                                  style={styles.chip}
+                                  onPress={() => handleDeleteUnitCount(unit.id)}
+                                  activeOpacity={0.7}
+                                >
+                                  <View style={styles.chipContent}>
+                                    <Text style={styles.chipText}>
+                                      {formatNumberWithCommas(
+                                        unit.amount.toString(),
+                                      )}
+                                    </Text>
+                                    <Ionicons
+                                      name="close-circle"
+                                      size={getResponsiveValue(16, 20)}
+                                      color={BRAND_COLORS.orange}
+                                    />
+                                  </View>
+                                </TouchableOpacity>
+                              ),
+                            )}
                           </View>
                         )}
 
@@ -3071,7 +3439,7 @@ export default function LookupScreen() {
                       </Text>
                       <Switch
                         value={isUSMCAOrigin}
-                        onValueChange={(value) => {
+                        onValueChange={(value: boolean) => {
                           haptics.selection();
                           setIsUSMCAOrigin(value);
                           closeMainFab(false);
@@ -3279,7 +3647,7 @@ export default function LookupScreen() {
         >
           <HistoryColumnContent
             visible={mainHistoryDrawerVisible}
-            onItemPress={(item) => {
+            onItemPress={(item: HistoryItem) => {
               // Close the history drawer
               setMainHistoryDrawerVisible(false);
               // Populate the form with the selected history item
@@ -3317,7 +3685,7 @@ export default function LookupScreen() {
             <View style={styles.drawerScreenContainer}>
               <HistoryScreen
                 visible={mainHistoryDrawerVisible}
-                onItemPress={(item) => {
+                onItemPress={(item: HistoryItem) => {
                   // Close the history drawer
                   setMainHistoryDrawerVisible(false);
                   handleHistoryItemSelection(item);
@@ -3449,6 +3817,79 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  fixedHeaderContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
+  },
+  inputSectionScrollView: {
+    flex: 1,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  resultsContainer: {
+    backgroundColor: "#f0f0f0",
+    padding: 16,
+    margin: 16,
+    borderRadius: getBorderRadius("lg"),
+  },
+  resultsContent: {
+    flex: 1,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  resultsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: getSpacing("md"),
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND_COLORS.lightGray,
+    backgroundColor: BRAND_COLORS.white,
+    minHeight: getResponsiveValue(60, 80),
+  },
+  resultsTitle: {
+    fontSize: getResponsiveValue(
+      getTypographySize("lg"),
+      getTypographySize("lg") * 1.35,
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
+    color: BRAND_COLORS.darkNavy,
+  },
+  resultsSubtitle: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ),
+    color: BRAND_COLORS.electricBlue,
+    marginTop: 2,
+  },
+  resultsTimestamp: {
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("xs") * 1.35,
+    ),
+    color: BRAND_COLORS.darkGray,
+    marginTop: 4,
+    fontStyle: "italic",
+  },
+  resultsDescription: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.darkGray,
+    marginTop: 4,
+    marginBottom: 2,
+    lineHeight: getResponsiveValue(18, 22),
+  },
+  resultsDescriptionExpanded: {
+    backgroundColor: BRAND_COLORS.lightGray,
+    padding: getSpacing("xs"),
+    borderRadius: getBorderRadius("sm"),
+    marginHorizontal: -getSpacing("xs"),
   },
   heroSection: {
     position: "relative",

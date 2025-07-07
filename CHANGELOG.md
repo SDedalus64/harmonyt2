@@ -4,6 +4,16 @@ All notable changes to HarmonyTi will be documented in this file.
 feat: integrate Geologica font family and update typography across the app
 
 refactor: remove Android and iOS project files, update component styles and structure
+refactor: enhance LookupScreen with type annotations and layout improvements
+
+[2025-07-07]
+
+refactor: enhance LookupScreen with type annotations and layout improvements
+
+- Added TypeScript type annotations for better type safety in UIManager.measure and various functions.
+- Improved the layout of the LookupScreen by implementing a fixed header and inline results display.
+- Updated the handling of additional costs and unit counts to ensure proper type usage and clarity.
+- Adjusted styles for the results section to enhance user experience and readability.
 
 [2025-07-06]
 
