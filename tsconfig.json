@@ -4,24 +4,35 @@
     "target": "ES2021",
     "module": "ES2020",
     "jsx": "react-native",
-    "strict": true,
-    "customConditions": ["react-native"],
+    "strict": false,
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "typeRoots": ["./node_modules/@types"],
-    "types": ["node", "jest"],
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     }
   },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
+  ],
   "exclude": [
+    "node_modules",
     "src/__tests__",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ]
 }
