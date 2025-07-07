@@ -2225,11 +2225,8 @@ export default function LookupScreen() {
 
   // Memo-ized dynamic styles that need to react on rotation
   const dynamicHeaderStyles = React.useMemo(() => {
-    const heroHeight = isTabletNow
-      ? isLandscape
-        ? windowHeight * 0.25 // Increased from 0.18
-        : windowHeight * 0.3 // Increased from 0.25
-      : windowHeight * 0.28; // Increased from 0.2 to accommodate FABs
+    // Fixed header height of 238px as requested
+    const heroHeight = 238;
 
     const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
 
@@ -3354,15 +3351,19 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: getResponsiveValue(12, 16), // Reduced horizontal padding
-    paddingTop: getResponsiveValue(8, 12), // Reduced top padding
+    paddingTop: 355, // Account for Container 1 ending at Y355
     paddingBottom: getResponsiveValue(40, 60), // Reduced bottom padding
   },
   inputSection: {
+    position: "absolute",
+    left: 32, // X32 as requested
+    top: 238, // Y238 as requested (start of container)
+    width: 490, // X522 - X32 = 490px width
+    height: 117, // Y355 - Y238 = 117px height
     backgroundColor: BRAND_COLORS.white,
     borderRadius: getBorderRadius("lg"),
     padding: getResponsiveValue(12, 16), // Reduced padding
     ...BRAND_SHADOWS.medium,
-    marginBottom: getResponsiveValue(8, 12), // Reduced margin
     zIndex: 10, // Ensure it appears above data source info
     elevation: 10, // For Android
   },
@@ -4111,9 +4112,10 @@ const styles = StyleSheet.create({
   },
   dataSourceInfoContainer: {
     position: "absolute",
-    bottom: 10, // 10px from bottom of screen
+    top: 1213, // Start at Y1213 as requested
     left: 0,
     right: 0,
+    bottom: 0, // Extend to bottom of screen
     alignItems: "center",
     borderRadius: getBorderRadius("md"),
     marginHorizontal: getSpacing("md"),
