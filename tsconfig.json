@@ -17,10 +17,7 @@
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "expo*": ["node_modules/expo/*"],
-      "react-native*": ["node_modules/react-native/*"],
-      "@react-navigation/*": ["node_modules/@react-navigation/*"]
+      "@/*": ["src/*"]
     }
   },
   "exclude": [
