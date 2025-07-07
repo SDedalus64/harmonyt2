@@ -10,7 +10,13 @@ chore: update Xcode project configuration and add Expo modules support
 
 [2025-07-07]
 refactor: update LookupScreen layout and improve component references
+refactor: update LookupScreen layout and improve component structure
 
+- Adjusted the layout of LookupScreen to enhance the user experience with a fixed header and improved data entry sections.
+- Replaced HorizontalSection with a View for the logo section to accommodate full height.
+- Renamed main floating action button styles for clarity and consistency.
+- Streamlined the data entry container and reorganized input fields for better accessibility.
+- Updated styles for input fields and buttons to align with the new design, including height adjustments and responsive sizing.
 - Redesigned LookupScreen to feature a fixed header and inline results display.
 - Removed the results drawer and adjusted the layout for better user experience.
 - Updated component references to use specific types for improved type safety.

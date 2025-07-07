@@ -30,7 +30,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { MainTabParamList } from "../navigation/types";
-import { CountryLookupRef } from "../components/CountryLookup";
+import CountryLookup, { CountryLookupRef } from "../components/CountryLookup";
 import { useTariff } from "../hooks/useTariff";
 import { useHistory, HistoryItem } from "../hooks/useHistory";
 import { useSettings } from "../hooks/useSettings";
@@ -2537,8 +2537,8 @@ export default function LookupScreen() {
       <View style={styles.content}>
         {/* Fixed Header Container - X0/Y0 to X595/Y236 */}
         <View style={styles.fixedHeaderContainer}>
-          {/* Logo and Menu Section */}
-          <HorizontalSection height={100} style={styles.logoSection}>
+          {/* Logo and Menu Section - Full height 236px */}
+          <View style={styles.logoSection}>
             <View style={styles.logoRow}>
               <Image
                 source={require("../../assets/Harmony-white.png")}
@@ -2760,7 +2760,7 @@ export default function LookupScreen() {
                   </TouchableOpacity>
                 </Animated.View>
 
-                {/* Main Floating Menu Button */}
+                {/* Main FAB Button */}
                 <Animated.View
                   style={[
                     styles.mainFloatingFab,
@@ -2772,6 +2772,7 @@ export default function LookupScreen() {
                             outputRange: ["0deg", "45deg"],
                           }),
                         },
+                        { scale: mainFabExpanded ? 1.1 : 1 },
                       ],
                     },
                   ]}
@@ -2782,206 +2783,222 @@ export default function LookupScreen() {
                   >
                     <Ionicons
                       name="menu"
-                      size={getResponsiveValue(19, 28)}
+                      size={getResponsiveValue(20, 28)}
                       color={BRAND_COLORS.white}
                     />
                   </TouchableOpacity>
                 </Animated.View>
               </View>
             </View>
-          </HorizontalSection>
+          </View>
+        </View>
 
-          {/* Entry Hub Section */}
-          <View style={styles.entryHubSection}>
-            <Text style={styles.entryHubTitle}>Entry Hub</Text>
+        {/* Data Entry Container - Separate from header */}
+        <View style={styles.dataEntryContainer}>
+          <Text style={styles.dataEntryTitle}>Entry Hub</Text>
 
-            {/* HTS Code and Country fields in same row */}
-            <View style={styles.entryFieldsRow}>
-              <View ref={fieldRefs.code as any} style={styles.htsFieldWrapper}>
-                {htsCode && selectedDescription ? (
-                  <TouchableOpacity
-                    style={styles.selectedHtsField}
-                    onPress={() => {
-                      setHtsDescriptionExpanded(!htsDescriptionExpanded);
-                      haptics.selection();
-                    }}
-                  >
-                    <View style={styles.selectedHtsContent}>
-                      <View style={styles.selectedHtsTextContainer}>
-                        <Text style={styles.selectedHtsCodeText}>
-                          {htsCode}
-                        </Text>
-                        <Text
-                          style={styles.selectedHtsDescriptionText}
-                          numberOfLines={htsDescriptionExpanded ? undefined : 1}
-                          ellipsizeMode="tail"
-                        >
-                          {selectedDescription}
-                        </Text>
-                      </View>
+          {/* HTS Code and Country fields in same row */}
+          <View style={styles.entryFieldsRow}>
+            <View ref={fieldRefs.code as any} style={styles.htsFieldWrapper}>
+              {htsCode && selectedDescription ? (
+                <TouchableOpacity
+                  style={styles.selectedHtsField}
+                  onPress={() => {
+                    setHtsDescriptionExpanded(!htsDescriptionExpanded);
+                    haptics.selection();
+                  }}
+                >
+                  <View style={styles.selectedHtsContent}>
+                    <View style={styles.selectedHtsTextContainer}>
+                      <Text style={styles.selectedHtsCodeText}>{htsCode}</Text>
+                      <Text
+                        style={styles.selectedHtsDescriptionText}
+                        numberOfLines={htsDescriptionExpanded ? undefined : 1}
+                        ellipsizeMode="tail"
+                      >
+                        {selectedDescription}
+                      </Text>
                     </View>
-                  </TouchableOpacity>
-                ) : (
-                  <FieldWithInfo
-                    placeholder="HTS Code"
-                    value={htsCode}
-                    fieldKey="code"
-                    onInfoPress={handleInfoPress}
-                    onChangeText={(text) => {
-                      const cleanedText = text.replace(/\D/g, "").slice(0, 8);
-                      setHtsCode(cleanedText);
-                      setUserClosedFab(false);
-                      closeMainFab();
-                      closeAllNavigationDrawers();
-                    }}
-                    inputRef={htsCodeInputRef as React.RefObject<TextInput>}
-                    keyboardType="number-pad"
-                    maxLength={8}
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={styles.entryField}
-                    onFocus={() => handleFieldFocus("code")}
-                  />
-                )}
-
-                {/* HTS Suggestions Dropdown */}
-                {showHtsSuggestions &&
-                  htsSuggestions.length > 0 &&
-                  !selectedDescription && (
-                    <HtsDropdown
-                      htsCode={htsCode}
-                      suggestions={htsSuggestions}
-                      onSelect={handleHtsSelection}
-                      visible={showHtsSuggestions}
-                    />
-                  )}
-              </View>
-
-              <View ref={fieldRefs.declared} style={styles.valueFieldWrapper}>
-                <TextInput
-                  placeholder="Declared $"
-                  value={formattedDeclaredValue}
-                  onChangeText={(value) => {
-                    handleDeclaredValueChange(value);
-                    closeMainFab(false);
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <FieldWithInfo
+                  placeholder="HTS Code"
+                  value={htsCode}
+                  fieldKey="code"
+                  onInfoPress={handleInfoPress}
+                  onChangeText={(text) => {
+                    const cleanedText = text.replace(/\D/g, "").slice(0, 8);
+                    setHtsCode(cleanedText);
+                    setUserClosedFab(false);
+                    closeMainFab();
                     closeAllNavigationDrawers();
                   }}
-                  ref={declaredValueInputRef}
-                  keyboardType="decimal-pad"
+                  inputRef={htsCodeInputRef as React.RefObject<TextInput>}
+                  keyboardType="number-pad"
+                  maxLength={8}
                   placeholderTextColor={BRAND_COLORS.electricBlue}
                   style={styles.entryField}
-                  onFocus={() => {
-                    setFormattedDeclaredValue(declaredValue);
-                    handleFieldFocus("declared");
-                  }}
-                  onBlur={() => {
-                    if (declaredValue) {
-                      setFormattedDeclaredValue(
-                        `$${formatNumberWithCommas(declaredValue)}`,
-                      );
-                    }
-                  }}
+                  onFocus={() => handleFieldFocus("code")}
                 />
-              </View>
-
-              {(settings.showUnitCalculations ?? true) && (
-                <View ref={fieldRefs.units} style={styles.valueFieldWrapper}>
-                  <View style={styles.multiFieldContainer}>
-                    <View style={styles.multiFieldInputRow}>
-                      <TextInput
-                        ref={unitCountInputRef}
-                        placeholder="Units"
-                        value={currentUnitCount}
-                        onChangeText={(value) => {
-                          const cleaned = value.replace(/[^0-9.]/g, "");
-                          const parts = cleaned.split(".");
-                          if (parts.length > 2) return;
-                          if (parts[1] && parts[1].length > 1) return;
-                          setCurrentUnitCount(cleaned);
-                        }}
-                        keyboardType="decimal-pad"
-                        placeholderTextColor={BRAND_COLORS.electricBlue}
-                        style={[styles.entryField, styles.multiFieldInput]}
-                        onSubmitEditing={handleAddUnitCount}
-                        returnKeyType="done"
-                        onFocus={() => handleFieldFocus("units")}
-                      />
-                      <TouchableOpacity
-                        style={styles.addButton}
-                        onPress={handleAddUnitCount}
-                      >
-                        <Ionicons
-                          name="add-circle"
-                          size={24}
-                          color={BRAND_COLORS.electricBlue}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    {/* Added units chips */}
-                    {unitCounts.length > 0 && (
-                      <View style={styles.chipsContainer}>
-                        {unitCounts.map((unit) => (
-                          <TouchableOpacity
-                            key={unit.id}
-                            style={styles.chip}
-                            onPress={() => handleDeleteUnitCount(unit.id)}
-                            activeOpacity={0.7}
-                          >
-                            <View style={styles.chipContent}>
-                              <Text style={styles.chipText}>
-                                {formatNumberWithCommas(unit.amount.toString())}
-                              </Text>
-                              <Ionicons
-                                name="close-circle"
-                                size={16}
-                                color={BRAND_COLORS.orange}
-                              />
-                            </View>
-                          </TouchableOpacity>
-                        ))}
-                      </View>
-                    )}
-                  </View>
-                </View>
               )}
-            </View>
 
-            {/* Action Buttons */}
-            <View style={styles.actionButtonsContainer}>
-              <TouchableOpacity
-                style={[
-                  styles.searchButton,
-                  isLoading && styles.searchButtonDisabled,
-                ]}
-                onPress={handleLookup}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color={BRAND_COLORS.white} />
-                ) : (
-                  <>
-                    <Ionicons
-                      name="search"
-                      size={18}
-                      color={BRAND_COLORS.white}
-                    />
-                    <Text style={styles.searchButtonText}>Calculate</Text>
-                  </>
+              {/* HTS Suggestions Dropdown */}
+              {showHtsSuggestions &&
+                htsSuggestions.length > 0 &&
+                !selectedDescription && (
+                  <HtsDropdown
+                    htsCode={htsCode}
+                    suggestions={htsSuggestions}
+                    onSelect={handleHtsSelection}
+                    visible={showHtsSuggestions}
+                  />
                 )}
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={handleClearAll}
-              >
-                <Ionicons
-                  name="backspace-outline"
-                  size={18}
-                  color={BRAND_COLORS.white}
-                />
-                <Text style={styles.clearButtonText}>Clear</Text>
-              </TouchableOpacity>
             </View>
+
+            <View style={styles.countryFieldWrapper}>
+              <CountryLookup
+                ref={countryInputRef}
+                selectedCountry={selectedCountry}
+                onSelect={(country: Country) => {
+                  setSelectedCountry(country);
+                  setUserClosedFab(false);
+                  closeMainFab(false);
+                  closeAllNavigationDrawers();
+                }}
+              />
+            </View>
+          </View>
+
+          {/* Value fields row */}
+          <View style={styles.valueFieldsRow}>
+            {/* Declared Value */}
+            <View ref={fieldRefs.declared} style={styles.valueFieldWrapper}>
+              <TextInput
+                placeholder="Declared $"
+                value={formattedDeclaredValue}
+                onChangeText={(value) => {
+                  handleDeclaredValueChange(value);
+                  closeMainFab(false);
+                  closeAllNavigationDrawers();
+                }}
+                ref={declaredValueInputRef}
+                keyboardType="decimal-pad"
+                placeholderTextColor={BRAND_COLORS.electricBlue}
+                style={styles.entryField}
+                onFocus={() => {
+                  setFormattedDeclaredValue(declaredValue);
+                  handleFieldFocus("declared");
+                }}
+                onBlur={() => {
+                  if (declaredValue) {
+                    setFormattedDeclaredValue(
+                      `$${formatNumberWithCommas(declaredValue)}`,
+                    );
+                  }
+                }}
+              />
+            </View>
+
+            {/* Units */}
+            {(settings.showUnitCalculations ?? true) && (
+              <View ref={fieldRefs.units} style={styles.valueFieldWrapper}>
+                <View style={styles.multiFieldContainer}>
+                  <View style={styles.multiFieldInputRow}>
+                    <TextInput
+                      ref={unitCountInputRef}
+                      placeholder="Units"
+                      value={currentUnitCount}
+                      onChangeText={(value) => {
+                        const cleaned = value.replace(/[^0-9.]/g, "");
+                        const parts = cleaned.split(".");
+                        if (parts.length > 2) return;
+                        if (parts[1] && parts[1].length > 1) return;
+                        setCurrentUnitCount(cleaned);
+                      }}
+                      keyboardType="decimal-pad"
+                      placeholderTextColor={BRAND_COLORS.electricBlue}
+                      style={[styles.entryField, styles.multiFieldInput]}
+                      onSubmitEditing={handleAddUnitCount}
+                      returnKeyType="done"
+                      onFocus={() => handleFieldFocus("units")}
+                    />
+                    <TouchableOpacity
+                      style={styles.addButton}
+                      onPress={handleAddUnitCount}
+                    >
+                      <Ionicons
+                        name="add-circle"
+                        size={24}
+                        color={BRAND_COLORS.electricBlue}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* Added units chips */}
+                  {unitCounts.length > 0 && (
+                    <View style={styles.chipsContainer}>
+                      {unitCounts.map((unit) => (
+                        <TouchableOpacity
+                          key={unit.id}
+                          style={styles.chip}
+                          onPress={() => handleDeleteUnitCount(unit.id)}
+                          activeOpacity={0.7}
+                        >
+                          <View style={styles.chipContent}>
+                            <Text style={styles.chipText}>
+                              {formatNumberWithCommas(unit.amount.toString())}
+                            </Text>
+                            <Ionicons
+                              name="close-circle"
+                              size={16}
+                              color={BRAND_COLORS.orange}
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              </View>
+            )}
+          </View>
+
+          {/* Action Buttons */}
+          <View style={styles.actionButtonsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.searchButton,
+                isLoading && styles.searchButtonDisabled,
+              ]}
+              onPress={handleLookup}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <ActivityIndicator color={BRAND_COLORS.white} />
+              ) : (
+                <>
+                  <Ionicons
+                    name="search"
+                    size={18}
+                    color={BRAND_COLORS.white}
+                  />
+                  <Text style={styles.searchButtonText}>Calculate</Text>
+                </>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.clearButton}
+              onPress={handleClearAll}
+            >
+              <Ionicons
+                name="backspace-outline"
+                size={18}
+                color={BRAND_COLORS.white}
+              />
+              <Text style={styles.clearButtonText}>Clear</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -3519,7 +3536,7 @@ const styles = StyleSheet.create({
 
   // Logo Section
   logoSection: {
-    height: 100,
+    height: 236,
     backgroundColor: BRAND_COLORS.darkNavy,
   },
   logoRow: {
@@ -3539,17 +3556,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  // Entry Hub Section
-  entryHubSection: {
+  // Data Entry Container
+  dataEntryContainer: {
     paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    backgroundColor: BRAND_COLORS.white,
+    marginTop: 236, // Position below fixed header
   },
-  entryHubTitle: {
+  dataEntryTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: BRAND_COLORS.darkNavy,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   entryFieldsRow: {
     flexDirection: "row",
@@ -3628,7 +3647,7 @@ const styles = StyleSheet.create({
   // Scrollable Content
   scrollableContent: {
     flex: 1,
-    marginTop: 236, // Start below fixed header
+    marginTop: 0, // No margin since data entry is now separate
   },
   scrollContentContainer: {
     paddingHorizontal: 20,
