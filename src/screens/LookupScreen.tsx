@@ -206,6 +206,7 @@ export default function LookupScreen() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const { saveToHistory, history, loadHistory } = useHistory();
   const { settings, updateSetting, isLoading: settingsLoading } = useSettings();
+  const { calculateDuty } = useTariff();
   const [selectedDescription, setSelectedDescription] = useState(""); // Add this line
 
   // Log settings when they change
@@ -261,6 +262,7 @@ export default function LookupScreen() {
   const [historyDrawerVisible, setHistoryDrawerVisible] = useState(false);
   const [newsDrawerVisible, setNewsDrawerVisible] = useState(false);
   const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
+  const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [htsDescriptionExpanded, setHtsDescriptionExpanded] = useState(false);
 
@@ -529,7 +531,10 @@ export default function LookupScreen() {
       descriptionExpanded ||
       htsDescriptionExpanded;
     const navigationDrawersOpen =
-      mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible || tariffEngineeringDrawerVisible;
+      mainHistoryDrawerVisible ||
+      settingsDrawerVisible ||
+      linksDrawerVisible ||
+      tariffEngineeringDrawerVisible;
 
     // Collapse main FAB menu when form has content or any drawers are open
     if (formHasContent || contentDrawersOpen || navigationDrawersOpen) {
@@ -1176,17 +1181,19 @@ export default function LookupScreen() {
       closeMainFab(false);
 
       // Calculate duty
-      const dutyCalc = await useTariff(
+      const dutyCalc = calculateDuty(
         htsCode,
-        selectedCountry.code,
         parseFloat(declaredValue),
+        selectedCountry.code,
+        settings.isReciprocalAdditive ?? true,
+        false, // excludeReciprocalTariff
         isUSMCAOrigin,
       );
 
       console.log("[Lookup] Duty calculation result:", dutyCalc);
 
-      if (dutyCalc.error) {
-        throw new Error(dutyCalc.error);
+      if (!dutyCalc) {
+        throw new Error("Failed to calculate duty");
       }
 
       // Extract components with descriptions
@@ -1206,13 +1213,13 @@ export default function LookupScreen() {
         (sum, unit) => sum + unit.amount,
         0,
       );
-      let unitCalculations = undefined;
+      let unitCalculations;
       if (totalUnitCount > 0) {
         const costPerUnit = dutyCalc.amount / totalUnitCount;
         const rtComponent = dutyCalc.components.find(
           (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
         );
-        const hasRT = rtComponent && rtComponent.amount > 0;
+        const hasRT = !!(rtComponent && rtComponent.amount > 0);
         const costPerUnitWithoutRT = hasRT
           ? (dutyCalc.amount - rtComponent.amount) / totalUnitCount
           : costPerUnit;
@@ -1288,13 +1295,17 @@ export default function LookupScreen() {
 
   const handleNewLookup = () => {
     haptics.buttonPress();
-    
+
     // Clear form
     setHtsCode("");
-    setSelectedCountry(settings?.defaultCountry ? {
-      code: settings.defaultCountry,
-      name: getCountryName(settings.defaultCountry),
-    } : undefined);
+    setSelectedCountry(
+      settings?.defaultCountry
+        ? {
+            code: settings.defaultCountry,
+            name: getCountryName(settings.defaultCountry),
+          }
+        : undefined,
+    );
     setSelectedDescription("");
     setDeclaredValue("");
     setFormattedDeclaredValue("");
@@ -2524,17 +2535,14 @@ export default function LookupScreen() {
         {/* Fixed Header Container - X0/Y0 to X595/Y236 */}
         <View style={styles.fixedHeaderContainer}>
           {/* Logo and Menu Section */}
-          <HorizontalSection
-            height={100}
-            style={styles.logoSection}
-          >
+          <HorizontalSection height={100} style={styles.logoSection}>
             <View style={styles.logoRow}>
               <Image
                 source={require("../../assets/Harmony-white.png")}
                 style={styles.headerLogo}
                 resizeMode="contain"
               />
-              
+
               {/* Unified Floating Menu System */}
               <View style={styles.headerMenuContainer}>
                 {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
@@ -2783,7 +2791,7 @@ export default function LookupScreen() {
           {/* Entry Hub Section */}
           <View style={styles.entryHubSection}>
             <Text style={styles.entryHubTitle}>Entry Hub</Text>
-            
+
             {/* HTS Code and Country fields in same row */}
             <View style={styles.entryFieldsRow}>
               <View style={styles.htsFieldWrapper} ref={fieldRefs.code}>
@@ -2833,14 +2841,16 @@ export default function LookupScreen() {
                 )}
 
                 {/* HTS Suggestions Dropdown */}
-                {showHtsSuggestions && htsSuggestions.length > 0 && !selectedDescription && (
-                  <HtsDropdown
-                    htsCode={htsCode}
-                    suggestions={htsSuggestions}
-                    onSelect={handleHtsSelection}
-                    visible={showHtsSuggestions}
-                  />
-                )}
+                {showHtsSuggestions &&
+                  htsSuggestions.length > 0 &&
+                  !selectedDescription && (
+                    <HtsDropdown
+                      htsCode={htsCode}
+                      suggestions={htsSuggestions}
+                      onSelect={handleHtsSelection}
+                      visible={showHtsSuggestions}
+                    />
+                  )}
               </View>
 
               <View style={styles.countryFieldWrapper}>
@@ -2879,7 +2889,9 @@ export default function LookupScreen() {
                   }}
                   onBlur={() => {
                     if (declaredValue) {
-                      setFormattedDeclaredValue(`$${formatNumberWithCommas(declaredValue)}`);
+                      setFormattedDeclaredValue(
+                        `$${formatNumberWithCommas(declaredValue)}`,
+                      );
                     }
                   }}
                 />
@@ -2952,7 +2964,10 @@ export default function LookupScreen() {
             {/* Action Buttons */}
             <View style={styles.actionButtonsContainer}>
               <TouchableOpacity
-                style={[styles.searchButton, isLoading && styles.searchButtonDisabled]}
+                style={[
+                  styles.searchButton,
+                  isLoading && styles.searchButtonDisabled,
+                ]}
                 onPress={handleLookup}
                 disabled={isLoading}
               >
@@ -2960,14 +2975,25 @@ export default function LookupScreen() {
                   <ActivityIndicator color={BRAND_COLORS.white} />
                 ) : (
                   <>
-                    <Ionicons name="search" size={18} color={BRAND_COLORS.white} />
+                    <Ionicons
+                      name="search"
+                      size={18}
+                      color={BRAND_COLORS.white}
+                    />
                     <Text style={styles.searchButtonText}>Calculate</Text>
                   </>
                 )}
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.clearButton} onPress={handleClearAll}>
-                <Ionicons name="backspace-outline" size={18} color={BRAND_COLORS.white} />
+              <TouchableOpacity
+                style={styles.clearButton}
+                onPress={handleClearAll}
+              >
+                <Ionicons
+                  name="backspace-outline"
+                  size={18}
+                  color={BRAND_COLORS.white}
+                />
                 <Text style={styles.clearButtonText}>Clear</Text>
               </TouchableOpacity>
             </View>
@@ -2989,7 +3015,9 @@ export default function LookupScreen() {
               {/* Results Header */}
               <View style={styles.resultsHeader}>
                 <View style={styles.resultsHeaderInfo}>
-                  <Text style={styles.resultsTitle}>Results for {selectedCountry?.name}</Text>
+                  <Text style={styles.resultsTitle}>
+                    Results for {selectedCountry?.name}
+                  </Text>
                   {result.description && (
                     <TouchableOpacity
                       activeOpacity={1}
@@ -3001,7 +3029,8 @@ export default function LookupScreen() {
                       <Text
                         style={[
                           styles.resultsDescription,
-                          descriptionExpanded && styles.resultsDescriptionExpanded,
+                          descriptionExpanded &&
+                            styles.resultsDescriptionExpanded,
                         ]}
                         numberOfLines={descriptionExpanded ? undefined : 1}
                         ellipsizeMode="tail"
@@ -3011,11 +3040,15 @@ export default function LookupScreen() {
                     </TouchableOpacity>
                   )}
                 </View>
-                
+
                 <View style={styles.resultsActions}>
                   {settings.autoSaveToHistory ? (
                     <View style={styles.autoSaveIndicator}>
-                      <Ionicons name="checkmark-circle" size={16} color={BRAND_COLORS.success} />
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={16}
+                        color={BRAND_COLORS.success}
+                      />
                       <Text style={styles.autoSaveText}>AutoSave On</Text>
                     </View>
                   ) : (
@@ -3027,9 +3060,18 @@ export default function LookupScreen() {
                       <Ionicons
                         name={isSaved ? "checkmark-circle" : "bookmark-outline"}
                         size={16}
-                        color={isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue}
+                        color={
+                          isSaved
+                            ? BRAND_COLORS.success
+                            : BRAND_COLORS.electricBlue
+                        }
                       />
-                      <Text style={[styles.saveButtonText, isSaved && styles.savedButtonText]}>
+                      <Text
+                        style={[
+                          styles.saveButtonText,
+                          isSaved && styles.savedButtonText,
+                        ]}
+                      >
                         {isSaved ? "Saved" : "Save"}
                       </Text>
                     </TouchableOpacity>
@@ -3040,25 +3082,45 @@ export default function LookupScreen() {
               {/* Duties and Landed Cost Cards */}
               {(() => {
                 const dutiableValue = parseFloat(declaredValue);
-                const merchandiseValueForLanded = dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
-                const landedCost = merchandiseValueForLanded + result.totalAmount;
-                const hasFreightCost = freightCost && parseFloat(freightCost) > 0;
+                const merchandiseValueForLanded =
+                  dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
+                const landedCost =
+                  merchandiseValueForLanded + result.totalAmount;
+                const hasFreightCost =
+                  freightCost && parseFloat(freightCost) > 0;
 
                 return (
                   <View style={styles.totalCardsRow}>
                     {/* Duties Card */}
-                    <View style={[styles.totalCard, { marginRight: hasFreightCost ? 8 : 0 }]}>
-                      <Text style={styles.totalCardLabel}>Est. Duties & Fees</Text>
-                      <Text style={styles.totalCardValue}>{formatCurrency(result.totalAmount)}</Text>
-                      <Text style={styles.totalCardSubtext}>on {formatCurrency(dutiableValue)} value</Text>
+                    <View
+                      style={[
+                        styles.totalCard,
+                        { marginRight: hasFreightCost ? 8 : 0 },
+                      ]}
+                    >
+                      <Text style={styles.totalCardLabel}>
+                        Est. Duties & Fees
+                      </Text>
+                      <Text style={styles.totalCardValue}>
+                        {formatCurrency(result.totalAmount)}
+                      </Text>
+                      <Text style={styles.totalCardSubtext}>
+                        on {formatCurrency(dutiableValue)} value
+                      </Text>
                     </View>
-                    
+
                     {/* Landed Cost Card */}
                     {hasFreightCost && (
                       <View style={[styles.totalCard, { marginLeft: 8 }]}>
-                        <Text style={styles.totalCardLabel}>Est. Landed Cost</Text>
-                        <Text style={styles.totalCardValue}>{formatCurrency(landedCost)}</Text>
-                        <Text style={styles.totalCardSubtext}>COGs+duties+other costs</Text>
+                        <Text style={styles.totalCardLabel}>
+                          Est. Landed Cost
+                        </Text>
+                        <Text style={styles.totalCardValue}>
+                          {formatCurrency(landedCost)}
+                        </Text>
+                        <Text style={styles.totalCardSubtext}>
+                          COGs+duties+other costs
+                        </Text>
                       </View>
                     )}
                   </View>
@@ -3069,17 +3131,25 @@ export default function LookupScreen() {
               {result.components && result.components.length > 0 && (
                 <View style={styles.breakdownSection}>
                   <Text style={styles.breakdownTitle}>Duty Breakdown</Text>
-                  {result.components.map((component: DutyComponent, index: number) => (
-                    <View key={index} style={styles.breakdownRow}>
-                      <View style={styles.breakdownLeft}>
-                        <Text style={styles.breakdownLabel}>{getLineItemLabel(component)}</Text>
-                        {component.rate > 0 && (
-                          <Text style={styles.breakdownRate}>{component.rate.toFixed(2)}%</Text>
-                        )}
+                  {result.components.map(
+                    (component: DutyComponent, index: number) => (
+                      <View key={index} style={styles.breakdownRow}>
+                        <View style={styles.breakdownLeft}>
+                          <Text style={styles.breakdownLabel}>
+                            {getLineItemLabel(component)}
+                          </Text>
+                          {component.rate > 0 && (
+                            <Text style={styles.breakdownRate}>
+                              {component.rate.toFixed(2)}%
+                            </Text>
+                          )}
+                        </View>
+                        <Text style={styles.breakdownAmount}>
+                          {formatCurrency(component.amount)}
+                        </Text>
                       </View>
-                      <Text style={styles.breakdownAmount}>{formatCurrency(component.amount)}</Text>
-                    </View>
-                  ))}
+                    ),
+                  )}
                 </View>
               )}
 
@@ -3089,49 +3159,80 @@ export default function LookupScreen() {
                   <Text style={styles.breakdownTitle}>Processing Fees</Text>
                   <View style={styles.breakdownRow}>
                     <View style={styles.breakdownLeft}>
-                      <Text style={styles.breakdownLabel}>Merchandise Processing Fee</Text>
-                      <Text style={styles.breakdownRate}>{result.fees.mpf.rate.toFixed(4)}%</Text>
+                      <Text style={styles.breakdownLabel}>
+                        Merchandise Processing Fee
+                      </Text>
+                      <Text style={styles.breakdownRate}>
+                        {result.fees.mpf.rate.toFixed(4)}%
+                      </Text>
                     </View>
-                    <Text style={styles.breakdownAmount}>{formatCurrency(result.fees.mpf.amount)}</Text>
+                    <Text style={styles.breakdownAmount}>
+                      {formatCurrency(result.fees.mpf.amount)}
+                    </Text>
                   </View>
                   <View style={styles.breakdownRow}>
                     <View style={styles.breakdownLeft}>
-                      <Text style={styles.breakdownLabel}>Harbor Maintenance Fee</Text>
-                      <Text style={styles.breakdownRate}>{result.fees.hmf.rate.toFixed(3)}%</Text>
+                      <Text style={styles.breakdownLabel}>
+                        Harbor Maintenance Fee
+                      </Text>
+                      <Text style={styles.breakdownRate}>
+                        {result.fees.hmf.rate.toFixed(3)}%
+                      </Text>
                     </View>
-                    <Text style={styles.breakdownAmount}>{formatCurrency(result.fees.hmf.amount)}</Text>
+                    <Text style={styles.breakdownAmount}>
+                      {formatCurrency(result.fees.hmf.amount)}
+                    </Text>
                   </View>
                 </View>
               )}
 
               {/* Unit Calculations */}
               {(() => {
-                const totalUnitCount = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
-                const totalDeclaredValue = parseFloat(declaredValue) + additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+                const totalUnitCount = unitCounts.reduce(
+                  (sum, unit) => sum + unit.amount,
+                  0,
+                );
+                const totalDeclaredValue =
+                  parseFloat(declaredValue) +
+                  additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
 
                 if (totalUnitCount > 0) {
                   return (
                     <View style={styles.breakdownSection}>
-                      <Text style={styles.breakdownTitle}>Per Unit ({formatNumber(totalUnitCount, 0)} units)</Text>
+                      <Text style={styles.breakdownTitle}>
+                        Per Unit ({formatNumber(totalUnitCount, 0)} units)
+                      </Text>
                       <View style={styles.breakdownRow}>
                         <Text style={styles.breakdownLabel}>Duty Cost</Text>
-                        <Text style={styles.breakdownAmount}>{formatCurrency(result.totalAmount / totalUnitCount)}</Text>
+                        <Text style={styles.breakdownAmount}>
+                          {formatCurrency(result.totalAmount / totalUnitCount)}
+                        </Text>
                       </View>
                       <View style={styles.breakdownRow}>
                         <Text style={styles.breakdownLabel}>Landed Cost</Text>
                         <Text style={styles.breakdownAmount}>
-                          {formatCurrency((totalDeclaredValue + result.totalAmount) / totalUnitCount)}
+                          {formatCurrency(
+                            (totalDeclaredValue + result.totalAmount) /
+                              totalUnitCount,
+                          )}
                         </Text>
                       </View>
                       {(() => {
                         if (result.components) {
-                          const rtComponent = result.components.find((c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE);
+                          const rtComponent = result.components.find(
+                            (c: DutyComponent) =>
+                              c.type === RECIPROCAL_TARIFF_TYPE,
+                          );
                           if (rtComponent && rtComponent.amount > 0) {
                             return (
                               <View style={styles.breakdownRow}>
-                                <Text style={styles.breakdownLabel}>Addl RT cost</Text>
+                                <Text style={styles.breakdownLabel}>
+                                  Addl RT cost
+                                </Text>
                                 <Text style={styles.breakdownHighlight}>
-                                  {formatCurrency(rtComponent.amount / totalUnitCount)}
+                                  {formatCurrency(
+                                    rtComponent.amount / totalUnitCount,
+                                  )}
                                 </Text>
                               </View>
                             );
@@ -3153,8 +3254,14 @@ export default function LookupScreen() {
                   setTariffEngineeringDrawerVisible(true);
                 }}
               >
-                <Ionicons name="git-compare" size={18} color={BRAND_COLORS.white} />
-                <Text style={styles.tariffEngineeringButtonText}>Tariff Engineering</Text>
+                <Ionicons
+                  name="git-compare"
+                  size={18}
+                  color={BRAND_COLORS.white}
+                />
+                <Text style={styles.tariffEngineeringButtonText}>
+                  Tariff Engineering
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -3410,10 +3517,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-  
+
   // Fixed Header Container - X0/Y0 to X595/Y236
   fixedHeaderContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -3421,10 +3528,10 @@ const styles = StyleSheet.create({
     height: 236,
     backgroundColor: BRAND_COLORS.white,
     zIndex: 100,
-    elevation: 100, // For Android
     ...BRAND_SHADOWS.medium,
+    elevation: 100, // For Android - override shadow elevation
   },
-  
+
   // Logo Section
   logoSection: {
     height: 100,
@@ -3432,21 +3539,21 @@ const styles = StyleSheet.create({
   },
   logoRow: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
   },
   headerLogo: {
     width: 200,
     height: 60,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   headerMenuContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
-  
+
   // Entry Hub Section
   entryHubSection: {
     paddingHorizontal: 20,
@@ -3455,19 +3562,19 @@ const styles = StyleSheet.create({
   },
   entryHubTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: BRAND_COLORS.darkNavy,
     marginBottom: 10,
   },
   entryFieldsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 10,
     gap: 10,
   },
   htsFieldWrapper: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   countryFieldWrapper: {
     flex: 1,
@@ -3484,8 +3591,8 @@ const styles = StyleSheet.create({
     height: 40,
   },
   valueFieldsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 10,
     gap: 10,
   },
@@ -3496,8 +3603,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   multiFieldInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 5,
   },
   multiFieldInput: {
@@ -3507,8 +3614,8 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   chipsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginTop: 5,
     gap: 5,
   },
@@ -3519,8 +3626,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   chipContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 5,
   },
   chipText: {
@@ -3528,11 +3635,11 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.darkNavy,
   },
   actionButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "flex-end",
     gap: 10,
   },
-  
+
   // Scrollable Content
   scrollableContent: {
     flex: 1,
@@ -3543,7 +3650,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 100,
   },
-  
+
   // Results Section
   resultsSection: {
     backgroundColor: BRAND_COLORS.white,
@@ -3553,9 +3660,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   resultsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     marginBottom: 16,
     paddingBottom: 16,
     borderBottomWidth: 1,
@@ -3567,7 +3674,7 @@ const styles = StyleSheet.create({
   },
   resultsTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: BRAND_COLORS.darkNavy,
     marginBottom: 4,
   },
@@ -3583,13 +3690,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   resultsActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
   autoSaveIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 5,
   },
   autoSaveText: {
@@ -3597,8 +3704,8 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.success,
   },
   saveButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 5,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -3606,21 +3713,21 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.lightGray,
   },
   savedButton: {
-    backgroundColor: BRAND_COLORS.success + '20',
+    backgroundColor: BRAND_COLORS.success + "20",
   },
   saveButtonText: {
     fontSize: 12,
     color: BRAND_COLORS.electricBlue,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   savedButtonText: {
     color: BRAND_COLORS.success,
   },
-  
+
   // Total Cards
   totalCardsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   totalCard: {
@@ -3628,7 +3735,7 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.electricBlue,
     borderRadius: 10,
     padding: 16,
-    alignItems: 'center',
+    alignItems: "center",
     ...BRAND_SHADOWS.small,
   },
   totalCardLabel: {
@@ -3639,7 +3746,7 @@ const styles = StyleSheet.create({
   },
   totalCardValue: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: BRAND_COLORS.white,
     marginBottom: 4,
   },
@@ -3647,26 +3754,26 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: BRAND_COLORS.white,
     opacity: 0.8,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  
+
   // Breakdown Sections
   breakdownSection: {
     marginBottom: 20,
   },
   breakdownTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: BRAND_COLORS.darkNavy,
     marginBottom: 12,
   },
   breakdownRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: BRAND_COLORS.lightGray + '50',
+    borderBottomColor: BRAND_COLORS.lightGray + "50",
   },
   breakdownLeft: {
     flex: 1,
@@ -3683,15 +3790,15 @@ const styles = StyleSheet.create({
   },
   breakdownAmount: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: BRAND_COLORS.darkNavy,
   },
   breakdownHighlight: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: BRAND_COLORS.orange,
   },
-  
+
   // Selected HTS Field
   selectedHtsField: {
     backgroundColor: BRAND_COLORS.lightGray,
@@ -3703,21 +3810,21 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   selectedHtsContent: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   selectedHtsTextContainer: {
     flex: 1,
   },
   selectedHtsCodeText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: BRAND_COLORS.electricBlue,
   },
   selectedHtsDescriptionText: {
     fontSize: 12,
     color: BRAND_COLORS.darkGray,
     marginTop: 2,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
 
   // Unified Floating Menu Styles
@@ -4128,18 +4235,6 @@ const styles = StyleSheet.create({
   savedHeaderButtonText: {
     color: BRAND_COLORS.success,
   },
-  autoSaveIndicator: {
-    borderColor: BRAND_COLORS.success,
-    backgroundColor: BRAND_COLORS.lightGray,
-  },
-  autoSaveText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("sm") * 1.35,
-    ),
-    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
-    color: BRAND_COLORS.success,
-  },
 
   // Drawer screen container
   drawerScreenContainer: {
@@ -4284,16 +4379,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 20,
     ...BRAND_SHADOWS.small,
   },
   tariffEngineeringButtonText: {
     color: BRAND_COLORS.white,
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     marginLeft: 8,
   },
 
@@ -4366,50 +4461,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
     elevation: 999,
   },
-  selectedHtsField: {
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderColor: BRAND_COLORS.mediumGray,
-    borderRadius: getBorderRadius("md"),
-    borderWidth: 1,
-    minHeight: getResponsiveValue(46, 54),
-    justifyContent: "center",
-    paddingHorizontal: getSpacing("md"),
-    paddingVertical: getSpacing("sm"),
-    width: "100%",
-  },
-  selectedHtsContent: {
-    flexDirection: "column",
-    alignItems: "stretch",
-    justifyContent: "flex-start",
-  },
-  selectedHtsTextContainer: {
-    flex: 1,
-  },
-  selectedHtsCodeText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("md") * 1.5 * 0.75,
-      getTypographySize("md") * 1.8 * 0.75,
-    ),
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
-    color: BRAND_COLORS.darkNavy,
-  },
-  selectedHtsDescriptionText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("md"),
-    ),
-    color: BRAND_COLORS.darkNavy,
-    marginTop: getSpacing("xs"),
-    lineHeight: getResponsiveValue(18, 22),
-  },
-  valueFieldsRow: {
-    flexDirection: "row",
-    gap: getResponsiveValue(10, 15),
-    paddingHorizontal: getResponsiveValue(20, 40),
-  },
-  valueFieldColumn: {
-    flex: 1,
-  },
+
   valueInput: {
     ...Platform.select({
       ios: {
@@ -4438,56 +4490,7 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  multiFieldContainer: {
-    marginTop: getResponsiveValue(10, 12),
-  },
-  multiFieldInputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: getResponsiveValue(8, 10),
-  },
-  multiFieldInput: {
-    flex: 1,
-    fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
-    height: getResponsiveValue(46, 54), // Same height as value input
-    paddingHorizontal: getResponsiveValue(15, 20),
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getResponsiveValue(12, 16),
-    color: BRAND_COLORS.mediumBlue, // Same medium blue
-    textAlign: "left",
-    borderWidth: 1,
-    borderColor: BRAND_COLORS.mediumGray,
-  },
-  addButton: {
-    padding: getResponsiveValue(4, 6),
-  },
-  chipsContainer: {
-    marginTop: getResponsiveValue(8, 10),
-    gap: getResponsiveValue(6, 8),
-  },
-  chip: {
-    backgroundColor: BRAND_COLORS.lightGray,
-    paddingHorizontal: getResponsiveValue(12, 16),
-    paddingVertical: getResponsiveValue(6, 8),
-    borderRadius: getResponsiveValue(8, 10),
-    marginBottom: getResponsiveValue(4, 6),
-  },
-  chipContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  chipText: {
-    fontSize: getResponsiveValue(11, 13),
-    color: BRAND_COLORS.darkNavy,
-    marginRight: getResponsiveValue(8, 10),
-  },
-  arithmeticContainer: {
-    marginTop: getResponsiveValue(8, 10),
-    paddingTop: getResponsiveValue(8, 10),
-    borderTopWidth: 1,
-    borderTopColor: BRAND_COLORS.lightGray,
-  },
+
   arithmeticText: {
     fontSize: getResponsiveValue(12, 14),
     fontWeight: "600",
@@ -4526,23 +4529,6 @@ const styles = StyleSheet.create({
     marginLeft: getSpacing("sm"),
     lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
-  clearButton: {
-    backgroundColor: BRAND_COLORS.darkGray,
-    borderRadius: getBorderRadius("md"),
-    paddingVertical: getResponsiveValue(8, 12),
-    paddingHorizontal: getResponsiveValue(16, 20),
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    ...BRAND_SHADOWS.small,
-    height: getResponsiveValue(40, 48),
-  },
-  clearButtonText: {
-    color: BRAND_COLORS.white,
-    fontSize: getTypographySize("md"),
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
-    marginLeft: getSpacing("sm"),
-  },
   loadingMessageContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -4561,7 +4547,7 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.electricBlue,
     textAlign: "center",
   },
-  
+
   // HTS Suggestions Styles
   suggestionsContainer: {
     backgroundColor: BRAND_COLORS.white,
@@ -4752,25 +4738,5 @@ const styles = StyleSheet.create({
     height: getResponsiveValue(46, 54),
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
-  },
-  valueInput: {
-    width: "100%",
-  },
-  valueFieldColumn: {
-    flex: 1,
-  },
-  arithmeticContainer: {
-    marginTop: getSpacing("xs"),
-    paddingTop: getSpacing("xs"),
-    borderTopWidth: 1,
-    borderTopColor: BRAND_COLORS.lightGray,
-  },
-  actionButtonsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: getSpacing("md"),
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
-    gap: getSpacing("sm"),
   },
 });

@@ -4,8 +4,13 @@ All notable changes to HarmonyTi will be documented in this file.
 feat: integrate Geologica font family and update typography across the app
 
 refactor: remove Android and iOS project files, update component styles and structure
+feat: enhance LookupScreen with duty calculation and new UI elements
 
-[2025-07-06]
+- Integrated duty calculation functionality using the new calculateDuty method.
+- Added a results drawer for displaying calculation results.
+- Improved error handling for duty calculation failures.
+- Removed unused styles and components to streamline the codebase.
+  [2025-07-06]
 
 - Upgraded expo from version 52.0.6 to 53.0.17 in package.json for improved features and performance.
 - Regenerated yarn.lock to reflect the updated dependencies and ensure compatibility.
