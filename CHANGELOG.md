@@ -9,7 +9,13 @@ feat: enhance LookupScreen with duty calculation and new UI elements
 chore: update Xcode project configuration and add Expo modules support
 
 [2025-07-07]
+refactor: update LookupScreen layout and improve component references
 
+- Redesigned LookupScreen to feature a fixed header and inline results display.
+- Removed the results drawer and adjusted the layout for better user experience.
+- Updated component references to use specific types for improved type safety.
+- Enhanced styling for input fields and buttons to align with the new design.
+- Documented layout coordinates for better clarity on screen dimensions and container placements.
 - Added new font files (Geologica-Bold, Geologica-Regular, Geologica-Light, Geologica-SemiBold, Geologica-Medium) to the project.
 - Included ExpoModulesProvider.swift and PrivacyInfo.xcprivacy in the project structure.
 - Updated build phases to include new shell scripts for Expo configuration and embedding Pods frameworks.

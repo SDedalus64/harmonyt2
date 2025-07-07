@@ -30,7 +30,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { MainTabParamList } from "../navigation/types";
-import CountryLookup from "../components/CountryLookup";
+import { CountryLookupRef } from "../components/CountryLookup";
 import { useTariff } from "../hooks/useTariff";
 import { useHistory, HistoryItem } from "../hooks/useHistory";
 import { useSettings } from "../hooks/useSettings";
@@ -236,12 +236,12 @@ export default function LookupScreen() {
   const currentEntry = useRef<any>(null);
   const currentDutyCalculation = useRef<any>(null);
   const [showRecentHistory, setShowRecentHistory] = useState(isTablet());
-  const countryInputRef = useRef<TextInput>(null);
-  const declaredValueInputRef = useRef<TextInput>(null);
-  const freightCostInputRef = useRef<TextInput>(null);
-  const htsCodeInputRef = useRef<TextInput>(null);
-  const additionalCostInputRef = useRef<TextInput>(null);
-  const unitCountInputRef = useRef<TextInput>(null);
+  const countryInputRef = useRef<CountryLookupRef>(null);
+  const declaredValueInputRef = useRef<TextInput | null>(null);
+  const freightCostInputRef = useRef<TextInput | null>(null);
+  const htsCodeInputRef = useRef<TextInput | null>(null);
+  const additionalCostInputRef = useRef<TextInput | null>(null);
+  const unitCountInputRef = useRef<TextInput | null>(null);
   // Use generic ref to support both ScrollView and KeyboardAwareScrollView
   const resultScrollViewRef = useRef<any>(null);
   const unitEntryRef = useRef<View>(null);
@@ -357,11 +357,12 @@ export default function LookupScreen() {
     prevVisibleRef.current = shouldShowInfoTab;
   }, [shouldShowInfoTab]);
 
+  // Change fieldRefs to useRef<any>(null)
   const fieldRefs = {
-    code: useRef<View>(null),
-    declared: useRef<View>(null),
-    freight: useRef<View>(null),
-    units: useRef<View>(null),
+    code: useRef<any>(null),
+    declared: useRef<any>(null),
+    freight: useRef<any>(null),
+    units: useRef<any>(null),
   } as const;
 
   const handleFieldFocus = (field: InfoFieldKey) => {
@@ -424,23 +425,25 @@ export default function LookupScreen() {
             }
           } else {
             // iOS uses measureInWindow as before
-            ref.current.measureInWindow((x, y, width, height) => {
-              if (
-                typeof y === "number" &&
-                typeof height === "number" &&
-                !isNaN(y) &&
-                !isNaN(height) &&
-                y > 0 &&
-                height > 0
-              ) {
-                const spacing = getSpacing("sm");
-                if (typeof spacing === "number" && !isNaN(spacing)) {
-                  setTabY(y + height / 2 - 20 - spacing);
+            ref.current.measureInWindow(
+              (x: number, y: number, width: number, height: number) => {
+                if (
+                  typeof y === "number" &&
+                  typeof height === "number" &&
+                  !isNaN(y) &&
+                  !isNaN(height) &&
+                  y > 0 &&
+                  height > 0
+                ) {
+                  const spacing = getSpacing("sm");
+                  if (typeof spacing === "number" && !isNaN(spacing)) {
+                    setTabY(y + height / 2 - 20 - spacing);
+                  }
+                } else {
+                  setTabY(200);
                 }
-              } else {
-                setTabY(200);
-              }
-            });
+              },
+            );
           }
         }
       }, measureDelay);
@@ -2794,7 +2797,7 @@ export default function LookupScreen() {
 
             {/* HTS Code and Country fields in same row */}
             <View style={styles.entryFieldsRow}>
-              <View style={styles.htsFieldWrapper} ref={fieldRefs.code}>
+              <View ref={fieldRefs.code as any} style={styles.htsFieldWrapper}>
                 {htsCode && selectedDescription ? (
                   <TouchableOpacity
                     style={styles.selectedHtsField}
@@ -2831,7 +2834,7 @@ export default function LookupScreen() {
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    inputRef={htsCodeInputRef}
+                    inputRef={htsCodeInputRef as React.RefObject<TextInput>}
                     keyboardType="number-pad"
                     maxLength={8}
                     placeholderTextColor={BRAND_COLORS.electricBlue}
@@ -2853,24 +2856,7 @@ export default function LookupScreen() {
                   )}
               </View>
 
-              <View style={styles.countryFieldWrapper}>
-                <CountryLookup
-                  ref={countryInputRef}
-                  selectedCountry={selectedCountry}
-                  onSelect={(country) => {
-                    setSelectedCountry(country);
-                    setUserClosedFab(false);
-                    closeMainFab(false);
-                    closeAllNavigationDrawers();
-                  }}
-                />
-              </View>
-            </View>
-
-            {/* Value fields row */}
-            <View style={styles.valueFieldsRow}>
-              {/* Declared Value */}
-              <View style={styles.valueFieldWrapper} ref={fieldRefs.declared}>
+              <View ref={fieldRefs.declared} style={styles.valueFieldWrapper}>
                 <TextInput
                   placeholder="Declared $"
                   value={formattedDeclaredValue}
@@ -2897,9 +2883,8 @@ export default function LookupScreen() {
                 />
               </View>
 
-              {/* Units */}
               {(settings.showUnitCalculations ?? true) && (
-                <View style={styles.valueFieldWrapper} ref={fieldRefs.units}>
+                <View ref={fieldRefs.units} style={styles.valueFieldWrapper}>
                   <View style={styles.multiFieldContainer}>
                     <View style={styles.multiFieldInputRow}>
                       <TextInput
