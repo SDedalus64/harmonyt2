@@ -15,29 +15,19 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-// ← SafeAreaView must come from react-native-safe-area-context:
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-
 import { useDebounce } from "../hooks/useDebounce";
 import EntryForm from "../components/EntryForm";
 import ResultSummary from "../components/ResultSummary";
-
+import type { InfoFieldKey } from "../components/FieldWithInfo";
 import { MainTabParamList } from "../navigation/types";
 import { useSettings } from "../hooks/useSettings";
 import { useHistory } from "../hooks/useHistory";
-import { useTariff } from "../hooks/useTariff";
-import { tariffSearchService } from "../services/tariffSearchService";
 import { TariffService } from "../services/tariffService";
 import { getCountryName } from "../utils/countries";
 import CountryLookup from "../components/CountryLookup";
-
-// Remove erroneous InfoFieldKey import and define our own union:
-type FieldKey = "code" | "declared" | "freight" | "units";
-
-import FieldWithInfo from "../components/FieldWithInfo";
 import DisclaimerModal from "./DisclaimerModal";
 import InfoDrawer from "../components/InfoDrawer";
 import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
@@ -60,10 +50,6 @@ import {
   getBorderRadius,
   getResponsiveValue,
   getDrawerConfig,
-  getFabConfig,
-  getInputConfig,
-  getButtonConfig,
-  getTradeNewsDrawerConfig,
 } from "../config/brandColors";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -96,9 +82,7 @@ export default function LookupScreen() {
   const insets = useSafeAreaInsets();
 
   const [htsCode, setHtsCode] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState<
-    { code: string; name: string } | undefined
-  >();
+  const [selectedCountry, setSelectedCountry] = useState<{ code: string; name: string }>();
   const [declaredValue, setDeclaredValue] = useState("");
   const [freightCost, setFreightCost] = useState("");
   const [unitCount, setUnitCount] = useState("");
@@ -107,9 +91,7 @@ export default function LookupScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [isSaved, setIsSaved] = useState(false);
-  const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<
-    number | null
-  >(null);
+  const [loadedHistoryTimestamp, setLoadedHistoryTimestamp] = useState<number | null>(null);
 
   const { settings } = useSettings();
   const { history, loadHistory, saveToHistory } = useHistory();
@@ -117,13 +99,12 @@ export default function LookupScreen() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false);
 
-  // Use our local FieldKey type:
-  const [activeField, setActiveField] = useState<FieldKey | null>(null);
+  const [activeField, setActiveField] = useState<InfoFieldKey | null>(null);
   const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
   const infoTabOpacity = useRef(new Animated.Value(0)).current;
   const [tabY, setTabY] = useState(0);
 
-  const { code, country, declared, freight, units } = {
+  const debounced = {
     code: useDebounce(htsCode, 300),
     country: useDebounce(selectedCountry, 300),
     declared: useDebounce(declaredValue, 300),
@@ -133,20 +114,17 @@ export default function LookupScreen() {
 
   useEffect(() => {
     loadHistory();
-  }, []);
+  }, [loadHistory]);
 
   useEffect(() => {
-    if (code.length >= 3 && country && declared) {
+    if (debounced.code.length >= 3 && debounced.country && debounced.declared) {
       handleLookup();
     }
-  }, [code, country, declared]);
+  }, [debounced.code, debounced.country, debounced.declared]);
 
   const handleLookup = async () => {
     if (!htsCode || !selectedCountry || !declaredValue) {
-      Alert.alert(
-        "Missing Information",
-        "Enter code, country, and declared value."
-      );
+      Alert.alert("Missing Information", "Enter code, country, and declared value.");
       return;
     }
     haptics.impact();
@@ -185,13 +163,12 @@ export default function LookupScreen() {
             breakdown: calc.breakdown,
             components: calc.components,
             fees: calc.fees,
-            // ← Removed bad import/type lines and timestamp
             unitCount: unitCount || undefined,
           });
           setIsSaved(true);
         }
       }
-    } catch (e) {
+    } catch {
       Alert.alert("Error", "Lookup failed.");
     } finally {
       setIsLoading(false);
@@ -236,13 +213,10 @@ export default function LookupScreen() {
           contentContainerStyle={{ paddingBottom: getSpacing("xl") }}
           showsVerticalScrollIndicator={false}
         >
-          {/* Duties & Landed */}
           <View style={styles.totalRow}>
             <View style={styles.totalCard}>
               <Text style={styles.totalLabel}>Est. Duties & Fees</Text>
-              <Text style={styles.totalValue}>
-                ${result.totalAmount.toFixed(2)}
-              </Text>
+              <Text style={styles.totalValue}>${result.totalAmount.toFixed(2)}</Text>
             </View>
             {freightCost && parseFloat(freightCost) > 0 && (
               <View style={styles.totalCard}>
@@ -258,34 +232,22 @@ export default function LookupScreen() {
               </View>
             )}
           </View>
-
-          {/* Breakdown */}
           <Text style={styles.sectionTitle}>Duty Breakdown</Text>
           {result.components.map((c: any, i: number) => (
             <View key={i} style={styles.breakdownRow}>
               <Text style={styles.breakdownLabel}>{c.label || c.type}</Text>
-              <Text style={styles.breakdownAmount}>
-                ${c.amount.toFixed(2)}
-              </Text>
+              <Text style={styles.breakdownAmount}>${c.amount.toFixed(2)}</Text>
             </View>
           ))}
-
-          {/* Fees */}
           <Text style={styles.sectionTitle}>Processing Fees</Text>
           <View style={styles.breakdownRow}>
             <Text style={styles.breakdownLabel}>MPF</Text>
-            <Text style={styles.breakdownAmount}>
-              ${result.fees.mpf.amount.toFixed(2)}
-            </Text>
+            <Text style={styles.breakdownAmount}>${result.fees.mpf.amount.toFixed(2)}</Text>
           </View>
           <View style={styles.breakdownRow}>
             <Text style={styles.breakdownLabel}>HMF</Text>
-            <Text style={styles.breakdownAmount}>
-              ${result.fees.hmf.amount.toFixed(2)}
-            </Text>
+            <Text style={styles.breakdownAmount}>${result.fees.hmf.amount.toFixed(2)}</Text>
           </View>
-
-          {/* Per Unit */}
           {unitCount && parseFloat(unitCount) > 0 && (
             <>
               <Text style={styles.sectionTitle}>Per Unit ({unitCount})</Text>
@@ -318,19 +280,14 @@ export default function LookupScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <DisclaimerModal visible={showDisclaimer} onAgree={handleDisclaimerAgree} />
-
       <View style={styles.content}>
-        <HorizontalSection
-          height={SCREEN_HEIGHT * 0.28}
-          style={styles.heroSection}
-        >
+        <HorizontalSection height={SCREEN_HEIGHT * 0.28} style={styles.heroSection}>
           <Image
             source={require("../../assets/Harmony-white.png")}
             style={styles.logo}
             resizeMode="contain"
           />
         </HorizontalSection>
-
         <View style={styles.mainScrollArea}>
           <EntryForm
             htsCode={htsCode}
@@ -349,7 +306,6 @@ export default function LookupScreen() {
             onCalculate={handleLookup}
             onClear={handleClearAll}
           />
-
           <ResultSummary
             duties={result?.totalAmount || 0}
             landed={
@@ -360,9 +316,7 @@ export default function LookupScreen() {
                 : undefined
             }
             perUnitDuty={
-              result && unitCount
-                ? result.totalAmount / parseFloat(unitCount)
-                : undefined
+              result && unitCount ? result.totalAmount / parseFloat(unitCount) : undefined
             }
             perUnitLanded={
               result && unitCount
@@ -373,27 +327,18 @@ export default function LookupScreen() {
                 : undefined
             }
           />
-
           {renderFullResults()}
-
-          {/* Example of renaming the drawer prop: */}
-          <AnimatedDrawer
-            isVisible={false}
-            onClose={() => {}}
-            position="bottom"
-            customDrawerConfig={getDrawerConfig()}
-          >
-            <View />
-          </AnimatedDrawer>
         </View>
+        <AnimatedDrawer
+          isVisible={false}
+          onClose={() => {}}
+          position="bottom"
+          customDrawerConfig={getDrawerConfig()}
+        >
+          <View />
+        </AnimatedDrawer>
       </View>
-
-      <InfoDrawer
-        isOpen={infoDrawerVisible}
-        onClose={() => setInfoDrawerVisible(false)} 
-        field={activeField}
-      />
-
+      <InfoDrawer isOpen={infoDrawerVisible} onClose={() => setInfoDrawerVisible(false)} field={activeField} />
       <FirstTimeGuideScreen visible={showFirstTimeGuide} onClose={handleGuideClose} />
     </SafeAreaView>
   );
