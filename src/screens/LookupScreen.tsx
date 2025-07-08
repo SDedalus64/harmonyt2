@@ -21,7 +21,9 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useDebounce } from "../hooks/useDebounce";
 import EntryForm from "../components/EntryForm";
 import ResultSummary from "../components/ResultSummary";
-import type { InfoFieldKey } from "../components/FieldWithInfo";
+import FieldWithInfo from "../components/FieldWithInfo";
+import { InfoFieldKey } from "../components/InfoDrawer";
+import InfoDrawer from "../components/InfoDrawer";
 import { MainTabParamList } from "../navigation/types";
 import { useSettings } from "../hooks/useSettings";
 import { useHistory } from "../hooks/useHistory";
@@ -29,7 +31,6 @@ import { TariffService } from "../services/tariffService";
 import { getCountryName } from "../utils/countries";
 import CountryLookup from "../components/CountryLookup";
 import DisclaimerModal from "./DisclaimerModal";
-import InfoDrawer from "../components/InfoDrawer";
 import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { haptics } from "../utils/haptics";
@@ -99,7 +100,7 @@ export default function LookupScreen() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false);
 
-  const [activeField, setActiveField] = useState<InfoFieldKey | null>(null);
+  const [activeField, setActiveField] = useState<InfoFieldKey>(null);
   const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
   const infoTabOpacity = useRef(new Animated.Value(0)).current;
   const [tabY, setTabY] = useState(0);
