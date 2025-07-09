@@ -7,7 +7,12 @@ import {
   TextInputProps,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { isTablet, BRAND_TYPOGRAPHY } from "../config/brandColors";
+import {
+  isTablet,
+  BRAND_TYPOGRAPHY,
+  getTypographySize,
+  getResponsiveValue,
+} from "../config/brandColors";
 
 interface FieldWithInfoProps extends TextInputProps {
   placeholder: string;
@@ -63,7 +68,10 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
-    fontSize: 16,
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ),
     height: 44,
     width: "100%",
   },
