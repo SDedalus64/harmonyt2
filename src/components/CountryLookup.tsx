@@ -182,14 +182,7 @@ const CountryLookup = forwardRef<CountryLookupRef, CountryLookupProps>(
             style={styles.searchButton}
             onPress={() => setIsExpanded(true)}
           >
-            <Ionicons
-              name="globe-outline"
-              size={getResponsiveValue(20, 24)}
-              color={BRAND_COLORS.electricBlue}
-            />
-            <Text style={styles.searchButtonText}>
-              Select Country of Origin
-            </Text>
+            <Text style={styles.searchButtonText}>Origin</Text>
           </TouchableOpacity>
         )}
 
@@ -277,8 +270,8 @@ const styles = StyleSheet.create({
   },
   countryCode: {
     fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("sm") * 1.2,
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
     ), // 20% larger on iPad
     color: BRAND_COLORS.darkGray,
     flexShrink: 0,

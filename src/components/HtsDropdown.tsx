@@ -43,7 +43,9 @@ const HtsDropdown = ({
           <TouchableWithoutFeedback>
             <View style={styles.dropdown}>
               <View style={styles.dropdownHeader}>
-                <Text style={styles.dropdownTitle}>Select HTS Code</Text>
+                <Text style={styles.dropdownTitle}>
+                  Scroll for more and Tap to select
+                </Text>
               </View>
               <FlatList
                 data={suggestions}
