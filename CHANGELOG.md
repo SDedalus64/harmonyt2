@@ -4,8 +4,14 @@ All notable changes to HarmonyTi will be documented in this file.
 
 ## [Unreleased]
 
-Added
-feat: add new components and enhance existing ones for improved UI and functionality
+feat: initialize Android and iOS project structure with Expo and React Native
+
+- Added Android project files including .gitignore, build.gradle, gradle.properties, and various resource files to set up the Android environment.
+- Introduced iOS project files such as Podfile, Info.plist, and AppDelegate.swift to establish the iOS structure.
+- Configured initial settings for Expo and React Native integration, ensuring a streamlined development experience.
+- Included necessary assets and resources for both platforms to support application functionality.
+  Added
+  feat: add new components and enhance existing ones for improved UI and functionality
 
 - Introduced new components including HtsDropdown, TariffEngineeringComparison, and various shared components.
 - Updated LookupScreen and other screens for better layout and design consistency.
