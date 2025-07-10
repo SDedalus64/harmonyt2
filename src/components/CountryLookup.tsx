@@ -351,13 +351,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   searchButtonText: {
-    marginLeft: getSpacing("sm"),
-    fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
     color: BRAND_COLORS.electricBlue,
     flex: 1,
+    fontSize: getResponsiveValue(
+      getTypographySize("md") * 1.5 * 0.75,
+      getTypographySize("md") * 1.8 * 0.75,
+    ),
+    marginLeft: getSpacing("sm"),
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   selectedCountry: {

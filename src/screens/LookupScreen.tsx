@@ -1133,10 +1133,7 @@ export default function LookupScreen() {
 
     if (!htsCode || !selectedCountry || !declaredValue) {
       haptics.error();
-      Alert.alert(
-        "Missing Information",
-        "Please enter HTS code, select a country, and enter a declared value.",
-      );
+      Alert.alert("Missing Information");
       return;
     }
 
@@ -2316,14 +2313,15 @@ export default function LookupScreen() {
 
     return {
       heroSection: {
-        height: heroHeight,
+        height: heroHeight + insets.top - 100,
+        marginTop: -insets.top,
       } as ViewStyle,
       logo: {
         width: logoWidth,
         height: logoWidth * 0.3,
         maxWidth: isTabletNow ? 600 : 420,
         maxHeight: isTabletNow ? 180 : 126,
-        marginTop: -50, // Move logo up by 50px
+        marginTop: 5, // Keep logo in position after header resize
       } as ImageStyle,
       dataSourceContainer: isTabletNow
         ? {
@@ -2331,7 +2329,7 @@ export default function LookupScreen() {
           }
         : {},
     };
-  }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
+  }, [windowWidth, windowHeight, isLandscape, isTabletNow, insets.top]);
 
   // Dynamic form width & side padding
   const dynamicFormStyles = React.useMemo(() => {
@@ -2456,7 +2454,7 @@ export default function LookupScreen() {
         <View
           style={[
             styles.logoContainer,
-            { paddingTop: Math.max(insets.top - 18, 0) },
+            { paddingTop: Math.max(insets.top * 1.5 - 18, 0) },
           ]}
         >
           <Image
@@ -2560,26 +2558,38 @@ export default function LookupScreen() {
                 ]}
                 ref={fieldRefs.declared}
               >
-                <FieldWithInfo
-                  placeholder="Declared Value (USD)"
-                  value={formattedDeclaredValue}
-                  fieldKey="declared"
-                  onInfoPress={handleInfoPress}
-                  onChangeText={(value) => {
-                    handleDeclaredValueChange(value);
-                    closeMainFab(false);
-                    closeAllNavigationDrawers();
-                  }}
-                  inputRef={declaredValueInputRef}
-                  keyboardType="decimal-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={[
-                    styles.input,
-                    styles.halfWidthInput,
-                    styles.currencyInput,
-                  ]}
-                  onFocus={() => handleFieldFocus("declared")}
-                />
+                <View style={styles.multiFieldInputRow}>
+                  <TextInput
+                    placeholder="declared"
+                    value={formattedDeclaredValue}
+                    onChangeText={(value) => {
+                      handleDeclaredValueChange(value);
+                      closeMainFab(false);
+                      closeAllNavigationDrawers();
+                    }}
+                    ref={declaredValueInputRef}
+                    keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[
+                      styles.input,
+                      styles.multiFieldInput,
+                      styles.currencyInput,
+                    ]}
+                    onBlur={() => {
+                      if (declaredValue) {
+                        setFormattedDeclaredValue(
+                          `$${formatNumberWithCommas(declaredValue.replace(/[^0-9.]/g, ""))}`,
+                        );
+                      }
+                    }}
+                    onFocus={() => {
+                      setFormattedDeclaredValue(
+                        declaredValue.replace(/[$,]/g, ""),
+                      );
+                      handleFieldFocus("declared");
+                    }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -2598,6 +2608,7 @@ export default function LookupScreen() {
               >
                 <CountryLookup
                   ref={countryInputRef}
+                  placeholder="Origin (Select country of origin)"
                   selectedCountry={selectedCountry}
                   onSelect={(country) => {
                     setSelectedCountry(country);
@@ -2605,6 +2616,7 @@ export default function LookupScreen() {
                     closeMainFab(false);
                     closeAllNavigationDrawers();
                   }}
+                  style={[styles.input, styles.halfWidthInput]}
                 />
               </View>
               <View
@@ -2626,7 +2638,7 @@ export default function LookupScreen() {
                   </TouchableOpacity>
                   <TextInput
                     ref={additionalCostInputRef}
-                    placeholder="costs"
+                    placeholder="Add Costs"
                     value={currentAdditionalCost}
                     onChangeText={setCurrentAdditionalCost}
                     keyboardType="decimal-pad"
@@ -2660,31 +2672,6 @@ export default function LookupScreen() {
               {/* Left column - Additional Costs Chips */}
               <View style={styles.valueFieldColumn}>
                 <View style={styles.multiFieldContainer}>
-                  {/* Added costs chips */}
-                  {additionalCosts.length > 0 && (
-                    <View style={styles.chipsContainer}>
-                      {additionalCosts.map((cost, index) => (
-                        <TouchableOpacity
-                          key={cost.id}
-                          style={styles.chip}
-                          onPress={() => handleDeleteAdditionalCost(cost.id)}
-                          activeOpacity={0.7}
-                        >
-                          <View style={styles.chipContent}>
-                            <Text style={styles.chipText}>
-                              ${formatNumberWithCommas(cost.amount.toString())}
-                            </Text>
-                            <Ionicons
-                              name="close-circle"
-                              size={getResponsiveValue(16, 20)}
-                              color={BRAND_COLORS.orange}
-                            />
-                          </View>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  )}
-
                   {/* Total arithmetic */}
                   {(declaredValue || additionalCosts.length > 0) && (
                     <View style={styles.arithmeticContainer}>
@@ -2722,7 +2709,7 @@ export default function LookupScreen() {
                         </TouchableOpacity>
                         <TextInput
                           ref={unitCountInputRef}
-                          placeholder="units"
+                          placeholder="Add Units"
                           value={currentUnitCount}
                           onChangeText={(value) => {
                             const cleaned = value.replace(/[^0-9.]/g, "");
@@ -2742,34 +2729,6 @@ export default function LookupScreen() {
                           returnKeyType="done"
                         />
                       </View>
-
-                      {/* Added units chips */}
-                      {unitCounts.length > 0 && (
-                        <View style={styles.chipsContainer}>
-                          {unitCounts.map((unit, index) => (
-                            <TouchableOpacity
-                              key={unit.id}
-                              style={styles.chip}
-                              onPress={() => handleDeleteUnitCount(unit.id)}
-                              activeOpacity={0.7}
-                            >
-                              <View style={styles.chipContent}>
-                                <Text style={styles.chipText}>
-                                  {formatNumberWithCommas(
-                                    unit.amount.toString(),
-                                  )}
-                                </Text>
-                                <Ionicons
-                                  name="close-circle"
-                                  size={getResponsiveValue(16, 20)}
-                                  color={BRAND_COLORS.orange}
-                                />
-                              </View>
-                            </TouchableOpacity>
-                          ))}
-                        </View>
-                      )}
-
                       {/* Units total */}
                       {unitCounts.length > 0 && (
                         <View style={styles.arithmeticContainer}>
@@ -2803,7 +2762,7 @@ export default function LookupScreen() {
             right: getSpacing("md"),
             justifyContent: "center",
             gap: getSpacing("md"),
-            zIndex: 1,
+            zIndex: 30,
           },
         ]}
       >
@@ -2859,6 +2818,40 @@ export default function LookupScreen() {
           </Text>
         </LinearGradient>
       </View>
+
+      {/* Results Drawer */}
+      <AnimatedDrawer
+        isVisible={resultsDrawerVisible}
+        onClose={handleCloseResultsDrawer}
+        position="bottom"
+      >
+        {renderResultsDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Tariff Engineering Drawer */}
+      <AnimatedDrawer
+        isVisible={tariffEngineeringDrawerVisible}
+        onClose={() => {
+          setTariffEngineeringDrawerVisible(false);
+          // Reopen FAB after closing drawer
+          setTimeout(() => {
+            setUserClosedFab(false);
+            openMainFab();
+          }, 300);
+        }}
+        position="right"
+      >
+        <TariffEngineeringComparison
+          htsCode={htsCode}
+          description={result?.description || selectedDescription}
+          countryCode={selectedCountry?.code || ""}
+          countryName={selectedCountry?.name || ""}
+          declaredValue={parseFloat(declaredValue) || 0}
+          currentTotalDuty={result?.totalAmount || 0}
+          isUSMCAOrigin={isUSMCAOrigin}
+          onClose={() => setTariffEngineeringDrawerVisible(false)}
+        />
+      </AnimatedDrawer>
     </SafeAreaView>
   );
 }
@@ -2954,7 +2947,7 @@ const styles = StyleSheet.create({
     ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.darkNavy,
     marginBottom: getResponsiveValue(8, 12), // Reduced margin
-    textAlign: "left", // Left-justified
+    textAlign: "center", // Left-justified
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
     paddingHorizontal: getResponsiveValue(20, 40), // Add padding to align with fields
