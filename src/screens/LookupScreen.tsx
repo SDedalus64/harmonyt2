@@ -1917,7 +1917,7 @@ export default function LookupScreen() {
     ],
   );
 
-  const handleMainFabPress = () => {
+  const handleMainFabPress = (): void => {
     haptics.buttonPress();
     hideInfoTabs();
     if (anyDrawerOpen) {
@@ -1939,12 +1939,14 @@ export default function LookupScreen() {
 
   // Delay "Not found" feedback
   const [showNoResults, setShowNoResults] = useState(false);
-  const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
+  const noResultsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ----------------------
   // Gesture: drag info tab to open drawer (iPhone)
   // ----------------------
-  const handleInfoTabDrag = (event: PanGestureHandlerGestureEvent) => {
+  const handleInfoTabDragOpen = (
+    event: PanGestureHandlerGestureEvent,
+  ) => {
     const { translationX } = event.nativeEvent;
     // Detect a rightward drag of ~50px to trigger opening
     if (translationX > 50 && !infoDrawerVisible) {
@@ -2460,7 +2462,7 @@ export default function LookupScreen() {
                     value={htsCode}
                     fieldKey="code"
                     onInfoPress={handleInfoPress}
-                    onChangeText={(text) => {
+                    onChangeText={(text: string) => {
                       const cleanedText = text.replace(/\D/g, "").slice(0, 8);
                       setHtsCode(cleanedText);
                       setUserClosedFab(false);
@@ -2491,7 +2493,7 @@ export default function LookupScreen() {
                 <CountryLookup
                   ref={countryInputRef}
                   selectedCountry={selectedCountry}
-                  onSelect={(country) => {
+                  onSelect={(country: Country) => {
                     setSelectedCountry(country);
                     setUserClosedFab(false);
                     closeMainFab(false);
@@ -2508,7 +2510,7 @@ export default function LookupScreen() {
                 <TextInput
                   placeholder="Declared $"
                   value={formattedDeclaredValue}
-                  onChangeText={(value) => {
+                  onChangeText={(value: string) => {
                     handleDeclaredValueChange(value);
                     closeMainFab(false);
                     closeAllNavigationDrawers();
@@ -2538,7 +2540,7 @@ export default function LookupScreen() {
                         ref={unitCountInputRef}
                         placeholder="Units"
                         value={currentUnitCount}
-                        onChangeText={(value) => {
+                        onChangeText={(value: string) => {
                           const cleaned = value.replace(/[^0-9.]/g, "");
                           const parts = cleaned.split(".");
                           if (parts.length > 2) return;
@@ -3002,7 +3004,7 @@ export default function LookupScreen() {
             opacity={infoTabOpacity}
             size={infoTabSize}
             onPress={() => setInfoDrawerVisible(true)}
-            onDrag={handleInfoTabDrag}
+            onDrag={handleInfoTabDragOpen}
           />
         )}
 
