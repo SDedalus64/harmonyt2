@@ -256,6 +256,7 @@ export default function LookupScreen() {
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const loadingSpinValue = useRef(new Animated.Value(0)).current;
   const [isUSMCAOrigin, setIsUSMCAOrigin] = useState(false);
+  const [isLoadingFromHistory, setIsLoadingFromHistory] = useState(false);
 
   // New drawer state
   const [historyDrawerVisible, setHistoryDrawerVisible] = useState(false);
@@ -1434,7 +1435,21 @@ export default function LookupScreen() {
 
   const handleHistoryItemSelection = (historyItem: HistoryItem) => {
     haptics.selection();
-    console.log("History item selected:", historyItem);
+
+    // Set loading from history flag
+    setIsLoadingFromHistory(true);
+
+    // Clear any HTS suggestions first
+    setShowHtsSuggestions(false);
+    setHtsSuggestions([]);
+
+    // Set the selected description from history BEFORE setting HTS code
+    // This prevents the dropdown from showing
+    if (historyItem.description) {
+      setSelectedDescription(historyItem.description);
+    }
+
+    // Now set the HTS code
     setHtsCode(historyItem.htsCode);
 
     // Ensure we have both country code and name
@@ -1575,10 +1590,13 @@ export default function LookupScreen() {
 
       // Mark as already saved since it came from history
       setIsSaved(true);
+      setLoadedHistoryTimestamp(historyItem.timestamp || Date.now());
+
+      // Open results drawer to show the saved calculation
       setResultsDrawerVisible(true);
     }
 
-    // Close any open drawers
+    // Close navigation drawers
     closeAllNavigationDrawers();
   };
 
@@ -1624,15 +1642,14 @@ export default function LookupScreen() {
             key={item.id}
             style={styles.historyDrawerItem}
             onPress={() => {
-              const closeAndNavigate = () => {
+              const loadHistoryItem = () => {
+                // Close history drawer first
                 setHistoryDrawerVisible(false);
-                navigation.navigate("Lookup", { historyItem: item });
-                // Open FAB immediately after selecting history item
-                setUserClosedFab(false);
-                openMainFab();
+                // Handle history item selection immediately
+                handleHistoryItemSelection(item);
               };
 
-              // Check for unsaved results before navigating
+              // Check for unsaved results before loading
               if (!settings.autoSaveToHistory && result && !isSaved) {
                 Alert.alert(
                   "Unsaved Lookup",
@@ -1641,13 +1658,13 @@ export default function LookupScreen() {
                     {
                       text: "Discard",
                       style: "destructive",
-                      onPress: closeAndNavigate,
+                      onPress: loadHistoryItem,
                     },
                     {
                       text: "Save & Load",
                       onPress: async () => {
                         await handleSaveToHistory(false);
-                        closeAndNavigate();
+                        loadHistoryItem();
                       },
                     },
                     {
@@ -1657,7 +1674,7 @@ export default function LookupScreen() {
                   ],
                 );
               } else {
-                closeAndNavigate();
+                loadHistoryItem();
               }
             }}
           >
@@ -1763,71 +1780,122 @@ export default function LookupScreen() {
               {currentTimestamp}
             </Text>
           </View>
-          <View style={styles.headerButtons}>
-            {settings.autoSaveToHistory ? (
-              <View style={[styles.headerButton, styles.autoSaveIndicator]}>
-                <Ionicons
-                  name="checkmark-circle"
-                  size={getResponsiveValue(16, 20)}
-                  color={BRAND_COLORS.success}
-                />
-                <Text style={styles.autoSaveText}>AutoSave On</Text>
-              </View>
-            ) : (
-              <TouchableOpacity
-                style={[
-                  styles.headerButton,
-                  styles.saveHeaderButton,
-                  isSaved && styles.savedHeaderButton,
-                ]}
-                onPress={() => handleSaveToHistory()}
-                disabled={isSaved}
-              >
-                <Ionicons
-                  name={isSaved ? "checkmark-circle" : "bookmark-outline"}
-                  size={getResponsiveValue(16, 20)}
-                  color={
-                    isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue
-                  }
-                />
-                <Text
-                  style={[
-                    styles.headerButtonText,
-                    isSaved && styles.savedHeaderButtonText,
-                  ]}
-                >
-                  {isSaved ? "Saved" : "Save"}
-                </Text>
-              </TouchableOpacity>
-            )}
+          <View style={styles.headerButtonsVertical}>
+            {/* Save Button */}
             <TouchableOpacity
-              style={[styles.headerButton, styles.newHeaderButton]}
-              onPress={handleNewLookup}
+              style={[
+                styles.headerButtonStacked,
+                styles.saveHeaderButtonStacked,
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                // If AutoSave is on or off, just close the drawer
+                setResultsDrawerVisible(false);
+                setDescriptionExpanded(false);
+                setUserClosedFab(false);
+                openMainFab();
+              }}
             >
               <Ionicons
-                name="add"
+                name="bookmark"
                 size={getResponsiveValue(16, 20)}
                 color={BRAND_COLORS.electricBlue}
               />
-              <Text style={styles.headerButtonText}>New</Text>
+              <Text style={styles.headerButtonStackedText}>Save</Text>
             </TouchableOpacity>
+
+            {/* Clear Button */}
             <TouchableOpacity
               style={[
-                styles.headerButton,
-                styles.tariffEngineeringHeaderButton,
+                styles.headerButtonStacked,
+                styles.clearHeaderButtonStacked,
               ]}
               onPress={() => {
-                haptics.selection();
+                haptics.buttonPress();
+                if (!settings.autoSaveToHistory && result && !isSaved) {
+                  // Show warning if AutoSave is off and result is unsaved
+                  Alert.alert(
+                    "Clear Results",
+                    "You have unsaved results. What would you like to do?",
+                    [
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                      {
+                        text: "Don't Save",
+                        style: "destructive",
+                        onPress: () => {
+                          handleClearAll();
+                          setResultsDrawerVisible(false);
+                          setDescriptionExpanded(false);
+                          setUserClosedFab(false);
+                          openMainFab();
+                        },
+                      },
+                      {
+                        text: "Save",
+                        onPress: async () => {
+                          await handleSaveToHistory(false);
+                          handleClearAll();
+                          setResultsDrawerVisible(false);
+                          setDescriptionExpanded(false);
+                          setUserClosedFab(false);
+                          openMainFab();
+                        },
+                      },
+                    ],
+                  );
+                } else {
+                  // AutoSave is on or result is already saved
+                  handleClearAll();
+                  setResultsDrawerVisible(false);
+                  setDescriptionExpanded(false);
+                  setUserClosedFab(false);
+                  openMainFab();
+                }
+              }}
+            >
+              <Ionicons
+                name="trash-outline"
+                size={getResponsiveValue(16, 20)}
+                color={BRAND_COLORS.orange}
+              />
+              <Text
+                style={[
+                  styles.headerButtonStackedText,
+                  { color: BRAND_COLORS.orange },
+                ]}
+              >
+                Clear
+              </Text>
+            </TouchableOpacity>
+
+            {/* Tariff Intel Button */}
+            <TouchableOpacity
+              style={[
+                styles.headerButtonStacked,
+                styles.tariffIntelHeaderButtonStacked,
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
                 setResultsDrawerVisible(false);
                 setTariffEngineeringDrawerVisible(true);
               }}
             >
               <Ionicons
-                name="git-compare"
+                name="bulb-outline"
                 size={getResponsiveValue(16, 20)}
-                color={BRAND_COLORS.electricBlue}
+                color={BRAND_COLORS.success}
               />
-              <Text style={styles.headerButtonText}>Tariff Eng.</Text>
+              <Text
+                style={[
+                  styles.headerButtonStackedText,
+                  { color: BRAND_COLORS.success },
+                ]}
+              >
+                Tariff Intel (beta)
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -2038,12 +2106,6 @@ export default function LookupScreen() {
   const toggleMainFab = (recordUserClose: boolean = true) => {
     const toValue = mainFabExpanded ? 0 : 1;
     const isClosing = mainFabExpanded;
-    console.log(
-      "[FAB] toggleMainFab called. Current expanded:",
-      mainFabExpanded,
-      "toValue:",
-      toValue,
-    );
     setMainFabExpanded(!mainFabExpanded);
 
     // Record manual close only if requested
@@ -2068,7 +2130,11 @@ export default function LookupScreen() {
       },
       { animX: linksFabTranslateX, animY: linksFabTranslateY, multiplier: 3 },
       { animX: newsFabTranslateX, animY: newsFabTranslateY, multiplier: 4 },
-      { animX: statsFabTranslateX, animY: statsFabTranslateY, multiplier: 5 },
+      {
+        animX: tariffEngineeringFabTranslateX,
+        animY: tariffEngineeringFabTranslateY,
+        multiplier: 5,
+      },
       {
         animX: settingsFabTranslateX,
         animY: settingsFabTranslateY,
@@ -2082,7 +2148,7 @@ export default function LookupScreen() {
       animations.push(
         Animated.timing(animX, {
           toValue: xPosition,
-          duration: 200,
+          duration: 120,
           useNativeDriver: true,
         }),
       );
@@ -2091,7 +2157,7 @@ export default function LookupScreen() {
       animations.push(
         Animated.timing(animY, {
           toValue: 0,
-          duration: 200,
+          duration: 120,
           useNativeDriver: true,
         }),
       );
@@ -2101,7 +2167,7 @@ export default function LookupScreen() {
     animations.push(
       Animated.timing(mainFabRotation, {
         toValue,
-        duration: 200,
+        duration: 120,
         useNativeDriver: true,
       }),
     );
@@ -2110,14 +2176,14 @@ export default function LookupScreen() {
     animations.push(
       Animated.timing(menuFabScale, {
         toValue,
-        duration: 200,
+        duration: 120,
         useNativeDriver: true,
       }),
     );
     animations.push(
       Animated.timing(menuFabOpacity, {
         toValue,
-        duration: 200,
+        duration: 120,
         useNativeDriver: true,
       }),
     );
@@ -2235,12 +2301,12 @@ export default function LookupScreen() {
     Animated.parallel([
       Animated.timing(historyDrawerTranslateX, {
         toValue: show ? 0 : getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(navDrawerOpacity, {
         toValue: show ? 1 : 0,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     ]).start();
@@ -2250,12 +2316,12 @@ export default function LookupScreen() {
     Animated.parallel([
       Animated.timing(linksDrawerTranslateY, {
         toValue: show ? 0 : SCREEN_HEIGHT,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(navDrawerOpacity, {
         toValue: show ? 1 : 0,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     ]).start();
@@ -2283,10 +2349,6 @@ export default function LookupScreen() {
     tariffEngineeringDrawerVisible;
 
   const handleMainFabPress = () => {
-    console.log("[FAB] Main FAB pressed. Current state:", {
-      mainFabExpanded,
-      anyDrawerOpen,
-    });
     haptics.buttonPress();
     hideInfoTabs();
     if (anyDrawerOpen) {
@@ -2302,7 +2364,6 @@ export default function LookupScreen() {
       setResultsDrawerVisible(false);
       // Optionally scroll to top or reset state here
     } else {
-      console.log("[FAB] Toggling main FAB menu");
       toggleMainFab();
     }
   };
@@ -2476,9 +2537,9 @@ export default function LookupScreen() {
       requestAnimationFrame(() => {
         openMainFab();
       });
-    } else if (anyDrawerOpen && mainFabExpanded) {
-      closeMainFab();
     }
+    // Removed the automatic closing of FAB when drawers open
+    // This allows quick switching between drawers
   }, [anyDrawerOpen]);
 
   return (
@@ -2507,7 +2568,6 @@ export default function LookupScreen() {
 
           {/* Recent Button */}
           <Animated.View
-            pointerEvents={mainFabExpanded ? "auto" : "none"}
             style={[
               styles.menuFab,
               {
@@ -2526,10 +2586,9 @@ export default function LookupScreen() {
                 { backgroundColor: BRAND_COLORS.electricBlue },
               ]}
               onPress={() => {
-                console.log("[FAB] Recent button pressed");
                 haptics.buttonPress();
                 closeAllDrawers();
-                closeMainFab(false);
+                // Don't close FAB menu - keep it open for quick access
                 setHistoryDrawerVisible(true);
               }}
             >
@@ -2543,7 +2602,6 @@ export default function LookupScreen() {
 
           {/* History Button */}
           <Animated.View
-            pointerEvents={mainFabExpanded ? "auto" : "none"}
             style={[
               styles.menuFab,
               {
@@ -2564,7 +2622,7 @@ export default function LookupScreen() {
               onPress={() => {
                 haptics.buttonPress();
                 closeAllDrawers();
-                closeMainFab(false);
+                // Don't close FAB menu - keep it open for quick access
                 setMainHistoryDrawerVisible(true);
               }}
             >
@@ -2578,7 +2636,6 @@ export default function LookupScreen() {
 
           {/* Tariff News Button */}
           <Animated.View
-            pointerEvents={mainFabExpanded ? "auto" : "none"}
             style={[
               styles.menuFab,
               {
@@ -2599,7 +2656,7 @@ export default function LookupScreen() {
               onPress={() => {
                 haptics.buttonPress();
                 closeAllDrawers();
-                closeMainFab(false);
+                // Don't close FAB menu - keep it open for quick access
                 setLinksDrawerVisible(true);
               }}
             >
@@ -2613,7 +2670,6 @@ export default function LookupScreen() {
 
           {/* News Button */}
           <Animated.View
-            pointerEvents={mainFabExpanded ? "auto" : "none"}
             style={[
               styles.menuFab,
               {
@@ -2634,7 +2690,7 @@ export default function LookupScreen() {
               onPress={() => {
                 haptics.buttonPress();
                 closeAllDrawers();
-                closeMainFab(false);
+                // Don't close FAB menu - keep it open for quick access
                 setNewsDrawerVisible(true);
               }}
             >
@@ -2646,9 +2702,38 @@ export default function LookupScreen() {
             </TouchableOpacity>
           </Animated.View>
 
+          {/* Tariff Engineering Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: tariffEngineeringFabTranslateX },
+                  { translateY: tariffEngineeringFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.success },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setTariffEngineeringDrawerVisible(true);
+              }}
+            >
+              <Text style={styles.fabDollarSign}>$</Text>
+            </TouchableOpacity>
+          </Animated.View>
+
           {/* Settings Button */}
           <Animated.View
-            pointerEvents={mainFabExpanded ? "auto" : "none"}
             style={[
               styles.menuFab,
               {
@@ -2669,7 +2754,7 @@ export default function LookupScreen() {
               onPress={() => {
                 haptics.buttonPress();
                 closeAllDrawers();
-                closeMainFab(false);
+                // Don't close FAB menu - keep it open for quick access
                 setSettingsDrawerVisible(true);
               }}
             >
@@ -3139,10 +3224,8 @@ export default function LookupScreen() {
         onClose={() => {
           setTariffEngineeringDrawerVisible(false);
           // Reopen FAB after closing drawer
-          setTimeout(() => {
-            setUserClosedFab(false);
-            openMainFab();
-          }, 300);
+          setUserClosedFab(false);
+          openMainFab();
         }}
         position="right"
       >
@@ -3156,6 +3239,90 @@ export default function LookupScreen() {
           isUSMCAOrigin={isUSMCAOrigin}
           onClose={() => setTariffEngineeringDrawerVisible(false)}
         />
+      </AnimatedDrawer>
+
+      {/* Recent Lookups Drawer */}
+      <AnimatedDrawer
+        isVisible={historyDrawerVisible}
+        onClose={() => {
+          setHistoryDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="left"
+      >
+        {renderHistoryDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Main History Drawer */}
+      <AnimatedDrawer
+        isVisible={mainHistoryDrawerVisible}
+        onClose={() => {
+          setMainHistoryDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="left"
+      >
+        <HistoryScreen
+          onItemPress={(item: HistoryItem) => {
+            setMainHistoryDrawerVisible(false);
+            // Handle history item selection immediately
+            handleHistoryItemSelection(item);
+          }}
+        />
+      </AnimatedDrawer>
+
+      {/* News Drawer */}
+      <AnimatedDrawer
+        isVisible={newsDrawerVisible}
+        onClose={() => {
+          setNewsDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        {renderNewsDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Analytics Drawer */}
+      <AnimatedDrawer
+        isVisible={analyticsDrawerVisible}
+        onClose={() => {
+          setAnalyticsDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        {renderAnalyticsDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Settings Drawer */}
+      <AnimatedDrawer
+        isVisible={settingsDrawerVisible}
+        onClose={() => {
+          setSettingsDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        <SettingsScreen />
+      </AnimatedDrawer>
+
+      {/* Links/Tariff News Drawer */}
+      <AnimatedDrawer
+        isVisible={linksDrawerVisible}
+        onClose={() => {
+          setLinksDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="bottom"
+      >
+        <TariffNewsContent />
       </AnimatedDrawer>
     </SafeAreaView>
   );
@@ -3498,6 +3665,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     ...BRAND_SHADOWS.medium,
+  },
+  fabDollarSign: {
+    fontSize: getResponsiveValue(20, 32),
+    fontWeight: "bold",
+    color: BRAND_COLORS.white,
   },
 
   mainFloatingFab: {
@@ -4293,6 +4465,42 @@ const styles = StyleSheet.create({
   },
   resultsContainer: {
     flex: 1,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  // Header buttons - vertical layout
+  headerButtonsVertical: {
+    flexDirection: "column",
+    gap: getSpacing("xs"),
+    marginLeft: getSpacing("md"),
+  },
+  headerButtonStacked: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
+    borderRadius: getBorderRadius("md"),
+    borderWidth: 1,
+    gap: getSpacing("xs"),
+    minHeight: getResponsiveValue(32, 40),
+  },
+  headerButtonStackedText: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
+    color: BRAND_COLORS.electricBlue,
+  },
+  saveHeaderButtonStacked: {
+    borderColor: BRAND_COLORS.electricBlue,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  clearHeaderButtonStacked: {
+    borderColor: BRAND_COLORS.orange,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  tariffIntelHeaderButtonStacked: {
+    borderColor: BRAND_COLORS.success,
     backgroundColor: BRAND_COLORS.white,
   },
 });

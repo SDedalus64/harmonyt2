@@ -68,10 +68,11 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
 
   function getInitialTranslateValue() {
     const width = customDrawerConfig?.width || drawerConfig.width;
-    const actualWidth = typeof width === 'string' && width.includes('%') 
-      ? SCREEN_WIDTH * (parseFloat(width.replace('%', '')) / 100)
-      : (width as number);
-    
+    const actualWidth =
+      typeof width === "string" && width.includes("%")
+        ? SCREEN_WIDTH * (parseFloat(width.replace("%", "")) / 100)
+        : (width as number);
+
     switch (position) {
       case "left":
         return -actualWidth;
@@ -143,9 +144,10 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     };
 
     const width = customDrawerConfig?.width || drawerConfig.width;
-    const actualWidth = typeof width === 'string' && width.includes('%') 
-      ? SCREEN_WIDTH * (parseFloat(width.replace('%', '')) / 100)
-      : (width as number);
+    const actualWidth =
+      typeof width === "string" && width.includes("%")
+        ? SCREEN_WIDTH * (parseFloat(width.replace("%", "")) / 100)
+        : (width as number);
 
     switch (position) {
       case "left":
@@ -167,9 +169,9 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           width: actualWidth,
         };
       case "bottom":
-        const maxHeight = customDrawerConfig?.maxHeight || drawerConfig.maxHeight;
-        const maxHeightPercent =
-          parseFloat(maxHeight.replace("%", "")) / 100;
+        const maxHeight =
+          customDrawerConfig?.maxHeight || drawerConfig.maxHeight;
+        const maxHeightPercent = parseFloat(maxHeight.replace("%", "")) / 100;
         return {
           ...baseStyle,
           transform: [{ translateY }],
@@ -188,13 +190,18 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   return (
     <>
       {/* Overlay */}
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
+      <Animated.View
+        style={[styles.overlay, { opacity }]}
+        pointerEvents={isVisible ? "auto" : "none"}
       >
-        <Animated.View style={[styles.overlayBackground, { opacity }]} />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={StyleSheet.absoluteFillObject}
+          activeOpacity={1}
+          onPress={onClose}
+        >
+          <View style={styles.overlayBackground} />
+        </TouchableOpacity>
+      </Animated.View>
 
       {/* Drawer */}
       <PanGestureHandler onGestureEvent={handleGestureEvent}>
@@ -206,13 +213,13 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
               </View>
             )}
             {wrapScroll ? (
-            <ScrollView
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-            >
-              {children}
-            </ScrollView>
+              <ScrollView
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+              >
+                {children}
+              </ScrollView>
             ) : (
               <View style={{ flex: 1 }}>{children}</View>
             )}
