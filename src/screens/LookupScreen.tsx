@@ -3067,7 +3067,6 @@ const styles = StyleSheet.create({
     height: 236,
     backgroundColor: BRAND_COLORS.white,
     zIndex: 100,
-    elevation: 100, // For Android
     ...BRAND_SHADOWS.medium,
   },
   
@@ -3772,18 +3771,6 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.electricBlue,
   },
   savedHeaderButtonText: {
-    color: BRAND_COLORS.success,
-  },
-  autoSaveIndicator: {
-    borderColor: BRAND_COLORS.success,
-    backgroundColor: BRAND_COLORS.lightGray,
-  },
-  autoSaveText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("sm") * 1.35,
-    ),
-    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.success,
   },
 
