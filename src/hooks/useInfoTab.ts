@@ -1,5 +1,7 @@
-import React from "react"; // ensures React types available for TS
-import { useEffect, useMemo, useRef, useState, createRef, type RefObject } from "react";
+import React from 'react';
+import type { FC, ReactElement } from 'react';
+import { useEffect, useMemo, useRef, useState, createRef, type RefObject } from 'react';
+import type { ViewStyle, LayoutChangeEvent } from 'react-native';
 import {
   Animated,
   Platform,
