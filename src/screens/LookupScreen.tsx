@@ -810,11 +810,10 @@ export default function LookupScreen() {
         isUSMCAOrigin,
       );
 
-      console.log("[Lookup] Duty calculation result:", dutyCalc);
-
-      if (dutyCalc.error) {
-        throw new Error(dutyCalc.error);
+      if (!dutyCalc) {
+        throw new Error("Unable to calculate duty with provided data.");
       }
+      console.log("[Lookup] Duty calculation result:", dutyCalc);
 
       // Extract components with descriptions
       const componentsWithDescriptions = extractComponentDescriptions(
