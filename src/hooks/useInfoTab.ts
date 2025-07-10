@@ -17,9 +17,11 @@ import { InfoFieldKey } from "../components/InfoDrawer";
 // appears beside the focused form field on iPhone / iPad.
 // ---------------------------------------------------------------------------
 
+type NonNullKey = Exclude<InfoFieldKey, null>;
+
 interface UseInfoTabOptions {
-  /** Keys of the form fields that should be tracked */
-  fieldKeys: InfoFieldKey[];
+  /** Keys of the form fields that should be tracked (must be non-null) */
+  fieldKeys: NonNullKey[];
   /** Whether the InfoDrawer is currently visible – hides the tab while open */
   infoDrawerVisible: boolean;
   /** Multiplier applied to sizes on iPad (defaults to 1.35) */
@@ -40,8 +42,8 @@ export function useInfoTab({
   // ---------------------------------------------------------------------
   // refs for each field so the caller can attach them to <View>s to measure
   // ---------------------------------------------------------------------
-  const fieldRefs = useMemo(() => {
-    const map = {} as Record<Exclude<InfoFieldKey, null>, RefObject<View>>;
+  const fieldRefs: Record<NonNullKey, RefObject<View>> = useMemo(() => {
+    const map = {} as Record<NonNullKey, RefObject<View>>;
     fieldKeys.forEach((key) => {
       map[key] = createRef<View>();
     });
@@ -92,7 +94,7 @@ export function useInfoTab({
   // ---------------------------------------------------------------------
   // focus handler copies measurement logic from legacy file
   // ---------------------------------------------------------------------
-  const handleFieldFocus = (field: Exclude<InfoFieldKey, null>) => {
+  const handleFieldFocus = (field: NonNullKey) => {
     setActiveField(field);
 
     const ref = fieldRefs[field];

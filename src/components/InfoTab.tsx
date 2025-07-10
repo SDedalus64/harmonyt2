@@ -1,6 +1,9 @@
 import React from "react";
 import { Animated, StyleSheet, TouchableOpacity } from "react-native";
-import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { BRAND_COLORS, getResponsiveValue } from "../config/brandColors";
 
