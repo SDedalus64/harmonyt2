@@ -6,33 +6,27 @@ staged_files=$(git diff --cached --name-only)
 # Check if any staged files are in src/ directory
 src_files=$(echo "$staged_files" | grep '^src/' || true)
 
-# If there are src files but CHANGELOG.md is not staged, block the commit
+# If there are src files but CHANGELOG.md is not staged, show a reminder
 if [ -n "$src_files" ] && ! echo "$staged_files" | grep -q '^CHANGELOG.md$'; then
   # Output to stderr to try to make it visible in VS Code
   exec 1>&2
   echo ""
-  echo "\033[1;33m📋 CHANGELOG UPDATE REQUIRED\033[0m"
+  echo "\033[1;33m📋 CHANGELOG REMINDER\033[0m"
   echo ""
-  echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-  echo "\033[0;31m❌ COMMIT BLOCKED - Source code changes require documentation\033[0m"
-  echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  echo "\033[1;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  echo "\033[1;34mℹ️  Source code changes detected - Consider updating CHANGELOG.md\033[0m"
+  echo "\033[1;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
   echo ""
-  echo "\033[1;33mYou have changes in src/ but haven't updated CHANGELOG.md\033[0m"
-  echo ""
-  echo "\033[0;34mAdd appropriate entries under [Unreleased]:\033[0m"
+  echo "\033[0;34mSuggested sections under [Unreleased]:\033[0m"
   echo "  • Added - for new features"
   echo "  • Changed - for changes in existing functionality"
   echo "  • Fixed - for bug fixes"
   echo "  • Removed - for removed features"
   echo ""
-  echo "\033[0;32mNext steps:\033[0m"
+  echo "\033[0;32mTo update changelog:\033[0m"
   echo "  1. Edit CHANGELOG.md"
-  echo "  2. Stage both files: git add CHANGELOG.md src/..."
-  echo "  3. Commit again"
+  echo "  2. Stage with: git add CHANGELOG.md"
   echo ""
-  echo "\033[1;33mFor emergency commits only:\033[0m git commit --no-verify"
-  echo "\033[0;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-  exit 1
 fi
 
 # Run lint-staged

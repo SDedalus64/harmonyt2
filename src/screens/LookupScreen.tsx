@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals, react-native/sort-styles, react-native/no-unused-styles, @typescript-eslint/no-require-imports */
 import HtsDropdown from "../components/HtsDropdown";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
 import {
   View,
   Text,
@@ -20,6 +20,9 @@ import {
   Modal,
   useWindowDimensions,
   ImageStyle,
+  UIManager,
+  findNodeHandle,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -27,7 +30,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { MainTabParamList } from "../navigation/types";
-import CountryLookup from "../components/CountryLookup";
+import CountryLookup, { CountryLookupRef } from "../components/CountryLookup";
 import { useTariff } from "../hooks/useTariff";
 import { useHistory, HistoryItem } from "../hooks/useHistory";
 import { useSettings } from "../hooks/useSettings";
@@ -83,8 +86,6 @@ import {
 import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { haptics } from "../utils/haptics";
-import { useInfoTab } from "../hooks/useInfoTab";
-import { InfoTab } from "../components/InfoTab";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -234,7 +235,7 @@ export default function LookupScreen() {
   const currentEntry = useRef<any>(null);
   const currentDutyCalculation = useRef<any>(null);
   const [showRecentHistory, setShowRecentHistory] = useState(isTablet());
-  const countryInputRef = useRef<TextInput>(null);
+  const countryInputRef = useRef<CountryLookupRef>(null);
   const declaredValueInputRef = useRef<TextInput>(null);
   const freightCostInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
@@ -255,15 +256,15 @@ export default function LookupScreen() {
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const loadingSpinValue = useRef(new Animated.Value(0)).current;
   const [isUSMCAOrigin, setIsUSMCAOrigin] = useState(false);
+  const [isLoadingFromHistory, setIsLoadingFromHistory] = useState(false);
 
   // New drawer state
   const [historyDrawerVisible, setHistoryDrawerVisible] = useState(false);
   const [newsDrawerVisible, setNewsDrawerVisible] = useState(false);
   const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
+  const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [htsDescriptionExpanded, setHtsDescriptionExpanded] = useState(false);
-  // Dedicated drawer for compact results view (legacy phone layout)
-  const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
 
   // Multi-field states
   const [currentAdditionalCost, setCurrentAdditionalCost] = useState("");
@@ -317,37 +318,437 @@ export default function LookupScreen() {
   ).current;
   const navDrawerOpacity = useRef(new Animated.Value(0)).current;
 
-  // Info drawer & floating tab
+  // after other state declarations add:
   const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
+  const [activeField, setActiveField] = useState<InfoFieldKey | null>(null);
+  const [tabY, setTabY] = useState<number>(0);
   const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false);
 
-  // Hook that controls the floating info-tab behaviour on both phone & tablet
-  const {
-    fieldRefs,
-    activeField,
-    setActiveField,
-    tabY,
-    opacity: infoTabOpacity,
-    shouldShowTab,
-    handleFieldFocus,
-    handleInfoTabDrag,
-    size: infoTabSize,
-  } = useInfoTab({
-    fieldKeys: ["code", "declared", "freight", "units"],
-    infoDrawerVisible,
-  });
+  // Opacity for fading info tab (iPhone only)
+  const infoTabOpacity = useRef(new Animated.Value(0)).current;
 
-  // Helpers to open info drawer and focus behaviour
+  // Determine if tab should be visible
+  const shouldShowInfoTab = !infoDrawerVisible; // Always show tabs when drawer is closed
+
+  // Animate tab opacity with fade-out then fade-in when field changes or visibility toggles (iPhone)
+  const prevVisibleRef = useRef(false);
+
+  useEffect(() => {
+    if (isTablet()) return;
+
+    const wasVisible = prevVisibleRef.current;
+
+    if (shouldShowInfoTab && !wasVisible) {
+      // Fade in once when becoming visible
+      Animated.timing(infoTabOpacity, {
+        toValue: 1,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    } else if (!shouldShowInfoTab && wasVisible) {
+      // Fade out when hiding
+      Animated.timing(infoTabOpacity, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    prevVisibleRef.current = shouldShowInfoTab;
+  }, [shouldShowInfoTab]);
+
+  const fieldRefs = {
+    code: useRef<View>(null),
+    declared: useRef<View>(null),
+    freight: useRef<View>(null),
+    units: useRef<View>(null),
+  } as const;
+
+  const handleFieldFocus = (field: InfoFieldKey) => {
+    // User is interacting with the form – collapse FABs
+    closeMainFab();
+    setActiveField(field);
+    // Collapse HTS description when focusing other fields
+    setHtsDescriptionExpanded(false);
+    // measure position
+    const ref = fieldRefs[field as keyof typeof fieldRefs];
+    if (ref && ref.current) {
+      // Add a small delay on Android to ensure layout is complete
+      const measureDelay = Platform.OS === "android" ? 50 : 0;
+
+      setTimeout(() => {
+        if (ref.current) {
+          // Use UIManager.measure for Android as measureInWindow can be unreliable
+          if (Platform.OS === "android") {
+            const handle = findNodeHandle(ref.current);
+            if (handle) {
+              UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                console.log(
+                  `[InfoTab] Android UIManager.measure - Field: ${field}, x: ${x}, y: ${y}, width: ${width}, height: ${height}, pageX: ${pageX}, pageY: ${pageY}`,
+                );
+
+                if (
+                  typeof pageY === "number" &&
+                  typeof height === "number" &&
+                  !isNaN(pageY) &&
+                  !isNaN(height) &&
+                  pageY > 0 &&
+                  height > 0
+                ) {
+                  const tabHeight = 40;
+                  // pageY is already screen-relative, don't subtract insets.top
+                  // Instead, just use pageY directly and center the tab
+                  const centerY = pageY + height / 2 - tabHeight / 2;
+
+                  console.log(
+                    `[InfoTab] Android calculated - pageY: ${pageY}, height: ${height}, centerY: ${centerY}, insets.top: ${insets.top}`,
+                  );
+
+                  setTabY(Math.max(50, centerY));
+                } else {
+                  // Fallback with a better default based on field
+                  // Final positions - perfectly aligned
+                  const fieldDefaults = {
+                    code: 322, // Perfect!
+                    declared: 433, // Perfect!
+                    freight: 489, // Added 2px more
+                    units: 546, // Perfect!
+                  };
+                  const fallbackY = field ? fieldDefaults[field] : 200;
+                  console.log(
+                    `[InfoTab] Android measure failed for field: ${field}, using fallback: ${fallbackY}`,
+                  );
+                  setTabY(fallbackY || 200);
+                }
+              });
+            }
+          } else {
+            // iOS uses measureInWindow as before
+            ref.current.measureInWindow((x, y, width, height) => {
+              if (
+                typeof y === "number" &&
+                typeof height === "number" &&
+                !isNaN(y) &&
+                !isNaN(height) &&
+                y > 0 &&
+                height > 0
+              ) {
+                const spacing = getSpacing("sm");
+                if (typeof spacing === "number" && !isNaN(spacing)) {
+                  setTabY(y + height / 2 - 20 - spacing);
+                }
+              } else {
+                setTabY(200);
+              }
+            });
+          }
+        }
+      }, measureDelay);
+    }
+  };
+
   const handleInfoPress = (field: InfoFieldKey) => {
     setActiveField(field);
+    Keyboard.dismiss();
     setInfoDrawerVisible(true);
   };
 
-  const handleFieldFocusWrapper = (field: InfoFieldKey) => {
-    // replicate previous behaviour: collapse menus and description
-    closeMainFab();
-    setHtsDescriptionExpanded(false);
-    handleFieldFocus(field as Exclude<InfoFieldKey, null>);
+  useEffect(() => {
+    loadHistory();
+    // Tariff data is now preloaded in App.tsx
+  }, []);
+
+  // Animation effects for navigation drawers
+  useEffect(() => {
+    animateHistoryDrawer(mainHistoryDrawerVisible);
+  }, [mainHistoryDrawerVisible]);
+
+  useEffect(() => {
+    animateLinksDrawer(linksDrawerVisible);
+  }, [linksDrawerVisible]);
+
+  // Loading modal animation
+  useEffect(() => {
+    if (showLoadingModal) {
+      // Start spinning animation
+      Animated.loop(
+        Animated.timing(loadingSpinValue, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ).start();
+    } else {
+      // Reset animation
+      loadingSpinValue.setValue(0);
+    }
+  }, [showLoadingModal]);
+
+  // Update the search function to use async search
+  useEffect(() => {
+    const searchForSuggestions = async () => {
+      if (htsCode.length >= 3) {
+        setShowHtsSuggestions(true);
+        setHtsSearchMessage("Searching...");
+
+        try {
+          console.log("[Search] Searching for:", htsCode);
+          // Use the segmented search service for better performance
+          const results = await tariffSearchService.searchByPrefix(htsCode, 15);
+          console.log("[Search] Results:", results.length);
+
+          setHtsSuggestions(results);
+          if (results.length === 0) {
+            setHtsSearchMessage("");
+          } else {
+            setHtsSearchMessage(
+              results.length === 15 ? "Showing first 15 matches" : "",
+            );
+          }
+        } catch (error) {
+          console.error("[Search] Error:", error);
+          setHtsSuggestions([]);
+          setHtsSearchMessage("Error searching HTS codes");
+        }
+      } else {
+        setShowHtsSuggestions(false);
+        setHtsSuggestions([]);
+        setHtsSearchMessage("");
+      }
+    };
+
+    const debounceTimer = setTimeout(searchForSuggestions, 150);
+    return () => clearTimeout(debounceTimer);
+  }, [htsCode]);
+
+  // Collapse floating menu when form expands/contracts or drawers open
+  useEffect(() => {
+    const formHasContent =
+      showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
+    const contentDrawersOpen =
+      resultsDrawerVisible ||
+      historyDrawerVisible ||
+      newsDrawerVisible ||
+      analyticsDrawerVisible;
+    const navigationDrawersOpen =
+      mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible;
+
+    // Collapse main FAB menu when form has content or any drawers are open
+    if (formHasContent || contentDrawersOpen || navigationDrawersOpen) {
+      closeMainFab();
+    }
+  }, [
+    showHtsSuggestions,
+    selectedCountry,
+    declaredValue,
+    resultsDrawerVisible,
+    historyDrawerVisible,
+    newsDrawerVisible,
+    analyticsDrawerVisible,
+    mainHistoryDrawerVisible,
+    settingsDrawerVisible,
+    linksDrawerVisible,
+  ]);
+
+  const handleHtsSelection = (code: string, description?: string) => {
+    haptics.selection();
+    setHtsCode(code);
+    // Remove the HTS code from the beginning of the description if it exists
+    let cleanDescription = description || "";
+    if (cleanDescription.startsWith(code)) {
+      cleanDescription = cleanDescription.substring(code.length).trim();
+    }
+    setSelectedDescription(cleanDescription); // Store the cleaned description
+    setShowHtsSuggestions(false);
+    setHtsSuggestions([]); // Clear suggestions
+    Keyboard.dismiss(); // Dismiss keyboard
+  };
+
+  // Format number with commas
+  const formatNumberWithCommas = (value: string): string => {
+    // Remove any non-digit characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, "");
+
+    // Handle decimal part separately
+    const parts = cleanValue.split(".");
+    const wholePart = parts[0];
+    const decimalPart = parts.length > 1 ? "." + parts[1] : "";
+
+    // Add commas to the whole part
+    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return formattedWholePart + decimalPart;
+  };
+
+  // Handle declared value change
+  const handleDeclaredValueChange = (value: string) => {
+    // Remove $ and commas, keep only numbers and decimal
+    const cleanedValue = value.replace(/[$,]/g, "");
+    const numericValue = cleanedValue.replace(/[^\d.]/g, "");
+    setDeclaredValue(numericValue);
+
+    // Format while typing with $ and commas
+    if (numericValue) {
+      const formatted = `$${formatNumberWithCommas(numericValue)}`;
+      setFormattedDeclaredValue(formatted);
+    } else {
+      setFormattedDeclaredValue("");
+    }
+  };
+
+  // Handle freight cost change
+  const handleFreightCostChange = (value: string) => {
+    // Store the raw value for calculations
+    const numericValue = value.replace(/[^\d.]/g, "");
+    setFreightCost(numericValue);
+
+    // Format the display value with commas
+    setFormattedFreightCost(formatNumberWithCommas(value));
+  };
+
+  // Handle unit count change
+  const handleUnitCountChange = (value: string) => {
+    // Store the raw value for calculations
+    const numericValue = value.replace(/[^\d]/g, ""); // No decimals for unit count
+    setUnitCount(numericValue);
+
+    // Format the display value with commas
+    setFormattedUnitCount(formatNumberWithCommas(numericValue));
+
+    // Hide calculations when value changes (user must click Calc)
+    // Unit calculations now always show when units are provided
+    // No need to reset showUnitCalculations state
+  };
+
+  // Handle additional cost change with real-time formatting
+  const handleAdditionalCostChange = (value: string) => {
+    // Remove $ and commas, keep only numbers and decimal
+    const cleanedValue = value.replace(/[$,]/g, "");
+    const numericValue = cleanedValue.replace(/[^\d.]/g, "");
+
+    // Format while typing with $ and commas
+    if (numericValue) {
+      const formatted = `$${formatNumberWithCommas(numericValue)}`;
+      setCurrentAdditionalCost(formatted);
+    } else {
+      setCurrentAdditionalCost("");
+    }
+  };
+
+  // Multi-field handlers
+  const handleAddAdditionalCost = () => {
+    const amount = parseFloat(currentAdditionalCost.replace(/[^0-9.]/g, ""));
+    if (!isNaN(amount) && amount > 0) {
+      // Add to existing total instead of replacing
+      const currentTotal =
+        additionalCosts.length > 0 ? additionalCosts[0].amount : 0;
+      setAdditionalCosts([
+        {
+          id: "total",
+          amount: currentTotal + amount,
+        },
+      ]);
+      // Clear the field for another entry
+      setCurrentAdditionalCost("");
+      haptics.selection();
+    }
+  };
+
+  const handleDeleteAdditionalCost = (id: string) => {
+    // Clear the entire cost chip
+    setAdditionalCosts([]);
+    haptics.selection();
+  };
+
+  const handleAddUnitCount = () => {
+    const amount = parseFloat(currentUnitCount);
+    if (!isNaN(amount) && amount > 0) {
+      // Add to existing total instead of replacing
+      const currentTotal = unitCounts.length > 0 ? unitCounts[0].amount : 0;
+      setUnitCounts([
+        {
+          id: "total",
+          amount: currentTotal + amount,
+        },
+      ]);
+      // Clear the field for another entry
+      setCurrentUnitCount("");
+      haptics.selection();
+    }
+  };
+
+  const handleDeleteUnitCount = (id: string) => {
+    // Clear the entire unit chip
+    setUnitCounts([]);
+    haptics.selection();
+  };
+
+  const formatArithmetic = () => {
+    const declaredVal = parseFloat(declaredValue) || 0;
+    const additionalTotal = additionalCosts.reduce(
+      (sum, cost) => sum + cost.amount,
+      0,
+    );
+    const total = declaredVal + additionalTotal;
+
+    if (additionalCosts.length === 0) {
+      return (
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={styles.arithmeticText}>
+            ${formatNumberWithCommas(declaredVal.toString())}
+          </Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.arithmeticContainer}>
+        <Text style={styles.arithmeticText}>
+          ${formatNumberWithCommas(declaredVal.toString())}
+        </Text>
+        <View style={styles.arithmeticRow}>
+          <Text style={styles.arithmeticText}>
+            + ${formatNumberWithCommas(additionalTotal.toString())}
+          </Text>
+          <TouchableOpacity
+            onPress={() => handleDeleteAdditionalCost("total")}
+            style={{ position: "absolute", right: -30 }}
+          >
+            <Ionicons
+              name="close-circle"
+              size={getResponsiveValue(21, 24)}
+              color={BRAND_COLORS.darkGray}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.arithmeticDivider} />
+        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
+          ${formatNumberWithCommas(total.toString())}
+        </Text>
+      </View>
+    );
+  };
+
+  const formatUnitArithmetic = () => {
+    const total = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
+
+    return (
+      <View style={{ alignItems: "flex-end" }}>
+        <View style={styles.arithmeticRow}>
+          <Text style={styles.arithmeticText}>{total.toFixed(0)}</Text>
+          <TouchableOpacity
+            onPress={() => handleDeleteUnitCount("total")}
+            style={{ position: "absolute", right: -30 }}
+          >
+            <Ionicons
+              name="close-circle"
+              size={getResponsiveValue(21, 24)}
+              color={BRAND_COLORS.darkGray}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   };
 
   // Handle navigation params
@@ -762,195 +1163,180 @@ export default function LookupScreen() {
 
   // Update the handleLookup function to use async lookup with loading messages
   const handleLookup = async () => {
-    if (!htsCode || !selectedCountry) {
-      Alert.alert(
-        "Missing Information",
-        "Please enter an HTS code and select a country.",
-      );
+    // Hide any floating info tabs or drawers as soon as the user initiates a search
+    setActiveField(null);
+    setInfoDrawerVisible(false);
+    setShowHtsSuggestions(false);
+    setHtsDescriptionExpanded(false);
+
+    if (!htsCode || !selectedCountry || !declaredValue) {
+      haptics.error();
+      Alert.alert("Missing Information");
       return;
     }
 
-    // Basic validation for HTS code
-    if (htsCode.length < 6) {
-      Alert.alert(
-        "Invalid HTS Code",
-        "HTS code must be at least 6 digits long.",
-      );
-      return;
-    }
+    // Trigger haptic feedback for calculate action
+    haptics.impact();
 
-    // Validate declared value
-    if (!declaredValue || parseFloat(declaredValue) <= 0) {
-      Alert.alert(
-        "Missing Information",
-        "Please enter a declared value greater than 0.",
-      );
-      return;
-    }
-
+    Keyboard.dismiss();
     setIsLoading(true);
-    setShowLoadingModal(true);
-    setLoadingMessage("Calculating duties and fees...");
+    setResult(null);
+    setShowInput(false);
+    setIsSaved(false);
 
     try {
-      // Close keyboard
-      Keyboard.dismiss();
+      console.log("Looking up HTS code:", htsCode);
+      // Calculate total declared value including additional costs
+      const totalDeclaredValue =
+        parseFloat(declaredValue) +
+        additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
 
-      // Close all drawers and FABs
-      closeAllDrawers();
-      closeMainFab(false);
-
-      // Calculate duty
-      const dutyCalc = calculateDuty(
+      const calculation = await tariffService.calculateDuty(
         htsCode,
-        parseFloat(declaredValue),
+        totalDeclaredValue,
         selectedCountry.code,
-        true,
-        false,
+        settings.isReciprocalAdditive,
+        false, // excludeReciprocalTariff is false by default
         isUSMCAOrigin,
       );
 
-      if (!dutyCalc) {
-        throw new Error("Unable to calculate duty with provided data.");
-      }
-      console.log("[Lookup] Duty calculation result:", dutyCalc);
+      console.log("Calculation result:", calculation);
 
-      // Extract components with descriptions
-      const componentsWithDescriptions = extractComponentDescriptions(
-        dutyCalc.components,
-        dutyCalc.breakdown,
-      );
+      if (calculation) {
+        currentDutyCalculation.current = calculation;
 
-      // Extract special rate if applicable
-      const specialRate = extractSpecialRate(
-        dutyCalc.breakdown,
-        selectedCountry.name,
-      );
-
-      // Calculate unit costs if units are provided
-      const totalUnitCount = unitCounts.reduce<number>(
-        (sum: number, unit: { id: string; amount: number; label?: string }) =>
-          sum + unit.amount,
-        0,
-      );
-      let unitCalculations = undefined;
-      if (totalUnitCount > 0) {
-        const costPerUnit = dutyCalc.amount / totalUnitCount;
-        const rtComponent = dutyCalc.components.find(
-          (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
-        );
-        const hasRT = rtComponent && rtComponent.amount > 0;
-        const costPerUnitWithoutRT = hasRT
-          ? (dutyCalc.amount - rtComponent.amount) / totalUnitCount
-          : costPerUnit;
-        const additionalPerUnit = hasRT
-          ? rtComponent.amount / totalUnitCount
-          : 0;
-
-        unitCalculations = {
-          costPerUnitWithRT: costPerUnit,
-          costPerUnitWithoutRT,
-          additionalPerUnit,
-          hasRT,
+        const lookupResult: LookupResult = {
+          htsCode: calculation.htsCode,
+          description: calculation.description,
+          dutyRate: calculation.totalRate,
+          totalAmount: calculation.amount,
+          breakdown: calculation.breakdown,
+          components: calculation.components,
+          fees: calculation.fees,
+          effectiveDate: calculation.effectiveDate,
+          expirationDate: calculation.expirationDate,
         };
-      }
 
-      const result: LookupResult = {
-        htsCode: dutyCalc.htsCode,
-        description: dutyCalc.description,
-        dutyRate: dutyCalc.totalRate,
-        totalAmount: dutyCalc.amount,
-        breakdown: dutyCalc.breakdown,
-        specialRate,
-        components: componentsWithDescriptions,
-        fees: dutyCalc.fees,
-        effectiveDate: dutyCalc.effectiveDate,
-        expirationDate: dutyCalc.expirationDate,
-        unitCount: totalUnitCount > 0 ? totalUnitCount.toString() : undefined,
-        unitCalculations,
-      };
+        // Update the displayed HTS code with the result
+        setHtsCode(calculation.htsCode);
 
-      setResult(result);
-      setIsSaved(false);
-      setLoadedHistoryTimestamp(null);
+        // Hide loading modal before showing results
+        setShowLoadingModal(false);
 
-      // Store the current entry data
-      currentEntry.current = {
-        htsCode,
-        selectedCountry,
-        declaredValue,
-        freightCost,
-        unitCounts,
-        additionalCosts,
-        isUSMCAOrigin,
-      };
+        setResult(lookupResult);
+        setResultsDrawerVisible(true);
 
-      // Store the duty calculation
-      currentDutyCalculation.current = dutyCalc;
+        // Success haptic feedback
+        haptics.success();
 
-      // Scroll to results section
-      setTimeout(() => {
-        if (resultScrollViewRef.current) {
-          resultScrollViewRef.current.scrollToEnd({ animated: true });
+        // Handle auto-save
+        console.log("[handleLookup] Auto-save check:", {
+          autoSaveEnabled: settings.autoSaveToHistory,
+          hasResult: !!lookupResult,
+          loadedHistoryTimestamp,
+        });
+
+        if (settings.autoSaveToHistory && !loadedHistoryTimestamp) {
+          // Only auto-save if this is NOT a result loaded from history
+          console.log("[handleLookup] Auto-saving lookup result...");
+          const historyItem = {
+            htsCode: lookupResult.htsCode,
+            description: lookupResult.description,
+            countryCode: selectedCountry.code,
+            countryName: selectedCountry.name,
+            declaredValue: parseFloat(declaredValue),
+            freightCost: freightCost ? parseFloat(freightCost) : undefined,
+            totalAmount: lookupResult.totalAmount,
+            dutyRate: lookupResult.dutyRate,
+            breakdown: lookupResult.breakdown,
+            components: lookupResult.components,
+            fees: lookupResult.fees,
+            timestamp: Date.now(),
+            unitCount: unitCount || undefined,
+            unitCalculations: lookupResult.unitCalculations,
+          };
+
+          await saveToHistory(historyItem);
+          console.log("[handleLookup] Auto-save completed");
+          setIsSaved(true);
+        } else if (loadedHistoryTimestamp) {
+          // This is a result loaded from history, mark as already saved
+          console.log(
+            "[handleLookup] Skipping auto-save - result loaded from history with timestamp:",
+            loadedHistoryTimestamp,
+          );
+          setIsSaved(true);
+        } else {
+          console.log("[handleLookup] Auto-save disabled, marking as unsaved");
+          setIsSaved(false); // Reset saved state for manual save button
         }
-      }, 100);
 
-      // Auto-save if enabled
-      if (settings.autoSaveToHistory) {
-        console.log("[Lookup] Auto-saving to history...");
-        await handleSaveToHistory(false);
+        closeMainFab(); // Collapse the floating menu
+        closeAllNavigationDrawers();
+      } else {
+        setShowLoadingModal(false);
+        Alert.alert(
+          "Calculation Error",
+          "Unable to calculate duty for this combination.",
+        );
+        setIsLoading(false);
+        setLoadingMessage("");
+        return;
       }
     } catch (error) {
-      console.error("[Lookup] Error:", error);
+      console.error("Lookup error:", error);
+      setShowLoadingModal(false);
       Alert.alert(
-        "Lookup Error",
-        error instanceof Error ? error.message : "Failed to calculate duties",
+        "Error",
+        "An error occurred during lookup. Please try again.",
       );
     } finally {
       setIsLoading(false);
-      setShowLoadingModal(false);
       setLoadingMessage("");
+      setShowLoadingModal(false);
     }
   };
 
   const handleNewLookup = () => {
-    haptics.buttonPress();
-    
-    // Clear form
-    setHtsCode("");
-    setSelectedCountry(settings?.defaultCountry ? {
-      code: settings.defaultCountry,
-      name: getCountryName(settings.defaultCountry),
-    } : undefined);
-    setSelectedDescription("");
-    setDeclaredValue("");
-    setFormattedDeclaredValue("");
-    setFreightCost("");
-    setFormattedFreightCost("");
-    setUnitCount("");
-    setFormattedUnitCount("");
-    setResult(null);
-    setIsSaved(false);
-    setLoadedHistoryTimestamp(null);
-    setShowInput(true);
-    setShowHtsSuggestions(false);
-    setHtsSuggestions([]);
-    setDescriptionExpanded(false);
-    setHtsDescriptionExpanded(false);
-    setCurrentAdditionalCost("");
-    setAdditionalCosts([]);
-    setCurrentUnitCount("");
-    setUnitCounts([]);
-    setIsUSMCAOrigin(false);
+    console.log("[handleNewLookup] Called with:", {
+      autoSaveEnabled: settings.autoSaveToHistory,
+      hasResult: !!result,
+      isSaved,
+    });
 
-    // Clear stored data
-    currentEntry.current = null;
-    currentDutyCalculation.current = null;
-
-    // Focus on HTS code input
-    setTimeout(() => {
-      htsCodeInputRef.current?.focus();
-    }, 100);
+    // If auto-save is on, save automatically
+    if (settings.autoSaveToHistory && result && !isSaved) {
+      handleSaveToHistory(false).then(() => {
+        handleClearAll();
+      });
+    } else if (!settings.autoSaveToHistory && result && !isSaved) {
+      // If auto-save is off and there's an unsaved result, show warning
+      Alert.alert(
+        "Unsaved Lookup",
+        "You have an unsaved lookup. Do you want to save it before starting a new one?",
+        [
+          {
+            text: "Discard",
+            style: "destructive",
+            onPress: () => handleClearAll(),
+          },
+          {
+            text: "Save & New",
+            onPress: async () => {
+              await handleSaveToHistory(false); // Don't show alert
+              handleClearAll();
+            },
+          },
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+        ],
+      );
+    } else {
+      // No result or already saved, proceed directly
+      handleClearAll();
+    }
   };
 
   const handleSaveToHistory = async (showAlert = true) => {
@@ -1039,6 +1425,12 @@ export default function LookupScreen() {
     setLoadedHistoryTimestamp(null); // Reset the history timestamp
     setIsUSMCAOrigin(false); // Reset USMCA origin
 
+    // Clear chips data
+    setAdditionalCosts([]);
+    setCurrentAdditionalCost("");
+    setUnitCounts([]);
+    setCurrentUnitCount("");
+
     // Focus on HTS code input for new lookup
     requestAnimationFrame(() => {
       htsCodeInputRef.current?.focus();
@@ -1060,7 +1452,21 @@ export default function LookupScreen() {
 
   const handleHistoryItemSelection = (historyItem: HistoryItem) => {
     haptics.selection();
-    console.log("History item selected:", historyItem);
+
+    // Set loading from history flag
+    setIsLoadingFromHistory(true);
+
+    // Clear any HTS suggestions first
+    setShowHtsSuggestions(false);
+    setHtsSuggestions([]);
+
+    // Set the selected description from history BEFORE setting HTS code
+    // This prevents the dropdown from showing
+    if (historyItem.description) {
+      setSelectedDescription(historyItem.description);
+    }
+
+    // Now set the HTS code
     setHtsCode(historyItem.htsCode);
 
     // Ensure we have both country code and name
@@ -1201,10 +1607,13 @@ export default function LookupScreen() {
 
       // Mark as already saved since it came from history
       setIsSaved(true);
+      setLoadedHistoryTimestamp(historyItem.timestamp || Date.now());
+
+      // Open results drawer to show the saved calculation
       setResultsDrawerVisible(true);
     }
 
-    // Close any open drawers
+    // Close navigation drawers
     closeAllNavigationDrawers();
   };
 
@@ -1245,20 +1654,19 @@ export default function LookupScreen() {
         <Text style={styles.drawerTitle}>Recent Lookups</Text>
       </View>
       <ScrollView style={styles.drawerScrollView}>
-        {history.slice(0, 10).map((item: HistoryItem, index: number) => (
+        {history.slice(0, 10).map((item, index) => (
           <TouchableOpacity
             key={item.id}
             style={styles.historyDrawerItem}
             onPress={() => {
-              const closeAndNavigate = () => {
+              const loadHistoryItem = () => {
+                // Close history drawer first
                 setHistoryDrawerVisible(false);
-                navigation.navigate("Lookup", { historyItem: item });
-                // Open FAB immediately after selecting history item
-                setUserClosedFab(false);
-                openMainFab();
+                // Handle history item selection immediately
+                handleHistoryItemSelection(item);
               };
 
-              // Check for unsaved results before navigating
+              // Check for unsaved results before loading
               if (!settings.autoSaveToHistory && result && !isSaved) {
                 Alert.alert(
                   "Unsaved Lookup",
@@ -1267,13 +1675,13 @@ export default function LookupScreen() {
                     {
                       text: "Discard",
                       style: "destructive",
-                      onPress: closeAndNavigate,
+                      onPress: loadHistoryItem,
                     },
                     {
                       text: "Save & Load",
                       onPress: async () => {
                         await handleSaveToHistory(false);
-                        closeAndNavigate();
+                        loadHistoryItem();
                       },
                     },
                     {
@@ -1283,7 +1691,7 @@ export default function LookupScreen() {
                   ],
                 );
               } else {
-                closeAndNavigate();
+                loadHistoryItem();
               }
             }}
           >
@@ -1308,47 +1716,36 @@ export default function LookupScreen() {
   const renderNewsDrawerContent = () => <RightColumnContent />;
 
   const renderAnalyticsDrawerContent = () => {
+    const analyticsMetrics = [
+      { title: "Top Searched HTS", value: "8471.30.01", trend: "+12%" },
+      { title: "Avg Duty Rate", value: "7.2%", trend: "-0.3%" },
+      { title: "Most Active Country", value: "China", trend: "45%" },
+      { title: "Weekly Lookups", value: "1,247", trend: "+8%" },
+    ];
+
     return (
-      <View style={styles.drawerContent}>
+      <View style={[styles.drawerContent, { paddingTop: 100 }]}>
         <View style={styles.drawerHeader}>
           <Ionicons
             name="analytics"
-            size={getResponsiveValue(24, 32)}
-            color={BRAND_COLORS.info}
+            size={getResponsiveValue(20, 28)}
+            color={BRAND_COLORS.electricBlue}
           />
-          <Text style={styles.drawerTitle}>Analytics</Text>
+          <Text style={styles.drawerTitle}>Trade Insights</Text>
         </View>
         <ScrollView style={styles.drawerScrollView}>
-          <View style={styles.analyticsCard}>
-            <LinearGradient
-              colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.mediumBlue]}
-              style={styles.analyticsGradient}
-            >
-              <Text style={styles.analyticsTitle}>Total Searches</Text>
-              <Text style={styles.analyticsValue}>142</Text>
-              <Text style={styles.analyticsTrend}>+12% this month</Text>
-            </LinearGradient>
-          </View>
-          <View style={styles.analyticsCard}>
-            <LinearGradient
-              colors={[BRAND_COLORS.success, "#27ae60"]}
-              style={styles.analyticsGradient}
-            >
-              <Text style={styles.analyticsTitle}>Saved Lookups</Text>
-              <Text style={styles.analyticsValue}>{history.length}</Text>
-              <Text style={styles.analyticsTrend}>All time</Text>
-            </LinearGradient>
-          </View>
-          <View style={styles.analyticsCard}>
-            <LinearGradient
-              colors={[BRAND_COLORS.orange, "#e67e22"]}
-              style={styles.analyticsGradient}
-            >
-              <Text style={styles.analyticsTitle}>Most Searched</Text>
-              <Text style={styles.analyticsValue}>China</Text>
-              <Text style={styles.analyticsTrend}>45% of searches</Text>
-            </LinearGradient>
-          </View>
+          {analyticsMetrics.map((item, index) => (
+            <View key={index} style={styles.analyticsCard}>
+              <LinearGradient
+                colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
+                style={styles.analyticsGradient}
+              >
+                <Text style={styles.analyticsTitle}>{item.title}</Text>
+                <Text style={styles.analyticsValue}>{item.value}</Text>
+                <Text style={styles.analyticsTrend}>{item.trend}</Text>
+              </LinearGradient>
+            </View>
+          ))}
         </ScrollView>
       </View>
     );
@@ -1400,266 +1797,324 @@ export default function LookupScreen() {
               {currentTimestamp}
             </Text>
           </View>
-          <View style={styles.headerButtons}>
-            {settings.autoSaveToHistory ? (
-              <View style={[styles.headerButton, styles.autoSaveIndicator]}>
-                <Ionicons
-                  name="checkmark-circle"
-                  size={getResponsiveValue(16, 20)}
-                  color={BRAND_COLORS.success}
-                />
-                <Text style={styles.autoSaveText}>AutoSave On</Text>
-              </View>
-            ) : (
-              <TouchableOpacity
-                style={[
-                  styles.headerButton,
-                  styles.saveHeaderButton,
-                  isSaved && styles.savedHeaderButton,
-                ]}
-                onPress={() => handleSaveToHistory()}
-                disabled={isSaved}
-              >
-                <Ionicons
-                  name={isSaved ? "checkmark-circle" : "bookmark-outline"}
-                  size={getResponsiveValue(16, 20)}
-                  color={
-                    isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue
-                  }
-                />
-                <Text
-                  style={[
-                    styles.headerButtonText,
-                    isSaved && styles.savedHeaderButtonText,
-                  ]}
-                >
-                  {isSaved ? "Saved" : "Save"}
-                </Text>
-              </TouchableOpacity>
-            )}
+          <View style={styles.headerButtonsVertical}>
+            {/* Save Button */}
             <TouchableOpacity
-              style={[styles.headerButton, styles.newHeaderButton]}
-              onPress={handleNewLookup}
+              style={[
+                styles.headerButtonStacked,
+                styles.saveHeaderButtonStacked,
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                // If AutoSave is on or off, just close the drawer
+                setResultsDrawerVisible(false);
+                setDescriptionExpanded(false);
+                setUserClosedFab(false);
+                openMainFab();
+              }}
             >
               <Ionicons
-                name="add"
+                name="bookmark"
                 size={getResponsiveValue(16, 20)}
                 color={BRAND_COLORS.electricBlue}
               />
-              <Text style={styles.headerButtonText}>New</Text>
+              <Text style={styles.headerButtonStackedText}>Save</Text>
+            </TouchableOpacity>
+
+            {/* Clear Button */}
+            <TouchableOpacity
+              style={[
+                styles.headerButtonStacked,
+                styles.clearHeaderButtonStacked,
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                if (!settings.autoSaveToHistory && result && !isSaved) {
+                  // Show warning if AutoSave is off and result is unsaved
+                  Alert.alert(
+                    "Clear Results",
+                    "You have unsaved results. What would you like to do?",
+                    [
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                      {
+                        text: "Don't Save",
+                        style: "destructive",
+                        onPress: () => {
+                          handleClearAll();
+                          setResultsDrawerVisible(false);
+                          setDescriptionExpanded(false);
+                          setUserClosedFab(false);
+                          openMainFab();
+                        },
+                      },
+                      {
+                        text: "Save",
+                        onPress: async () => {
+                          await handleSaveToHistory(false);
+                          handleClearAll();
+                          setResultsDrawerVisible(false);
+                          setDescriptionExpanded(false);
+                          setUserClosedFab(false);
+                          openMainFab();
+                        },
+                      },
+                    ],
+                  );
+                } else {
+                  // AutoSave is on or result is already saved
+                  handleClearAll();
+                  setResultsDrawerVisible(false);
+                  setDescriptionExpanded(false);
+                  setUserClosedFab(false);
+                  openMainFab();
+                }
+              }}
+            >
+              <Ionicons
+                name="trash-outline"
+                size={getResponsiveValue(16, 20)}
+                color={BRAND_COLORS.orange}
+              />
+              <Text
+                style={[
+                  styles.headerButtonStackedText,
+                  { color: BRAND_COLORS.orange },
+                ]}
+              >
+                Clear
+              </Text>
+            </TouchableOpacity>
+
+            {/* Tariff Intel Button */}
+            <TouchableOpacity
+              style={[
+                styles.headerButtonStacked,
+                styles.tariffIntelHeaderButtonStacked,
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                setResultsDrawerVisible(false);
+                setTariffEngineeringDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="bulb-outline"
+                size={getResponsiveValue(16, 20)}
+                color={BRAND_COLORS.success}
+              />
+              <Text
+                style={[
+                  styles.headerButtonStackedText,
+                  { color: BRAND_COLORS.success },
+                ]}
+              >
+                Tariff Intel (beta)
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        <ScrollView
-          style={styles.resultsScrollView}
-          contentContainerStyle={{ paddingBottom: getSpacing("xl") }}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Duties vs Landed Cost */}
-          {(() => {
-            const dutiableValue = parseFloat(declaredValue);
-            const merchandiseValueForLanded =
-              dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
-            const landedCost = merchandiseValueForLanded + result.totalAmount;
-            const hasFreightCost = freightCost && parseFloat(freightCost) > 0;
+        <View style={[styles.resultsContainer, { flex: 1 }]}>
+          <ScrollView
+            style={[styles.resultsScrollView, { flex: 1 }]}
+            contentContainerStyle={{ paddingBottom: getSpacing("xl") }}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Duties vs Landed Cost */}
+            {(() => {
+              const dutiableValue = parseFloat(declaredValue);
+              const additionalCostsTotal = additionalCosts.reduce(
+                (sum, cost) => sum + cost.amount,
+                0,
+              );
+              const merchandiseValueForLanded =
+                dutiableValue +
+                additionalCostsTotal +
+                (freightCost ? parseFloat(freightCost) : 0);
+              const landedCost = merchandiseValueForLanded + result.totalAmount;
+              const hasFreightCost = freightCost && parseFloat(freightCost) > 0;
+              const hasAdditionalCosts = additionalCostsTotal > 0;
+              const showLandedCost = hasFreightCost || hasAdditionalCosts;
 
-            return (
-              <View
-                style={[
-                  styles.totalAmountRow,
-                  {
-                    justifyContent: hasFreightCost
-                      ? "space-between"
-                      : "flex-end",
-                  },
-                ]}
-              >
-                {/* Duties */}
+              return (
                 <View
                   style={[
-                    styles.totalAmountCard,
+                    styles.totalAmountRow,
                     {
-                      marginRight: hasFreightCost ? 8 : 0,
-                      flex: hasFreightCost ? 1 : undefined,
+                      justifyContent: showLandedCost
+                        ? "space-between"
+                        : "flex-end",
                     },
                   ]}
                 >
-                  <Text style={styles.totalAmountLabel}>
-                    Est. Duties & Fees
-                  </Text>
-                  <Text style={styles.totalAmountValue}>
-                    {formatCurrency(result.totalAmount)}
-                  </Text>
-                  <Text style={styles.totalAmountSubtext}>
-                    on {formatCurrency(dutiableValue)} value
-                  </Text>
-                </View>
-                {/* Landed Cost - only show if freight cost is provided */}
-                {hasFreightCost && (
+                  {/* Duties */}
                   <View
-                    style={[styles.totalAmountCard, { marginLeft: 8, flex: 1 }]}
+                    style={[
+                      styles.totalAmountCard,
+                      {
+                        marginRight: showLandedCost ? 8 : 0,
+                        flex: showLandedCost ? 1 : undefined,
+                      },
+                    ]}
                   >
                     <Text style={styles.totalAmountLabel}>
-                      Est. Landed Cost
+                      Est. Duties & Fees
                     </Text>
                     <Text style={styles.totalAmountValue}>
-                      {formatCurrency(landedCost)}
+                      {formatCurrency(result.totalAmount)}
                     </Text>
                     <Text style={styles.totalAmountSubtext}>
-                      COGs+duties+other costs
+                      on {formatCurrency(dutiableValue)} value
                     </Text>
                   </View>
+                  {/* Landed Cost - show if freight cost or additional costs exist */}
+                  {showLandedCost && (
+                    <View
+                      style={[
+                        styles.totalAmountCard,
+                        { marginLeft: 8, flex: 1 },
+                      ]}
+                    >
+                      <Text style={styles.totalAmountLabel}>
+                        Est. Landed Cost
+                      </Text>
+                      <Text style={styles.totalAmountValue}>
+                        {formatCurrency(landedCost)}
+                      </Text>
+                      <Text style={styles.totalAmountSubtext}>
+                        COGs+duties+other costs
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              );
+            })()}
+
+            {/* Compact Breakdown */}
+            {result.components && result.components.length > 0 && (
+              <View style={styles.compactSection}>
+                <Text style={styles.compactSectionTitle}>Duty Breakdown</Text>
+                {result.components.map(
+                  (component: DutyComponent, index: number) => (
+                    <View key={index} style={styles.compactRow}>
+                      <View style={styles.compactRowLeft}>
+                        <Text style={styles.compactLabel}>
+                          {getLineItemLabel(component)}
+                        </Text>
+                        {component.rate > 0 && (
+                          <Text style={styles.compactRate}>
+                            {component.rate.toFixed(2)}%
+                          </Text>
+                        )}
+                      </View>
+                      <Text style={styles.compactAmount}>
+                        {formatCurrency(component.amount)}
+                      </Text>
+                    </View>
+                  ),
                 )}
               </View>
-            );
-          })()}
+            )}
 
-          {/* Compact Breakdown */}
-          {result.components && result.components.length > 0 && (
-            <View style={styles.compactSection}>
-              <Text style={styles.compactSectionTitle}>Duty Breakdown</Text>
-              {result.components.map(
-                (component: DutyComponent, index: number) => (
-                  <View key={index} style={styles.compactRow}>
-                    <View style={styles.compactRowLeft}>
-                      <Text style={styles.compactLabel}>
-                        {getLineItemLabel(component)}
-                      </Text>
-                      {component.rate > 0 && (
-                        <Text style={styles.compactRate}>
-                          {component.rate.toFixed(2)}%
-                        </Text>
-                      )}
-                    </View>
-                    <Text style={styles.compactAmount}>
-                      {formatCurrency(component.amount)}
+            {/* Compact Fees */}
+            {result.fees && (
+              <View style={styles.compactSection}>
+                <Text style={styles.compactSectionTitle}>Processing Fees</Text>
+                <View style={styles.compactRow}>
+                  <View style={styles.compactRowLeft}>
+                    <Text style={styles.compactLabel}>
+                      Merchandise Processing Fee
+                    </Text>
+                    <Text style={styles.compactRate}>
+                      {result.fees.mpf.rate.toFixed(4)}%
                     </Text>
                   </View>
-                ),
-              )}
-            </View>
-          )}
-
-          {/* Compact Fees */}
-          {result.fees && (
-            <View style={styles.compactSection}>
-              <Text style={styles.compactSectionTitle}>Processing Fees</Text>
-              <View style={styles.compactRow}>
-                <View style={styles.compactRowLeft}>
-                  <Text style={styles.compactLabel}>
-                    Merchandise Processing Fee
-                  </Text>
-                  <Text style={styles.compactRate}>
-                    {result.fees.mpf.rate.toFixed(4)}%
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(result.fees.mpf.amount)}
                   </Text>
                 </View>
-                <Text style={styles.compactAmount}>
-                  {formatCurrency(result.fees.mpf.amount)}
-                </Text>
-              </View>
-              <View style={styles.compactRow}>
-                <View style={styles.compactRowLeft}>
-                  <Text style={styles.compactLabel}>
-                    Harbor Maintenance Fee
-                  </Text>
-                  <Text style={styles.compactRate}>
-                    {result.fees.hmf.rate.toFixed(3)}%
+                <View style={styles.compactRow}>
+                  <View style={styles.compactRowLeft}>
+                    <Text style={styles.compactLabel}>
+                      Harbor Maintenance Fee
+                    </Text>
+                    <Text style={styles.compactRate}>
+                      {result.fees.hmf.rate.toFixed(3)}%
+                    </Text>
+                  </View>
+                  <Text style={styles.compactAmount}>
+                    {formatCurrency(result.fees.hmf.amount)}
                   </Text>
                 </View>
-                <Text style={styles.compactAmount}>
-                  {formatCurrency(result.fees.hmf.amount)}
-                </Text>
               </View>
-            </View>
-          )}
+            )}
 
-          {/* Unit Calculations - Display directly when units are provided */}
-          {(() => {
-            const totalUnitCount = unitCounts.reduce<number>(
-              (sum: number, unit: { id: string; amount: number; label?: string }) =>
-                sum + unit.amount,
-              0,
-            );
-            const totalDeclaredValue =
-              parseFloat(declaredValue) +
-              additionalCosts.reduce<number>(
-                (sum: number, cost: { id: string; amount: number; label?: string }) =>
-                  sum + cost.amount,
+            {/* Unit Calculations - Display directly when units are provided */}
+            {(() => {
+              const totalUnitCount = unitCounts.reduce(
+                (sum, unit) => sum + unit.amount,
                 0,
               );
+              const totalDeclaredValue =
+                parseFloat(declaredValue) +
+                additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
 
-            if (totalUnitCount > 0) {
-              return (
-                <View style={styles.compactSection}>
-                  <Text style={styles.compactSectionTitle}>
-                    Per Unit ({formatNumber(totalUnitCount, 0)} units)
-                  </Text>
-                  <View style={styles.compactRow}>
-                    <Text style={styles.compactLabel}>Duty Cost</Text>
-                    <Text style={styles.compactAmount}>
-                      {formatCurrency(result.totalAmount / totalUnitCount)}
+              if (totalUnitCount > 0) {
+                return (
+                  <View style={styles.compactSection}>
+                    <Text style={styles.compactSectionTitle}>
+                      Per Unit ({formatNumber(totalUnitCount, 0)} units)
                     </Text>
-                  </View>
-                  {/* Landed cost per unit - show total value including all costs */}
-                  <View style={styles.compactRow}>
-                    <Text style={styles.compactLabel}>Landed Cost</Text>
-                    <Text style={styles.compactAmount}>
-                      {formatCurrency(
-                        (totalDeclaredValue + result.totalAmount) /
-                          totalUnitCount,
-                      )}
-                    </Text>
-                  </View>
-                  {(() => {
-                    // Show RT cost separately if applicable
-                    if (result.components) {
-                      const rtComponent = result.components.find(
-                        (c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE,
-                      );
-                      if (rtComponent && rtComponent.amount > 0) {
-                        return (
-                          <View style={styles.compactRow}>
-                            <Text style={styles.compactLabel}>
-                              Addl RT cost
-                            </Text>
-                            <Text style={styles.compactHighlight}>
-                              {formatCurrency(
-                                rtComponent.amount / totalUnitCount,
-                              )}
-                            </Text>
-                          </View>
+                    <View style={styles.compactRow}>
+                      <Text style={styles.compactLabel}>Duty Cost</Text>
+                      <Text style={styles.compactAmount}>
+                        {formatCurrency(result.totalAmount / totalUnitCount)}
+                      </Text>
+                    </View>
+                    {/* Landed cost per unit - show total value including all costs */}
+                    <View style={styles.compactRow}>
+                      <Text style={styles.compactLabel}>Landed Cost</Text>
+                      <Text style={styles.compactAmount}>
+                        {formatCurrency(
+                          (totalDeclaredValue + result.totalAmount) /
+                            totalUnitCount,
+                        )}
+                      </Text>
+                    </View>
+                    {(() => {
+                      // Show RT cost separately if applicable
+                      if (result.components) {
+                        const rtComponent = result.components.find(
+                          (c: DutyComponent) =>
+                            c.type === RECIPROCAL_TARIFF_TYPE,
                         );
+                        if (rtComponent && rtComponent.amount > 0) {
+                          return (
+                            <View style={styles.compactRow}>
+                              <Text style={styles.compactLabel}>
+                                Addl RT cost
+                              </Text>
+                              <Text style={styles.compactHighlight}>
+                                {formatCurrency(
+                                  rtComponent.amount / totalUnitCount,
+                                )}
+                              </Text>
+                            </View>
+                          );
+                        }
                       }
-                    }
-                    return null;
-                  })()}
-                </View>
-              );
-            }
-            return null;
-          })()}
-        </ScrollView>
-
-        {/* Tariff Engineering Button - Outside ScrollView */}
-        <TouchableOpacity
-          style={styles.tariffEngineeringButton}
-          onPress={() => {
-            haptics.selection();
-            // Close results drawer and open tariff engineering with current data
-            setResultsDrawerVisible(false);
-            setTariffEngineeringDrawerVisible(true);
-          }}
-        >
-          <Ionicons
-            name="git-compare"
-            size={getResponsiveValue(18, 22)}
-            color={BRAND_COLORS.white}
-          />
-          <Text style={styles.tariffEngineeringButtonText}>
-            Tariff Engineering
-          </Text>
-        </TouchableOpacity>
+                      return null;
+                    })()}
+                  </View>
+                );
+              }
+              return null;
+            })()}
+          </ScrollView>
+        </View>
       </View>
     );
   };
@@ -1692,7 +2147,11 @@ export default function LookupScreen() {
       },
       { animX: linksFabTranslateX, animY: linksFabTranslateY, multiplier: 3 },
       { animX: newsFabTranslateX, animY: newsFabTranslateY, multiplier: 4 },
-      { animX: statsFabTranslateX, animY: statsFabTranslateY, multiplier: 5 },
+      {
+        animX: tariffEngineeringFabTranslateX,
+        animY: tariffEngineeringFabTranslateY,
+        multiplier: 5,
+      },
       {
         animX: settingsFabTranslateX,
         animY: settingsFabTranslateY,
@@ -1706,7 +2165,7 @@ export default function LookupScreen() {
       animations.push(
         Animated.timing(animX, {
           toValue: xPosition,
-          duration: 200,
+          duration: 120,
           useNativeDriver: true,
         }),
       );
@@ -1715,7 +2174,7 @@ export default function LookupScreen() {
       animations.push(
         Animated.timing(animY, {
           toValue: 0,
-          duration: 200,
+          duration: 120,
           useNativeDriver: true,
         }),
       );
@@ -1725,7 +2184,7 @@ export default function LookupScreen() {
     animations.push(
       Animated.timing(mainFabRotation, {
         toValue,
-        duration: 200,
+        duration: 120,
         useNativeDriver: true,
       }),
     );
@@ -1734,14 +2193,14 @@ export default function LookupScreen() {
     animations.push(
       Animated.timing(menuFabScale, {
         toValue,
-        duration: 200,
+        duration: 120,
         useNativeDriver: true,
       }),
     );
     animations.push(
       Animated.timing(menuFabOpacity, {
         toValue,
-        duration: 200,
+        duration: 120,
         useNativeDriver: true,
       }),
     );
@@ -1788,6 +2247,7 @@ export default function LookupScreen() {
     setHistoryDrawerVisible(false);
     setNewsDrawerVisible(false);
     setAnalyticsDrawerVisible(false);
+    setResultsDrawerVisible(false);
     // Close navigation drawers
     setMainHistoryDrawerVisible(false);
     setSettingsDrawerVisible(false);
@@ -1858,12 +2318,12 @@ export default function LookupScreen() {
     Animated.parallel([
       Animated.timing(historyDrawerTranslateX, {
         toValue: show ? 0 : getResponsiveValue(SCREEN_WIDTH * 0.85, 400),
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(navDrawerOpacity, {
         toValue: show ? 1 : 0,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     ]).start();
@@ -1873,12 +2333,12 @@ export default function LookupScreen() {
     Animated.parallel([
       Animated.timing(linksDrawerTranslateY, {
         toValue: show ? 0 : SCREEN_HEIGHT,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(navDrawerOpacity, {
         toValue: show ? 1 : 0,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }),
     ]).start();
@@ -1895,29 +2355,17 @@ export default function LookupScreen() {
 
   // Removed automatic open; will open after disclaimer acceptance
 
-  const anyDrawerOpen = React.useMemo(
-    () =>
-      historyDrawerVisible ||
-      newsDrawerVisible ||
-      analyticsDrawerVisible ||
-      mainHistoryDrawerVisible ||
-      settingsDrawerVisible ||
-      linksDrawerVisible ||
-      tariffEngineeringDrawerVisible ||
-      infoDrawerVisible,
-    [
-      historyDrawerVisible,
-      newsDrawerVisible,
-      analyticsDrawerVisible,
-      mainHistoryDrawerVisible,
-      settingsDrawerVisible,
-      linksDrawerVisible,
-      tariffEngineeringDrawerVisible,
-      infoDrawerVisible,
-    ],
-  );
+  const anyDrawerOpen =
+    historyDrawerVisible ||
+    newsDrawerVisible ||
+    analyticsDrawerVisible ||
+    resultsDrawerVisible ||
+    mainHistoryDrawerVisible ||
+    settingsDrawerVisible ||
+    linksDrawerVisible ||
+    tariffEngineeringDrawerVisible;
 
-  const handleMainFabPress = (): void => {
+  const handleMainFabPress = () => {
     haptics.buttonPress();
     hideInfoTabs();
     if (anyDrawerOpen) {
@@ -1939,14 +2387,12 @@ export default function LookupScreen() {
 
   // Delay "Not found" feedback
   const [showNoResults, setShowNoResults] = useState(false);
-  const noResultsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
 
   // ----------------------
   // Gesture: drag info tab to open drawer (iPhone)
   // ----------------------
-  const handleInfoTabDragOpen = (
-    event: PanGestureHandlerGestureEvent,
-  ) => {
+  const handleInfoTabDrag = (event: PanGestureHandlerGestureEvent) => {
     const { translationX } = event.nativeEvent;
     // Detect a rightward drag of ~50px to trigger opening
     if (translationX > 50 && !infoDrawerVisible) {
@@ -1974,21 +2420,23 @@ export default function LookupScreen() {
   const dynamicHeaderStyles = React.useMemo(() => {
     const heroHeight = isTabletNow
       ? isLandscape
-        ? windowHeight * 0.25 // Increased from 0.18
-        : windowHeight * 0.3 // Increased from 0.25
-      : windowHeight * 0.28; // Increased from 0.2 to accommodate FABs
+        ? windowHeight * 0.2 // Reduced by ~50px
+        : windowHeight * 0.25 // Reduced by ~50px
+      : windowHeight * 0.23; // Reduced by ~50px
 
     const logoWidth = windowWidth * (isTabletNow ? 0.6 : 0.75);
 
     return {
       heroSection: {
-        height: heroHeight,
+        height: heroHeight + insets.top - 20, // Increased height to accommodate FABs
+        marginTop: -insets.top,
       } as ViewStyle,
       logo: {
         width: logoWidth,
         height: logoWidth * 0.3,
         maxWidth: isTabletNow ? 600 : 420,
         maxHeight: isTabletNow ? 180 : 126,
+        marginTop: 5, // Keep logo in position after header resize
       } as ImageStyle,
       dataSourceContainer: isTabletNow
         ? {
@@ -1996,7 +2444,7 @@ export default function LookupScreen() {
           }
         : {},
     };
-  }, [windowWidth, windowHeight, isLandscape, isTabletNow]);
+  }, [windowWidth, windowHeight, isLandscape, isTabletNow, insets.top]);
 
   // Dynamic form width & side padding
   const dynamicFormStyles = React.useMemo(() => {
@@ -2106,333 +2554,301 @@ export default function LookupScreen() {
       requestAnimationFrame(() => {
         openMainFab();
       });
-    } else if (anyDrawerOpen && mainFabExpanded) {
-      closeMainFab();
     }
+    // Removed the automatic closing of FAB when drawers open
+    // This allows quick switching between drawers
   }, [anyDrawerOpen]);
 
-  // Tariff utilities from custom hook
-  const { calculateDuty, searchByPrefix } = useTariff();
-
-  // Helper: format numbers with comma separators (used across component)
-  const formatNumberWithCommas = (value: string): string => {
-    // remove non-digit except .
-    const clean = value.replace(/[^\d.]/g, "");
-    const [whole, decimal] = clean.split(".");
-    const withCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return decimal ? `${withCommas}.${decimal}` : withCommas;
-  };
-
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <DisclaimerModal
-        visible={showDisclaimer}
-        onAgree={handleDisclaimerAgree}
-      />
-
-      {/* Loading Modal */}
-      <Modal
-        visible={showLoadingModal}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent={true}
+    <SafeAreaView style={styles.container}>
+      {/* Horizontal Background Section */}
+      <HorizontalSection
+        height={Number(dynamicHeaderStyles.heroSection.height)}
+        style={{ ...styles.heroSection, ...dynamicHeaderStyles.heroSection }}
       >
-        <View style={styles.loadingModalOverlay}>
-          <View style={styles.loadingModalContent}>
-            <Animated.View
+        <View
+          style={[
+            styles.logoContainer,
+            { paddingTop: Math.max(insets.top * 1.5 - 18, 0) },
+          ]}
+        >
+          <Image
+            source={require("../../assets/Harmony-white.png")}
+            style={dynamicHeaderStyles.logo}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* Unified Floating Menu System - Now in hero section */}
+        <View style={styles.heroFloatingMenuContainer}>
+          {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
+
+          {/* Recent Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: recentFabTranslateX },
+                  { translateY: recentFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
               style={[
-                styles.loadingSpinnerContainer,
-                {
-                  transform: [
-                    {
-                      rotate: loadingSpinValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ["0deg", "360deg"],
-                      }),
-                    },
-                  ],
-                },
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.electricBlue },
               ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setHistoryDrawerVisible(true);
+              }}
             >
               <Ionicons
-                name="time-outline"
-                size={48}
-                color={BRAND_COLORS.electricBlue}
+                name="time"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
               />
-            </Animated.View>
-            <Text style={styles.loadingModalText}>Calculating...</Text>
-          </View>
-        </View>
-      </Modal>
+            </TouchableOpacity>
+          </Animated.View>
 
-      {/* Main Content */}
-      <View style={styles.content}>
-        {/* Fixed Header Container - X0/Y0 to X595/Y236 */}
-        <View style={styles.fixedHeaderContainer}>
-          {/* Logo and Menu Section */}
-          <HorizontalSection
-            height={100}
-            style={styles.logoSection}
+          {/* History Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: historyFabTranslateX },
+                  { translateY: historyFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
           >
-            <View style={styles.logoRow}>
-              <Image
-                source={require("../../assets/Harmony-white.png")}
-                style={styles.headerLogo}
-                resizeMode="contain"
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.mediumBlue },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setMainHistoryDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="library"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
               />
-              
-              {/* Unified Floating Menu System */}
-              <View style={styles.headerMenuContainer}>
-                {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
+            </TouchableOpacity>
+          </Animated.View>
 
-                {/* Recent Button */}
-                <Animated.View
-                  pointerEvents={mainFabExpanded ? "auto" : "none"}
-                  style={[
-                    styles.menuFab,
-                    {
-                      transform: [
-                        { translateX: recentFabTranslateX },
-                        { translateY: recentFabTranslateY },
-                        { scale: menuFabScale },
-                      ],
-                      opacity: menuFabOpacity,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={[
-                      styles.menuFabButton,
-                      { backgroundColor: BRAND_COLORS.electricBlue },
-                    ]}
-                    onPress={() => {
-                      haptics.buttonPress();
-                      closeAllDrawers();
-                      closeMainFab(false);
-                      setHistoryDrawerVisible(true);
-                    }}
-                  >
-                    <Ionicons
-                      name="time"
-                      size={getResponsiveValue(16, 24)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
+          {/* Tariff News Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: linksFabTranslateX },
+                  { translateY: linksFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.success },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setLinksDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="newspaper-outline"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
 
-                {/* History Button */}
-                <Animated.View
-                  pointerEvents={mainFabExpanded ? "auto" : "none"}
-                  style={[
-                    styles.menuFab,
-                    {
-                      transform: [
-                        { translateX: historyFabTranslateX },
-                        { translateY: historyFabTranslateY },
-                        { scale: menuFabScale },
-                      ],
-                      opacity: menuFabOpacity,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={[
-                      styles.menuFabButton,
-                      { backgroundColor: BRAND_COLORS.mediumBlue },
-                    ]}
-                    onPress={() => {
-                      haptics.buttonPress();
-                      closeAllDrawers();
-                      closeMainFab(false);
-                      setMainHistoryDrawerVisible(true);
-                    }}
-                  >
-                    <Ionicons
-                      name="library"
-                      size={getResponsiveValue(16, 24)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
+          {/* News Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: newsFabTranslateX },
+                  { translateY: newsFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.orange },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setNewsDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="newspaper"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
 
-                {/* Tariff News Button */}
-                <Animated.View
-                  pointerEvents={mainFabExpanded ? "auto" : "none"}
-                  style={[
-                    styles.menuFab,
-                    {
-                      transform: [
-                        { translateX: linksFabTranslateX },
-                        { translateY: linksFabTranslateY },
-                        { scale: menuFabScale },
-                      ],
-                      opacity: menuFabOpacity,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={[
-                      styles.menuFabButton,
-                      { backgroundColor: BRAND_COLORS.success },
-                    ]}
-                    onPress={() => {
-                      haptics.buttonPress();
-                      closeAllDrawers();
-                      closeMainFab(false);
-                      setLinksDrawerVisible(true);
-                    }}
-                  >
-                    <Ionicons
-                      name="newspaper-outline"
-                      size={getResponsiveValue(16, 24)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
+          {/* Tariff Engineering Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: tariffEngineeringFabTranslateX },
+                  { translateY: tariffEngineeringFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.success },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setTariffEngineeringDrawerVisible(true);
+              }}
+            >
+              <Text style={styles.fabDollarSign}>$</Text>
+            </TouchableOpacity>
+          </Animated.View>
 
-                {/* News Button */}
-                <Animated.View
-                  pointerEvents={mainFabExpanded ? "auto" : "none"}
-                  style={[
-                    styles.menuFab,
-                    {
-                      transform: [
-                        { translateX: newsFabTranslateX },
-                        { translateY: newsFabTranslateY },
-                        { scale: menuFabScale },
-                      ],
-                      opacity: menuFabOpacity,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={[
-                      styles.menuFabButton,
-                      { backgroundColor: BRAND_COLORS.orange },
-                    ]}
-                    onPress={() => {
-                      haptics.buttonPress();
-                      closeAllDrawers();
-                      closeMainFab(false);
-                      setNewsDrawerVisible(true);
-                    }}
-                  >
-                    <Ionicons
-                      name="newspaper"
-                      size={getResponsiveValue(16, 24)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
+          {/* Settings Button */}
+          <Animated.View
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: settingsFabTranslateX },
+                  { translateY: settingsFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.darkGray },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                // Don't close FAB menu - keep it open for quick access
+                setSettingsDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="settings"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
 
-                {/* Tariff Engineering Button */}
-                <Animated.View
-                  pointerEvents={mainFabExpanded ? "auto" : "none"}
-                  style={[
-                    styles.menuFab,
-                    {
-                      transform: [
-                        { translateX: statsFabTranslateX },
-                        { translateY: statsFabTranslateY },
-                        { scale: menuFabScale },
-                      ],
-                      opacity: menuFabOpacity,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={[
-                      styles.menuFabButton,
-                      { backgroundColor: BRAND_COLORS.info },
-                    ]}
-                    onPress={() => {
-                      haptics.buttonPress();
-                      closeAllDrawers();
-                      closeMainFab(false);
-                      setTariffEngineeringDrawerVisible(true);
-                    }}
-                  >
-                    <Ionicons
-                      name="construct"
-                      size={getResponsiveValue(16, 24)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
+          {/* Main Floating Menu Button */}
+          <Animated.View
+            style={[
+              styles.mainFloatingFab,
+              {
+                transform: [
+                  {
+                    rotate: mainFabRotation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ["0deg", "45deg"],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.mainFloatingFabButton}
+              onPress={handleMainFabPress}
+            >
+              <Ionicons
+                name="menu"
+                size={getResponsiveValue(19, 28)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+      </HorizontalSection>
 
-                {/* Settings Button */}
-                <Animated.View
-                  pointerEvents={mainFabExpanded ? "auto" : "none"}
-                  style={[
-                    styles.menuFab,
-                    {
-                      transform: [
-                        { translateX: settingsFabTranslateX },
-                        { translateY: settingsFabTranslateY },
-                        { scale: menuFabScale },
-                      ],
-                      opacity: menuFabOpacity,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={[
-                      styles.menuFabButton,
-                      { backgroundColor: BRAND_COLORS.darkGray },
-                    ]}
-                    onPress={() => {
-                      haptics.buttonPress();
-                      closeAllDrawers();
-                      closeMainFab(false);
-                      setSettingsDrawerVisible(true);
-                    }}
-                  >
-                    <Ionicons
-                      name="settings"
-                      size={getResponsiveValue(16, 24)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
+      <KeyboardAwareScrollView
+        ref={resultScrollViewRef}
+        style={styles.mainScrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        extraScrollHeight={40}
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        keyboardShouldPersistTaps="handled"
+        keyboardOpeningTime={250}
+        bounces={false}
+        enableResetScrollToCoords={false}
+      >
+        {/* Input Form - Always visible */}
+        <View style={styles.inputSection}>
+          <View style={styles.sectionTitleWrapper}>
+            <Text style={styles.sectionTitle}>Entry Hub</Text>
+          </View>
 
-                {/* Main Floating Menu Button */}
-                <Animated.View
-                  style={[
-                    styles.mainFloatingFab,
-                    {
-                      transform: [
-                        {
-                          rotate: mainFabRotation.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ["0deg", "45deg"],
-                          }),
-                        },
-                      ],
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    style={styles.mainFloatingFabButton}
-                    onPress={handleMainFabPress}
-                  >
-                    <Ionicons
-                      name="menu"
-                      size={getResponsiveValue(19, 28)}
-                      color={BRAND_COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
-              </View>
-            </View>
-          </HorizontalSection>
-
-          {/* Entry Hub Section */}
-          <View style={styles.entryHubSection}>
-            <Text style={styles.entryHubTitle}>Entry Hub</Text>
-            
-            {/* HTS Code and Country fields in same row */}
-            <View style={styles.entryFieldsRow}>
-              <View style={styles.htsFieldWrapper} ref={fieldRefs.code}>
+          <View
+            style={[
+              styles.inputContainer,
+              {
+                paddingLeft: Platform.OS === "ios" && !Platform.isPad ? 10 : 0,
+              },
+            ]}
+          >
+            {/* HTS Code row */}
+            <View style={styles.dropdownFieldsRow}>
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginRight: getSpacing("xs"), width: "50%" },
+                ]}
+                ref={fieldRefs.code}
+              >
                 {htsCode && selectedDescription ? (
                   <TouchableOpacity
                     style={styles.selectedHtsField}
@@ -2462,38 +2878,100 @@ export default function LookupScreen() {
                     value={htsCode}
                     fieldKey="code"
                     onInfoPress={handleInfoPress}
-                    onChangeText={(text: string) => {
+                    onChangeText={(text) => {
                       const cleanedText = text.replace(/\D/g, "").slice(0, 8);
                       setHtsCode(cleanedText);
                       setUserClosedFab(false);
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    inputRef={htsCodeInputRef}
+                    inputRef={htsCodeInputRef as RefObject<TextInput>}
                     keyboardType="number-pad"
                     maxLength={8}
                     placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={styles.entryField}
-                    onFocus={() => handleFieldFocusWrapper("code")}
+                    style={[styles.input, styles.halfWidthInput]}
+                    onFocus={() => handleFieldFocus("code")}
                   />
                 )}
 
                 {/* HTS Suggestions Dropdown */}
-                {showHtsSuggestions && htsSuggestions.length > 0 && !selectedDescription && (
-                  <HtsDropdown
-                    htsCode={htsCode}
-                    suggestions={htsSuggestions}
-                    onSelect={handleHtsSelection}
-                    visible={showHtsSuggestions}
-                  />
-                )}
+                {showHtsSuggestions &&
+                  htsSuggestions.length > 0 &&
+                  !selectedDescription && (
+                    <HtsDropdown
+                      htsCode={htsCode}
+                      suggestions={htsSuggestions}
+                      onSelect={handleHtsSelection}
+                      visible={showHtsSuggestions}
+                    />
+                  )}
               </View>
+              {/* Right column - Calculate and Clear buttons */}
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    flexDirection: "row",
+                    gap: getSpacing("sm"),
+                  },
+                ]}
+              >
+                <TouchableOpacity
+                  style={[
+                    styles.searchButton,
+                    isLoading && styles.searchButtonDisabled,
+                    { flex: 1 },
+                  ]}
+                  onPress={handleLookup}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator color={BRAND_COLORS.white} />
+                  ) : (
+                    <>
+                      <Ionicons
+                        name="search"
+                        size={getResponsiveValue(18, 22)}
+                        color={BRAND_COLORS.white}
+                      />
+                      <Text style={styles.searchButtonText}>Calculate</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
 
-              <View style={styles.countryFieldWrapper}>
+                <TouchableOpacity
+                  style={[styles.clearButton, { flex: 1 }]}
+                  onPress={handleClearAll}
+                >
+                  <Ionicons
+                    name="backspace-outline"
+                    size={getResponsiveValue(18, 22)}
+                    color={BRAND_COLORS.white}
+                  />
+                  <Text style={styles.clearButtonText}>Clear</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Origin row */}
+            <View
+              style={[
+                styles.dropdownFieldsRow,
+                { marginTop: getSpacing("sm") },
+              ]}
+            >
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginRight: getSpacing("xs"), width: "50%" },
+                ]}
+              >
                 <CountryLookup
                   ref={countryInputRef}
                   selectedCountry={selectedCountry}
-                  onSelect={(country: Country) => {
+                  onSelect={(country) => {
                     setSelectedCountry(country);
                     setUserClosedFab(false);
                     closeMainFab(false);
@@ -2501,518 +2979,560 @@ export default function LookupScreen() {
                   }}
                 />
               </View>
+              {/* Right column - empty for future use */}
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    position: "relative",
+                    minHeight: getResponsiveValue(46, 54), // Match input height
+                  },
+                ]}
+              />
             </View>
 
-            {/* Value fields row */}
-            <View style={styles.valueFieldsRow}>
-              {/* Declared Value */}
-              <View style={styles.valueFieldWrapper} ref={fieldRefs.declared}>
-                <TextInput
-                  placeholder="Declared $"
-                  value={formattedDeclaredValue}
-                  onChangeText={(value: string) => {
-                    handleDeclaredValueChange(value);
-                    closeMainFab(false);
-                    closeAllNavigationDrawers();
-                  }}
-                  ref={declaredValueInputRef}
-                  keyboardType="decimal-pad"
-                  placeholderTextColor={BRAND_COLORS.electricBlue}
-                  style={styles.entryField}
-                  onFocus={() => {
-                    setFormattedDeclaredValue(declaredValue);
-                    handleFieldFocusWrapper("declared");
-                  }}
-                  onBlur={() => {
-                    if (declaredValue) {
-                      setFormattedDeclaredValue(`$${formatNumberWithCommas(declaredValue)}`);
-                    }
-                  }}
-                />
+            {/* Declared Value row */}
+            <View
+              style={[
+                styles.dropdownFieldsRow,
+                { marginTop: getSpacing("sm") },
+              ]}
+            >
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginRight: getSpacing("xs"), width: "50%" },
+                ]}
+                ref={fieldRefs.declared}
+              >
+                <View style={styles.multiFieldInputRow}>
+                  <TextInput
+                    placeholder="Declared Value"
+                    value={formattedDeclaredValue}
+                    onChangeText={(value) => {
+                      handleDeclaredValueChange(value);
+                      closeMainFab(false);
+                      closeAllNavigationDrawers();
+                    }}
+                    ref={declaredValueInputRef}
+                    keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[
+                      styles.input,
+                      styles.multiFieldInput,
+                      styles.currencyInput,
+                      { textAlign: formattedDeclaredValue ? "right" : "left" },
+                    ]}
+                    onBlur={() => {
+                      if (declaredValue) {
+                        setFormattedDeclaredValue(
+                          `$${formatNumberWithCommas(declaredValue.replace(/[^0-9.]/g, ""))}`,
+                        );
+                      }
+                    }}
+                    onFocus={() => {
+                      // Keep the formatted value on focus
+                      handleFieldFocus("declared");
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={[styles.addButton, { opacity: 0.5 }]}
+                    disabled={true}
+                  >
+                    <Ionicons
+                      name="add-circle"
+                      size={getResponsiveValue(30, 35)}
+                      color={BRAND_COLORS.electricBlue}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
+              {/* Right column - Cost chips */}
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    position: "relative",
+                    minHeight: getResponsiveValue(46, 54), // Match input height
+                  },
+                ]}
+              >
+                <View
+                  style={{ position: "absolute", top: 0, left: 0, right: 0 }}
+                >
+                  {(declaredValue || additionalCosts.length > 0) &&
+                    formatArithmetic()}
+                </View>
+              </View>
+            </View>
 
-              {/* Units */}
-              {(settings.showUnitCalculations ?? true) && (
-                <View style={styles.valueFieldWrapper} ref={fieldRefs.units}>
-                  <View style={styles.multiFieldContainer}>
-                    <View style={styles.multiFieldInputRow}>
-                      <TextInput
-                        ref={unitCountInputRef}
-                        placeholder="Units"
-                        value={currentUnitCount}
-                        onChangeText={(value: string) => {
-                          const cleaned = value.replace(/[^0-9.]/g, "");
-                          const parts = cleaned.split(".");
-                          if (parts.length > 2) return;
-                          if (parts[1] && parts[1].length > 1) return;
-                          setCurrentUnitCount(cleaned);
-                        }}
-                        keyboardType="decimal-pad"
-                        placeholderTextColor={BRAND_COLORS.electricBlue}
-                        style={[styles.entryField, styles.multiFieldInput]}
-                        onSubmitEditing={handleAddUnitCount}
-                        returnKeyType="done"
-                        onFocus={() => handleFieldFocusWrapper("units")}
+            {/* Add Costs row */}
+            <View
+              style={[
+                styles.dropdownFieldsRow,
+                { marginTop: getSpacing("sm") },
+              ]}
+            >
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginRight: getSpacing("xs"), width: "50%" },
+                ]}
+              >
+                <View style={styles.multiFieldInputRow}>
+                  <TextInput
+                    ref={additionalCostInputRef}
+                    placeholder="Add Costs"
+                    value={currentAdditionalCost}
+                    onChangeText={handleAdditionalCostChange}
+                    keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[
+                      styles.input,
+                      styles.multiFieldInput,
+                      styles.currencyInput,
+                      { textAlign: currentAdditionalCost ? "right" : "left" },
+                    ]}
+                    onSubmitEditing={handleAddAdditionalCost}
+                    returnKeyType="done"
+                  />
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={handleAddAdditionalCost}
+                  >
+                    <Ionicons
+                      name="add-circle"
+                      size={getResponsiveValue(30, 35)}
+                      color={BRAND_COLORS.electricBlue}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {/* Right column - empty for future use */}
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    position: "relative",
+                    minHeight: getResponsiveValue(46, 54), // Match input height
+                  },
+                ]}
+              />
+            </View>
+
+            {/* Units row */}
+            {(settings.showUnitCalculations ?? true) && (
+              <View
+                style={[
+                  styles.dropdownFieldsRow,
+                  { marginTop: getSpacing("sm") },
+                ]}
+              >
+                {/* Left column - Units */}
+                <View
+                  style={[
+                    styles.halfWidthWrapper,
+                    { marginRight: getSpacing("xs"), width: "50%" },
+                  ]}
+                  ref={fieldRefs.units}
+                >
+                  <View style={styles.multiFieldInputRow}>
+                    <TextInput
+                      ref={unitCountInputRef}
+                      placeholder="Add Units"
+                      value={currentUnitCount}
+                      onChangeText={(value) => {
+                        const cleaned = value.replace(/[^0-9]/g, "");
+                        setCurrentUnitCount(cleaned);
+                      }}
+                      keyboardType="number-pad"
+                      placeholderTextColor={BRAND_COLORS.electricBlue}
+                      style={[
+                        styles.input,
+                        styles.multiFieldInput,
+                        styles.currencyInput,
+                        { textAlign: currentUnitCount ? "right" : "left" },
+                      ]}
+                      onSubmitEditing={handleAddUnitCount}
+                      returnKeyType="done"
+                    />
+                    <TouchableOpacity
+                      style={styles.addButton}
+                      onPress={handleAddUnitCount}
+                    >
+                      <Ionicons
+                        name="add-circle"
+                        size={getResponsiveValue(30, 35)}
+                        color={BRAND_COLORS.electricBlue}
                       />
-                      <TouchableOpacity
-                        style={styles.addButton}
-                        onPress={handleAddUnitCount}
-                      >
-                        <Ionicons
-                          name="add-circle"
-                          size={24}
-                          color={BRAND_COLORS.electricBlue}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    {/* Added units chips */}
-                    {unitCounts.length > 0 && (
-                      <View style={styles.chipsContainer}>
-                        {unitCounts.map((unit) => (
-                          <TouchableOpacity
-                            key={unit.id}
-                            style={styles.chip}
-                            onPress={() => handleDeleteUnitCount(unit.id)}
-                            activeOpacity={0.7}
-                          >
-                            <View style={styles.chipContent}>
-                              <Text style={styles.chipText}>
-                                {formatNumberWithCommas(unit.amount.toString())}
-                              </Text>
-                              <Ionicons
-                                name="close-circle"
-                                size={16}
-                                color={BRAND_COLORS.orange}
-                              />
-                            </View>
-                          </TouchableOpacity>
-                        ))}
-                      </View>
-                    )}
+                    </TouchableOpacity>
                   </View>
                 </View>
-              )}
-            </View>
+                {/* Right column - Unit chips */}
+                <View
+                  style={[
+                    styles.halfWidthWrapper,
+                    {
+                      marginLeft: getSpacing("xs"),
+                      width: "50%",
+                      position: "relative",
+                      minHeight: getResponsiveValue(46, 54), // Match input height
+                    },
+                  ]}
+                >
+                  <View
+                    style={{ position: "absolute", top: 0, left: 0, right: 0 }}
+                  >
+                    {unitCounts.length > 0 && formatUnitArithmetic()}
+                  </View>
+                </View>
+              </View>
+            )}
 
-            {/* Action Buttons */}
-            <View style={styles.actionButtonsContainer}>
-              <TouchableOpacity
-                style={[styles.searchButton, isLoading && styles.searchButtonDisabled]}
-                onPress={handleLookup}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color={BRAND_COLORS.white} />
-                ) : (
-                  <>
-                    <Ionicons name="search" size={18} color={BRAND_COLORS.white} />
-                    <Text style={styles.searchButtonText}>Calculate</Text>
-                  </>
-                )}
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.clearButton} onPress={handleClearAll}>
-                <Ionicons name="backspace-outline" size={18} color={BRAND_COLORS.white} />
-                <Text style={styles.clearButtonText}>Clear</Text>
-              </TouchableOpacity>
-            </View>
+            {/* Loading Message Display */}
+            {loadingMessage && (
+              <View style={styles.loadingMessageContainer}>
+                <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
+              </View>
+            )}
           </View>
         </View>
 
-        {/* Scrollable Content Area - Results and other content */}
-        <KeyboardAwareScrollView
-          ref={resultScrollViewRef}
-          style={styles.scrollableContent}
-          contentContainerStyle={styles.scrollContentContainer}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          bounces={false}
-        >
-          {/* Results Section - Displayed inline instead of in drawer */}
-          {result && (
-            <View style={styles.resultsSection}>
-              {/* Results Header */}
-              <View style={styles.resultsHeader}>
-                <View style={styles.resultsHeaderInfo}>
-                  <Text style={styles.resultsTitle}>Results for {selectedCountry?.name}</Text>
-                  {result.description && (
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => {
-                        haptics.selection();
-                        setDescriptionExpanded(!descriptionExpanded);
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styles.resultsDescription,
-                          descriptionExpanded && styles.resultsDescriptionExpanded,
-                        ]}
-                        numberOfLines={descriptionExpanded ? undefined : 1}
-                        ellipsizeMode="tail"
-                      >
-                        {result.description}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-                
-                <View style={styles.resultsActions}>
-                  {settings.autoSaveToHistory ? (
-                    <View style={styles.autoSaveIndicator}>
-                      <Ionicons name="checkmark-circle" size={16} color={BRAND_COLORS.success} />
-                      <Text style={styles.autoSaveText}>AutoSave On</Text>
-                    </View>
-                  ) : (
-                    <TouchableOpacity
-                      style={[styles.saveButton, isSaved && styles.savedButton]}
-                      onPress={() => handleSaveToHistory()}
-                      disabled={isSaved}
-                    >
-                      <Ionicons
-                        name={isSaved ? "checkmark-circle" : "bookmark-outline"}
-                        size={16}
-                        color={isSaved ? BRAND_COLORS.success : BRAND_COLORS.electricBlue}
-                      />
-                      <Text style={[styles.saveButtonText, isSaved && styles.savedButtonText]}>
-                        {isSaved ? "Saved" : "Save"}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              </View>
-
-              {/* Duties and Landed Cost Cards */}
-              {(() => {
-                const dutiableValue = parseFloat(declaredValue);
-                const merchandiseValueForLanded = dutiableValue + (freightCost ? parseFloat(freightCost) : 0);
-                const landedCost = merchandiseValueForLanded + result.totalAmount;
-                const hasFreightCost = freightCost && parseFloat(freightCost) > 0;
-
-                return (
-                  <View style={styles.totalCardsRow}>
-                    {/* Duties Card */}
-                    <View style={[styles.totalCard, { marginRight: hasFreightCost ? 8 : 0 }]}>
-                      <Text style={styles.totalCardLabel}>Est. Duties & Fees</Text>
-                      <Text style={styles.totalCardValue}>{formatCurrency(result.totalAmount)}</Text>
-                      <Text style={styles.totalCardSubtext}>on {formatCurrency(dutiableValue)} value</Text>
-                    </View>
-                    
-                    {/* Landed Cost Card */}
-                    {hasFreightCost && (
-                      <View style={[styles.totalCard, { marginLeft: 8 }]}>
-                        <Text style={styles.totalCardLabel}>Est. Landed Cost</Text>
-                        <Text style={styles.totalCardValue}>{formatCurrency(landedCost)}</Text>
-                        <Text style={styles.totalCardSubtext}>COGs+duties+other costs</Text>
-                      </View>
-                    )}
-                  </View>
-                );
-              })()}
-
-              {/* Duty Breakdown */}
-              {result.components && result.components.length > 0 && (
-                <View style={styles.breakdownSection}>
-                  <Text style={styles.breakdownTitle}>Duty Breakdown</Text>
-                  {result.components.map((component: DutyComponent, index: number) => (
-                    <View key={index} style={styles.breakdownRow}>
-                      <View style={styles.breakdownLeft}>
-                        <Text style={styles.breakdownLabel}>{getLineItemLabel(component)}</Text>
-                        {component.rate > 0 && (
-                          <Text style={styles.breakdownRate}>{component.rate.toFixed(2)}%</Text>
-                        )}
-                      </View>
-                      <Text style={styles.breakdownAmount}>{formatCurrency(component.amount)}</Text>
-                    </View>
-                  ))}
-                </View>
-              )}
-
-              {/* Processing Fees */}
-              {result.fees && (
-                <View style={styles.breakdownSection}>
-                  <Text style={styles.breakdownTitle}>Processing Fees</Text>
-                  <View style={styles.breakdownRow}>
-                    <View style={styles.breakdownLeft}>
-                      <Text style={styles.breakdownLabel}>Merchandise Processing Fee</Text>
-                      <Text style={styles.breakdownRate}>{result.fees.mpf.rate.toFixed(4)}%</Text>
-                    </View>
-                    <Text style={styles.breakdownAmount}>{formatCurrency(result.fees.mpf.amount)}</Text>
-                  </View>
-                  <View style={styles.breakdownRow}>
-                    <View style={styles.breakdownLeft}>
-                      <Text style={styles.breakdownLabel}>Harbor Maintenance Fee</Text>
-                      <Text style={styles.breakdownRate}>{result.fees.hmf.rate.toFixed(3)}%</Text>
-                    </View>
-                    <Text style={styles.breakdownAmount}>{formatCurrency(result.fees.hmf.amount)}</Text>
-                  </View>
-                </View>
-              )}
-
-              {/* Unit Calculations */}
-              {(() => {
-                const totalUnitCount = unitCounts.reduce<number>(
-                  (sum: number, unit: { id: string; amount: number; label?: string }) =>
-                    sum + unit.amount,
-                  0,
-                );
-                const totalDeclaredValue =
-                  parseFloat(declaredValue) +
-                  additionalCosts.reduce<number>(
-                    (sum: number, cost: { id: string; amount: number; label?: string }) =>
-                      sum + cost.amount,
-                    0,
-                  );
-
-                if (totalUnitCount > 0) {
-                  return (
-                    <View style={styles.breakdownSection}>
-                      <Text style={styles.breakdownTitle}>Per Unit ({formatNumber(totalUnitCount, 0)} units)</Text>
-                      <View style={styles.breakdownRow}>
-                        <Text style={styles.breakdownLabel}>Duty Cost</Text>
-                        <Text style={styles.breakdownAmount}>{formatCurrency(result.totalAmount / totalUnitCount)}</Text>
-                      </View>
-                      <View style={styles.breakdownRow}>
-                        <Text style={styles.breakdownLabel}>Landed Cost</Text>
-                        <Text style={styles.breakdownAmount}>
-                          {formatCurrency((totalDeclaredValue + result.totalAmount) / totalUnitCount)}
-                        </Text>
-                      </View>
-                      {(() => {
-                        if (result.components) {
-                          const rtComponent = result.components.find((c: DutyComponent) => c.type === RECIPROCAL_TARIFF_TYPE);
-                          if (rtComponent && rtComponent.amount > 0) {
-                            return (
-                              <View style={styles.breakdownRow}>
-                                <Text style={styles.breakdownLabel}>Addl RT cost</Text>
-                                <Text style={styles.breakdownHighlight}>
-                                  {formatCurrency(rtComponent.amount / totalUnitCount)}
-                                </Text>
-                              </View>
-                            );
-                          }
-                        }
-                        return null;
-                      })()}
-                    </View>
-                  );
-                }
-                return null;
-              })()}
-
-              {/* Tariff Engineering Button */}
-              <TouchableOpacity
-                style={styles.tariffEngineeringButton}
-                onPress={() => {
-                  haptics.selection();
-                  setTariffEngineeringDrawerVisible(true);
-                }}
-              >
-                <Ionicons name="git-compare" size={18} color={BRAND_COLORS.white} />
-                <Text style={styles.tariffEngineeringButtonText}>Tariff Engineering</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {/* Loading Message Display */}
-          {loadingMessage && (
-            <View style={styles.loadingMessageContainer}>
-              <Text style={styles.loadingMessageText}>{loadingMessage}</Text>
-            </View>
-          )}
-        </KeyboardAwareScrollView>
-
-        {/* Data Source Info Text - positioned at bottom of screen */}
-        <View style={styles.dataSourceInfoContainer} pointerEvents="none">
-          <LinearGradient
-            colors={[BRAND_COLORS.gradientStart, BRAND_COLORS.gradientEnd]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.dataSourceGradient}
-          >
-            <Text style={styles.dataSourceInfoLine}>
-              Data Last Updated:{" "}
-              {tariffService.getLastUpdated() || "Loading..."} | HTS Rev.{" "}
-              {tariffService.getHtsRevision() || "Loading..."}
-            </Text>
-            <Text style={styles.dataSourceInfoLine}>
-              Data Sources: U.S. International Trade Commission,
-            </Text>
-            <Text style={styles.dataSourceInfoLine}>
-              Federal Register Notices for Section 301 tariffs (Lists 1–4A).
-            </Text>
-          </LinearGradient>
-        </View>
-
-        {/* Animated Drawers */}
-        <AnimatedDrawer
-          isVisible={historyDrawerVisible}
-          onClose={() => {
-            setHistoryDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
+        {/* Additional Action Buttons below Info container */}
+        <View
+          style={{
+            flexDirection:
+              Platform.OS === "ios" && Platform.isPad ? "row" : "column",
+            justifyContent: "center",
+            gap: getSpacing("sm"),
+            marginTop: getSpacing("md"),
+            marginBottom: getSpacing("md"),
+            paddingHorizontal:
+              Platform.OS === "ios" && Platform.isPad
+                ? SCREEN_WIDTH * 0.25
+                : getSpacing("md"),
           }}
-          position="bottom"
         >
-          {renderHistoryDrawerContent()}
-        </AnimatedDrawer>
-
-        <AnimatedDrawer
-          isVisible={newsDrawerVisible}
-          onClose={() => {
-            setNewsDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
-          }}
-          position="right"
-        >
-          {renderNewsDrawerContent()}
-        </AnimatedDrawer>
-
-        <AnimatedDrawer
-          isVisible={analyticsDrawerVisible}
-          onClose={() => {
-            setAnalyticsDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
-          }}
-          position="left"
-        >
-          {renderAnalyticsDrawerContent()}
-        </AnimatedDrawer>
-
-        {/* Tariff News Drawer */}
-        <AnimatedDrawer
-          isVisible={linksDrawerVisible}
-          onClose={() => {
-            setLinksDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
-          }}
-          position="right"
-          customDrawerConfig={getTradeNewsDrawerConfig()}
-        >
-          <TariffNewsContent />
-        </AnimatedDrawer>
-
-        {/* New History Side Drawer */}
-        <AnimatedDrawer
-          isVisible={mainHistoryDrawerVisible}
-          onClose={() => {
-            setMainHistoryDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
-          }}
-          position="right"
-          wrapScroll={false}
-        >
-          <HistoryColumnContent
-            visible={mainHistoryDrawerVisible}
-            onItemPress={(item) => {
-              // Close the history drawer
-              setMainHistoryDrawerVisible(false);
-              // Populate the form with the selected history item
-              handleHistoryItemSelection(item);
-              // Open FAB immediately
-              setUserClosedFab(false);
-              openMainFab();
-            }}
-          />
-        </AnimatedDrawer>
-
-        {/* Settings Drawer */}
-        <AnimatedDrawer
-          isVisible={settingsDrawerVisible}
-          onClose={() => {
-            setSettingsDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
-          }}
-          position="left"
-        >
-          <SettingsScreen
-            onNavigate={() => {
-              setSettingsDrawerVisible(false);
-              // Don't open FAB when navigating to another screen
-            }}
-          />
-        </AnimatedDrawer>
-
-        {/* Tariff Engineering Drawer */}
-        <AnimatedDrawer
-          isVisible={tariffEngineeringDrawerVisible}
-          onClose={() => {
-            setTariffEngineeringDrawerVisible(false);
-            // Open FAB immediately
-            setUserClosedFab(false);
-            openMainFab();
-          }}
-          position="right"
-        >
-          {result && selectedCountry && (
-            <TariffEngineeringComparison
-              htsCode={result.htsCode}
-              description={result.description}
-              countryCode={selectedCountry.code}
-              countryName={selectedCountry.name}
-              declaredValue={parseFloat(declaredValue)}
-              currentTotalDuty={result.totalAmount}
-              isUSMCAOrigin={isUSMCAOrigin}
-              onClose={() => {
-                // Close tariff engineering drawer and reopen results
-                setTariffEngineeringDrawerVisible(false);
-                setResultsDrawerVisible(true);
-              }}
-            />
-          )}
-        </AnimatedDrawer>
-
-        {/* Links Drawer */}
-        {false && (
-          <Animated.View
+          <TouchableOpacity
             style={[
-              styles.drawer,
-              styles.bottomDrawer,
+              styles.searchButton,
+              isLoading && styles.searchButtonDisabled,
+              { flex: 1 },
+            ]}
+            onPress={handleLookup}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color={BRAND_COLORS.white} />
+            ) : (
+              <>
+                <Ionicons
+                  name="calculator"
+                  size={getResponsiveValue(
+                    Platform.OS === "ios" && Platform.isPad ? 18 : 22,
+                    22,
+                  )}
+                  color={BRAND_COLORS.white}
+                />
+                {Platform.OS === "ios" && Platform.isPad && (
+                  <Text style={styles.searchButtonText}>Calculate</Text>
+                )}
+              </>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.clearButton, { flex: 1 }]}
+            onPress={handleClearAll}
+          >
+            <Ionicons
+              name={
+                Platform.OS === "ios" && Platform.isPad
+                  ? "backspace-outline"
+                  : "close-circle-outline"
+              }
+              size={getResponsiveValue(
+                Platform.OS === "ios" && Platform.isPad ? 18 : 22,
+                22,
+              )}
+              color={BRAND_COLORS.white}
+            />
+            {Platform.OS === "ios" && Platform.isPad && (
+              <Text style={styles.clearButtonText}>Clear</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
+
+      {/* Data Source Info */}
+      <View style={[styles.dataSourceInfoContainer, { pointerEvents: "none" }]}>
+        <LinearGradient
+          colors={[BRAND_COLORS.gradientStart, BRAND_COLORS.gradientEnd]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.dataSourceGradient}
+        >
+          <Text style={styles.dataSourceInfoLine}>
+            Data Last Updated: {tariffService.getLastUpdated() || "Loading..."}{" "}
+            | HTS Rev. {tariffService.getHtsRevision() || "Loading..."}
+          </Text>
+          <Text style={styles.dataSourceInfoLine}>
+            Data Sources: U.S. International Trade Commission,
+          </Text>
+          <Text style={styles.dataSourceInfoLine}>
+            Federal Register Notices for Section 301 tariffs (Lists 1–4A).
+          </Text>
+        </LinearGradient>
+      </View>
+
+      {/* Results Drawer */}
+      <AnimatedDrawer
+        isVisible={resultsDrawerVisible}
+        onClose={handleCloseResultsDrawer}
+        position="bottom"
+      >
+        {renderResultsDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Tariff Engineering Drawer */}
+      <AnimatedDrawer
+        isVisible={tariffEngineeringDrawerVisible}
+        onClose={() => {
+          setTariffEngineeringDrawerVisible(false);
+          // Reopen FAB after closing drawer
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        <TariffEngineeringComparison
+          htsCode={htsCode}
+          description={result?.description || selectedDescription}
+          countryCode={selectedCountry?.code || ""}
+          countryName={selectedCountry?.name || ""}
+          declaredValue={parseFloat(declaredValue) || 0}
+          currentTotalDuty={result?.totalAmount || 0}
+          isUSMCAOrigin={isUSMCAOrigin}
+          onClose={() => setTariffEngineeringDrawerVisible(false)}
+        />
+      </AnimatedDrawer>
+
+      {/* Recent Lookups Drawer */}
+      <AnimatedDrawer
+        isVisible={historyDrawerVisible}
+        onClose={() => {
+          setHistoryDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="left"
+      >
+        {renderHistoryDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Main History Drawer */}
+      <AnimatedDrawer
+        isVisible={mainHistoryDrawerVisible}
+        onClose={() => {
+          setMainHistoryDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="left"
+      >
+        <HistoryScreen
+          onItemPress={(item: HistoryItem) => {
+            setMainHistoryDrawerVisible(false);
+            // Handle history item selection immediately
+            handleHistoryItemSelection(item);
+          }}
+        />
+      </AnimatedDrawer>
+
+      {/* News Drawer */}
+      <AnimatedDrawer
+        isVisible={newsDrawerVisible}
+        onClose={() => {
+          setNewsDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        {renderNewsDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Analytics Drawer */}
+      <AnimatedDrawer
+        isVisible={analyticsDrawerVisible}
+        onClose={() => {
+          setAnalyticsDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        {renderAnalyticsDrawerContent()}
+      </AnimatedDrawer>
+
+      {/* Settings Drawer */}
+      <AnimatedDrawer
+        isVisible={settingsDrawerVisible}
+        onClose={() => {
+          setSettingsDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="right"
+      >
+        <SettingsScreen />
+      </AnimatedDrawer>
+
+      {/* Links/Tariff News Drawer */}
+      <AnimatedDrawer
+        isVisible={linksDrawerVisible}
+        onClose={() => {
+          setLinksDrawerVisible(false);
+          setUserClosedFab(false);
+          openMainFab();
+        }}
+        position="bottom"
+      >
+        <TariffNewsContent />
+      </AnimatedDrawer>
+
+      {/* Info Drawer */}
+      <InfoDrawer
+        isOpen={infoDrawerVisible}
+        onClose={() => {
+          setInfoDrawerVisible(false);
+          // Refocus the field after drawer closes
+          if (activeField) {
+            let ref = null;
+            switch (activeField) {
+              case "code":
+                ref = htsCodeInputRef;
+                break;
+              case "declared":
+                ref = declaredValueInputRef;
+                break;
+              case "units":
+                ref = unitCountInputRef;
+                break;
+              // freight field not currently in use
+            }
+            if (ref && ref.current) {
+              setTimeout(() => {
+                ref.current?.focus();
+              }, 300);
+            }
+          }
+        }}
+        field={activeField}
+      />
+
+      {/* Info tabs - shown on both iPhone and iPad for each field */}
+      {shouldShowInfoTab && (
+        <>
+          {/* HTS Code tab */}
+          <View
+            pointerEvents="auto"
+            style={[
+              styles.infoTab,
               {
-                transform: [{ translateY: linksDrawerTranslateY }],
-                pointerEvents: linksDrawerVisible ? "auto" : "none",
+                top: getResponsiveValue(322, 350), // Position based on HTS Code field
               },
             ]}
           >
-            <View style={styles.drawerScreenContainer}>
-              <LinksScreen />
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                setActiveField("code");
+                Keyboard.dismiss();
+                setInfoDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="information-circle-outline"
+                size={getResponsiveValue(24, 26)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </View>
+
+          {/* Declared Value tab */}
+          <View
+            pointerEvents="auto"
+            style={[
+              styles.infoTab,
+              {
+                top: getResponsiveValue(430, 470), // Position based on Declared Value field
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                setActiveField("declared");
+                Keyboard.dismiss();
+                setInfoDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="information-circle-outline"
+                size={getResponsiveValue(24, 26)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </View>
+
+          {/* Units tab (if enabled) */}
+          {(settings.showUnitCalculations ?? true) && (
+            <View
+              pointerEvents="auto"
+              style={[
+                styles.infoTab,
+                {
+                  top: getResponsiveValue(543, 595), // Position based on Units field
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => {
+                  setActiveField("units");
+                  Keyboard.dismiss();
+                  setInfoDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="information-circle-outline"
+                  size={getResponsiveValue(24, 26)}
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
             </View>
-          </Animated.View>
-        )}
-
-        <InfoDrawer
-          isOpen={infoDrawerVisible}
-          onClose={() => setInfoDrawerVisible(false)}
-          field={activeField}
-        />
-
-        {shouldShowTab && tabY > 0 && (
-          <InfoTab
-            y={tabY}
-            opacity={infoTabOpacity}
-            size={infoTabSize}
-            onPress={() => setInfoDrawerVisible(true)}
-            onDrag={handleInfoTabDragOpen}
-          />
-        )}
-
-        <FirstTimeGuideScreen
-          visible={showFirstTimeGuide}
-          onClose={handleGuideClose}
-        />
-      </View>
+          )}
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -3051,331 +3571,302 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-  
-  // Fixed Header Container - X0/Y0 to X595/Y236
-  fixedHeaderContainer: {
-    position: 'absolute',
-    top: 0,
+  heroSection: {
+    position: "relative",
+    zIndex: 1,
+    overflow: "visible", // Ensure FABs can extend outside the section
+  } as ViewStyle,
+  logoContainer: {
+    width: "100%", // Make the container span the full width
+    justifyContent: "flex-start", // This handles vertical centering
+    alignItems: "flex-start", // Align the logo to the left within this container
+    paddingLeft: getResponsiveValue(10, 30), // Use responsive padding
+    height: "90%", // Ensure it occupies the full height of the parent
+  },
+  logo: {
+    width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.75),
+    height: getResponsiveValue(
+      getTypographySize("lg"),
+      getTypographySize("xl"),
+    ),
+    maxWidth: isTablet() ? 600 : 420,
+    maxHeight: isTablet() ? 180 : 126,
+    resizeMode: "contain",
+    opacity: 0.9,
+    marginTop: getResponsiveValue(-15, -45), // Further up: -20 -> -35, -30 -> -45 (15px more)
+  },
+  mainScrollView: {
+    flex: 1,
+    zIndex: 8, // Higher than FAB container to ensure overlap works correctly
+  },
+  scrollContent: {
+    paddingHorizontal: getResponsiveValue(12, 16), // Reduced horizontal padding
+    paddingTop: getResponsiveValue(8, 12), // Reduced top padding
+    paddingBottom: getResponsiveValue(40, 60), // Reduced bottom padding
+  },
+  inputSection: {
+    backgroundColor: BRAND_COLORS.white,
+    ...BRAND_SHADOWS.medium,
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
+    paddingLeft: getResponsiveValue(10, 30), // Use responsive padding
+    zIndex: 10, // Ensure it appears above data source info
+    elevation: 10, // For Android
+  },
+  sectionTitleWrapper: {
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+    alignItems: "flex-start", // Left-align content
+    justifyContent: "flex-start", // Left-align content
+    width: "100%",
+  },
+  sectionTitle: {
+    fontSize: getResponsiveValue(
+      getTypographySize("lg") * 1.25, // Increased by 75%
+      getTypographySize("xl") * 1.25, // Increased by 75%
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
+    textAlign: "left", // Left-justified
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    maxWidth: "100%",
+    paddingHorizontal: getResponsiveValue(20, 40), // Add padding to align with fields
+  },
+  inputContainer: {
+    marginBottom: getResponsiveValue(8, 12), // Reduced margin
+  },
+  dropdownFieldsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    width: "100%",
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.05 : 0,
+    marginBottom: getResponsiveValue(10, 12), // Add bottom margin for spacing
+    gap: getResponsiveValue(5, 9), // Add gap between fields
+    minHeight: getResponsiveValue(46, 54), // Ensure consistent minimum height for all rows
+  },
+  halfWidthWrapper: {
+    flex: 1,
+    position: "relative",
+  },
+  halfWidthInput: {
+    width: "100%",
+  },
+  halfWidthSuggestions: {
+    position: "absolute",
+    top: getResponsiveValue(46, 54), // Position below the input field
     left: 0,
     right: 0,
-    width: 595,
-    height: 236,
-    backgroundColor: BRAND_COLORS.white,
-    zIndex: 100,
-    elevation: 100, // For Android
-    ...BRAND_SHADOWS.medium,
+    zIndex: 999,
+    elevation: 999, // For Android
   },
-  
-  // Logo Section
-  logoSection: {
-    height: 100,
-    backgroundColor: BRAND_COLORS.darkNavy,
+  inputWrapper: {
+    width: Platform.OS === "ios" && Platform.isPad ? "100%" : "50%", // 60% width on iPhone
+    paddingHorizontal:
+      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0, // No padding on iPhone since width is constrained
+    alignItems: "flex-start",
+    marginLeft: Platform.OS === "ios" && Platform.isPad ? 0 : -1, // -1px left margin (moved 2px more left from 1px)
   },
-  logoRow: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  headerLogo: {
-    width: 200,
-    height: 60,
-    resizeMode: 'contain',
-  },
-  headerMenuContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  
-  // Entry Hub Section
-  entryHubSection: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  entryHubTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: BRAND_COLORS.darkNavy,
-    marginBottom: 10,
-  },
-  entryFieldsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    gap: 10,
-  },
-  htsFieldWrapper: {
-    flex: 1,
-    position: 'relative',
-  },
-  countryFieldWrapper: {
-    flex: 1,
-  },
-  entryField: {
+  input: {
     backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 14,
+    borderRadius: getBorderRadius("md"),
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getResponsiveValue(6, 8), // Adjusted vertical padding
+    fontSize: getResponsiveValue(
+      getTypographySize("md") * 1.5 * 0.75, // 75% of current size
+      getTypographySize("md") * 1.8 * 0.65, // 75% of current size
+    ),
+    fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
     color: BRAND_COLORS.darkNavy,
+    marginBottom: getResponsiveValue(6, 8), // Reduced bottom margin
     borderWidth: 1,
     borderColor: BRAND_COLORS.mediumGray,
-    height: 40,
+    height: getResponsiveValue(46, 54), // Adjusted height
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%", // Full width of wrapper
+    maxWidth: "100%",
   },
-  valueFieldsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    gap: 10,
+  currencyInput: {
+    textAlign: "right",
+    paddingRight: getSpacing("md"),
   },
-  valueFieldWrapper: {
-    flex: 1,
-  },
-  multiFieldContainer: {
-    flex: 1,
-  },
-  multiFieldInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  multiFieldInput: {
-    flex: 1,
-  },
-  addButton: {
-    padding: 8,
-  },
-  chipsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 5,
-    gap: 5,
-  },
-  chip: {
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: 15,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  chipContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  chipText: {
-    fontSize: 12,
-    color: BRAND_COLORS.darkNavy,
-  },
-  actionButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 10,
-  },
-  
-  // Scrollable Content
-  scrollableContent: {
-    flex: 1,
-    marginTop: 236, // Start below fixed header
-  },
-  scrollContentContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 100,
-  },
-  
-  // Results Section
-  resultsSection: {
+  suggestionsContainer: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: 12,
-    padding: 16,
-    ...BRAND_SHADOWS.medium,
-    marginBottom: 20,
+    borderRadius: getBorderRadius("md"),
+    ...BRAND_SHADOWS.small,
+    marginTop: getSpacing("xs"),
+    marginBottom: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"), // Reduced padding
+    minHeight: 0,
+    maxHeight: getResponsiveValue(325, 550), // Height for 5 items: 5 * (65/110) = 325/550
+    width: "100%", // Use full width of parent (which is already constrained)
+    alignSelf: "flex-start",
+    zIndex: 15, // Ensure suggestions appear above everything
+    elevation: 15, // For Android
   },
-  resultsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-    paddingBottom: 16,
+  suggestionsScrollView: {
+    maxHeight: getResponsiveValue(325, 550), // Match container height
+  },
+  suggestionItem: {
+    paddingVertical: getResponsiveValue(8, 10),
+    paddingHorizontal: getSpacing("xs"),
     borderBottomWidth: 1,
     borderBottomColor: BRAND_COLORS.lightGray,
+    width: "100%",
   },
-  resultsHeaderInfo: {
-    flex: 1,
-    marginRight: 10,
-  },
-  resultsTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: BRAND_COLORS.darkNavy,
-    marginBottom: 4,
-  },
-  resultsDescription: {
-    fontSize: 14,
-    color: BRAND_COLORS.darkGray,
-    marginTop: 4,
-  },
-  resultsDescriptionExpanded: {
-    backgroundColor: BRAND_COLORS.lightGray,
-    padding: 8,
-    borderRadius: 6,
-    marginTop: 4,
-  },
-  resultsActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  autoSaveIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  autoSaveText: {
-    fontSize: 12,
-    color: BRAND_COLORS.success,
-  },
-  saveButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 6,
-    backgroundColor: BRAND_COLORS.lightGray,
-  },
-  savedButton: {
-    backgroundColor: BRAND_COLORS.success + '20',
-  },
-  saveButtonText: {
-    fontSize: 12,
+  suggestionCode: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md"),
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.electricBlue,
-    fontWeight: '600',
+    marginBottom: 2,
   },
-  savedButtonText: {
-    color: BRAND_COLORS.success,
+  suggestionDescription: {
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("sm"),
+    ),
+    color: BRAND_COLORS.darkGray,
+    lineHeight: getResponsiveValue(14, 18),
   },
-  
-  // Total Cards
-  totalCardsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
+  moreResultsIndicator: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: getSpacing("sm"),
+    paddingHorizontal: getSpacing("md"),
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderTopWidth: 1,
+    borderTopColor: BRAND_COLORS.mediumGray,
   },
-  totalCard: {
+  moreResultsText: {
+    fontSize: getResponsiveValue(
+      getTypographySize("xs"),
+      getTypographySize("sm"),
+    ),
+    color: BRAND_COLORS.mediumGray,
+    marginLeft: getSpacing("xs"),
+    fontStyle: "italic",
+  },
+  notFoundContainer: {
+    padding: getSpacing("md"),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notFoundText: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md"),
+    ),
+    color: BRAND_COLORS.darkGray,
+    fontStyle: "italic",
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius("md"),
+    padding: getResponsiveValue(6, 8), // Reduced padding for smaller toggle
+    marginBottom: getResponsiveValue(8, 12), // Reduced bottom margin
+    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
+    maxWidth: "100%",
+    height: getResponsiveValue(40, 48), // Reduced height for smaller content
+  },
+  toggleLabel: {
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ), // 50% smaller than doubled size
+    color: BRAND_COLORS.darkNavy,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     flex: 1,
+  },
+  selectedDescriptionContainer: {
+    marginTop: getResponsiveValue(-6, -8), // Negative margin to bring it closer to the field
+    marginBottom: getResponsiveValue(8, 10),
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
+    backgroundColor: BRAND_COLORS.lightGray,
+    borderRadius: getBorderRadius("sm"),
+    width: "100%", // Use full width of parent (which is already constrained)
+    alignSelf: "flex-start",
+  },
+
+  selectedDescriptionText: {
+    fontSize: getResponsiveValue(
+      getTypographySize("xs") * 0.9, // Even smaller on iPhone
+      getTypographySize("sm") * 0.9, // Slightly smaller on iPad
+    ),
+    color: BRAND_COLORS.darkGray,
+    fontFamily: "Geologica-Regular",
+    fontStyle: "italic",
+    lineHeight: getResponsiveValue(14, 18),
+  },
+  searchButton: {
     backgroundColor: BRAND_COLORS.electricBlue,
-    borderRadius: 10,
-    padding: 16,
-    alignItems: 'center',
+    borderRadius: getBorderRadius("md"),
+    paddingVertical: getResponsiveValue(8, 12), // Reduced padding
+    paddingHorizontal: getResponsiveValue(16, 20), // Reduced padding
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     ...BRAND_SHADOWS.small,
+    height: getResponsiveValue(40, 48), // Reduced height
+    marginLeft: 0, // Remove margin for iPad positioning
+    alignSelf: "flex-start",
   },
-  totalCardLabel: {
-    fontSize: 12,
+  searchButtonDisabled: {
+    opacity: 0.6,
+  },
+  searchButtonText: {
     color: BRAND_COLORS.white,
-    opacity: 0.9,
-    marginBottom: 4,
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    marginLeft: getSpacing("sm"),
+    lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
-  totalCardValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: BRAND_COLORS.white,
-    marginBottom: 4,
+  loadingMessageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: getSpacing("md"),
+    paddingHorizontal: getSpacing("lg"),
+    marginTop: getSpacing("md"),
+    marginLeft:
+      Platform.OS === "ios" && Platform.isPad
+        ? SCREEN_WIDTH * 0.25
+        : getSpacing("md"),
+    alignSelf: "flex-start",
   },
-  totalCardSubtext: {
-    fontSize: 11,
-    color: BRAND_COLORS.white,
-    opacity: 0.8,
-    textAlign: 'center',
-  },
-  
-  // Breakdown Sections
-  breakdownSection: {
-    marginBottom: 20,
-  },
-  breakdownTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: BRAND_COLORS.darkNavy,
-    marginBottom: 12,
-  },
-  breakdownRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: BRAND_COLORS.lightGray + '50',
-  },
-  breakdownLeft: {
-    flex: 1,
-    marginRight: 10,
-  },
-  breakdownLabel: {
-    fontSize: 14,
-    color: BRAND_COLORS.darkNavy,
-  },
-  breakdownRate: {
-    fontSize: 12,
-    color: BRAND_COLORS.darkGray,
-    marginTop: 2,
-  },
-  breakdownAmount: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: BRAND_COLORS.darkNavy,
-  },
-  breakdownHighlight: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: BRAND_COLORS.orange,
-  },
-  
-  // Selected HTS Field
-  selectedHtsField: {
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: BRAND_COLORS.mediumGray,
-    minHeight: 40,
-  },
-  selectedHtsContent: {
-    flexDirection: 'column',
-  },
-  selectedHtsTextContainer: {
-    flex: 1,
-  },
-  selectedHtsCodeText: {
-    fontSize: 14,
-    fontWeight: '600',
+  loadingMessageText: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.electricBlue,
-  },
-  selectedHtsDescriptionText: {
-    fontSize: 12,
-    color: BRAND_COLORS.darkGray,
-    marginTop: 2,
-    fontStyle: 'italic',
+    textAlign: "center",
   },
 
   // Unified Floating Menu Styles
   heroFloatingMenuContainer: {
     position: "absolute",
-    bottom: getResponsiveValue(5, 15), // iPhone: -5px more, iPad: -10px more for proportional spacing
-    left: getResponsiveValue(20, 50), // Left padding to match logo alignment
+    top: getResponsiveValue(190, 265), // Moved down 100px iPhone, 125px iPad
+    left: getResponsiveValue(35, 50), // Left padding to match logo alignment
     right: 0,
     height: getResponsiveValue(45, 74), // Match main FAB height to ensure consistent alignment
     alignItems: "center", // Center vertically to ensure all FABs are on same horizontal line
     justifyContent: "flex-start", // Left align horizontally
     flexDirection: "row", // Ensure horizontal layout
-    zIndex: 100, // High z-index to ensure FABs are clickable
+    zIndex: 9999, // Very high z-index to ensure FABs are clickable
+    elevation: 9999, // For Android
   },
   menuFab: {
     position: "absolute",
     alignSelf: "center", // Ensure vertical centering
+    zIndex: 10000,
+    elevation: 10000, // For Android
   },
   menuFabButton: {
     width: getResponsiveValue(38, 64), // 80% size on iPhone (48 * 0.8 = 38.4 ≈ 38), iPad unchanged
@@ -3384,6 +3875,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     ...BRAND_SHADOWS.medium,
+  },
+  fabDollarSign: {
+    fontSize: getResponsiveValue(20, 32),
+    fontWeight: "bold",
+    color: BRAND_COLORS.white,
   },
 
   mainFloatingFab: {
@@ -3758,6 +4254,11 @@ const styles = StyleSheet.create({
     borderColor: BRAND_COLORS.electricBlue,
     backgroundColor: BRAND_COLORS.white,
   },
+  tariffEngineeringHeaderButton: {
+    borderColor: BRAND_COLORS.electricBlue,
+    backgroundColor: BRAND_COLORS.white,
+    marginLeft: getSpacing("xs"),
+  },
   headerButtonText: {
     fontSize: getResponsiveValue(
       getTypographySize("sm"),
@@ -3804,9 +4305,8 @@ const styles = StyleSheet.create({
   drawer: {
     position: "absolute",
     backgroundColor: BRAND_COLORS.white,
+    zIndex: 1001,
     ...BRAND_SHADOWS.large,
-    zIndex: 999,
-    elevation: 999,
   },
   leftDrawer: {
     left: 0,
@@ -3846,50 +4346,43 @@ const styles = StyleSheet.create({
     padding: getSpacing("xl"),
     alignItems: "center",
     ...BRAND_SHADOWS.large,
+    minWidth: getResponsiveValue(200, 250),
   },
   loadingSpinnerContainer: {
     marginBottom: getSpacing("md"),
   },
   loadingModalText: {
     fontSize: getTypographySize("lg"),
-    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
   },
-  actionButtonsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: getResponsiveValue(8, 12), // Reduced margin
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad
-        ? SCREEN_WIDTH * 0.25
-        : getResponsiveValue(8, 12), // Reduced padding
-  },
   clearButton: {
-    backgroundColor: BRAND_COLORS.darkGray,
+    backgroundColor: BRAND_COLORS.orange,
     borderRadius: getBorderRadius("md"),
-    paddingVertical: getResponsiveValue(8, 12),
-    paddingHorizontal: getResponsiveValue(16, 20),
+    paddingVertical: getResponsiveValue(8, 12), // Reduced padding
+    paddingHorizontal: getResponsiveValue(16, 20), // Reduced padding
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     ...BRAND_SHADOWS.small,
-    height: getResponsiveValue(40, 48),
+    height: getResponsiveValue(40, 48), // Reduced height
+    minWidth: getResponsiveValue(80, 100), // Ensure minimum width
   },
   clearButtonText: {
     color: BRAND_COLORS.white,
     fontSize: getTypographySize("md"),
     ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     marginLeft: getSpacing("sm"),
+    lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
   },
   infoTab: {
     position: "absolute",
-    left: -10, // Moved 10px to the left for more noticeable spacing
-    width: 40,
-    height: 40,
+    left: getResponsiveValue(-38, -25), // iPhone: extends to 8px (2px gap before field at 10px), iPad: extends to 25px (5px gap before field at 30px)
+    width: getResponsiveValue(46, 50), // iPhone: same as field height, iPad: 50px as requested
+    height: getResponsiveValue(46, 50), // iPhone: same as field height, iPad: 50px as requested
     backgroundColor: BRAND_COLORS.electricBlue,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
+    borderTopRightRadius: getResponsiveValue(23, 25),
+    borderBottomRightRadius: getResponsiveValue(23, 25),
     justifyContent: "center",
     alignItems: "center",
     ...BRAND_SHADOWS.medium,
@@ -3904,38 +4397,52 @@ const styles = StyleSheet.create({
   },
   dataSourceInfoContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: 0, // Flush with bottom of screen
     left: 0,
     right: 0,
-    zIndex: 5,
+    alignItems: "center",
+    ...BRAND_SHADOWS.small,
+    zIndex: 1000, // Above background but below interactive elements
+    overflow: "visible",
   },
   dataSourceGradient: {
+    width: "100%",
     paddingVertical: getSpacing("sm"),
     paddingHorizontal: getSpacing("md"),
     alignItems: "center",
   },
   dataSourceInfoLine: {
-    fontSize: getResponsiveValue(10, 12),
+    fontSize: getResponsiveValue(
+      getTypographySize("xs") * 1.35, // Reduced by 10% on iPhone
+      getTypographySize("sm") * 1.5,
+    ),
     color: BRAND_COLORS.white,
-    opacity: 0.9,
     textAlign: "center",
+    lineHeight: getResponsiveValue(19, 27), // Proportionally reduced on iPhone
+    opacity: 0.9,
   },
   tariffEngineeringButton: {
-    backgroundColor: BRAND_COLORS.info,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    ...BRAND_SHADOWS.small,
+    backgroundColor: BRAND_COLORS.success,
+    borderRadius: getBorderRadius("md"),
+    paddingVertical: getResponsiveValue(10, 14),
+    paddingHorizontal: getResponsiveValue(16, 20),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: getResponsiveValue(30, 40), // Position above bottom edge
+    left: getSpacing("md"),
+    right: getSpacing("md"),
+    ...BRAND_SHADOWS.medium,
   },
   tariffEngineeringButtonText: {
     color: BRAND_COLORS.white,
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 8,
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("md"),
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    marginLeft: getSpacing("xs"),
   },
 
   // HTS Modal styles
@@ -4054,28 +4561,36 @@ const styles = StyleSheet.create({
   valueInput: {
     ...Platform.select({
       ios: {
-        fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
-        height: getResponsiveValue(46, 54), // Same height as HTS input
+        fontSize: getResponsiveValue(
+          getTypographySize("md"),
+          getTypographySize("md") * 1.2,
+        ),
+        height: getResponsiveValue(40, 48),
         paddingHorizontal: getResponsiveValue(15, 20),
         backgroundColor: BRAND_COLORS.lightGray,
         borderRadius: getResponsiveValue(12, 16),
-        color: BRAND_COLORS.mediumBlue, // Changed to medium blue
-        textAlign: "left",
+        color: BRAND_COLORS.mediumBlue,
+        textAlign: "right",
         width: "100%",
         borderWidth: 1,
         borderColor: BRAND_COLORS.mediumGray,
+        ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
       },
       android: {
-        fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
-        height: getResponsiveValue(46, 54), // Same height as HTS input
+        fontSize: getResponsiveValue(
+          getTypographySize("md"),
+          getTypographySize("md") * 1.2,
+        ),
+        height: getResponsiveValue(46, 54),
         paddingHorizontal: getResponsiveValue(15, 20),
         backgroundColor: BRAND_COLORS.lightGray,
         borderRadius: getResponsiveValue(12, 16),
-        color: BRAND_COLORS.mediumBlue, // Changed to medium blue
-        textAlign: "left",
+        color: BRAND_COLORS.mediumBlue,
+        textAlign: "right",
         width: "100%",
         borderWidth: 1,
         borderColor: BRAND_COLORS.mediumGray,
+        ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
       },
     }),
   },
@@ -4089,15 +4604,19 @@ const styles = StyleSheet.create({
   },
   multiFieldInput: {
     flex: 1,
-    fontSize: getResponsiveValue(16, 18) * 0.75, // Same as HTS code font
-    height: getResponsiveValue(46, 54), // Same height as value input
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ),
+    height: getResponsiveValue(46, 54),
     paddingHorizontal: getResponsiveValue(15, 20),
     backgroundColor: BRAND_COLORS.lightGray,
     borderRadius: getResponsiveValue(12, 16),
-    color: BRAND_COLORS.mediumBlue, // Same medium blue
-    textAlign: "left",
+    color: BRAND_COLORS.mediumBlue,
+    textAlign: "right",
     borderWidth: 1,
     borderColor: BRAND_COLORS.mediumGray,
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   addButton: {
     padding: getResponsiveValue(4, 6),
@@ -4124,294 +4643,67 @@ const styles = StyleSheet.create({
     marginRight: getResponsiveValue(8, 10),
   },
   arithmeticContainer: {
-    marginTop: getResponsiveValue(8, 10),
-    paddingTop: getResponsiveValue(8, 10),
-    borderTopWidth: 1,
-    borderTopColor: BRAND_COLORS.lightGray,
+    alignItems: "flex-end",
   },
   arithmeticText: {
-    fontSize: getResponsiveValue(12, 14),
+    fontSize: getResponsiveValue(21, 24.5), // Increased by 75% from 12/14
     fontWeight: "600",
     color: BRAND_COLORS.darkNavy,
     textAlign: "right",
+  },
+  arithmeticRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   arithmeticDivider: {
     height: 1,
     backgroundColor: BRAND_COLORS.darkNavy,
     marginVertical: getResponsiveValue(4, 6),
+    marginTop: getResponsiveValue(8, 10),
   },
   arithmeticTotal: {
-    fontSize: getResponsiveValue(14, 16),
+    fontSize: getResponsiveValue(24.5, 28), // Increased by 75% from 14/16
     fontWeight: "700",
   },
-  searchButton: {
-    backgroundColor: BRAND_COLORS.electricBlue,
-    borderRadius: getBorderRadius("md"),
-    paddingVertical: getResponsiveValue(8, 12), // Reduced padding
-    paddingHorizontal: getResponsiveValue(16, 20), // Reduced padding
+  resultsContainer: {
+    flex: 1,
+    backgroundColor: BRAND_COLORS.white,
+  },
+  // Header buttons - vertical layout
+  headerButtonsVertical: {
+    flexDirection: "column",
+    gap: getSpacing("xs"),
+    marginLeft: getSpacing("md"),
+  },
+  headerButtonStacked: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    ...BRAND_SHADOWS.small,
-    height: getResponsiveValue(40, 48), // Reduced height
-    marginLeft: 0, // Remove margin for iPad positioning
-    alignSelf: "flex-start",
-  },
-  searchButtonDisabled: {
-    opacity: 0.6,
-  },
-  searchButtonText: {
-    color: BRAND_COLORS.white,
-    fontSize: getTypographySize("md"),
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
-    marginLeft: getSpacing("sm"),
-    lineHeight: getTypographySize("md") * 1.4, // Adjusted line height for vertical centering
-  },
-  clearButton: {
-    backgroundColor: BRAND_COLORS.darkGray,
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
     borderRadius: getBorderRadius("md"),
-    paddingVertical: getResponsiveValue(8, 12),
-    paddingHorizontal: getResponsiveValue(16, 20),
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    ...BRAND_SHADOWS.small,
-    height: getResponsiveValue(40, 48),
+    borderWidth: 1,
+    gap: getSpacing("xs"),
+    minHeight: getResponsiveValue(32, 40),
   },
-  clearButtonText: {
-    color: BRAND_COLORS.white,
-    fontSize: getTypographySize("md"),
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
-    marginLeft: getSpacing("sm"),
-  },
-  loadingMessageContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: getSpacing("md"),
-    paddingHorizontal: getSpacing("lg"),
-    marginTop: getSpacing("md"),
-    marginLeft:
-      Platform.OS === "ios" && Platform.isPad
-        ? SCREEN_WIDTH * 0.25
-        : getSpacing("md"),
-    alignSelf: "flex-start",
-  },
-  loadingMessageText: {
-    fontSize: getTypographySize("md"),
+  headerButtonStackedText: {
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.35,
+    ),
     ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
     color: BRAND_COLORS.electricBlue,
-    textAlign: "center",
   },
-  
-  // HTS Suggestions Styles
-  suggestionsContainer: {
+  saveHeaderButtonStacked: {
+    borderColor: BRAND_COLORS.electricBlue,
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius("md"),
-    ...BRAND_SHADOWS.small,
-    marginTop: getSpacing("xs"),
-    marginBottom: getSpacing("sm"),
-    paddingVertical: getSpacing("xs"),
-    minHeight: 0,
-    maxHeight: getResponsiveValue(325, 550),
-    width: "100%",
-    alignSelf: "flex-start",
-    zIndex: 15,
-    elevation: 15,
   },
-  suggestionsScrollView: {
-    maxHeight: getResponsiveValue(325, 550),
-  },
-  suggestionItem: {
-    paddingVertical: getResponsiveValue(8, 10),
-    paddingHorizontal: getSpacing("xs"),
-    borderBottomWidth: 1,
-    borderBottomColor: BRAND_COLORS.lightGray,
-    width: "100%",
-  },
-  suggestionCode: {
-    fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("md"),
-    ),
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
-    color: BRAND_COLORS.electricBlue,
-    marginBottom: 2,
-  },
-  suggestionDescription: {
-    fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("sm"),
-    ),
-    color: BRAND_COLORS.darkGray,
-    lineHeight: getResponsiveValue(14, 18),
-  },
-  moreResultsIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: getSpacing("sm"),
-    paddingHorizontal: getSpacing("md"),
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderTopWidth: 1,
-    borderTopColor: BRAND_COLORS.mediumGray,
-  },
-  moreResultsText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("xs"),
-      getTypographySize("sm"),
-    ),
-    color: BRAND_COLORS.mediumGray,
-    marginLeft: getSpacing("xs"),
-    fontStyle: "italic",
-  },
-  notFoundContainer: {
-    padding: getSpacing("md"),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  notFoundText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("sm"),
-      getTypographySize("md"),
-    ),
-    color: BRAND_COLORS.darkGray,
-    fontStyle: "italic",
-  },
-  toggleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getBorderRadius("md"),
-    padding: getResponsiveValue(6, 8),
-    marginBottom: getResponsiveValue(8, 12),
-    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
-    maxWidth: "100%",
-    height: getResponsiveValue(40, 48),
-  },
-  toggleLabel: {
-    fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ),
-    color: BRAND_COLORS.darkNavy,
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
-    flex: 1,
-  },
-  selectedDescriptionContainer: {
-    marginTop: getResponsiveValue(-6, -8),
-    marginBottom: getResponsiveValue(8, 10),
-    paddingHorizontal: getSpacing("sm"),
-    paddingVertical: getSpacing("xs"),
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getBorderRadius("sm"),
-    width: "100%",
-    alignSelf: "flex-start",
-  },
-  selectedDescriptionText: {
-    fontSize: getResponsiveValue(
-      getTypographySize("xs") * 0.9,
-      getTypographySize("sm") * 0.9,
-    ),
-    color: BRAND_COLORS.darkGray,
-    fontFamily: "Geologica-Regular",
-    fontStyle: "italic",
-    lineHeight: getResponsiveValue(14, 18),
-  },
-  // Legacy styles for backward compatibility
-  inputSection: {
+  clearHeaderButtonStacked: {
+    borderColor: BRAND_COLORS.orange,
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius("lg"),
-    padding: getResponsiveValue(12, 16),
-    ...BRAND_SHADOWS.medium,
-    marginBottom: getResponsiveValue(8, 12),
-    zIndex: 10,
-    elevation: 10,
   },
-  sectionTitleWrapper: {
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad
-        ? SCREEN_WIDTH * 0.25
-        : getSpacing("md"),
-    alignItems: "flex-start",
-    width: "100%",
-  },
-  sectionTitle: {
-    fontSize: getResponsiveValue(
-      getTypographySize("lg") * 1.25,
-      getTypographySize("xxl") * 1.25,
-    ),
-    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
-    color: BRAND_COLORS.darkNavy,
-    marginBottom: getResponsiveValue(8, 12),
-    textAlign: "left",
-    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
-    maxWidth: "100%",
-    paddingHorizontal: getResponsiveValue(20, 40),
-  },
-  inputContainer: {
-    marginBottom: getResponsiveValue(8, 12),
-  },
-  dropdownFieldsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    width: "100%",
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
-    marginBottom: getResponsiveValue(10, 12),
-    gap: getResponsiveValue(8, 12),
-  },
-  halfWidthWrapper: {
-    flex: 1,
-    position: "relative",
-  },
-  halfWidthInput: {
-    width: "100%",
-  },
-  inputWrapper: {
-    width: Platform.OS === "ios" && Platform.isPad ? "100%" : "50%",
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
-    alignItems: "flex-start",
-    marginLeft: Platform.OS === "ios" && Platform.isPad ? 0 : -1,
-  },
-  input: {
-    backgroundColor: BRAND_COLORS.lightGray,
-    borderRadius: getBorderRadius("md"),
-    paddingHorizontal: getSpacing("sm"),
-    paddingVertical: getResponsiveValue(6, 8),
-    fontSize: getResponsiveValue(
-      getTypographySize("md") * 1.5 * 0.75,
-      getTypographySize("md") * 1.8 * 0.75,
-    ),
-    fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
-    color: BRAND_COLORS.darkNavy,
-    marginBottom: getResponsiveValue(6, 8),
-    borderWidth: 1,
-    borderColor: BRAND_COLORS.mediumGray,
-    height: getResponsiveValue(46, 54),
-    width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
-    maxWidth: "100%",
-  },
-  valueInput: {
-    width: "100%",
-  },
-  valueFieldColumn: {
-    flex: 1,
-  },
-  arithmeticContainer: {
-    marginTop: getSpacing("xs"),
-    paddingTop: getSpacing("xs"),
-    borderTopWidth: 1,
-    borderTopColor: BRAND_COLORS.lightGray,
-  },
-  actionButtonsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: getSpacing("md"),
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
-    gap: getSpacing("sm"),
+  tariffIntelHeaderButtonStacked: {
+    borderColor: BRAND_COLORS.success,
+    backgroundColor: BRAND_COLORS.white,
   },
 });

@@ -7,7 +7,12 @@ import {
   TextInputProps,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { isTablet, BRAND_TYPOGRAPHY } from "../config/brandColors";
+import {
+  isTablet,
+  BRAND_TYPOGRAPHY,
+  getTypographySize,
+  getResponsiveValue,
+} from "../config/brandColors";
 
 interface FieldWithInfoProps extends TextInputProps {
   placeholder: string;
@@ -56,15 +61,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     bottom: 0,
     justifyContent: "center",
-    left: -56, // Moved 2px further left
+    left: -54,
     position: "absolute",
     top: 0,
     transform: [{ translateY: -7 }],
   },
   input: {
     fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
-    fontSize: 24, // 75% of 32
-    height: 48, // Tightened to match LookupScreen input height
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ),
+    height: 44,
     width: "100%",
   },
   inputGroup: {

@@ -190,13 +190,18 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   return (
     <>
       {/* Overlay */}
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
+      <Animated.View
+        style={[styles.overlay, { opacity }]}
+        pointerEvents={isVisible ? "auto" : "none"}
       >
-        <Animated.View style={[styles.overlayBackground, { opacity }]} />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={StyleSheet.absoluteFillObject}
+          activeOpacity={1}
+          onPress={onClose}
+        >
+          <View style={styles.overlayBackground} />
+        </TouchableOpacity>
+      </Animated.View>
 
       {/* Drawer */}
       <PanGestureHandler onGestureEvent={handleGestureEvent}>

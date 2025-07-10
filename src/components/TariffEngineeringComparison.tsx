@@ -300,14 +300,14 @@ export default function TariffEngineeringComparison({
         ) : comparisons.length === 0 ? (
           <View style={styles.noResultsContainer}>
             <Ionicons
-              name="information-circle"
+              name="analytics"
               size={48}
-              color={BRAND_COLORS.mediumGray}
+              color={BRAND_COLORS.electricBlue}
             />
-            <Text style={styles.noResultsText}>
+            <Text style={[styles.noResultsText, { color: BRAND_COLORS.darkNavy }]}>
               No lower-duty alternative classifications found for this product.
             </Text>
-            <Text style={styles.noResultsSubtext}>
+            <Text style={[styles.noResultsSubtext, { color: BRAND_COLORS.electricBlue }]}>
               This HTS code appears to be optimally classified for imports from{" "}
               {countryName}. Alternative classifications exist but would result
               in the same or higher duties.

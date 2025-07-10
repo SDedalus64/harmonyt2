@@ -1,105 +1,162 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  Keyboard,
+  Modal,
+  TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  BRAND_COLORS,
+  BRAND_TYPOGRAPHY,
+  getTypographySize,
+  getSpacing,
+  getBorderRadius,
+  getResponsiveValue,
+} from "../config/brandColors";
 
-const BRAND_YELLOW = "#FFCB05";
-const BRAND_BLUE_DARK = "#1E3A8A"; // Adjust if needed
-const BRAND_BLUE_LIGHT = "#93C5FD";
+interface HtsDropdownProps {
+  htsCode: string;
+  suggestions: { code: string; description?: string }[];
+  onSelect: (code: string, description?: string) => void;
+  visible: boolean;
+}
 
 const HtsDropdown = ({
   htsCode,
   suggestions,
   onSelect,
   visible,
-  maxHeight = 200,
-}: {
-  htsCode: string;
-  suggestions: { code: string; description?: string }[];
-  onSelect: (code: string, description?: string) => void;
-  visible: boolean;
-  maxHeight?: number;
-}) => {
+}: HtsDropdownProps) => {
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
   if (!visible || suggestions.length === 0) return null;
 
-  const renderItem = ({
-    item,
-  }: {
-    item: { code: string; description?: string };
-  }) => {
-    const isExpanded = expandedItem === item.code;
-
-    return (
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => {
-          onSelect(item.code, item.description);
-          setExpandedItem(null);
-          Keyboard.dismiss();
-        }}
-        onLongPress={() =>
-          setExpandedItem((prev) => (prev === item.code ? null : item.code))
-        }
-      >
-        <Text style={styles.code}>{item.code}</Text>
-        <Text
-          numberOfLines={isExpanded ? undefined : 1}
-          style={styles.description}
-        >
-          {item.description || ""}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
   return (
-    <View style={[styles.dropdownContainer, { maxHeight }]}>
-      <FlatList
-        data={suggestions}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.code}
-        keyboardShouldPersistTaps="handled"
-      />
-    </View>
+    <Modal visible={visible} transparent={true} animationType="fade">
+      <TouchableWithoutFeedback>
+        <View style={styles.modalOverlay}>
+          <TouchableWithoutFeedback>
+            <View style={styles.dropdown}>
+              <View style={styles.dropdownHeader}>
+                <Text style={styles.dropdownTitle}>
+                  Scroll for more and Tap to select
+                </Text>
+              </View>
+              <FlatList
+                data={suggestions}
+                keyExtractor={(item) => item.code}
+                style={styles.list}
+                keyboardShouldPersistTaps="handled"
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.item,
+                      expandedItem === item.code && styles.expandedItem,
+                    ]}
+                    onPress={() => {
+                      onSelect(item.code, item.description);
+                      setExpandedItem(null);
+                    }}
+                    onLongPress={() =>
+                      setExpandedItem(
+                        expandedItem === item.code ? null : item.code,
+                      )
+                    }
+                  >
+                    <Text style={styles.code}>{item.code}</Text>
+                    <Text
+                      numberOfLines={expandedItem === item.code ? undefined : 1}
+                      style={styles.description}
+                    >
+                      {item.description || ""}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   code: {
-    color: BRAND_BLUE_DARK,
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: getResponsiveValue(
+      getTypographySize("md"),
+      getTypographySize("md") * 1.2,
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.electricBlue,
+    marginBottom: 2,
   },
   description: {
-    color: BRAND_BLUE_LIGHT,
-    fontSize: 14,
+    fontSize: getResponsiveValue(
+      getTypographySize("sm"),
+      getTypographySize("sm") * 1.2,
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.darkGray,
   },
-  dropdownContainer: {
-    position: "absolute",
-    top: 120, // Adjust based on actual field position
-    left: 16,
-    right: 16,
-    backgroundColor: BRAND_YELLOW,
-    borderRadius: 8,
-    zIndex: 9999,
-    opacity: 1,
-    paddingVertical: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+  dropdown: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius("lg"),
+    maxHeight: "80%",
+    maxWidth: getResponsiveValue(400, 600),
+    width: "100%",
+    ...Platform.select({
+      ios: {
+        shadowColor: BRAND_COLORS.darkNavy,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+  },
+  dropdownHeader: {
+    alignItems: "center",
+    borderBottomColor: BRAND_COLORS.lightGray,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: getSpacing("md"),
+  },
+  dropdownTitle: {
+    fontSize: getResponsiveValue(
+      getTypographySize("lg"),
+      getTypographySize("lg") * 1.2,
+    ),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.darkNavy,
+  },
+  expandedItem: {
+    backgroundColor: "#E8F4FD",
   },
   item: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    borderBottomColor: BRAND_COLORS.lightGray,
+    borderBottomWidth: 1,
+    minHeight: getResponsiveValue(48, 56),
+    paddingHorizontal: getSpacing("md"),
+    paddingVertical: getSpacing("sm"),
+  },
+  list: {
+    maxHeight: getResponsiveValue(400, 500),
+  },
+  modalOverlay: {
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
+    padding: getSpacing("lg"),
   },
 });
 

@@ -1,0 +1,6 @@
+Step,Component,Description,Example Rate (%)
+1,Base HTS Duty,"Standard duty rate from HTSUS (e.g., 5%). Applied to all applicable imports.",5
+2,Section 301 Tariff (if applicable),Additional tariff for Chinese-origin goods based on USTR Lists 1–4A. Applies only if HTS code matches.,25
+3,Section 232 Tariff (if applicable),"Additional tariff for steel (25%) or aluminum (10%) products. Applies globally, unless exempted or under quota.",25
+4,"Other Fees (MPF, HMF, etc.)",Calculated after duty stacking. Merchandise Processing Fee and Harbor Maintenance Fee may apply.,Varies
+5,Exemptions/Overlays,"Use HTS overlay codes (e.g., 9903.88.xx or 9903.80.xx) to declare additional tariffs or exemptions.",N/A

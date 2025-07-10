@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,14 +7,14 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Platform,
-} from 'react-native';
+} from "react-native";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 interface AnimatedDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  position: 'bottom' | 'right' | 'left';
+  position: "bottom" | "right" | "left";
   height?: number;
   width?: number;
   children: React.ReactNode;
@@ -32,14 +32,15 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   height,
   width,
   children,
-  backgroundColor = '#FFFFFF',
-  overlayColor = 'rgba(0, 0, 0, 0.3)',
+  backgroundColor = "#FFFFFF",
+  overlayColor = "rgba(0, 0, 0, 0.3)",
   animationDuration = 300,
   enableSwipeToClose = true,
   borderRadius = 20,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
+  const [isVisible, setIsVisible] = useState(false);
 
   // Calculate dimensions
   const drawerHeight = height || SCREEN_HEIGHT * 0.7;
@@ -53,11 +54,11 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
         if (!enableSwipeToClose) return false;
 
         // Determine if the gesture is in the right direction
-        if (position === 'bottom') {
+        if (position === "bottom") {
           return gestureState.dy > 10;
-        } else if (position === 'right') {
+        } else if (position === "right") {
           return gestureState.dx > 10;
-        } else if (position === 'left') {
+        } else if (position === "left") {
           return gestureState.dx < -10;
         }
         return false;
@@ -65,11 +66,11 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
       onPanResponderMove: (_, gestureState) => {
         let progress = 0;
 
-        if (position === 'bottom') {
+        if (position === "bottom") {
           progress = Math.max(0, Math.min(1, gestureState.dy / drawerHeight));
-        } else if (position === 'right') {
+        } else if (position === "right") {
           progress = Math.max(0, Math.min(1, gestureState.dx / drawerWidth));
-        } else if (position === 'left') {
+        } else if (position === "left") {
           progress = Math.max(0, Math.min(1, -gestureState.dx / drawerWidth));
         }
 
@@ -79,12 +80,15 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
       onPanResponderRelease: (_, gestureState) => {
         let shouldClose = false;
 
-        if (position === 'bottom') {
-          shouldClose = gestureState.dy > drawerHeight * 0.3 || gestureState.vy > 0.5;
-        } else if (position === 'right') {
-          shouldClose = gestureState.dx > drawerWidth * 0.3 || gestureState.vx > 0.5;
-        } else if (position === 'left') {
-          shouldClose = -gestureState.dx > drawerWidth * 0.3 || gestureState.vx < -0.5;
+        if (position === "bottom") {
+          shouldClose =
+            gestureState.dy > drawerHeight * 0.3 || gestureState.vy > 0.5;
+        } else if (position === "right") {
+          shouldClose =
+            gestureState.dx > drawerWidth * 0.3 || gestureState.vx > 0.5;
+        } else if (position === "left") {
+          shouldClose =
+            -gestureState.dx > drawerWidth * 0.3 || gestureState.vx < -0.5;
         }
 
         if (shouldClose) {
@@ -106,11 +110,12 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           ]).start();
         }
       },
-    })
+    }),
   ).current;
 
   useEffect(() => {
     if (isOpen) {
+      setIsVisible(true);
       Animated.parallel([
         Animated.spring(animatedValue, {
           toValue: 1,
@@ -136,38 +141,47 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
           duration: animationDuration,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start(() => {
+        // Only hide after animation completes
+        setIsVisible(false);
+      });
     }
   }, [isOpen]);
 
   // Calculate transform based on position
   const getTransform = () => {
-    if (position === 'bottom') {
+    if (position === "bottom") {
       return {
-        transform: [{
-          translateY: animatedValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [drawerHeight, 0],
-          }),
-        }],
+        transform: [
+          {
+            translateY: animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [drawerHeight, 0],
+            }),
+          },
+        ],
       };
-    } else if (position === 'right') {
+    } else if (position === "right") {
       return {
-        transform: [{
-          translateX: animatedValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [drawerWidth, 0],
-          }),
-        }],
+        transform: [
+          {
+            translateX: animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [drawerWidth, 0],
+            }),
+          },
+        ],
       };
-    } else if (position === 'left') {
+    } else if (position === "left") {
       return {
-        transform: [{
-          translateX: animatedValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [-drawerWidth, 0],
-          }),
-        }],
+        transform: [
+          {
+            translateX: animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [-drawerWidth, 0],
+            }),
+          },
+        ],
       };
     }
     return {};
@@ -176,16 +190,16 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   // Get position styles
   const getPositionStyles = () => {
     const baseStyles: any = {
-      position: 'absolute',
+      position: "absolute",
       backgroundColor,
-      shadowColor: '#000',
+      shadowColor: "#000",
       shadowOffset: { width: 0, height: -2 },
       shadowOpacity: 0.25,
       shadowRadius: 10,
       elevation: 10,
     };
 
-    if (position === 'bottom') {
+    if (position === "bottom") {
       return {
         ...baseStyles,
         bottom: 0,
@@ -195,7 +209,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
       };
-    } else if (position === 'right') {
+    } else if (position === "right") {
       return {
         ...baseStyles,
         top: 0,
@@ -205,7 +219,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
         borderTopLeftRadius: borderRadius,
         borderBottomLeftRadius: borderRadius,
       };
-    } else if (position === 'left') {
+    } else if (position === "left") {
       return {
         ...baseStyles,
         top: 0,
@@ -219,7 +233,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
     return baseStyles;
   };
 
-  if (!isOpen) {
+  if (!isVisible) {
     return null;
   }
 
@@ -234,7 +248,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
             backgroundColor: overlayColor,
           },
         ]}
-        pointerEvents={isOpen ? 'auto' : 'none'}
+        pointerEvents={isOpen ? "auto" : "none"}
       >
         <TouchableWithoutFeedback onPress={onClose}>
           <View style={StyleSheet.absoluteFillObject} />
@@ -243,10 +257,7 @@ export const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
 
       {/* Drawer */}
       <Animated.View
-        style={[
-          getPositionStyles(),
-          getTransform(),
-        ]}
+        style={[getPositionStyles(), getTransform()]}
         {...panResponder.panHandlers}
       >
         {children}
