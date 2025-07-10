@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, createRef, RefObject } from "react";
+import React, { useEffect, useMemo, useRef, useState, createRef, RefObject } from "react";
 import {
   Animated,
   Platform,
