@@ -829,7 +829,8 @@ export default function LookupScreen() {
 
       // Calculate unit costs if units are provided
       const totalUnitCount = unitCounts.reduce<number>(
-        (sum, unit) => sum + unit.amount,
+        (sum: number, unit: { id: string; amount: number; label?: string }) =>
+          sum + unit.amount,
         0,
       );
       let unitCalculations = undefined;
@@ -1576,12 +1577,17 @@ export default function LookupScreen() {
           {/* Unit Calculations - Display directly when units are provided */}
           {(() => {
             const totalUnitCount = unitCounts.reduce<number>(
-              (sum, unit) => sum + unit.amount,
+              (sum: number, unit: { id: string; amount: number; label?: string }) =>
+                sum + unit.amount,
               0,
             );
             const totalDeclaredValue =
               parseFloat(declaredValue) +
-              additionalCosts.reduce<number>((sum, cost) => sum + cost.amount, 0);
+              additionalCosts.reduce<number>(
+                (sum: number, cost: { id: string; amount: number; label?: string }) =>
+                  sum + cost.amount,
+                0,
+              );
 
             if (totalUnitCount > 0) {
               return (
@@ -2744,8 +2750,18 @@ export default function LookupScreen() {
 
               {/* Unit Calculations */}
               {(() => {
-                const totalUnitCount = unitCounts.reduce<number>((sum, unit) => sum + unit.amount, 0);
-                const totalDeclaredValue = parseFloat(declaredValue) + additionalCosts.reduce<number>((sum, cost) => sum + cost.amount, 0);
+                const totalUnitCount = unitCounts.reduce<number>(
+                  (sum: number, unit: { id: string; amount: number; label?: string }) =>
+                    sum + unit.amount,
+                  0,
+                );
+                const totalDeclaredValue =
+                  parseFloat(declaredValue) +
+                  additionalCosts.reduce<number>(
+                    (sum: number, cost: { id: string; amount: number; label?: string }) =>
+                      sum + cost.amount,
+                    0,
+                  );
 
                 if (totalUnitCount > 0) {
                   return (
