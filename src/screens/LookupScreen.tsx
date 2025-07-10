@@ -2882,13 +2882,53 @@ export default function LookupScreen() {
                     />
                   )}
               </View>
-              {/* Right column - empty for future use */}
+              {/* Right column - Calculate and Clear buttons */}
               <View
                 style={[
                   styles.halfWidthWrapper,
-                  { marginLeft: getSpacing("xs"), width: "50%" },
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    flexDirection: "row",
+                    gap: getSpacing("sm"),
+                  },
                 ]}
-              />
+              >
+                <TouchableOpacity
+                  style={[
+                    styles.searchButton,
+                    isLoading && styles.searchButtonDisabled,
+                    { flex: 1 },
+                  ]}
+                  onPress={handleLookup}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator color={BRAND_COLORS.white} />
+                  ) : (
+                    <>
+                      <Ionicons
+                        name="search"
+                        size={getResponsiveValue(18, 22)}
+                        color={BRAND_COLORS.white}
+                      />
+                      <Text style={styles.searchButtonText}>Calculate</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.clearButton, { flex: 1 }]}
+                  onPress={handleClearAll}
+                >
+                  <Ionicons
+                    name="backspace-outline"
+                    size={getResponsiveValue(18, 22)}
+                    color={BRAND_COLORS.white}
+                  />
+                  <Text style={styles.clearButtonText}>Clear</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* Origin row */}
@@ -3139,53 +3179,6 @@ export default function LookupScreen() {
             )}
           </View>
         )}
-      </View>
-
-      {/* Action Buttons positioned above footer */}
-      <View
-        style={[
-          styles.actionButtonsRow,
-          {
-            position: "absolute",
-            bottom: getResponsiveValue(120, 140), // Position above footer
-            left: getSpacing("md"),
-            right: getSpacing("md"),
-            justifyContent: "center",
-            gap: getSpacing("md"),
-            zIndex: 30,
-          },
-        ]}
-      >
-        <TouchableOpacity
-          style={[
-            styles.searchButton,
-            isLoading && styles.searchButtonDisabled,
-          ]}
-          onPress={handleLookup}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color={BRAND_COLORS.white} />
-          ) : (
-            <>
-              <Ionicons
-                name="search"
-                size={getResponsiveValue(18, 22)}
-                color={BRAND_COLORS.white}
-              />
-              <Text style={styles.searchButtonText}>Calculate</Text>
-            </>
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.clearButton} onPress={handleClearAll}>
-          <Ionicons
-            name="backspace-outline"
-            size={getResponsiveValue(18, 22)}
-            color={BRAND_COLORS.white}
-          />
-          <Text style={styles.clearButtonText}>Clear</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Data Source Info */}
@@ -4145,16 +4138,6 @@ const styles = StyleSheet.create({
     fontSize: getTypographySize("lg"),
     ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
-  },
-  actionButtonsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: getResponsiveValue(8, 12), // Reduced margin
-    paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad
-        ? SCREEN_WIDTH * 0.25
-        : getResponsiveValue(8, 12), // Reduced padding
   },
   clearButton: {
     backgroundColor: BRAND_COLORS.orange,
