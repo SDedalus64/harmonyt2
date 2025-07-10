@@ -2560,7 +2560,7 @@ export default function LookupScreen() {
                         onFocus={() => handleFieldFocusWrapper("units")}
                       />
                       <TouchableOpacity
-                        style={styles.addButton}
+                        style={styles.addButtonCompact}
                         onPress={handleAddUnitCount}
                       >
                         <Ionicons
@@ -2574,7 +2574,7 @@ export default function LookupScreen() {
                     {/* Added units chips */}
                     {unitCounts.length > 0 && (
                       <View style={styles.chipsContainer}>
-                        {unitCounts.map((unit) => (
+                        {unitCounts.map((unit: { id: string; amount: number; label?: string }) => (
                           <TouchableOpacity
                             key={unit.id}
                             style={styles.chip}
@@ -3149,7 +3149,7 @@ const styles = StyleSheet.create({
   multiFieldInput: {
     flex: 1,
   },
-  addButton: {
+  addButtonCompact: {
     padding: 8,
   },
   chipsContainer: {
