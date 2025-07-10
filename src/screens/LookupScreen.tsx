@@ -86,6 +86,8 @@ import {
 import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { haptics } from "../utils/haptics";
+import { useInfoTab } from "../hooks/useInfoTab";
+import { InfoTab } from "../components/InfoTab";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -316,414 +318,25 @@ export default function LookupScreen() {
   ).current;
   const navDrawerOpacity = useRef(new Animated.Value(0)).current;
 
-  // after other state declarations add:
+  // Info drawer & floating tab
   const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
-  const [activeField, setActiveField] = useState<InfoFieldKey | null>(null);
-  const [tabY, setTabY] = useState<number>(0);
   const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false);
 
-  // Opacity for fading info tab (iPhone only)
-  const infoTabOpacity = useRef(new Animated.Value(0)).current;
-
-  // Determine if tab should be visible
-  const shouldShowInfoTab = !!activeField && !infoDrawerVisible && !isTablet();
-
-  // Animate tab opacity with fade-out then fade-in when field changes or visibility toggles (iPhone)
-  const prevVisibleRef = useRef(false);
-
-  useEffect(() => {
-    if (isTablet()) return;
-
-    const wasVisible = prevVisibleRef.current;
-
-    if (shouldShowInfoTab && !wasVisible) {
-      // Fade in once when becoming visible
-      Animated.timing(infoTabOpacity, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    } else if (!shouldShowInfoTab && wasVisible) {
-      // Fade out when hiding
-      Animated.timing(infoTabOpacity, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }
-
-    prevVisibleRef.current = shouldShowInfoTab;
-  }, [shouldShowInfoTab]);
-
-  const fieldRefs = {
-    code: useRef<View>(null),
-    declared: useRef<View>(null),
-    freight: useRef<View>(null),
-    units: useRef<View>(null),
-  } as const;
-
-  const handleFieldFocus = (field: InfoFieldKey) => {
-    // User is interacting with the form – collapse FABs
-    closeMainFab();
-    setActiveField(field);
-    // Collapse HTS description when focusing other fields
-    setHtsDescriptionExpanded(false);
-    // measure position
-    const ref = fieldRefs[field as keyof typeof fieldRefs];
-    if (ref && ref.current) {
-      // Add a small delay on Android to ensure layout is complete
-      const measureDelay = Platform.OS === "android" ? 50 : 0;
-
-      setTimeout(() => {
-        if (ref.current) {
-          // Use UIManager.measure for Android as measureInWindow can be unreliable
-          if (Platform.OS === "android") {
-            const handle = findNodeHandle(ref.current);
-            if (handle) {
-              UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-                console.log(
-                  `[InfoTab] Android UIManager.measure - Field: ${field}, x: ${x}, y: ${y}, width: ${width}, height: ${height}, pageX: ${pageX}, pageY: ${pageY}`,
-                );
-
-                if (
-                  typeof pageY === "number" &&
-                  typeof height === "number" &&
-                  !isNaN(pageY) &&
-                  !isNaN(height) &&
-                  pageY > 0 &&
-                  height > 0
-                ) {
-                  const tabHeight = 40;
-                  // pageY is already screen-relative, don't subtract insets.top
-                  // Instead, just use pageY directly and center the tab
-                  const centerY = pageY + height / 2 - tabHeight / 2;
-
-                  console.log(
-                    `[InfoTab] Android calculated - pageY: ${pageY}, height: ${height}, centerY: ${centerY}, insets.top: ${insets.top}`,
-                  );
-
-                  setTabY(Math.max(50, centerY));
-                } else {
-                  // Fallback with a better default based on field
-                  // Final positions - perfectly aligned
-                  const fieldDefaults = {
-                    code: 322, // Perfect!
-                    declared: 433, // Perfect!
-                    freight: 489, // Added 2px more
-                    units: 546, // Perfect!
-                  };
-                  const fallbackY = field ? fieldDefaults[field] : 200;
-                  console.log(
-                    `[InfoTab] Android measure failed for field: ${field}, using fallback: ${fallbackY}`,
-                  );
-                  setTabY(fallbackY || 200);
-                }
-              });
-            }
-          } else {
-            // iOS uses measureInWindow as before
-            ref.current.measureInWindow((x, y, width, height) => {
-              if (
-                typeof y === "number" &&
-                typeof height === "number" &&
-                !isNaN(y) &&
-                !isNaN(height) &&
-                y > 0 &&
-                height > 0
-              ) {
-                const spacing = getSpacing("sm");
-                if (typeof spacing === "number" && !isNaN(spacing)) {
-                  setTabY(y + height / 2 - 20 - spacing);
-                }
-              } else {
-                setTabY(200);
-              }
-            });
-          }
-        }
-      }, measureDelay);
-    }
-  };
-
-  const handleInfoPress = (field: InfoFieldKey) => {
-    setActiveField(field);
-    setInfoDrawerVisible(true);
-  };
-
-  useEffect(() => {
-    loadHistory();
-    // Tariff data is now preloaded in App.tsx
-  }, []);
-
-  // Animation effects for navigation drawers
-  useEffect(() => {
-    animateHistoryDrawer(mainHistoryDrawerVisible);
-  }, [mainHistoryDrawerVisible]);
-
-  useEffect(() => {
-    animateLinksDrawer(linksDrawerVisible);
-  }, [linksDrawerVisible]);
-
-  // Loading modal animation
-  useEffect(() => {
-    if (showLoadingModal) {
-      // Start spinning animation
-      Animated.loop(
-        Animated.timing(loadingSpinValue, {
-          toValue: 1,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-      ).start();
-    } else {
-      // Reset animation
-      loadingSpinValue.setValue(0);
-    }
-  }, [showLoadingModal]);
-
-  // Update the search function to use async search
-  useEffect(() => {
-    const searchForSuggestions = async () => {
-      if (htsCode.length >= 3) {
-        setShowHtsSuggestions(true);
-        setHtsSearchMessage("Searching...");
-
-        try {
-          console.log("[Search] Searching for:", htsCode);
-          // Use the segmented search service for better performance
-          const results = await tariffSearchService.searchByPrefix(htsCode, 15);
-          console.log("[Search] Results:", results.length);
-
-          setHtsSuggestions(results);
-          if (results.length === 0) {
-            setHtsSearchMessage("");
-          } else {
-            setHtsSearchMessage(
-              results.length === 15 ? "Showing first 15 matches" : "",
-            );
-          }
-        } catch (error) {
-          console.error("[Search] Error:", error);
-          setHtsSuggestions([]);
-          setHtsSearchMessage("Error searching HTS codes");
-        }
-      } else {
-        setShowHtsSuggestions(false);
-        setHtsSuggestions([]);
-        setHtsSearchMessage("");
-      }
-    };
-
-    const debounceTimer = setTimeout(searchForSuggestions, 150);
-    return () => clearTimeout(debounceTimer);
-  }, [htsCode]);
-
-  // Collapse floating menu when form expands/contracts or drawers open
-  useEffect(() => {
-    const formHasContent =
-      showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
-    const contentDrawersOpen =
-      historyDrawerVisible ||
-      newsDrawerVisible ||
-      analyticsDrawerVisible ||
-      descriptionExpanded ||
-      htsDescriptionExpanded;
-    const navigationDrawersOpen =
-      mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible || tariffEngineeringDrawerVisible;
-
-    // Collapse main FAB menu when form has content or any drawers are open
-    if (formHasContent || contentDrawersOpen || navigationDrawersOpen) {
-      closeMainFab();
-    }
-  }, [
-    showHtsSuggestions,
-    selectedCountry,
-    declaredValue,
-    historyDrawerVisible,
-    newsDrawerVisible,
-    analyticsDrawerVisible,
-    descriptionExpanded,
-    htsDescriptionExpanded,
-    mainHistoryDrawerVisible,
-    settingsDrawerVisible,
-    linksDrawerVisible,
-    tariffEngineeringDrawerVisible,
-  ]);
-
-  const handleHtsSelection = (code: string, description?: string) => {
-    haptics.selection();
-    setHtsCode(code);
-    // Remove the HTS code from the beginning of the description if it exists
-    let cleanDescription = description || "";
-    if (cleanDescription.startsWith(code)) {
-      cleanDescription = cleanDescription.substring(code.length).trim();
-    }
-    setSelectedDescription(cleanDescription); // Store the cleaned description
-    setShowHtsSuggestions(false);
-    setHtsSuggestions([]); // Clear suggestions
-    Keyboard.dismiss(); // Dismiss keyboard
-  };
-
-  // Format number with commas
-  const formatNumberWithCommas = (value: string): string => {
-    // Remove any non-digit characters except decimal point
-    const cleanValue = value.replace(/[^\d.]/g, "");
-
-    // Handle decimal part separately
-    const parts = cleanValue.split(".");
-    const wholePart = parts[0];
-    const decimalPart = parts.length > 1 ? "." + parts[1] : "";
-
-    // Add commas to the whole part
-    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-    return formattedWholePart + decimalPart;
-  };
-
-  // Handle declared value change
-  const handleDeclaredValueChange = (value: string) => {
-    // Remove $ and commas, keep only numbers and decimal
-    const cleanedValue = value.replace(/[$,]/g, "");
-    const numericValue = cleanedValue.replace(/[^\d.]/g, "");
-    setDeclaredValue(numericValue);
-
-    // Don't format while typing, just show the raw number
-    setFormattedDeclaredValue(numericValue);
-  };
-
-  // Handle freight cost change
-  const handleFreightCostChange = (value: string) => {
-    // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d.]/g, "");
-    setFreightCost(numericValue);
-
-    // Format the display value with commas
-    setFormattedFreightCost(formatNumberWithCommas(value));
-  };
-
-  // Handle unit count change
-  const handleUnitCountChange = (value: string) => {
-    // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d]/g, ""); // No decimals for unit count
-    setUnitCount(numericValue);
-
-    // Format the display value with commas
-    setFormattedUnitCount(formatNumberWithCommas(numericValue));
-
-    // Hide calculations when value changes (user must click Calc)
-    // Unit calculations now always show when units are provided
-    // No need to reset showUnitCalculations state
-  };
-  <View style={styles.dutiableContainer}>
-    <Text style={styles.dutiableLabel}>Dutiable Value</Text>
-    <Text style={styles.dutiableValue}>
-      $
-      {(
-        (parseFloat(declaredValue) || 0) +
-        (parseFloat(freightCost) || 0) +
-        (additionalCosts.reduce((sum, cost) => sum + cost.amount, 0) || 0)
-      ).toFixed(2)}
-    </Text>
-  </View>;
-  // Multi-field handlers
-  const handleAddAdditionalCost = () => {
-    const amount = parseFloat(currentAdditionalCost.replace(/[^0-9.]/g, ""));
-    if (!isNaN(amount) && amount > 0) {
-      setAdditionalCosts([
-        ...additionalCosts,
-        {
-          id: Date.now().toString(),
-          amount,
-        },
-      ]);
-      setCurrentAdditionalCost("");
-      haptics.selection();
-    }
-  };
-
-  const handleDeleteAdditionalCost = (id: string) => {
-    setAdditionalCosts(additionalCosts.filter((cost) => cost.id !== id));
-    haptics.selection();
-  };
-
-  const handleAddUnitCount = () => {
-    const amount = parseFloat(currentUnitCount);
-    if (!isNaN(amount) && amount > 0) {
-      setUnitCounts([
-        ...unitCounts,
-        {
-          id: Date.now().toString(),
-          amount,
-        },
-      ]);
-      setCurrentUnitCount("");
-      haptics.selection();
-    }
-  };
-
-  const handleDeleteUnitCount = (id: string) => {
-    setUnitCounts(unitCounts.filter((unit) => unit.id !== id));
-    haptics.selection();
-  };
-
-  const formatArithmetic = () => {
-    const declaredVal = parseFloat(declaredValue) || 0;
-    const additionalTotal = additionalCosts.reduce(
-      (sum, cost) => sum + cost.amount,
-      0,
-    );
-    const total = declaredVal + additionalTotal;
-
-    if (additionalCosts.length === 0) {
-      return (
-        <Text style={styles.arithmeticText}>
-          ${formatNumberWithCommas(declaredVal.toString())}
-        </Text>
-      );
-    }
-
-    return (
-      <View>
-        <Text style={styles.arithmeticText}>
-          ${formatNumberWithCommas(declaredVal.toString())}
-        </Text>
-        {additionalCosts.map((cost, index) => (
-          <Text key={cost.id} style={styles.arithmeticText}>
-            + ${formatNumberWithCommas(cost.amount.toString())}
-          </Text>
-        ))}
-        <View style={styles.arithmeticDivider} />
-        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
-          ${formatNumberWithCommas(total.toString())}
-        </Text>
-      </View>
-    );
-  };
-
-  const formatUnitArithmetic = () => {
-    const total = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
-
-    if (unitCounts.length === 1) {
-      return (
-        <Text style={styles.arithmeticText}>{total.toFixed(1)} units</Text>
-      );
-    }
-
-    return (
-      <View>
-        {unitCounts.map((unit, index) => (
-          <Text key={unit.id} style={styles.arithmeticText}>
-            {index === 0 ? "" : "+ "}
-            {unit.amount.toFixed(1)}
-          </Text>
-        ))}
-        <View style={styles.arithmeticDivider} />
-        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
-          {total.toFixed(1)} units
-        </Text>
-      </View>
-    );
-  };
+  // Hook that controls the floating info-tab behaviour on both phone & tablet
+  const {
+    fieldRefs,
+    activeField,
+    setActiveField,
+    tabY,
+    opacity: infoTabOpacity,
+    shouldShowTab,
+    handleFieldFocus,
+    handleInfoTabDrag,
+    size: infoTabSize,
+  } = useInfoTab({
+    fieldKeys: ["code", "declared", "freight", "units"],
+    infoDrawerVisible,
+  });
 
   // Handle navigation params
   useEffect(() => {
@@ -1949,10 +1562,7 @@ export default function LookupScreen() {
 
           {/* Unit Calculations - Display directly when units are provided */}
           {(() => {
-            const totalUnitCount = unitCounts.reduce(
-              (sum, unit) => sum + unit.amount,
-              0,
-            );
+            const totalUnitCount = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
             const totalDeclaredValue =
               parseFloat(declaredValue) +
               additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
@@ -3342,29 +2952,14 @@ export default function LookupScreen() {
           field={activeField}
         />
 
-        {/* Info tab for iPhone fades in/out - TEMPORARILY HIDDEN */}
-        {false && !isTablet() && shouldShowInfoTab && tabY > 0 && (
-          <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={true}>
-            <Animated.View
-              pointerEvents="auto"
-              style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
-            >
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onPress={() => setInfoDrawerVisible(true)}
-              >
-                <Ionicons
-                  name="information-circle-outline"
-                  size={24}
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
-          </PanGestureHandler>
+        {shouldShowTab && tabY > 0 && (
+          <InfoTab
+            y={tabY}
+            opacity={infoTabOpacity}
+            size={infoTabSize}
+            onPress={() => setInfoDrawerVisible(true)}
+            onDrag={handleInfoTabDrag}
+          />
         )}
 
         <FirstTimeGuideScreen
