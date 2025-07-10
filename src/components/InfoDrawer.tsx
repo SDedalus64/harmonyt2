@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import {
   View,
   Text,
@@ -28,10 +28,12 @@ interface InfoDrawerProps {
   field: InfoFieldKey;
 }
 
-const FIELD_CONTENT: Record<
-  Exclude<InfoFieldKey, null>,
-  { title: string; body: string }
-> = {
+interface FieldCopy {
+  title: string;
+  body: string;
+}
+
+const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, FieldCopy> = {
   code: {
     title: "🎯 Why We Only Ask for 8 Digits of the HTS Code",
     body: `✅ 6 digits = global HS code
@@ -136,7 +138,7 @@ const FIELD_CONTENT: Record<
   },
 };
 
-const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
+const InfoDrawer: FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
   if (!field) return null;
   const content = FIELD_CONTENT[field];
   const insets = useSafeAreaInsets();
@@ -152,8 +154,8 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
     { paddingTop: insets.top + getSpacing("lg") },
   ];
 
-  const renderBody = (bodyString: string) => {
-    return bodyString.split("\n").map((raw, idx) => {
+  const renderBody = (bodyString: string): JSX.Element[] => {
+    return bodyString.split("\n").map((raw: string, idx: number) => {
       const trimmed = raw.trim();
       if (!trimmed) return <View key={idx} style={{ height: 4 }} />;
       if (trimmed === "⸻") return <View key={idx} style={styles.separator} />;
