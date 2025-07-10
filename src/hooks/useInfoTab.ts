@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState, createRef, RefObject } from "react";
+import React from "react"; // ensures React types available for TS
+import { useEffect, useMemo, useRef, useState, createRef, type RefObject } from "react";
 import {
   Animated,
   Platform,
