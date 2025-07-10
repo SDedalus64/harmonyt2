@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -140,8 +141,11 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
   const content = FIELD_CONTENT[field];
   const insets = useSafeAreaInsets();
 
-  // Drawer width: phones use 90% of screen, tablets fixed 500px
-  const drawerWidth = isTablet() ? 500 : "90%";
+  // Drawer width: phones use 90% of screen; tablets take 60% up to 600px
+  const { width: SCREEN_WIDTH } = Dimensions.get("window");
+  const drawerWidth = isTablet()
+    ? Math.min(SCREEN_WIDTH * 0.6, 600)
+    : "90%";
 
   const containerStyles = [
     styles.container,

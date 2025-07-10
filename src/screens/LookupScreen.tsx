@@ -2961,7 +2961,7 @@ export default function LookupScreen() {
         >
           <HistoryColumnContent
             visible={mainHistoryDrawerVisible}
-            onItemPress={(item) => {
+            onItemPress={(item: HistoryItem) => {
               // Close the history drawer
               setMainHistoryDrawerVisible(false);
               // Populate the form with the selected history item
