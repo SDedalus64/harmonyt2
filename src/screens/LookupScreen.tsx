@@ -86,6 +86,10 @@ import { haptics } from "../utils/haptics";
 import { useInfoTab } from "../hooks/useInfoTab";
 import { InfoTab } from "../components/InfoTab";
 
+// Allow inline asset imports with require()
+// eslint-disable-next-line @typescript-eslint/ban-types
+declare const require: any;
+
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const GUIDE_STORAGE_KEY = "@HarmonyTi:hasSeenFirstTimeGuide";
@@ -2915,7 +2919,7 @@ export default function LookupScreen() {
         >
           <HistoryColumnContent
             visible={mainHistoryDrawerVisible}
-            onItemPress={(item) => {
+            onItemPress={(item: HistoryItem) => {
               // Close the history drawer
               setMainHistoryDrawerVisible(false);
               // Populate the form with the selected history item
