@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Switch,
   Keyboard,
   Dimensions,
   Platform,
@@ -246,26 +245,25 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({
             </View>
 
             <View style={styles.modalCheckboxRow}>
-              <Switch
-                value={agreed}
-                onValueChange={(value) => {
-                  setAgreed(value);
-                  // Scroll to bottom when user toggles the switch on
-                  if (value) {
+              <TouchableOpacity
+                onPress={() => {
+                  const newValue = !agreed;
+                  setAgreed(newValue);
+                  // Scroll to bottom when user toggles the checkbox on
+                  if (newValue) {
                     requestAnimationFrame(() => {
                       scrollViewRef.current?.scrollToEnd({ animated: true });
                     });
                   }
                 }}
-                trackColor={{ false: "#E1E1E1", true: "#2EAAF2" }}
-                thumbColor="#fff"
-                // Scale switch for tablets
-                style={
-                  dimensions.isTablet
-                    ? { transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }
-                    : {}
-                }
-              />
+                style={{ paddingRight: 8 }}
+              >
+                <Ionicons
+                  name={agreed ? "checkbox" : "square-outline"}
+                  size={dimensions.isTablet ? 30 : 24}
+                  color={agreed ? "#2EAAF2" : "#666666"}
+                />
+              </TouchableOpacity>
               <Text
                 style={[
                   styles.modalCheckboxLabel,

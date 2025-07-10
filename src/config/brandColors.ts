@@ -12,6 +12,7 @@ export const BRAND_COLORS = {
 
   // Supporting colors
   lightBlue: "#4397EC", // Secondary blue
+  lighterBlue: "#7FC4F7", // Lighter blue for better contrast
   mediumBlue: "#217DB2", // Medium blue for headers
   orange: "#FFCC01", // Accent orange
 

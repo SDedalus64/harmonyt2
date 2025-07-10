@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Switch,
   ScrollView,
   Alert,
   Image,
@@ -372,15 +371,21 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Auto-Save to History</Text>
             </View>
-            <Switch
-              value={settings.autoSaveToHistory}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 haptics.selection();
-                updateSetting("autoSaveToHistory", value);
+                updateSetting("autoSaveToHistory", !settings.autoSaveToHistory);
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  settings.autoSaveToHistory ? "checkbox" : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.settingItem}>
@@ -392,15 +397,26 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Show Unit Calcs </Text>
             </View>
-            <Switch
-              value={settings.showUnitCalculations ?? true}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 haptics.selection();
-                updateSetting("showUnitCalculations", value);
+                updateSetting(
+                  "showUnitCalculations",
+                  !(settings.showUnitCalculations ?? true),
+                );
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  (settings.showUnitCalculations ?? true)
+                    ? "checkbox"
+                    : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
 
           {/* Quick Tour Toggle */}
@@ -413,15 +429,26 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Show Quick Tour</Text>
             </View>
-            <Switch
-              value={settings.showQuickTour ?? true}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 haptics.selection();
-                updateSetting("showQuickTour", value);
+                updateSetting(
+                  "showQuickTour",
+                  !(settings.showQuickTour ?? true),
+                );
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  (settings.showQuickTour ?? true)
+                    ? "checkbox"
+                    : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.settingItem}>
@@ -433,15 +460,26 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Notifications</Text>
             </View>
-            <Switch
-              value={settings.notifications ?? true}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 haptics.selection();
-                updateSetting("notifications", value);
+                updateSetting(
+                  "notifications",
+                  !(settings.notifications ?? true),
+                );
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  (settings.notifications ?? true)
+                    ? "checkbox"
+                    : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.settingItem}>
@@ -453,18 +491,27 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Haptic Feedback</Text>
             </View>
-            <Switch
-              value={settings.hapticFeedback ?? true}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 // Only provide haptic feedback if it's being turned ON
-                if (value) {
+                const newValue = !(settings.hapticFeedback ?? true);
+                if (newValue) {
                   haptics.selection();
                 }
-                updateSetting("hapticFeedback", value);
+                updateSetting("hapticFeedback", newValue);
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  (settings.hapticFeedback ?? true)
+                    ? "checkbox"
+                    : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.settingItem}>
@@ -476,15 +523,21 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Dark Mode</Text>
             </View>
-            <Switch
-              value={settings.darkMode ?? false}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 haptics.selection();
-                updateSetting("darkMode", value);
+                updateSetting("darkMode", !(settings.darkMode ?? false));
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  (settings.darkMode ?? false) ? "checkbox" : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -501,15 +554,23 @@ export default function SettingsScreen({
               />
               <Text style={styles.settingItemText}>Use Cellular Data</Text>
             </View>
-            <Switch
-              value={settings.cellularData ?? true}
-              onValueChange={(value) => {
+            <TouchableOpacity
+              onPress={() => {
                 haptics.selection();
-                updateSetting("cellularData", value);
+                updateSetting("cellularData", !(settings.cellularData ?? true));
               }}
-              trackColor={{ false: COLORS.mediumGray, true: COLORS.lightBlue }}
-              thumbColor={COLORS.white}
-            />
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                name={
+                  (settings.cellularData ?? true)
+                    ? "checkbox"
+                    : "square-outline"
+                }
+                size={24}
+                color={COLORS.darkBlue}
+              />
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity

@@ -2043,11 +2043,10 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - SocketRocket (~> 0.7.1)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -2320,6 +2319,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: adb397651e1c00672c12e9495babca70777e411e
 
-PODFILE CHECKSUM: 3e6376b2375e578a9a62d65523eb526786f46f30
+PODFILE CHECKSUM: 4055640a972451cd4d7281754ce1dcd8c6417e51
 
 COCOAPODS: 1.16.2

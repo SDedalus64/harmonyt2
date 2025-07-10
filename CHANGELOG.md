@@ -8,6 +8,59 @@ refactor: enhance LookupScreen with type annotations and layout improvements
 
 [2025-07-07]
 
+## UI/UX Enhancements
+
+### Layout Improvements
+
+- Fixed layout consistency issues by applying absolute positioning and minimum heights to all right column containers
+- Implemented consistent spacing and alignment across iPhone and iPad layouts
+- Added 10px left padding to input container on iPhone to accommodate info tabs
+
+### Chip Display Updates
+
+- Removed labels from cost and unit chips for cleaner appearance
+- Right-aligned chip amounts for better visual hierarchy
+- Changed plus icon behavior to clear field and add to running total
+- Moved delete (X) icon to costs line for intuitive interaction
+- Updated chip text to use light blue color (#7FC4F7) for better contrast
+- Applied Geologica font family to chip text with 2% size reduction
+
+### Button and Control Enhancements
+
+- Added duplicate Calculate/Clear buttons below Info container for easier access
+- Stacked Calculate/Clear buttons vertically on iPhone (horizontal on iPad)
+- Adjusted footer text sizing: iPhone 1.35x (reduced by 10%), iPad 1.5x
+
+### Info Drawer and Tabs
+
+- Restored info drawer functionality with keyboard dismissal on open and refocus on close
+- Added individual static info tabs for each field (HTS Code, Declared Value, Units)
+- Configured tab sizing: iPhone 46x46px, iPad 50x50px, icon size 24-26px
+- Positioned tabs: iPhone -38px left (extends to 8px with 2px gap), iPad -25px left (extends to 25px with 5px gap)
+
+### Unit Display Improvements
+
+- Added comma formatting for units at thousand level (e.g., "1,000 units")
+- Appended "units" text after numbers for clarity
+- Added divider line beneath costs before total on right side calculation
+- Simplified unit display by removing unnecessary total line (units only have one value)
+
+### Keyboard and Input Handling
+
+- Fixed units field being covered by number pad with smart scrolling
+- Reduced scroll distance for units field (100px iPhone, 80px iPad)
+- Enabled automatic scroll reset when keyboard dismisses
+- Added keyboard dismissal when opening any menu/drawer to prevent overlap
+
+### Performance Optimizations
+
+- **Main ScrollView**: Added smooth scrolling properties (bounces, decelerationRate, scrollEventThrottle)
+- **Results ScrollView**: Optimized with momentum scrolling and 60fps event handling
+- **WebView Browser**: Enhanced with hardware acceleration, smooth scrolling, and viewport optimization
+  - Added decelerationRate, bounces, and contentInsetAdjustmentBehavior
+  - Enabled hardware acceleration for Android
+  - Injected viewport meta tag for better mobile content display
+
 refactor: enhance LookupScreen with type annotations and layout improvements
 
 - Added TypeScript type annotations for better type safety in UIManager.measure and various functions.

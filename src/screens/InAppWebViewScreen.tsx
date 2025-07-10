@@ -81,6 +81,33 @@ export default function InAppWebViewScreen({ route }: Props) {
         style={styles.webview}
         sharedCookiesEnabled={true}
         cacheEnabled={true}
+        // Smooth scrolling optimizations
+        decelerationRate="normal"
+        scrollEnabled={true}
+        bounces={true}
+        contentInsetAdjustmentBehavior="automatic"
+        // Android-specific smooth scrolling
+        overScrollMode="always"
+        nestedScrollEnabled={true}
+        // iOS-specific optimizations
+        pullToRefreshEnabled={false}
+        allowsInlineMediaPlayback={true}
+        // Performance optimizations
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        // Hardware acceleration for Android
+        androidHardwareAccelerationDisabled={false}
+        androidLayerType="hardware"
+        // Viewport and content sizing
+        scalesPageToFit={Platform.OS === "android"}
+        automaticallyAdjustContentInsets={true}
+        injectedJavaScript={`
+          const meta = document.createElement('meta');
+          meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+          meta.setAttribute('name', 'viewport');
+          document.getElementsByTagName('head')[0].appendChild(meta);
+          true;
+        `}
         onNavigationStateChange={(navState) => {
           setCanGoBack(navState.canGoBack);
           setCanGoForward(navState.canGoForward);
@@ -123,6 +150,7 @@ const styles = StyleSheet.create({
   },
   navButtonText: { color: COLORS.white, fontSize: 18, fontWeight: "bold" },
   webview: {
+    backgroundColor: "transparent",
     flex: 1,
   },
 });

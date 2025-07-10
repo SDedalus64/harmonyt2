@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Switch,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -132,17 +131,16 @@ const FirstTimeGuideScreen: React.FC<FirstTimeGuideScreenProps> = ({
 
             <View style={styles.footer}>
               <View style={styles.switchContainer}>
-                <Switch
-                  trackColor={{
-                    false: BRAND_COLORS.mediumGray,
-                    true: BRAND_COLORS.electricBlue,
-                  }}
-                  thumbColor={
-                    dontShowAgain ? BRAND_COLORS.white : BRAND_COLORS.lightGray
-                  }
-                  onValueChange={setDontShowAgain}
-                  value={dontShowAgain}
-                />
+                <TouchableOpacity
+                  onPress={() => setDontShowAgain(!dontShowAgain)}
+                  style={{ paddingRight: 8 }}
+                >
+                  <Ionicons
+                    name={dontShowAgain ? "checkbox" : "square-outline"}
+                    size={24}
+                    color={BRAND_COLORS.white}
+                  />
+                </TouchableOpacity>
                 <Text style={styles.switchLabel}>Don't show this again</Text>
               </View>
 
