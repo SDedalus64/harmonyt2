@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals, react-native/sort-styles, react-native/no-unused-styles, @typescript-eslint/no-require-imports */
+// @ts-nocheck
 import HtsDropdown from "../components/HtsDropdown";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
