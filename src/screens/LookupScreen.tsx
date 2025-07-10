@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals, react-native/sort-styles, react-native/no-unused-styles, @typescript-eslint/no-require-imports */
 import HtsDropdown from "../components/HtsDropdown";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
 import {
   View,
   Text,
@@ -328,7 +328,7 @@ export default function LookupScreen() {
   const infoTabOpacity = useRef(new Animated.Value(0)).current;
 
   // Determine if tab should be visible
-  const shouldShowInfoTab = !!activeField && !infoDrawerVisible && !isTablet();
+  const shouldShowInfoTab = !infoDrawerVisible; // Always show tabs when drawer is closed
 
   // Animate tab opacity with fade-out then fade-in when field changes or visibility toggles (iPhone)
   const prevVisibleRef = useRef(false);
@@ -449,6 +449,7 @@ export default function LookupScreen() {
 
   const handleInfoPress = (field: InfoFieldKey) => {
     setActiveField(field);
+    Keyboard.dismiss();
     setInfoDrawerVisible(true);
   };
 
@@ -638,40 +639,47 @@ export default function LookupScreen() {
   const handleAddAdditionalCost = () => {
     const amount = parseFloat(currentAdditionalCost.replace(/[^0-9.]/g, ""));
     if (!isNaN(amount) && amount > 0) {
+      // Add to existing total instead of replacing
+      const currentTotal =
+        additionalCosts.length > 0 ? additionalCosts[0].amount : 0;
       setAdditionalCosts([
-        ...additionalCosts,
         {
-          id: Date.now().toString(),
-          amount,
+          id: "total",
+          amount: currentTotal + amount,
         },
       ]);
+      // Clear the field for another entry
       setCurrentAdditionalCost("");
       haptics.selection();
     }
   };
 
   const handleDeleteAdditionalCost = (id: string) => {
-    setAdditionalCosts(additionalCosts.filter((cost) => cost.id !== id));
+    // Clear the entire cost chip
+    setAdditionalCosts([]);
     haptics.selection();
   };
 
   const handleAddUnitCount = () => {
     const amount = parseFloat(currentUnitCount);
     if (!isNaN(amount) && amount > 0) {
+      // Add to existing total instead of replacing
+      const currentTotal = unitCounts.length > 0 ? unitCounts[0].amount : 0;
       setUnitCounts([
-        ...unitCounts,
         {
-          id: Date.now().toString(),
-          amount,
+          id: "total",
+          amount: currentTotal + amount,
         },
       ]);
+      // Clear the field for another entry
       setCurrentUnitCount("");
       haptics.selection();
     }
   };
 
   const handleDeleteUnitCount = (id: string) => {
-    setUnitCounts(unitCounts.filter((unit) => unit.id !== id));
+    // Clear the entire unit chip
+    setUnitCounts([]);
     haptics.selection();
   };
 
@@ -685,22 +693,34 @@ export default function LookupScreen() {
 
     if (additionalCosts.length === 0) {
       return (
-        <Text style={styles.arithmeticText}>
-          ${formatNumberWithCommas(declaredVal.toString())}
-        </Text>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={styles.arithmeticText}>
+            ${formatNumberWithCommas(declaredVal.toString())}
+          </Text>
+        </View>
       );
     }
 
     return (
-      <View>
+      <View style={styles.arithmeticContainer}>
         <Text style={styles.arithmeticText}>
           ${formatNumberWithCommas(declaredVal.toString())}
         </Text>
-        {additionalCosts.map((cost, index) => (
-          <Text key={cost.id} style={styles.arithmeticText}>
-            + ${formatNumberWithCommas(cost.amount.toString())}
+        <View style={styles.arithmeticRow}>
+          <Text style={styles.arithmeticText}>
+            + ${formatNumberWithCommas(additionalTotal.toString())}
           </Text>
-        ))}
+          <TouchableOpacity
+            onPress={() => handleDeleteAdditionalCost("total")}
+            style={{ position: "absolute", right: -30 }}
+          >
+            <Ionicons
+              name="close-circle"
+              size={getResponsiveValue(21, 24)}
+              color={BRAND_COLORS.darkGray}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.arithmeticDivider} />
         <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
           ${formatNumberWithCommas(total.toString())}
@@ -712,24 +732,21 @@ export default function LookupScreen() {
   const formatUnitArithmetic = () => {
     const total = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
 
-    if (unitCounts.length === 1) {
-      return (
-        <Text style={styles.arithmeticText}>{total.toFixed(1)} units</Text>
-      );
-    }
-
     return (
-      <View>
-        {unitCounts.map((unit, index) => (
-          <Text key={unit.id} style={styles.arithmeticText}>
-            {index === 0 ? "" : "+ "}
-            {unit.amount.toFixed(1)}
-          </Text>
-        ))}
-        <View style={styles.arithmeticDivider} />
-        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
-          {total.toFixed(1)} units
-        </Text>
+      <View style={{ alignItems: "flex-end" }}>
+        <View style={styles.arithmeticRow}>
+          <Text style={styles.arithmeticText}>{total.toFixed(0)}</Text>
+          <TouchableOpacity
+            onPress={() => handleDeleteUnitCount("total")}
+            style={{ position: "absolute", right: -30 }}
+          >
+            <Ionicons
+              name="close-circle"
+              size={getResponsiveValue(21, 24)}
+              color={BRAND_COLORS.darkGray}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -2815,7 +2832,14 @@ export default function LookupScreen() {
             <Text style={styles.sectionTitle}>Entry Hub</Text>
           </View>
 
-          <View style={styles.inputContainer}>
+          <View
+            style={[
+              styles.inputContainer,
+              {
+                paddingLeft: Platform.OS === "ios" && !Platform.isPad ? 10 : 0,
+              },
+            ]}
+          >
             {/* HTS Code row */}
             <View style={styles.dropdownFieldsRow}>
               <View
@@ -2861,7 +2885,7 @@ export default function LookupScreen() {
                       closeMainFab();
                       closeAllNavigationDrawers();
                     }}
-                    inputRef={htsCodeInputRef}
+                    inputRef={htsCodeInputRef as RefObject<TextInput>}
                     keyboardType="number-pad"
                     maxLength={8}
                     placeholderTextColor={BRAND_COLORS.electricBlue}
@@ -2959,7 +2983,12 @@ export default function LookupScreen() {
               <View
                 style={[
                   styles.halfWidthWrapper,
-                  { marginLeft: getSpacing("xs"), width: "50%" },
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    position: "relative",
+                    minHeight: getResponsiveValue(46, 54), // Match input height
+                  },
                 ]}
               />
             </View>
@@ -3020,13 +3049,25 @@ export default function LookupScreen() {
                   </TouchableOpacity>
                 </View>
               </View>
-              {/* Right column - empty for future use */}
+              {/* Right column - Cost chips */}
               <View
                 style={[
                   styles.halfWidthWrapper,
-                  { marginLeft: getSpacing("xs"), width: "50%" },
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    position: "relative",
+                    minHeight: getResponsiveValue(46, 54), // Match input height
+                  },
                 ]}
-              />
+              >
+                <View
+                  style={{ position: "absolute", top: 0, left: 0, right: 0 }}
+                >
+                  {(declaredValue || additionalCosts.length > 0) &&
+                    formatArithmetic()}
+                </View>
+              </View>
             </View>
 
             {/* Add Costs row */}
@@ -3075,7 +3116,12 @@ export default function LookupScreen() {
               <View
                 style={[
                   styles.halfWidthWrapper,
-                  { marginLeft: getSpacing("xs"), width: "50%" },
+                  {
+                    marginLeft: getSpacing("xs"),
+                    width: "50%",
+                    position: "relative",
+                    minHeight: getResponsiveValue(46, 54), // Match input height
+                  },
                 ]}
               />
             </View>
@@ -3128,13 +3174,24 @@ export default function LookupScreen() {
                     </TouchableOpacity>
                   </View>
                 </View>
-                {/* Right column - empty for future use */}
+                {/* Right column - Unit chips */}
                 <View
                   style={[
                     styles.halfWidthWrapper,
-                    { marginLeft: getSpacing("xs"), width: "50%" },
+                    {
+                      marginLeft: getSpacing("xs"),
+                      width: "50%",
+                      position: "relative",
+                      minHeight: getResponsiveValue(46, 54), // Match input height
+                    },
                   ]}
-                />
+                >
+                  <View
+                    style={{ position: "absolute", top: 0, left: 0, right: 0 }}
+                  >
+                    {unitCounts.length > 0 && formatUnitArithmetic()}
+                  </View>
+                </View>
               </View>
             )}
 
@@ -3146,40 +3203,72 @@ export default function LookupScreen() {
             )}
           </View>
         </View>
-      </KeyboardAwareScrollView>
 
-      {/* Chips positioned at top of Action Bar */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: getResponsiveValue(290, 350), // ~50px below input area
-          left: getSpacing("md"),
-          right: getSpacing("md"),
-          paddingHorizontal:
-            Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          zIndex: 25,
-        }}
-      >
-        {/* Left column - Cost chips */}
-        <View style={{ width: "48%", marginRight: getSpacing("xs") }}>
-          {(declaredValue || additionalCosts.length > 0) && (
-            <View style={styles.arithmeticContainer}>{formatArithmetic()}</View>
-          )}
-        </View>
-
-        {/* Right column - Unit chips */}
-        {(settings.showUnitCalculations ?? true) && (
-          <View style={{ width: "48%", marginLeft: getSpacing("xs") }}>
-            {unitCounts.length > 0 && (
-              <View style={styles.arithmeticContainer}>
-                {formatUnitArithmetic()}
-              </View>
+        {/* Additional Action Buttons below Info container */}
+        <View
+          style={{
+            flexDirection:
+              Platform.OS === "ios" && Platform.isPad ? "row" : "column",
+            justifyContent: "center",
+            gap: getSpacing("sm"),
+            marginTop: getSpacing("md"),
+            marginBottom: getSpacing("md"),
+            paddingHorizontal:
+              Platform.OS === "ios" && Platform.isPad
+                ? SCREEN_WIDTH * 0.25
+                : getSpacing("md"),
+          }}
+        >
+          <TouchableOpacity
+            style={[
+              styles.searchButton,
+              isLoading && styles.searchButtonDisabled,
+              { flex: 1 },
+            ]}
+            onPress={handleLookup}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color={BRAND_COLORS.white} />
+            ) : (
+              <>
+                <Ionicons
+                  name="calculator"
+                  size={getResponsiveValue(
+                    Platform.OS === "ios" && Platform.isPad ? 18 : 22,
+                    22,
+                  )}
+                  color={BRAND_COLORS.white}
+                />
+                {Platform.OS === "ios" && Platform.isPad && (
+                  <Text style={styles.searchButtonText}>Calculate</Text>
+                )}
+              </>
             )}
-          </View>
-        )}
-      </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.clearButton, { flex: 1 }]}
+            onPress={handleClearAll}
+          >
+            <Ionicons
+              name={
+                Platform.OS === "ios" && Platform.isPad
+                  ? "backspace-outline"
+                  : "close-circle-outline"
+              }
+              size={getResponsiveValue(
+                Platform.OS === "ios" && Platform.isPad ? 18 : 22,
+                22,
+              )}
+              color={BRAND_COLORS.white}
+            />
+            {Platform.OS === "ios" && Platform.isPad && (
+              <Text style={styles.clearButtonText}>Clear</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
 
       {/* Data Source Info */}
       <View style={[styles.dataSourceInfoContainer, { pointerEvents: "none" }]}>
@@ -3317,6 +3406,133 @@ export default function LookupScreen() {
       >
         <TariffNewsContent />
       </AnimatedDrawer>
+
+      {/* Info Drawer */}
+      <InfoDrawer
+        isOpen={infoDrawerVisible}
+        onClose={() => {
+          setInfoDrawerVisible(false);
+          // Refocus the field after drawer closes
+          if (activeField) {
+            let ref = null;
+            switch (activeField) {
+              case "code":
+                ref = htsCodeInputRef;
+                break;
+              case "declared":
+                ref = declaredValueInputRef;
+                break;
+              case "units":
+                ref = unitCountInputRef;
+                break;
+              // freight field not currently in use
+            }
+            if (ref && ref.current) {
+              setTimeout(() => {
+                ref.current?.focus();
+              }, 300);
+            }
+          }
+        }}
+        field={activeField}
+      />
+
+      {/* Info tabs - shown on both iPhone and iPad for each field */}
+      {shouldShowInfoTab && (
+        <>
+          {/* HTS Code tab */}
+          <View
+            pointerEvents="auto"
+            style={[
+              styles.infoTab,
+              {
+                top: getResponsiveValue(322, 350), // Position based on HTS Code field
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                setActiveField("code");
+                Keyboard.dismiss();
+                setInfoDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="information-circle-outline"
+                size={getResponsiveValue(24, 26)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </View>
+
+          {/* Declared Value tab */}
+          <View
+            pointerEvents="auto"
+            style={[
+              styles.infoTab,
+              {
+                top: getResponsiveValue(430, 470), // Position based on Declared Value field
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                setActiveField("declared");
+                Keyboard.dismiss();
+                setInfoDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="information-circle-outline"
+                size={getResponsiveValue(24, 26)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </View>
+
+          {/* Units tab (if enabled) */}
+          {(settings.showUnitCalculations ?? true) && (
+            <View
+              pointerEvents="auto"
+              style={[
+                styles.infoTab,
+                {
+                  top: getResponsiveValue(543, 595), // Position based on Units field
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => {
+                  setActiveField("units");
+                  Keyboard.dismiss();
+                  setInfoDrawerVisible(true);
+                }}
+              >
+                <Ionicons
+                  name="information-circle-outline"
+                  size={getResponsiveValue(24, 26)}
+                  color={BRAND_COLORS.white}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -3430,6 +3646,7 @@ const styles = StyleSheet.create({
       Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.05 : 0,
     marginBottom: getResponsiveValue(10, 12), // Add bottom margin for spacing
     gap: getResponsiveValue(5, 9), // Add gap between fields
+    minHeight: getResponsiveValue(46, 54), // Ensure consistent minimum height for all rows
   },
   halfWidthWrapper: {
     flex: 1,
@@ -4160,12 +4377,12 @@ const styles = StyleSheet.create({
   },
   infoTab: {
     position: "absolute",
-    left: -10, // Moved 10px to the left for more noticeable spacing
-    width: 40,
-    height: 40,
+    left: getResponsiveValue(-38, -25), // iPhone: extends to 8px (2px gap before field at 10px), iPad: extends to 25px (5px gap before field at 30px)
+    width: getResponsiveValue(46, 50), // iPhone: same as field height, iPad: 50px as requested
+    height: getResponsiveValue(46, 50), // iPhone: same as field height, iPad: 50px as requested
     backgroundColor: BRAND_COLORS.electricBlue,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
+    borderTopRightRadius: getResponsiveValue(23, 25),
+    borderBottomRightRadius: getResponsiveValue(23, 25),
     justifyContent: "center",
     alignItems: "center",
     ...BRAND_SHADOWS.medium,
@@ -4190,18 +4407,18 @@ const styles = StyleSheet.create({
   },
   dataSourceGradient: {
     width: "100%",
-    paddingVertical: getSpacing("xs"),
+    paddingVertical: getSpacing("sm"),
     paddingHorizontal: getSpacing("md"),
     alignItems: "center",
   },
   dataSourceInfoLine: {
     fontSize: getResponsiveValue(
-      getTypographySize("xs"),
-      getTypographySize("sm"),
+      getTypographySize("xs") * 1.35, // Reduced by 10% on iPhone
+      getTypographySize("sm") * 1.5,
     ),
     color: BRAND_COLORS.white,
     textAlign: "center",
-    lineHeight: getResponsiveValue(14, 18),
+    lineHeight: getResponsiveValue(19, 27), // Proportionally reduced on iPhone
     opacity: 0.9,
   },
   tariffEngineeringButton: {
@@ -4426,24 +4643,27 @@ const styles = StyleSheet.create({
     marginRight: getResponsiveValue(8, 10),
   },
   arithmeticContainer: {
-    marginTop: getResponsiveValue(8, 10),
-    paddingTop: getResponsiveValue(8, 10),
-    borderTopWidth: 1,
-    borderTopColor: BRAND_COLORS.lightGray,
+    alignItems: "flex-end",
   },
   arithmeticText: {
-    fontSize: getResponsiveValue(12, 14),
+    fontSize: getResponsiveValue(21, 24.5), // Increased by 75% from 12/14
     fontWeight: "600",
     color: BRAND_COLORS.darkNavy,
     textAlign: "right",
+  },
+  arithmeticRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   arithmeticDivider: {
     height: 1,
     backgroundColor: BRAND_COLORS.darkNavy,
     marginVertical: getResponsiveValue(4, 6),
+    marginTop: getResponsiveValue(8, 10),
   },
   arithmeticTotal: {
-    fontSize: getResponsiveValue(14, 16),
+    fontSize: getResponsiveValue(24.5, 28), // Increased by 75% from 14/16
     fontWeight: "700",
   },
   resultsContainer: {
