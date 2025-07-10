@@ -1,0 +1,16 @@
+﻿Screen,Element,Visible Text,Purpose,Styles in File,Lines,Key Dimension / Shape Props,X / Y Position Props,zIndex,zIndex Reason
+Action bar,Calculate button,,triggers handleLookup,LookupScreen.tsx (styles.searchButton),2770-2790,"height 40/48, padding 16/20",parent positioned absolute bottom 120/140,30,raised so it receives touches above scroll content
+Action bar,Clear button,,resets form,LookupScreen.tsx (styles.clearButton),2792-2805,"height 40/48, padding 16/20",same bar as above,30,same reason as Calculate
+Floating menu (FAB),Main FAB & sub-FABs,,navigation shortcuts,LookupScreen.tsx (styles.mainFloatingFab etc.),3170-3195,"width 45/74, borderRadius full","absolute bottom 5/15, left 20/50",100,must stay above screen for taps
+Info tab,"small ""i"" draggable tab",,opens field help,LookupScreen.tsx (styles.infoTab),3700-3710,"width/height 40, borderRadius halves","absolute left -10, top dynamic tabY",3000,ensure it floats over all
+Input area,HTS Code FieldWithInfo,,numeric 8-digit code entry,LookupScreen.tsx (styles.input),2490-2515,"height 46/54, borderRadius md","width 100%, marginBottom, flex in row",default (0),inside form container
+Input area,Declared Value Field,,currency input,LookupScreen.tsx (styles.input + .currencyInput),2550-2570,same height/padding; textAlign right,"width 100%, marginBottom",0,normal stacking
+Input area,Add Costs button (+) & chip list,,adds additional cost chips,"LookupScreen.tsx (styles.addButton, .chip)",2640-2680,"icon size 24/28, chip padding xs",chips flow in flex-wrap container,0,normal stacking
+Input area,Unit Count (+) button & chip list,,adds unit chips,"LookupScreen.tsx (styles.addButton, .chip)",2685-2730,same as above,chips flow,0,normal stacking
+Input area,CountryLookup,,dropdown origin selector,component CountryLookup.tsx,external,"width 100%, itemHeight 46",layout via flex row,default (0),normal stacking
+LookupScreen header,logo Image,,brand logo,LookupScreen.tsx (styles.logo),2906-2913,"width %, height %, maxWidth/Height",marginTop (-35 iPhone/-45 iPad),1,inside hero; no click handling
+LookupScreen header,heroSection View,,full-width blue background,LookupScreen.tsx (styles.heroSection),2895-2905,"height, width 100%","marginTop (-insets.top), paddingTop (insets.top)",1,visual background; sits behind all content
+Results drawer,Tariff Eng. header button,,opens engineering drawer,LookupScreen.tsx (headerButton),1800-1810,"borderWidth 1, minHeight 32/40",in drawer header row,0 (inside drawer),drawer's own z-index handles stacking
+Results drawer,Results AnimatedDrawer,,bottom sheet of duty results,LookupScreen.tsx (AnimatedDrawer @2820),2810-2829,"full-width, height auto",position='bottom' (handled in component),1001,overlays everything for modal effect
+Tariff-Eng drawer,TariffEngineering AnimatedDrawer,,alt-code comparison,LookupScreen.tsx (AnimatedDrawer @2824),2824-2850,"position='right', width 85%",slide-in transform handled in component,1001,must overlay results & screen
+Tariff-Eng drawer,TariffEngineeringComparison,,lists alternative HTS codes,components/TariffEngineeringComparison.tsx,1-638,"card widths 100%, padding md",ScrollView inside drawer,inherits drawer,component content; no explicit zIndex
