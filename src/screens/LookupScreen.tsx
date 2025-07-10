@@ -20,9 +20,6 @@ import {
   Modal,
   useWindowDimensions,
   ImageStyle,
-  UIManager,
-  findNodeHandle,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -86,6 +83,8 @@ import {
 import FirstTimeGuideScreen from "./FirstTimeGuideScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { haptics } from "../utils/haptics";
+import { useInfoTab } from "../hooks/useInfoTab";
+import { InfoTab } from "../components/InfoTab";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -263,6 +262,8 @@ export default function LookupScreen() {
   const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [htsDescriptionExpanded, setHtsDescriptionExpanded] = useState(false);
+  // Dedicated drawer for compact results view (legacy phone layout)
+  const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
 
   // Multi-field states
   const [currentAdditionalCost, setCurrentAdditionalCost] = useState("");
@@ -316,413 +317,37 @@ export default function LookupScreen() {
   ).current;
   const navDrawerOpacity = useRef(new Animated.Value(0)).current;
 
-  // after other state declarations add:
+  // Info drawer & floating tab
   const [infoDrawerVisible, setInfoDrawerVisible] = useState(false);
-  const [activeField, setActiveField] = useState<InfoFieldKey | null>(null);
-  const [tabY, setTabY] = useState<number>(0);
   const [showFirstTimeGuide, setShowFirstTimeGuide] = useState(false);
 
-  // Opacity for fading info tab (iPhone only)
-  const infoTabOpacity = useRef(new Animated.Value(0)).current;
+  // Hook that controls the floating info-tab behaviour on both phone & tablet
+  const {
+    fieldRefs,
+    activeField,
+    setActiveField,
+    tabY,
+    opacity: infoTabOpacity,
+    shouldShowTab,
+    handleFieldFocus,
+    handleInfoTabDrag,
+    size: infoTabSize,
+  } = useInfoTab({
+    fieldKeys: ["code", "declared", "freight", "units"],
+    infoDrawerVisible,
+  });
 
-  // Determine if tab should be visible
-  const shouldShowInfoTab = !!activeField && !infoDrawerVisible && !isTablet();
-
-  // Animate tab opacity with fade-out then fade-in when field changes or visibility toggles (iPhone)
-  const prevVisibleRef = useRef(false);
-
-  useEffect(() => {
-    if (isTablet()) return;
-
-    const wasVisible = prevVisibleRef.current;
-
-    if (shouldShowInfoTab && !wasVisible) {
-      // Fade in once when becoming visible
-      Animated.timing(infoTabOpacity, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    } else if (!shouldShowInfoTab && wasVisible) {
-      // Fade out when hiding
-      Animated.timing(infoTabOpacity, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }
-
-    prevVisibleRef.current = shouldShowInfoTab;
-  }, [shouldShowInfoTab]);
-
-  const fieldRefs = {
-    code: useRef<View>(null),
-    declared: useRef<View>(null),
-    freight: useRef<View>(null),
-    units: useRef<View>(null),
-  } as const;
-
-  const handleFieldFocus = (field: InfoFieldKey) => {
-    // User is interacting with the form – collapse FABs
-    closeMainFab();
-    setActiveField(field);
-    // Collapse HTS description when focusing other fields
-    setHtsDescriptionExpanded(false);
-    // measure position
-    const ref = fieldRefs[field as keyof typeof fieldRefs];
-    if (ref && ref.current) {
-      // Add a small delay on Android to ensure layout is complete
-      const measureDelay = Platform.OS === "android" ? 50 : 0;
-
-      setTimeout(() => {
-        if (ref.current) {
-          // Use UIManager.measure for Android as measureInWindow can be unreliable
-          if (Platform.OS === "android") {
-            const handle = findNodeHandle(ref.current);
-            if (handle) {
-              UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-                console.log(
-                  `[InfoTab] Android UIManager.measure - Field: ${field}, x: ${x}, y: ${y}, width: ${width}, height: ${height}, pageX: ${pageX}, pageY: ${pageY}`,
-                );
-
-                if (
-                  typeof pageY === "number" &&
-                  typeof height === "number" &&
-                  !isNaN(pageY) &&
-                  !isNaN(height) &&
-                  pageY > 0 &&
-                  height > 0
-                ) {
-                  const tabHeight = 40;
-                  // pageY is already screen-relative, don't subtract insets.top
-                  // Instead, just use pageY directly and center the tab
-                  const centerY = pageY + height / 2 - tabHeight / 2;
-
-                  console.log(
-                    `[InfoTab] Android calculated - pageY: ${pageY}, height: ${height}, centerY: ${centerY}, insets.top: ${insets.top}`,
-                  );
-
-                  setTabY(Math.max(50, centerY));
-                } else {
-                  // Fallback with a better default based on field
-                  // Final positions - perfectly aligned
-                  const fieldDefaults = {
-                    code: 322, // Perfect!
-                    declared: 433, // Perfect!
-                    freight: 489, // Added 2px more
-                    units: 546, // Perfect!
-                  };
-                  const fallbackY = field ? fieldDefaults[field] : 200;
-                  console.log(
-                    `[InfoTab] Android measure failed for field: ${field}, using fallback: ${fallbackY}`,
-                  );
-                  setTabY(fallbackY || 200);
-                }
-              });
-            }
-          } else {
-            // iOS uses measureInWindow as before
-            ref.current.measureInWindow((x, y, width, height) => {
-              if (
-                typeof y === "number" &&
-                typeof height === "number" &&
-                !isNaN(y) &&
-                !isNaN(height) &&
-                y > 0 &&
-                height > 0
-              ) {
-                const spacing = getSpacing("sm");
-                if (typeof spacing === "number" && !isNaN(spacing)) {
-                  setTabY(y + height / 2 - 20 - spacing);
-                }
-              } else {
-                setTabY(200);
-              }
-            });
-          }
-        }
-      }, measureDelay);
-    }
-  };
-
+  // Helpers to open info drawer and focus behaviour
   const handleInfoPress = (field: InfoFieldKey) => {
     setActiveField(field);
     setInfoDrawerVisible(true);
   };
 
-  useEffect(() => {
-    loadHistory();
-    // Tariff data is now preloaded in App.tsx
-  }, []);
-
-  // Animation effects for navigation drawers
-  useEffect(() => {
-    animateHistoryDrawer(mainHistoryDrawerVisible);
-  }, [mainHistoryDrawerVisible]);
-
-  useEffect(() => {
-    animateLinksDrawer(linksDrawerVisible);
-  }, [linksDrawerVisible]);
-
-  // Loading modal animation
-  useEffect(() => {
-    if (showLoadingModal) {
-      // Start spinning animation
-      Animated.loop(
-        Animated.timing(loadingSpinValue, {
-          toValue: 1,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-      ).start();
-    } else {
-      // Reset animation
-      loadingSpinValue.setValue(0);
-    }
-  }, [showLoadingModal]);
-
-  // Update the search function to use async search
-  useEffect(() => {
-    const searchForSuggestions = async () => {
-      if (htsCode.length >= 3) {
-        setShowHtsSuggestions(true);
-        setHtsSearchMessage("Searching...");
-
-        try {
-          console.log("[Search] Searching for:", htsCode);
-          // Use the segmented search service for better performance
-          const results = await tariffSearchService.searchByPrefix(htsCode, 15);
-          console.log("[Search] Results:", results.length);
-
-          setHtsSuggestions(results);
-          if (results.length === 0) {
-            setHtsSearchMessage("");
-          } else {
-            setHtsSearchMessage(
-              results.length === 15 ? "Showing first 15 matches" : "",
-            );
-          }
-        } catch (error) {
-          console.error("[Search] Error:", error);
-          setHtsSuggestions([]);
-          setHtsSearchMessage("Error searching HTS codes");
-        }
-      } else {
-        setShowHtsSuggestions(false);
-        setHtsSuggestions([]);
-        setHtsSearchMessage("");
-      }
-    };
-
-    const debounceTimer = setTimeout(searchForSuggestions, 150);
-    return () => clearTimeout(debounceTimer);
-  }, [htsCode]);
-
-  // Collapse floating menu when form expands/contracts or drawers open
-  useEffect(() => {
-    const formHasContent =
-      showHtsSuggestions || (selectedCountry && declaredValue); // Collapse when suggestions are shown or when ready to search
-    const contentDrawersOpen =
-      historyDrawerVisible ||
-      newsDrawerVisible ||
-      analyticsDrawerVisible ||
-      descriptionExpanded ||
-      htsDescriptionExpanded;
-    const navigationDrawersOpen =
-      mainHistoryDrawerVisible || settingsDrawerVisible || linksDrawerVisible || tariffEngineeringDrawerVisible;
-
-    // Collapse main FAB menu when form has content or any drawers are open
-    if (formHasContent || contentDrawersOpen || navigationDrawersOpen) {
-      closeMainFab();
-    }
-  }, [
-    showHtsSuggestions,
-    selectedCountry,
-    declaredValue,
-    historyDrawerVisible,
-    newsDrawerVisible,
-    analyticsDrawerVisible,
-    descriptionExpanded,
-    htsDescriptionExpanded,
-    mainHistoryDrawerVisible,
-    settingsDrawerVisible,
-    linksDrawerVisible,
-    tariffEngineeringDrawerVisible,
-  ]);
-
-  const handleHtsSelection = (code: string, description?: string) => {
-    haptics.selection();
-    setHtsCode(code);
-    // Remove the HTS code from the beginning of the description if it exists
-    let cleanDescription = description || "";
-    if (cleanDescription.startsWith(code)) {
-      cleanDescription = cleanDescription.substring(code.length).trim();
-    }
-    setSelectedDescription(cleanDescription); // Store the cleaned description
-    setShowHtsSuggestions(false);
-    setHtsSuggestions([]); // Clear suggestions
-    Keyboard.dismiss(); // Dismiss keyboard
-  };
-
-  // Format number with commas
-  const formatNumberWithCommas = (value: string): string => {
-    // Remove any non-digit characters except decimal point
-    const cleanValue = value.replace(/[^\d.]/g, "");
-
-    // Handle decimal part separately
-    const parts = cleanValue.split(".");
-    const wholePart = parts[0];
-    const decimalPart = parts.length > 1 ? "." + parts[1] : "";
-
-    // Add commas to the whole part
-    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-    return formattedWholePart + decimalPart;
-  };
-
-  // Handle declared value change
-  const handleDeclaredValueChange = (value: string) => {
-    // Remove $ and commas, keep only numbers and decimal
-    const cleanedValue = value.replace(/[$,]/g, "");
-    const numericValue = cleanedValue.replace(/[^\d.]/g, "");
-    setDeclaredValue(numericValue);
-
-    // Don't format while typing, just show the raw number
-    setFormattedDeclaredValue(numericValue);
-  };
-
-  // Handle freight cost change
-  const handleFreightCostChange = (value: string) => {
-    // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d.]/g, "");
-    setFreightCost(numericValue);
-
-    // Format the display value with commas
-    setFormattedFreightCost(formatNumberWithCommas(value));
-  };
-
-  // Handle unit count change
-  const handleUnitCountChange = (value: string) => {
-    // Store the raw value for calculations
-    const numericValue = value.replace(/[^\d]/g, ""); // No decimals for unit count
-    setUnitCount(numericValue);
-
-    // Format the display value with commas
-    setFormattedUnitCount(formatNumberWithCommas(numericValue));
-
-    // Hide calculations when value changes (user must click Calc)
-    // Unit calculations now always show when units are provided
-    // No need to reset showUnitCalculations state
-  };
-  <View style={styles.dutiableContainer}>
-    <Text style={styles.dutiableLabel}>Dutiable Value</Text>
-    <Text style={styles.dutiableValue}>
-      $
-      {(
-        (parseFloat(declaredValue) || 0) +
-        (parseFloat(freightCost) || 0) +
-        (additionalCosts.reduce((sum, cost) => sum + cost.amount, 0) || 0)
-      ).toFixed(2)}
-    </Text>
-  </View>;
-  // Multi-field handlers
-  const handleAddAdditionalCost = () => {
-    const amount = parseFloat(currentAdditionalCost.replace(/[^0-9.]/g, ""));
-    if (!isNaN(amount) && amount > 0) {
-      setAdditionalCosts([
-        ...additionalCosts,
-        {
-          id: Date.now().toString(),
-          amount,
-        },
-      ]);
-      setCurrentAdditionalCost("");
-      haptics.selection();
-    }
-  };
-
-  const handleDeleteAdditionalCost = (id: string) => {
-    setAdditionalCosts(additionalCosts.filter((cost) => cost.id !== id));
-    haptics.selection();
-  };
-
-  const handleAddUnitCount = () => {
-    const amount = parseFloat(currentUnitCount);
-    if (!isNaN(amount) && amount > 0) {
-      setUnitCounts([
-        ...unitCounts,
-        {
-          id: Date.now().toString(),
-          amount,
-        },
-      ]);
-      setCurrentUnitCount("");
-      haptics.selection();
-    }
-  };
-
-  const handleDeleteUnitCount = (id: string) => {
-    setUnitCounts(unitCounts.filter((unit) => unit.id !== id));
-    haptics.selection();
-  };
-
-  const formatArithmetic = () => {
-    const declaredVal = parseFloat(declaredValue) || 0;
-    const additionalTotal = additionalCosts.reduce(
-      (sum, cost) => sum + cost.amount,
-      0,
-    );
-    const total = declaredVal + additionalTotal;
-
-    if (additionalCosts.length === 0) {
-      return (
-        <Text style={styles.arithmeticText}>
-          ${formatNumberWithCommas(declaredVal.toString())}
-        </Text>
-      );
-    }
-
-    return (
-      <View>
-        <Text style={styles.arithmeticText}>
-          ${formatNumberWithCommas(declaredVal.toString())}
-        </Text>
-        {additionalCosts.map((cost, index) => (
-          <Text key={cost.id} style={styles.arithmeticText}>
-            + ${formatNumberWithCommas(cost.amount.toString())}
-          </Text>
-        ))}
-        <View style={styles.arithmeticDivider} />
-        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
-          ${formatNumberWithCommas(total.toString())}
-        </Text>
-      </View>
-    );
-  };
-
-  const formatUnitArithmetic = () => {
-    const total = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
-
-    if (unitCounts.length === 1) {
-      return (
-        <Text style={styles.arithmeticText}>{total.toFixed(1)} units</Text>
-      );
-    }
-
-    return (
-      <View>
-        {unitCounts.map((unit, index) => (
-          <Text key={unit.id} style={styles.arithmeticText}>
-            {index === 0 ? "" : "+ "}
-            {unit.amount.toFixed(1)}
-          </Text>
-        ))}
-        <View style={styles.arithmeticDivider} />
-        <Text style={[styles.arithmeticText, styles.arithmeticTotal]}>
-          {total.toFixed(1)} units
-        </Text>
-      </View>
-    );
+  const handleFieldFocusWrapper = (field: InfoFieldKey) => {
+    // replicate previous behaviour: collapse menus and description
+    closeMainFab();
+    setHtsDescriptionExpanded(false);
+    handleFieldFocus(field as Exclude<InfoFieldKey, null>);
   };
 
   // Handle navigation params
@@ -1176,18 +801,19 @@ export default function LookupScreen() {
       closeMainFab(false);
 
       // Calculate duty
-      const dutyCalc = await useTariff(
+      const dutyCalc = calculateDuty(
         htsCode,
-        selectedCountry.code,
         parseFloat(declaredValue),
+        selectedCountry.code,
+        true,
+        false,
         isUSMCAOrigin,
       );
 
-      console.log("[Lookup] Duty calculation result:", dutyCalc);
-
-      if (dutyCalc.error) {
-        throw new Error(dutyCalc.error);
+      if (!dutyCalc) {
+        throw new Error("Unable to calculate duty with provided data.");
       }
+      console.log("[Lookup] Duty calculation result:", dutyCalc);
 
       // Extract components with descriptions
       const componentsWithDescriptions = extractComponentDescriptions(
@@ -1202,8 +828,9 @@ export default function LookupScreen() {
       );
 
       // Calculate unit costs if units are provided
-      const totalUnitCount = unitCounts.reduce(
-        (sum, unit) => sum + unit.amount,
+      const totalUnitCount = unitCounts.reduce<number>(
+        (sum: number, unit: { id: string; amount: number; label?: string }) =>
+          sum + unit.amount,
         0,
       );
       let unitCalculations = undefined;
@@ -1618,7 +1245,7 @@ export default function LookupScreen() {
         <Text style={styles.drawerTitle}>Recent Lookups</Text>
       </View>
       <ScrollView style={styles.drawerScrollView}>
-        {history.slice(0, 10).map((item, index) => (
+        {history.slice(0, 10).map((item: HistoryItem, index: number) => (
           <TouchableOpacity
             key={item.id}
             style={styles.historyDrawerItem}
@@ -1949,13 +1576,18 @@ export default function LookupScreen() {
 
           {/* Unit Calculations - Display directly when units are provided */}
           {(() => {
-            const totalUnitCount = unitCounts.reduce(
-              (sum, unit) => sum + unit.amount,
+            const totalUnitCount = unitCounts.reduce<number>(
+              (sum: number, unit: { id: string; amount: number; label?: string }) =>
+                sum + unit.amount,
               0,
             );
             const totalDeclaredValue =
               parseFloat(declaredValue) +
-              additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+              additionalCosts.reduce<number>(
+                (sum: number, cost: { id: string; amount: number; label?: string }) =>
+                  sum + cost.amount,
+                0,
+              );
 
             if (totalUnitCount > 0) {
               return (
@@ -2285,7 +1917,7 @@ export default function LookupScreen() {
     ],
   );
 
-  const handleMainFabPress = () => {
+  const handleMainFabPress = (): void => {
     haptics.buttonPress();
     hideInfoTabs();
     if (anyDrawerOpen) {
@@ -2307,12 +1939,14 @@ export default function LookupScreen() {
 
   // Delay "Not found" feedback
   const [showNoResults, setShowNoResults] = useState(false);
-  const noResultsTimer = useRef<NodeJS.Timeout | null>(null);
+  const noResultsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ----------------------
   // Gesture: drag info tab to open drawer (iPhone)
   // ----------------------
-  const handleInfoTabDrag = (event: PanGestureHandlerGestureEvent) => {
+  const handleInfoTabDragOpen = (
+    event: PanGestureHandlerGestureEvent,
+  ) => {
     const { translationX } = event.nativeEvent;
     // Detect a rightward drag of ~50px to trigger opening
     if (translationX > 50 && !infoDrawerVisible) {
@@ -2476,6 +2110,18 @@ export default function LookupScreen() {
       closeMainFab();
     }
   }, [anyDrawerOpen]);
+
+  // Tariff utilities from custom hook
+  const { calculateDuty, searchByPrefix } = useTariff();
+
+  // Helper: format numbers with comma separators (used across component)
+  const formatNumberWithCommas = (value: string): string => {
+    // remove non-digit except .
+    const clean = value.replace(/[^\d.]/g, "");
+    const [whole, decimal] = clean.split(".");
+    const withCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return decimal ? `${withCommas}.${decimal}` : withCommas;
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
@@ -2816,7 +2462,7 @@ export default function LookupScreen() {
                     value={htsCode}
                     fieldKey="code"
                     onInfoPress={handleInfoPress}
-                    onChangeText={(text) => {
+                    onChangeText={(text: string) => {
                       const cleanedText = text.replace(/\D/g, "").slice(0, 8);
                       setHtsCode(cleanedText);
                       setUserClosedFab(false);
@@ -2828,7 +2474,7 @@ export default function LookupScreen() {
                     maxLength={8}
                     placeholderTextColor={BRAND_COLORS.electricBlue}
                     style={styles.entryField}
-                    onFocus={() => handleFieldFocus("code")}
+                    onFocus={() => handleFieldFocusWrapper("code")}
                   />
                 )}
 
@@ -2847,7 +2493,7 @@ export default function LookupScreen() {
                 <CountryLookup
                   ref={countryInputRef}
                   selectedCountry={selectedCountry}
-                  onSelect={(country) => {
+                  onSelect={(country: Country) => {
                     setSelectedCountry(country);
                     setUserClosedFab(false);
                     closeMainFab(false);
@@ -2864,7 +2510,7 @@ export default function LookupScreen() {
                 <TextInput
                   placeholder="Declared $"
                   value={formattedDeclaredValue}
-                  onChangeText={(value) => {
+                  onChangeText={(value: string) => {
                     handleDeclaredValueChange(value);
                     closeMainFab(false);
                     closeAllNavigationDrawers();
@@ -2875,7 +2521,7 @@ export default function LookupScreen() {
                   style={styles.entryField}
                   onFocus={() => {
                     setFormattedDeclaredValue(declaredValue);
-                    handleFieldFocus("declared");
+                    handleFieldFocusWrapper("declared");
                   }}
                   onBlur={() => {
                     if (declaredValue) {
@@ -2894,7 +2540,7 @@ export default function LookupScreen() {
                         ref={unitCountInputRef}
                         placeholder="Units"
                         value={currentUnitCount}
-                        onChangeText={(value) => {
+                        onChangeText={(value: string) => {
                           const cleaned = value.replace(/[^0-9.]/g, "");
                           const parts = cleaned.split(".");
                           if (parts.length > 2) return;
@@ -2906,7 +2552,7 @@ export default function LookupScreen() {
                         style={[styles.entryField, styles.multiFieldInput]}
                         onSubmitEditing={handleAddUnitCount}
                         returnKeyType="done"
-                        onFocus={() => handleFieldFocus("units")}
+                        onFocus={() => handleFieldFocusWrapper("units")}
                       />
                       <TouchableOpacity
                         style={styles.addButton}
@@ -3106,8 +2752,18 @@ export default function LookupScreen() {
 
               {/* Unit Calculations */}
               {(() => {
-                const totalUnitCount = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
-                const totalDeclaredValue = parseFloat(declaredValue) + additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+                const totalUnitCount = unitCounts.reduce<number>(
+                  (sum: number, unit: { id: string; amount: number; label?: string }) =>
+                    sum + unit.amount,
+                  0,
+                );
+                const totalDeclaredValue =
+                  parseFloat(declaredValue) +
+                  additionalCosts.reduce<number>(
+                    (sum: number, cost: { id: string; amount: number; label?: string }) =>
+                      sum + cost.amount,
+                    0,
+                  );
 
                 if (totalUnitCount > 0) {
                   return (
@@ -3342,29 +2998,14 @@ export default function LookupScreen() {
           field={activeField}
         />
 
-        {/* Info tab for iPhone fades in/out - TEMPORARILY HIDDEN */}
-        {false && !isTablet() && shouldShowInfoTab && tabY > 0 && (
-          <PanGestureHandler onGestureEvent={handleInfoTabDrag} enabled={true}>
-            <Animated.View
-              pointerEvents="auto"
-              style={[styles.infoTab, { top: tabY, opacity: infoTabOpacity }]}
-            >
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onPress={() => setInfoDrawerVisible(true)}
-              >
-                <Ionicons
-                  name="information-circle-outline"
-                  size={24}
-                  color={BRAND_COLORS.white}
-                />
-              </TouchableOpacity>
-            </Animated.View>
-          </PanGestureHandler>
+        {shouldShowTab && tabY > 0 && (
+          <InfoTab
+            y={tabY}
+            opacity={infoTabOpacity}
+            size={infoTabSize}
+            onPress={() => setInfoDrawerVisible(true)}
+            onDrag={handleInfoTabDragOpen}
+          />
         )}
 
         <FirstTimeGuideScreen
