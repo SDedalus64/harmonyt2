@@ -5,7 +5,13 @@ feat: integrate Geologica font family and update typography across the app
 
 refactor: remove Android and iOS project files, update component styles and structure
 refactor: enhance LookupScreen with type annotations and layout improvements
+Update Xcode project configuration and remove LookupScreen component
 
+- Added new font files and resources to the Xcode project.
+- Removed the unused LookupScreen component from the codebase.
+- Updated build settings and configurations for better project management.
+
+Co-authored-by: sdedola <sdedola@me.com>
 [2025-07-07]
 
 refactor: enhance LookupScreen with type annotations and layout improvements
