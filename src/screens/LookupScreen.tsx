@@ -348,7 +348,7 @@ export default function LookupScreen() {
     // replicate previous behaviour: collapse menus and description
     closeMainFab();
     setHtsDescriptionExpanded(false);
-    handleFieldFocus(field);
+    handleFieldFocus(field as Exclude<InfoFieldKey, null>);
   };
 
   // Handle navigation params

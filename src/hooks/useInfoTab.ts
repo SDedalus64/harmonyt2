@@ -41,7 +41,7 @@ export function useInfoTab({
   // refs for each field so the caller can attach them to <View>s to measure
   // ---------------------------------------------------------------------
   const fieldRefs = useMemo(() => {
-    const map = {} as Record<InfoFieldKey, RefObject<View>>;
+    const map = {} as Record<Exclude<InfoFieldKey, null>, RefObject<View>>;
     fieldKeys.forEach((key) => {
       map[key] = createRef<View>();
     });
@@ -60,7 +60,7 @@ export function useInfoTab({
   // ---------------------------------------------------------------------
   // derived helpers
   // ---------------------------------------------------------------------
-  const shouldShowTab = !!activeField && !infoDrawerVisible && !isTablet();
+  const shouldShowTab = !!activeField && !infoDrawerVisible;
 
   // ---------------------------------------------------------------------
   // animate opacity when visibility toggles
@@ -92,7 +92,7 @@ export function useInfoTab({
   // ---------------------------------------------------------------------
   // focus handler copies measurement logic from legacy file
   // ---------------------------------------------------------------------
-  const handleFieldFocus = (field: InfoFieldKey) => {
+  const handleFieldFocus = (field: Exclude<InfoFieldKey, null>) => {
     setActiveField(field);
 
     const ref = fieldRefs[field];
