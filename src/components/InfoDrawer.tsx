@@ -1,4 +1,6 @@
-import React, { type FC } from "react";
+import React from "react";
+import type { FC, ReactElement } from "react";
+import type { ViewStyle, LayoutChangeEvent } from "react-native";
 import {
   View,
   Text,
