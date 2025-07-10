@@ -799,10 +799,12 @@ export default function LookupScreen() {
       closeMainFab(false);
 
       // Calculate duty
-      const dutyCalc = await useTariff(
+      const dutyCalc = calculateDuty(
         htsCode,
-        selectedCountry.code,
         parseFloat(declaredValue),
+        selectedCountry.code,
+        true,
+        false,
         isUSMCAOrigin,
       );
 
@@ -825,7 +827,7 @@ export default function LookupScreen() {
       );
 
       // Calculate unit costs if units are provided
-      const totalUnitCount = unitCounts.reduce(
+      const totalUnitCount = unitCounts.reduce<number>(
         (sum, unit) => sum + unit.amount,
         0,
       );
@@ -1572,10 +1574,13 @@ export default function LookupScreen() {
 
           {/* Unit Calculations - Display directly when units are provided */}
           {(() => {
-            const totalUnitCount = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
+            const totalUnitCount = unitCounts.reduce<number>(
+              (sum, unit) => sum + unit.amount,
+              0,
+            );
             const totalDeclaredValue =
               parseFloat(declaredValue) +
-              additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+              additionalCosts.reduce<number>((sum, cost) => sum + cost.amount, 0);
 
             if (totalUnitCount > 0) {
               return (
@@ -2726,8 +2731,8 @@ export default function LookupScreen() {
 
               {/* Unit Calculations */}
               {(() => {
-                const totalUnitCount = unitCounts.reduce((sum, unit) => sum + unit.amount, 0);
-                const totalDeclaredValue = parseFloat(declaredValue) + additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+                const totalUnitCount = unitCounts.reduce<number>((sum, unit) => sum + unit.amount, 0);
+                const totalDeclaredValue = parseFloat(declaredValue) + additionalCosts.reduce<number>((sum, cost) => sum + cost.amount, 0);
 
                 if (totalUnitCount > 0) {
                   return (
