@@ -338,6 +338,19 @@ export default function LookupScreen() {
     infoDrawerVisible,
   });
 
+  // Helpers to open info drawer and focus behaviour
+  const handleInfoPress = (field: InfoFieldKey) => {
+    setActiveField(field);
+    setInfoDrawerVisible(true);
+  };
+
+  const handleFieldFocusWrapper = (field: InfoFieldKey) => {
+    // replicate previous behaviour: collapse menus and description
+    closeMainFab();
+    setHtsDescriptionExpanded(false);
+    handleFieldFocus(field);
+  };
+
   // Handle navigation params
   useEffect(() => {
     const historyItem = route.params?.historyItem;
@@ -2438,7 +2451,7 @@ export default function LookupScreen() {
                     maxLength={8}
                     placeholderTextColor={BRAND_COLORS.electricBlue}
                     style={styles.entryField}
-                    onFocus={() => handleFieldFocus("code")}
+                    onFocus={() => handleFieldFocusWrapper("code")}
                   />
                 )}
 
@@ -2485,7 +2498,7 @@ export default function LookupScreen() {
                   style={styles.entryField}
                   onFocus={() => {
                     setFormattedDeclaredValue(declaredValue);
-                    handleFieldFocus("declared");
+                    handleFieldFocusWrapper("declared");
                   }}
                   onBlur={() => {
                     if (declaredValue) {
@@ -2516,7 +2529,7 @@ export default function LookupScreen() {
                         style={[styles.entryField, styles.multiFieldInput]}
                         onSubmitEditing={handleAddUnitCount}
                         returnKeyType="done"
-                        onFocus={() => handleFieldFocus("units")}
+                        onFocus={() => handleFieldFocusWrapper("units")}
                       />
                       <TouchableOpacity
                         style={styles.addButton}

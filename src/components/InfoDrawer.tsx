@@ -140,6 +140,9 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
   const content = FIELD_CONTENT[field];
   const insets = useSafeAreaInsets();
 
+  // Drawer width: phones use 90% of screen, tablets fixed 500px
+  const drawerWidth = isTablet() ? 500 : "90%";
+
   const containerStyles = [
     styles.container,
     { paddingTop: insets.top + getSpacing("lg") },
@@ -176,7 +179,12 @@ const InfoDrawer: React.FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
   };
 
   return (
-    <AnimatedDrawer isVisible={isOpen} onClose={onClose} position="left">
+    <AnimatedDrawer
+      isVisible={isOpen}
+      onClose={onClose}
+      position="left"
+      customDrawerConfig={{ width: drawerWidth }}
+    >
       <View style={styles.gradientContainer}>
         <LinearGradient
           colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}

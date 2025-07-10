@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, createRef } from "react";
+import { useEffect, useMemo, useRef, useState, createRef, RefObject } from "react";
 import {
   Animated,
   Platform,
@@ -41,7 +41,7 @@ export function useInfoTab({
   // refs for each field so the caller can attach them to <View>s to measure
   // ---------------------------------------------------------------------
   const fieldRefs = useMemo(() => {
-    const map = {} as Record<InfoFieldKey, React.RefObject<View>>;
+    const map = {} as Record<InfoFieldKey, RefObject<View>>;
     fieldKeys.forEach((key) => {
       map[key] = createRef<View>();
     });
