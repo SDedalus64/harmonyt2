@@ -138,9 +138,10 @@ const FIELD_CONTENT: Record<Exclude<InfoFieldKey, null>, FieldCopy> = {
   },
 };
 
-const InfoDrawer: FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
+const InfoDrawer: FC<InfoDrawerProps> = (props: InfoDrawerProps) => {
+  const { isOpen, onClose, field } = props;
   if (!field) return null;
-  const content = FIELD_CONTENT[field];
+  const content = FIELD_CONTENT[field as Exclude<InfoFieldKey, null>];
   const insets = useSafeAreaInsets();
 
   // Drawer width: phones use 90% of screen; tablets take 60% up to 600px
@@ -154,7 +155,7 @@ const InfoDrawer: FC<InfoDrawerProps> = ({ isOpen, onClose, field }) => {
     { paddingTop: insets.top + getSpacing("lg") },
   ];
 
-  const renderBody = (bodyString: string): JSX.Element[] => {
+  const renderBody = (bodyString: string): React.ReactElement[] => {
     return bodyString.split("\n").map((raw: string, idx: number) => {
       const trimmed = raw.trim();
       if (!trimmed) return <View key={idx} style={{ height: 4 }} />;
