@@ -262,6 +262,8 @@ export default function LookupScreen() {
   const [analyticsDrawerVisible, setAnalyticsDrawerVisible] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [htsDescriptionExpanded, setHtsDescriptionExpanded] = useState(false);
+  // Dedicated drawer for compact results view (legacy phone layout)
+  const [resultsDrawerVisible, setResultsDrawerVisible] = useState(false);
 
   // Multi-field states
   const [currentAdditionalCost, setCurrentAdditionalCost] = useState("");
@@ -1243,7 +1245,7 @@ export default function LookupScreen() {
         <Text style={styles.drawerTitle}>Recent Lookups</Text>
       </View>
       <ScrollView style={styles.drawerScrollView}>
-        {history.slice(0, 10).map((item, index) => (
+        {history.slice(0, 10).map((item: HistoryItem, index: number) => (
           <TouchableOpacity
             key={item.id}
             style={styles.historyDrawerItem}
