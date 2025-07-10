@@ -2146,6 +2146,29 @@ export default function LookupScreen() {
     [],
   );
 
+  // -------------------------------------------------------------------
+  // Helper: HTS selection from dropdown
+  // -------------------------------------------------------------------
+  const handleHtsSelection = useCallback(
+    (item: { code: string; description: string }) => {
+      setHtsCode(item.code);
+      setSelectedDescription(item.description);
+      setShowHtsSuggestions(false);
+      // Once selected, shift focus to next field
+      declaredValueInputRef.current?.focus();
+    },
+    [],
+  );
+
+  // -------------------------------------------------------------------
+  // Helper: Declared value change + formatting
+  // -------------------------------------------------------------------
+  const handleDeclaredValueChange = useCallback((value: string) => {
+    const cleaned = value.replace(/[^0-9.]/g, "");
+    setDeclaredValue(cleaned);
+    setFormattedDeclaredValue(cleaned);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <DisclaimerModal
@@ -2199,6 +2222,7 @@ export default function LookupScreen() {
           >
             <View style={styles.logoRow}>
               <Image
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
                 source={require("../../assets/Harmony-white.png")}
                 style={styles.headerLogo}
                 resizeMode="contain"
@@ -2592,7 +2616,7 @@ export default function LookupScreen() {
                     {/* Added units chips */}
                     {unitCounts.length > 0 && (
                       <View style={styles.chipsContainer}>
-                        {unitCounts.map((unit) => (
+                        {unitCounts.map((unit: { id: string; amount: number; label?: string }) => (
                           <TouchableOpacity
                             key={unit.id}
                             style={styles.chip}
