@@ -1,6 +1,6 @@
-import React from "react";
-import type { FC, ReactElement } from "react";
-import type { ViewStyle, LayoutChangeEvent } from "react-native";
+import * as React from 'react';
+import type { FC, ReactElement } from 'react';
+import type { ViewStyle, LayoutChangeEvent } from 'react-native';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
-} from "react-native";
+} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
