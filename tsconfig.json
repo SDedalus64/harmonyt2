@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types"],
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "react", "react-native"],
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "baseUrl": "./",
     "paths": {
