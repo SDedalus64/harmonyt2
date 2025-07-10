@@ -335,6 +335,7 @@ export default function LookupScreen() {
   } = useInfoTab({
     fieldKeys: ["code", "declared", "freight", "units"],
     infoDrawerVisible,
+    tabletScale: 1.35, // iPad pill = 54px
   });
 
   // Helpers to open info drawer and focus behaviour
