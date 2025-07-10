@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react-hooks/exhaustive-deps, react-native/no-inline-styles, react-native/no-color-literals, react-native/sort-styles, react-native/no-unused-styles, @typescript-eslint/no-require-imports */
 import HtsDropdown from "../components/HtsDropdown";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   View,
   Text,
@@ -332,6 +332,7 @@ export default function LookupScreen() {
     handleFieldFocus,
     handleInfoTabDrag,
     size: infoTabSize,
+    leftOffset: infoTabLeftOffset,
   } = useInfoTab({
     fieldKeys: ["code", "declared", "freight", "units"],
     infoDrawerVisible,
@@ -2123,6 +2124,28 @@ export default function LookupScreen() {
     return decimal ? `${withCommas}.${decimal}` : withCommas;
   };
 
+  // -------------------------------------------------------------------
+  // Unit-count helpers (had previously caused a ReferenceError because they
+  // were referenced before initialisation).  We declare them here – *before*
+  // any JSX – and wrap in useCallback so they remain stable between renders.
+  // -------------------------------------------------------------------
+  const handleAddUnitCount = useCallback(() => {
+    if (!currentUnitCount) return;
+    const value = parseFloat(currentUnitCount);
+    if (isNaN(value) || value <= 0) return;
+
+    const id = `${Date.now()}`;
+    setUnitCounts((prev) => [...prev, { id, amount: value }]);
+    setCurrentUnitCount("");
+  }, [currentUnitCount]);
+
+  const handleDeleteUnitCount = useCallback(
+    (id: string) => {
+      setUnitCounts((prev) => prev.filter((u) => u.id !== id));
+    },
+    [],
+  );
+
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <DisclaimerModal
@@ -3003,6 +3026,7 @@ export default function LookupScreen() {
             y={tabY}
             opacity={infoTabOpacity}
             size={infoTabSize}
+            leftOffset={infoTabLeftOffset}
             onPress={() => setInfoDrawerVisible(true)}
             onDrag={handleInfoTabDragOpen}
           />

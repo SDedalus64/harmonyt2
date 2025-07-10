@@ -30,6 +30,13 @@ interface UseInfoTabOptions {
   minY?: number;
   /** Width/height of the tab on phone (defaults 40).  Will be multiplied by tabletScale on iPad */
   baseSize?: number;
+
+  /**
+   * Optional percentage (negative) of the tab width that should stick out from the
+   * left screen edge. Defaults −0.25 on iPhone and −0.35 on iPad for better
+   * visual balance on larger screens.
+   */
+  protrusionRatio?: number;
 }
 
 export function useInfoTab({
@@ -38,6 +45,7 @@ export function useInfoTab({
   tabletScale = 1.35,
   minY = 50,
   baseSize = 40,
+  protrusionRatio,
 }: UseInfoTabOptions) {
   // ---------------------------------------------------------------------
   // refs for each field so the caller can attach them to <View>s to measure
@@ -168,6 +176,13 @@ export function useInfoTab({
   // size for consumer convenience
   const size = baseSize * (isTablet() ? tabletScale : 1);
 
+  // -------------------------------------------------------------------
+  // Horizontal offset so the circle peeks out from the left edge.  We let
+  // consumers pass a custom ratio, otherwise pick a sensible default.
+  // -------------------------------------------------------------------
+  const leftOffset =
+    (protrusionRatio ?? (isTablet() ? -0.35 : -0.25)) * size;
+
   return {
     fieldRefs,
     activeField,
@@ -178,5 +193,6 @@ export function useInfoTab({
     handleFieldFocus,
     handleInfoTabDrag,
     size,
+    leftOffset,
   } as const;
 }
