@@ -2102,6 +2102,18 @@ export default function LookupScreen() {
     }
   }, [anyDrawerOpen]);
 
+  // Tariff utilities from custom hook
+  const { calculateDuty, searchByPrefix } = useTariff();
+
+  // Helper: format numbers with comma separators (used across component)
+  const formatNumberWithCommas = (value: string): string => {
+    // remove non-digit except .
+    const clean = value.replace(/[^\d.]/g, "");
+    const [whole, decimal] = clean.split(".");
+    const withCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return decimal ? `${withCommas}.${decimal}` : withCommas;
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <DisclaimerModal
