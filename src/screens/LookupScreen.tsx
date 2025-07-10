@@ -20,9 +20,6 @@ import {
   Modal,
   useWindowDimensions,
   ImageStyle,
-  UIManager,
-  findNodeHandle,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
