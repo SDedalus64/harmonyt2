@@ -30,7 +30,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { MainTabParamList } from "../navigation/types";
-import CountryLookup from "../components/CountryLookup";
+import CountryLookup, { CountryLookupRef } from "../components/CountryLookup";
 import { useTariff } from "../hooks/useTariff";
 import { useHistory, HistoryItem } from "../hooks/useHistory";
 import { useSettings } from "../hooks/useSettings";
@@ -235,7 +235,7 @@ export default function LookupScreen() {
   const currentEntry = useRef<any>(null);
   const currentDutyCalculation = useRef<any>(null);
   const [showRecentHistory, setShowRecentHistory] = useState(isTablet());
-  const countryInputRef = useRef<TextInput>(null);
+  const countryInputRef = useRef<CountryLookupRef>(null);
   const declaredValueInputRef = useRef<TextInput>(null);
   const freightCostInputRef = useRef<TextInput>(null);
   const htsCodeInputRef = useRef<TextInput>(null);
@@ -585,8 +585,13 @@ export default function LookupScreen() {
     const numericValue = cleanedValue.replace(/[^\d.]/g, "");
     setDeclaredValue(numericValue);
 
-    // Don't format while typing, just show the raw number
-    setFormattedDeclaredValue(numericValue);
+    // Format while typing with $ and commas
+    if (numericValue) {
+      const formatted = `$${formatNumberWithCommas(numericValue)}`;
+      setFormattedDeclaredValue(formatted);
+    } else {
+      setFormattedDeclaredValue("");
+    }
   };
 
   // Handle freight cost change
@@ -611,6 +616,21 @@ export default function LookupScreen() {
     // Hide calculations when value changes (user must click Calc)
     // Unit calculations now always show when units are provided
     // No need to reset showUnitCalculations state
+  };
+
+  // Handle additional cost change with real-time formatting
+  const handleAdditionalCostChange = (value: string) => {
+    // Remove $ and commas, keep only numbers and decimal
+    const cleanedValue = value.replace(/[$,]/g, "");
+    const numericValue = cleanedValue.replace(/[^\d.]/g, "");
+
+    // Format while typing with $ and commas
+    if (numericValue) {
+      const formatted = `$${formatNumberWithCommas(numericValue)}`;
+      setCurrentAdditionalCost(formatted);
+    } else {
+      setCurrentAdditionalCost("");
+    }
   };
 
   // Multi-field handlers
@@ -1387,6 +1407,12 @@ export default function LookupScreen() {
     setLoadedHistoryTimestamp(null); // Reset the history timestamp
     setIsUSMCAOrigin(false); // Reset USMCA origin
 
+    // Clear chips data
+    setAdditionalCosts([]);
+    setCurrentAdditionalCost("");
+    setUnitCounts([]);
+    setCurrentUnitCount("");
+
     // Focus on HTS code input for new lookup
     requestAnimationFrame(() => {
       htsCodeInputRef.current?.focus();
@@ -2012,6 +2038,12 @@ export default function LookupScreen() {
   const toggleMainFab = (recordUserClose: boolean = true) => {
     const toValue = mainFabExpanded ? 0 : 1;
     const isClosing = mainFabExpanded;
+    console.log(
+      "[FAB] toggleMainFab called. Current expanded:",
+      mainFabExpanded,
+      "toValue:",
+      toValue,
+    );
     setMainFabExpanded(!mainFabExpanded);
 
     // Record manual close only if requested
@@ -2251,6 +2283,10 @@ export default function LookupScreen() {
     tariffEngineeringDrawerVisible;
 
   const handleMainFabPress = () => {
+    console.log("[FAB] Main FAB pressed. Current state:", {
+      mainFabExpanded,
+      anyDrawerOpen,
+    });
     haptics.buttonPress();
     hideInfoTabs();
     if (anyDrawerOpen) {
@@ -2266,6 +2302,7 @@ export default function LookupScreen() {
       setResultsDrawerVisible(false);
       // Optionally scroll to top or reset state here
     } else {
+      console.log("[FAB] Toggling main FAB menu");
       toggleMainFab();
     }
   };
@@ -2313,7 +2350,7 @@ export default function LookupScreen() {
 
     return {
       heroSection: {
-        height: heroHeight + insets.top - 100,
+        height: heroHeight + insets.top - 20, // Increased height to accommodate FABs
         marginTop: -insets.top,
       } as ViewStyle,
       logo: {
@@ -2463,6 +2500,215 @@ export default function LookupScreen() {
             resizeMode="contain"
           />
         </View>
+
+        {/* Unified Floating Menu System - Now in hero section */}
+        <View style={styles.heroFloatingMenuContainer}>
+          {/* Menu Buttons in Arc Formation - Recent, History, Links, News, Stats, Settings */}
+
+          {/* Recent Button */}
+          <Animated.View
+            pointerEvents={mainFabExpanded ? "auto" : "none"}
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: recentFabTranslateX },
+                  { translateY: recentFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.electricBlue },
+              ]}
+              onPress={() => {
+                console.log("[FAB] Recent button pressed");
+                haptics.buttonPress();
+                closeAllDrawers();
+                closeMainFab(false);
+                setHistoryDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="time"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* History Button */}
+          <Animated.View
+            pointerEvents={mainFabExpanded ? "auto" : "none"}
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: historyFabTranslateX },
+                  { translateY: historyFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.mediumBlue },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                closeMainFab(false);
+                setMainHistoryDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="library"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* Tariff News Button */}
+          <Animated.View
+            pointerEvents={mainFabExpanded ? "auto" : "none"}
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: linksFabTranslateX },
+                  { translateY: linksFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.success },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                closeMainFab(false);
+                setLinksDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="newspaper-outline"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* News Button */}
+          <Animated.View
+            pointerEvents={mainFabExpanded ? "auto" : "none"}
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: newsFabTranslateX },
+                  { translateY: newsFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.orange },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                closeMainFab(false);
+                setNewsDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="newspaper"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* Settings Button */}
+          <Animated.View
+            pointerEvents={mainFabExpanded ? "auto" : "none"}
+            style={[
+              styles.menuFab,
+              {
+                transform: [
+                  { translateX: settingsFabTranslateX },
+                  { translateY: settingsFabTranslateY },
+                  { scale: menuFabScale },
+                ],
+                opacity: menuFabOpacity,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.menuFabButton,
+                { backgroundColor: BRAND_COLORS.darkGray },
+              ]}
+              onPress={() => {
+                haptics.buttonPress();
+                closeAllDrawers();
+                closeMainFab(false);
+                setSettingsDrawerVisible(true);
+              }}
+            >
+              <Ionicons
+                name="settings"
+                size={getResponsiveValue(16, 24)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+
+          {/* Main Floating Menu Button */}
+          <Animated.View
+            style={[
+              styles.mainFloatingFab,
+              {
+                transform: [
+                  {
+                    rotate: mainFabRotation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ["0deg", "45deg"],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.mainFloatingFabButton}
+              onPress={handleMainFabPress}
+            >
+              <Ionicons
+                name="menu"
+                size={getResponsiveValue(19, 28)}
+                color={BRAND_COLORS.white}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
       </HorizontalSection>
 
       <KeyboardAwareScrollView
@@ -2551,49 +2797,16 @@ export default function LookupScreen() {
                     />
                   )}
               </View>
+              {/* Right column - empty for future use */}
               <View
                 style={[
                   styles.halfWidthWrapper,
                   { marginLeft: getSpacing("xs"), width: "50%" },
                 ]}
-                ref={fieldRefs.declared}
-              >
-                <View style={styles.multiFieldInputRow}>
-                  <TextInput
-                    placeholder="declared"
-                    value={formattedDeclaredValue}
-                    onChangeText={(value) => {
-                      handleDeclaredValueChange(value);
-                      closeMainFab(false);
-                      closeAllNavigationDrawers();
-                    }}
-                    ref={declaredValueInputRef}
-                    keyboardType="decimal-pad"
-                    placeholderTextColor={BRAND_COLORS.electricBlue}
-                    style={[
-                      styles.input,
-                      styles.multiFieldInput,
-                      styles.currencyInput,
-                    ]}
-                    onBlur={() => {
-                      if (declaredValue) {
-                        setFormattedDeclaredValue(
-                          `$${formatNumberWithCommas(declaredValue.replace(/[^0-9.]/g, ""))}`,
-                        );
-                      }
-                    }}
-                    onFocus={() => {
-                      setFormattedDeclaredValue(
-                        declaredValue.replace(/[$,]/g, ""),
-                      );
-                      handleFieldFocus("declared");
-                    }}
-                  />
-                </View>
-              </View>
+              />
             </View>
 
-            {/* Origin and Additional Costs row */}
+            {/* Origin row */}
             <View
               style={[
                 styles.dropdownFieldsRow,
@@ -2608,7 +2821,6 @@ export default function LookupScreen() {
               >
                 <CountryLookup
                   ref={countryInputRef}
-                  placeholder="Origin (Select country of origin)"
                   selectedCountry={selectedCountry}
                   onSelect={(country) => {
                     setSelectedCountry(country);
@@ -2616,130 +2828,190 @@ export default function LookupScreen() {
                     closeMainFab(false);
                     closeAllNavigationDrawers();
                   }}
-                  style={[styles.input, styles.halfWidthInput]}
                 />
               </View>
+              {/* Right column - empty for future use */}
               <View
                 style={[
                   styles.halfWidthWrapper,
                   { marginLeft: getSpacing("xs"), width: "50%" },
                 ]}
+              />
+            </View>
+
+            {/* Declared Value row */}
+            <View
+              style={[
+                styles.dropdownFieldsRow,
+                { marginTop: getSpacing("sm") },
+              ]}
+            >
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginRight: getSpacing("xs"), width: "50%" },
+                ]}
+                ref={fieldRefs.declared}
               >
                 <View style={styles.multiFieldInputRow}>
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={handleAddAdditionalCost}
-                  >
-                    <Ionicons
-                      name="add-circle"
-                      size={getResponsiveValue(24, 28)}
-                      color={BRAND_COLORS.electricBlue}
-                    />
-                  </TouchableOpacity>
                   <TextInput
-                    ref={additionalCostInputRef}
-                    placeholder="Add Costs"
-                    value={currentAdditionalCost}
-                    onChangeText={setCurrentAdditionalCost}
+                    placeholder="Declared Value"
+                    value={formattedDeclaredValue}
+                    onChangeText={(value) => {
+                      handleDeclaredValueChange(value);
+                      closeMainFab(false);
+                      closeAllNavigationDrawers();
+                    }}
+                    ref={declaredValueInputRef}
                     keyboardType="decimal-pad"
                     placeholderTextColor={BRAND_COLORS.electricBlue}
                     style={[
                       styles.input,
                       styles.multiFieldInput,
                       styles.currencyInput,
+                      { textAlign: formattedDeclaredValue ? "right" : "left" },
                     ]}
-                    onSubmitEditing={handleAddAdditionalCost}
-                    returnKeyType="done"
                     onBlur={() => {
-                      if (currentAdditionalCost) {
-                        setCurrentAdditionalCost(
-                          `$${formatNumberWithCommas(currentAdditionalCost.replace(/[^0-9.]/g, ""))}`,
+                      if (declaredValue) {
+                        setFormattedDeclaredValue(
+                          `$${formatNumberWithCommas(declaredValue.replace(/[^0-9.]/g, ""))}`,
                         );
                       }
                     }}
                     onFocus={() => {
-                      setCurrentAdditionalCost(
-                        currentAdditionalCost.replace(/[$,]/g, ""),
-                      );
+                      // Keep the formatted value on focus
+                      handleFieldFocus("declared");
                     }}
                   />
+                  <TouchableOpacity
+                    style={[styles.addButton, { opacity: 0.5 }]}
+                    disabled={true}
+                  >
+                    <Ionicons
+                      name="add-circle"
+                      size={getResponsiveValue(30, 35)}
+                      color={BRAND_COLORS.electricBlue}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
+              {/* Right column - empty for future use */}
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginLeft: getSpacing("xs"), width: "50%" },
+                ]}
+              />
             </View>
 
-            {/* Two column layout for Units */}
-            <View style={styles.valueFieldsRow}>
-              {/* Left column - Additional Costs Chips */}
-              <View style={styles.valueFieldColumn}>
-                <View style={styles.multiFieldContainer}>
-                  {/* Total arithmetic */}
-                  {(declaredValue || additionalCosts.length > 0) && (
-                    <View style={styles.arithmeticContainer}>
-                      {formatArithmetic()}
-                    </View>
-                  )}
+            {/* Add Costs row */}
+            <View
+              style={[
+                styles.dropdownFieldsRow,
+                { marginTop: getSpacing("sm") },
+              ]}
+            >
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginRight: getSpacing("xs"), width: "50%" },
+                ]}
+              >
+                <View style={styles.multiFieldInputRow}>
+                  <TextInput
+                    ref={additionalCostInputRef}
+                    placeholder="Add Costs"
+                    value={currentAdditionalCost}
+                    onChangeText={handleAdditionalCostChange}
+                    keyboardType="decimal-pad"
+                    placeholderTextColor={BRAND_COLORS.electricBlue}
+                    style={[
+                      styles.input,
+                      styles.multiFieldInput,
+                      styles.currencyInput,
+                      { textAlign: currentAdditionalCost ? "right" : "left" },
+                    ]}
+                    onSubmitEditing={handleAddAdditionalCost}
+                    returnKeyType="done"
+                  />
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={handleAddAdditionalCost}
+                  >
+                    <Ionicons
+                      name="add-circle"
+                      size={getResponsiveValue(30, 35)}
+                      color={BRAND_COLORS.electricBlue}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
+              {/* Right column - empty for future use */}
+              <View
+                style={[
+                  styles.halfWidthWrapper,
+                  { marginLeft: getSpacing("xs"), width: "50%" },
+                ]}
+              />
+            </View>
 
-              {/* Right column - Units */}
-              {(settings.showUnitCalculations ?? true) && (
+            {/* Units row */}
+            {(settings.showUnitCalculations ?? true) && (
+              <View
+                style={[
+                  styles.dropdownFieldsRow,
+                  { marginTop: getSpacing("sm") },
+                ]}
+              >
+                {/* Left column - Units */}
                 <View
                   style={[
-                    styles.valueFieldColumn,
-                    { marginTop: -getResponsiveValue(10, 12) },
+                    styles.halfWidthWrapper,
+                    { marginRight: getSpacing("xs"), width: "50%" },
                   ]}
+                  ref={fieldRefs.units}
                 >
-                  <View ref={fieldRefs.units}>
-                    <View style={styles.multiFieldContainer}>
-                      <View
-                        style={[
-                          styles.multiFieldInputRow,
-                          { marginRight: -getResponsiveValue(15, 20) },
-                        ]}
-                      >
-                        <TouchableOpacity
-                          style={styles.addButton}
-                          onPress={handleAddUnitCount}
-                        >
-                          <Ionicons
-                            name="add-circle"
-                            size={getResponsiveValue(24, 28)}
-                            color={BRAND_COLORS.electricBlue}
-                          />
-                        </TouchableOpacity>
-                        <TextInput
-                          ref={unitCountInputRef}
-                          placeholder="Add Units"
-                          value={currentUnitCount}
-                          onChangeText={(value) => {
-                            const cleaned = value.replace(/[^0-9.]/g, "");
-                            const parts = cleaned.split(".");
-                            if (parts.length > 2) return;
-                            if (parts[1] && parts[1].length > 1) return;
-                            setCurrentUnitCount(cleaned);
-                          }}
-                          keyboardType="decimal-pad"
-                          placeholderTextColor={BRAND_COLORS.electricBlue}
-                          style={[
-                            styles.input,
-                            styles.multiFieldInput,
-                            styles.currencyInput,
-                          ]}
-                          onSubmitEditing={handleAddUnitCount}
-                          returnKeyType="done"
-                        />
-                      </View>
-                      {/* Units total */}
-                      {unitCounts.length > 0 && (
-                        <View style={styles.arithmeticContainer}>
-                          {formatUnitArithmetic()}
-                        </View>
-                      )}
-                    </View>
+                  <View style={styles.multiFieldInputRow}>
+                    <TextInput
+                      ref={unitCountInputRef}
+                      placeholder="Add Units"
+                      value={currentUnitCount}
+                      onChangeText={(value) => {
+                        const cleaned = value.replace(/[^0-9]/g, "");
+                        setCurrentUnitCount(cleaned);
+                      }}
+                      keyboardType="number-pad"
+                      placeholderTextColor={BRAND_COLORS.electricBlue}
+                      style={[
+                        styles.input,
+                        styles.multiFieldInput,
+                        styles.currencyInput,
+                        { textAlign: currentUnitCount ? "right" : "left" },
+                      ]}
+                      onSubmitEditing={handleAddUnitCount}
+                      returnKeyType="done"
+                    />
+                    <TouchableOpacity
+                      style={styles.addButton}
+                      onPress={handleAddUnitCount}
+                    >
+                      <Ionicons
+                        name="add-circle"
+                        size={getResponsiveValue(30, 35)}
+                        color={BRAND_COLORS.electricBlue}
+                      />
+                    </TouchableOpacity>
                   </View>
                 </View>
-              )}
-            </View>
+                {/* Right column - empty for future use */}
+                <View
+                  style={[
+                    styles.halfWidthWrapper,
+                    { marginLeft: getSpacing("xs"), width: "50%" },
+                  ]}
+                />
+              </View>
+            )}
 
             {/* Loading Message Display */}
             {loadingMessage && (
@@ -2750,6 +3022,39 @@ export default function LookupScreen() {
           </View>
         </View>
       </KeyboardAwareScrollView>
+
+      {/* Chips positioned at top of Action Bar */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: getResponsiveValue(290, 350), // ~50px below input area
+          left: getSpacing("md"),
+          right: getSpacing("md"),
+          paddingHorizontal:
+            Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          zIndex: 25,
+        }}
+      >
+        {/* Left column - Cost chips */}
+        <View style={{ width: "48%", marginRight: getSpacing("xs") }}>
+          {(declaredValue || additionalCosts.length > 0) && (
+            <View style={styles.arithmeticContainer}>{formatArithmetic()}</View>
+          )}
+        </View>
+
+        {/* Right column - Unit chips */}
+        {(settings.showUnitCalculations ?? true) && (
+          <View style={{ width: "48%", marginLeft: getSpacing("xs") }}>
+            {unitCounts.length > 0 && (
+              <View style={styles.arithmeticContainer}>
+                {formatUnitArithmetic()}
+              </View>
+            )}
+          </View>
+        )}
+      </View>
 
       {/* Action Buttons positioned above footer */}
       <View
@@ -2893,13 +3198,14 @@ const styles = StyleSheet.create({
   heroSection: {
     position: "relative",
     zIndex: 1,
+    overflow: "visible", // Ensure FABs can extend outside the section
   } as ViewStyle,
   logoContainer: {
     width: "100%", // Make the container span the full width
-    justifyContent: "center", // This handles vertical centering
+    justifyContent: "flex-start", // This handles vertical centering
     alignItems: "flex-start", // Align the logo to the left within this container
-    paddingLeft: getResponsiveValue(20, 50), // Use responsive padding
-    height: "100%", // Ensure it occupies the full height of the parent
+    paddingLeft: getResponsiveValue(10, 30), // Use responsive padding
+    height: "90%", // Ensure it occupies the full height of the parent
   },
   logo: {
     width: getResponsiveValue(SCREEN_WIDTH * 0.6, SCREEN_WIDTH * 0.75),
@@ -2911,7 +3217,7 @@ const styles = StyleSheet.create({
     maxHeight: isTablet() ? 180 : 126,
     resizeMode: "contain",
     opacity: 0.9,
-    marginTop: getResponsiveValue(-35, -45), // Further up: -20 -> -35, -30 -> -45 (15px more)
+    marginTop: getResponsiveValue(-15, -45), // Further up: -20 -> -35, -30 -> -45 (15px more)
   },
   mainScrollView: {
     flex: 1,
@@ -2924,10 +3230,9 @@ const styles = StyleSheet.create({
   },
   inputSection: {
     backgroundColor: BRAND_COLORS.white,
-    borderRadius: getBorderRadius("lg"),
-    padding: getResponsiveValue(12, 16), // Reduced padding
     ...BRAND_SHADOWS.medium,
     marginBottom: getResponsiveValue(8, 12), // Reduced margin
+    paddingLeft: getResponsiveValue(10, 30), // Use responsive padding
     zIndex: 10, // Ensure it appears above data source info
     elevation: 10, // For Android
   },
@@ -2937,17 +3242,18 @@ const styles = StyleSheet.create({
         ? SCREEN_WIDTH * 0.25
         : getSpacing("md"),
     alignItems: "flex-start", // Left-align content
+    justifyContent: "flex-start", // Left-align content
     width: "100%",
   },
   sectionTitle: {
     fontSize: getResponsiveValue(
       getTypographySize("lg") * 1.25, // Increased by 75%
-      getTypographySize("xxl") * 1.25, // Increased by 75%
+      getTypographySize("xl") * 1.25, // Increased by 75%
     ),
     ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.darkNavy,
     marginBottom: getResponsiveValue(8, 12), // Reduced margin
-    textAlign: "center", // Left-justified
+    textAlign: "left", // Left-justified
     width: Platform.OS === "ios" && Platform.isPad ? 500 : "100%",
     maxWidth: "100%",
     paddingHorizontal: getResponsiveValue(20, 40), // Add padding to align with fields
@@ -2961,9 +3267,9 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     width: "100%",
     paddingHorizontal:
-      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.25 : 0,
+      Platform.OS === "ios" && Platform.isPad ? SCREEN_WIDTH * 0.05 : 0,
     marginBottom: getResponsiveValue(10, 12), // Add bottom margin for spacing
-    gap: getResponsiveValue(8, 12), // Add gap between fields
+    gap: getResponsiveValue(5, 9), // Add gap between fields
   },
   halfWidthWrapper: {
     flex: 1,
@@ -2994,7 +3300,7 @@ const styles = StyleSheet.create({
     paddingVertical: getResponsiveValue(6, 8), // Adjusted vertical padding
     fontSize: getResponsiveValue(
       getTypographySize("md") * 1.5 * 0.75, // 75% of current size
-      getTypographySize("md") * 1.8 * 0.75, // 75% of current size
+      getTypographySize("md") * 1.8 * 0.65, // 75% of current size
     ),
     fontFamily: BRAND_TYPOGRAPHY.getFontFamily("regular"),
     color: BRAND_COLORS.darkNavy,
@@ -3169,18 +3475,21 @@ const styles = StyleSheet.create({
   // Unified Floating Menu Styles
   heroFloatingMenuContainer: {
     position: "absolute",
-    bottom: getResponsiveValue(5, 15), // iPhone: -5px more, iPad: -10px more for proportional spacing
-    left: getResponsiveValue(20, 50), // Left padding to match logo alignment
+    top: getResponsiveValue(190, 265), // Moved down 100px iPhone, 125px iPad
+    left: getResponsiveValue(35, 50), // Left padding to match logo alignment
     right: 0,
     height: getResponsiveValue(45, 74), // Match main FAB height to ensure consistent alignment
     alignItems: "center", // Center vertically to ensure all FABs are on same horizontal line
     justifyContent: "flex-start", // Left align horizontally
     flexDirection: "row", // Ensure horizontal layout
-    zIndex: 100, // High z-index to ensure FABs are clickable
+    zIndex: 9999, // Very high z-index to ensure FABs are clickable
+    elevation: 9999, // For Android
   },
   menuFab: {
     position: "absolute",
     alignSelf: "center", // Ensure vertical centering
+    zIndex: 10000,
+    elevation: 10000, // For Android
   },
   menuFabButton: {
     width: getResponsiveValue(38, 64), // 80% size on iPhone (48 * 0.8 = 38.4 ≈ 38), iPad unchanged
@@ -3716,15 +4025,13 @@ const styles = StyleSheet.create({
   },
   dataSourceInfoContainer: {
     position: "absolute",
-    bottom: 10, // 10px from bottom of screen
+    bottom: 0, // Flush with bottom of screen
     left: 0,
     right: 0,
     alignItems: "center",
-    borderRadius: getBorderRadius("md"),
-    marginHorizontal: getSpacing("md"),
     ...BRAND_SHADOWS.small,
     zIndex: 1000, // Above background but below interactive elements
-    overflow: "visible", // Ensure gradient respects border radius
+    overflow: "visible",
   },
   dataSourceGradient: {
     width: "100%",
@@ -3886,7 +4193,7 @@ const styles = StyleSheet.create({
           getTypographySize("md"),
           getTypographySize("md") * 1.2,
         ),
-        height: getResponsiveValue(46, 54),
+        height: getResponsiveValue(40, 48),
         paddingHorizontal: getResponsiveValue(15, 20),
         backgroundColor: BRAND_COLORS.lightGray,
         borderRadius: getResponsiveValue(12, 16),

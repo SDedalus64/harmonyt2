@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: "row",
     height: getInputConfig().height,
-    paddingHorizontal: getSpacing("md"),
+    paddingHorizontal: getSpacing("sm"),
     paddingVertical: getSpacing("sm"),
     width: "100%",
   },
@@ -354,10 +354,9 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.electricBlue,
     flex: 1,
     fontSize: getResponsiveValue(
-      getTypographySize("md") * 1.5 * 0.75,
-      getTypographySize("md") * 1.8 * 0.75,
+      getTypographySize("md") * 1.15,
+      getTypographySize("md") * 1.15,
     ),
-    marginLeft: getSpacing("sm"),
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
   },
   selectedCountry: {
@@ -367,7 +366,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: getInputConfig().height,
     justifyContent: "center",
-    paddingHorizontal: getSpacing("md"),
+    paddingHorizontal: getSpacing("sm"),
     paddingVertical: getSpacing("sm"),
     width: "100%",
   },
@@ -378,16 +377,16 @@ const styles = StyleSheet.create({
   },
   selectedCountryText: {
     fontSize: getResponsiveValue(
-      getTypographySize("md"),
-      getTypographySize("md") * 1.2,
-    ), // 20% larger on iPad
+      getTypographySize("md") * 1.1,
+      getTypographySize("md") * 1.15,
+    ), // 10% larger on iPad
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
     color: BRAND_COLORS.darkNavy,
     flex: 1,
     marginRight: getSpacing("sm"),
   },
   selectedItem: {
-    backgroundColor: "#E8F4FD",
+    backgroundColor: "#003559",
   },
   selectedText: {
     color: BRAND_COLORS.electricBlue,
