@@ -26,7 +26,15 @@ export type MainTabParamList = {
   History: undefined;
   Links: undefined;
   Settings: undefined;
-  TariffEngineering: undefined;
+  TariffEngineering: {
+    historyItem?: HistoryItem;
+    fromLookup?: boolean;
+    htsCode?: string;
+    description?: string;
+    currentRate?: number;
+    country?: { code: string; name: string };
+    declaredValue?: number;
+  };
 };
 
 export type LookupScreenProps = {

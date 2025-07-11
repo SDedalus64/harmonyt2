@@ -143,24 +143,49 @@ export default function HistoryScreen({
       // When used as a drawer, use the callback
       onItemPress(item);
     } else {
-      // When used as a standalone screen, navigate normally
-      navigation.navigate("Lookup", { historyItem: item });
+      // When used as a standalone screen, navigate based on item type
+      if (item.isTariffEngineering) {
+        // Navigate to TE screen with the HTS code and country
+        (navigation as any).navigate("TariffEngineering", {
+          historyItem: item,
+        });
+      } else {
+        // Navigate to normal lookup screen
+        navigation.navigate("Lookup", { historyItem: item });
+      }
     }
   };
 
   const renderItem = ({ item }: { item: HistoryItem }) => (
     <TouchableOpacity
-      style={styles.historyItem}
+      style={[
+        styles.historyItem,
+        item.isTariffEngineering && styles.historyItemTE,
+      ]}
       onPress={() => handleItemPress(item)}
     >
+      {item.isTariffEngineering && item.teData?.bestAlternative && (
+        <View style={styles.teIndicator}>
+          <Ionicons name="construct" size={16} color={COLORS.white} />
+          <Text style={styles.teIndicatorText}>
+            Save {item.teData.maxSavings.toFixed(1)}%
+          </Text>
+        </View>
+      )}
       <Text style={styles.historyItemDescription}>{item.description}</Text>
       <View style={styles.historyItemDetails}>
         <View style={styles.historyItemDetail}>
           <Text style={styles.historyItemCountry}>{item.countryName}</Text>
-          {item.totalAmount !== undefined && (
-            <Text style={styles.historyItemValue}>
-              {formatCurrency(item.totalAmount)}
+          {item.isTariffEngineering ? (
+            <Text style={styles.historyItemAlternatives}>
+              {item.teData?.totalAlternatives} alternatives found
             </Text>
+          ) : (
+            item.totalAmount !== undefined && (
+              <Text style={styles.historyItemValue}>
+                {formatCurrency(item.totalAmount)}
+              </Text>
+            )
           )}
         </View>
         <Text style={styles.historyItemTimestamp}>
@@ -305,6 +330,11 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     padding: 16,
   },
+  historyItemAlternatives: {
+    color: COLORS.success,
+    fontSize: 14,
+    fontWeight: "600",
+  },
   historyItemCountry: {
     color: COLORS.darkBlue,
     fontSize: 14,
@@ -334,6 +364,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
   },
+  historyItemTE: {
+    backgroundColor: "#f0f9f0",
+    borderLeftColor: COLORS.success,
+  },
   historyItemTimestamp: {
     color: COLORS.darkGray,
     fontSize: 12,
@@ -353,6 +387,23 @@ const styles = StyleSheet.create({
   listContent: {
     flexGrow: 1,
     padding: 16,
+  },
+  teIndicator: {
+    alignItems: "center",
+    backgroundColor: COLORS.success,
+    borderRadius: 12,
+    flexDirection: "row",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    position: "absolute",
+    right: 8,
+    top: 8,
+  },
+  teIndicatorText: {
+    color: COLORS.white,
+    fontSize: 12,
+    fontWeight: "600",
+    marginLeft: 4,
   },
   title: {
     color: COLORS.darkBlue,

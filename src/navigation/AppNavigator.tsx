@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  Platform,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Text,
-} from "react-native";
+import { Platform, TouchableOpacity, View, StyleSheet } from "react-native";
+import { Text } from "../components/Text";
 import {
   createDrawerNavigator,
   DrawerNavigationOptions,
@@ -196,6 +191,8 @@ const CustomDrawerContent = (props: any) => {
         name="TariffEngineering"
         component={TariffEngineeringScreen}
         options={{
+          title: "Tariff Intelligence (Beta)",
+          drawerLabel: "Tariff Intelligence (Beta)",
           drawerIcon: ({ color, size }: DrawerIconProps) => (
             <Ionicons name="construct" size={size} color={color} />
           ),
@@ -217,7 +214,10 @@ function MainStack() {
       <MainStackNavigator.Screen name="Lookup" component={LookupScreen} />
       <MainStackNavigator.Screen name="History" component={HistoryScreen} />
       <MainStackNavigator.Screen name="Settings" component={SettingsScreen} />
-      <MainStackNavigator.Screen name="TariffEngineering" component={TariffEngineeringScreen} />
+      <MainStackNavigator.Screen
+        name="TariffEngineering"
+        component={TariffEngineeringScreen}
+      />
       <MainStackNavigator.Screen name="Links" component={LinksScreen} />
     </MainStackNavigator.Navigator>
   );

@@ -9,15 +9,19 @@ import {
   ActivityIndicator,
   ScrollView,
   Platform,
+  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   getTariffEngineeringSuggestions,
   getNeighboringCodes,
   getMaterialAlternatives,
   fetchTariffEngineeringSuggestions,
   TariffEngineeringSuggestion,
+  getCreativeSemanticMatches,
 } from "../services/tariffEngineeringService";
 import { tariffSearchService } from "../services/tariffSearchService";
 import {
@@ -32,9 +36,14 @@ import {
 } from "../config/brandColors";
 import { haptics } from "../utils/haptics";
 import CountryLookup from "../components/CountryLookup";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MainTabParamList } from "../navigation/types";
 
 export default function TariffEngineeringScreen() {
   const insets = useSafeAreaInsets();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainTabParamList>>();
   const [htsCode, setHtsCode] = useState("");
   const [semanticResults, setSemanticResults] = useState<
     TariffEngineeringSuggestion[]
@@ -42,9 +51,11 @@ export default function TariffEngineeringScreen() {
   const [materialResults, setMaterialResults] = useState<
     TariffEngineeringSuggestion[]
   >([]);
+  const [creativeResults, setCreativeResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
   const [htsSuggestions, setHtsSuggestions] = useState<
     Array<{ code: string; description: string }>
   >([]);
@@ -54,10 +65,29 @@ export default function TariffEngineeringScreen() {
     description: string;
     dutyRate: number;
   } | null>(null);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<{
     code: string;
     name: string;
   }>({ code: "CN", name: "China" }); // Default to China
+
+  // Check if should show Tariff Intelligence guide
+  useEffect(() => {
+    const checkShowGuide = async () => {
+      try {
+        const dontShow = await AsyncStorage.getItem(
+          "dontShowTariffIntelligenceGuide",
+        );
+        if (dontShow !== "true") {
+          // User hasn't opted out, show the modal
+          setShowInfoModal(true);
+        }
+      } catch (error) {
+        console.log("Error checking TI guide preference:", error);
+      }
+    };
+    checkShowGuide();
+  }, []);
 
   // Search for HTS suggestions as user types
   useEffect(() => {
@@ -114,9 +144,11 @@ export default function TariffEngineeringScreen() {
       // Split into categories
       const semantic = getNeighboringCodes(code);
       const material = getMaterialAlternatives(code);
+      const creative = getCreativeSemanticMatches(code);
 
       setSemanticResults(semantic);
       setMaterialResults(material);
+      setCreativeResults(creative);
 
       // Get current product info from the tariff engineering data
       const tariffData = (await import("../../data/tariff_engineering.json"))
@@ -149,6 +181,17 @@ export default function TariffEngineeringScreen() {
     searchForAlternatives(htsCode);
   };
 
+  const handleModalClose = async () => {
+    if (dontShowAgain) {
+      try {
+        await AsyncStorage.setItem("dontShowTariffIntelligenceGuide", "true");
+      } catch (error) {
+        console.log("Error saving preference:", error);
+      }
+    }
+    setShowInfoModal(false);
+  };
+
   const renderSuggestionItem = ({
     item,
   }: {
@@ -159,9 +202,7 @@ export default function TariffEngineeringScreen() {
       onPress={() => handleHtsSelection(item.code)}
     >
       <Text style={styles.suggestionCode}>{item.code}</Text>
-      <Text style={styles.suggestionDescription} numberOfLines={2}>
-        {item.description}
-      </Text>
+      <Text style={styles.suggestionDescription}>{item.description}</Text>
     </TouchableOpacity>
   );
 
@@ -189,59 +230,204 @@ export default function TariffEngineeringScreen() {
         <Text style={styles.newRate}>{item.suggestedDutyRate}%</Text>
         <Text style={styles.fromCountry}> (from {selectedCountry.code})</Text>
       </View>
-      {item.reason && <Text style={styles.resultReason}>{item.reason}</Text>}
+      {item.reason && (
+        <View style={styles.questionPrompt}>
+          <Text style={styles.questionPromptLabel}>💬 Ask your broker:</Text>
+          <Text style={styles.resultReason}>"{item.reason}"</Text>
+        </View>
+      )}
+      <View style={styles.riskIndicator}>
+        <Text style={styles.riskText}>
+          Approach:{" "}
+          {item.reasonType === "NEIGHBOR"
+            ? "Similar products"
+            : item.reasonType === "MATERIAL"
+              ? "Material change"
+              : item.reasonType === "SEMANTIC"
+                ? "Related classification"
+                : "Alternative interpretation"}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
+      {/* Educational Modal */}
+      <Modal
+        visible={showInfoModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleModalClose}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>
+                Understanding Tariff Intelligence
+              </Text>
+              <TouchableOpacity onPress={handleModalClose}>
+                <Ionicons
+                  name="close"
+                  size={24}
+                  color={BRAND_COLORS.darkNavy}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.modalBody}>
+              <Text style={styles.modalSubheading}>
+                What is Tariff Engineering?
+              </Text>
+              <Text style={styles.modalText}>
+                It's the art of asking "What if?" about your product
+                classifications. Could this medical table just be... furniture?
+                Professional customs brokers explore these possibilities every
+                day - now you can too.
+              </Text>
+
+              <Text style={styles.modalSubheading}>How Harmony Helps</Text>
+              <Text style={styles.modalText}>
+                Harmony gives you smart questions you might never have thought
+                to ask:
+                {"\n"}• "Could this be classified differently if we import it
+                unfinished?"
+                {"\n"}• "What if we used a different material?"
+                {"\n"}• "Is this really medical equipment or just furniture?"
+              </Text>
+
+              <Text style={styles.modalSubheading}>Keep in Mind</Text>
+              <Text style={styles.modalText}>
+                • These are conversation starters, not gospel truth
+                {"\n"}• Your broker has the final say (they're the experts!)
+                {"\n"}• Getting it wrong can be expensive
+                {"\n"}• But asking smart questions? That's always free
+              </Text>
+
+              <Text style={styles.modalSubheading}>How to Use This Tool</Text>
+              <Text style={styles.modalText}>
+                1. Enter your HTS code
+                {"\n"}2. Review the suggested questions
+                {"\n"}3. Share these with your customs broker
+                {"\n"}4. Or book a consultation with us for expert guidance
+              </Text>
+            </ScrollView>
+
+            <View
+              style={{
+                paddingHorizontal: getSpacing("lg"),
+                paddingBottom: getSpacing("sm"),
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  marginBottom: getSpacing("xs"),
+                }}
+                onPress={() => setDontShowAgain(!dontShowAgain)}
+              >
+                <Text
+                  style={{
+                    fontSize: getTypographySize("sm"),
+                    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+                    color: BRAND_COLORS.darkGray,
+                    marginRight: getSpacing("sm"),
+                  }}
+                >
+                  Don't show this again
+                </Text>
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderWidth: 2,
+                    borderColor: BRAND_COLORS.electricBlue,
+                    borderRadius: 4,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: dontShowAgain
+                      ? BRAND_COLORS.electricBlue
+                      : BRAND_COLORS.white,
+                  }}
+                >
+                  {dontShowAgain && (
+                    <Ionicons
+                      name="checkmark"
+                      size={16}
+                      color={BRAND_COLORS.white}
+                    />
+                  )}
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.modalButton, { margin: 0 }]}
+                onPress={handleModalClose}
+              >
+                <Text style={styles.modalButtonText}>
+                  Let's see what Harmony suggests!
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Header with Gradient */}
+      <LinearGradient
+        colors={[BRAND_COLORS.electricBlue, BRAND_COLORS.darkNavy]}
+        style={{
+          alignItems: "center",
+          paddingHorizontal: getSpacing("lg"),
+          paddingBottom: getSpacing("xl"),
+          paddingTop: insets.top + getSpacing("md"),
+          position: "relative" as const,
+        }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+      >
+        <TouchableOpacity
+          style={[styles.backButton, { top: insets.top + getSpacing("xs") }]}
+          onPress={() => navigation.navigate("Lookup")}
+        >
+          <Ionicons name="arrow-back" size={16} color={BRAND_COLORS.darkNavy} />
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+        <Ionicons name="construct" size={32} color={BRAND_COLORS.white} />
+        <Text style={[styles.title, { color: BRAND_COLORS.white }]}>
+          Tariff Intelligence (Beta)
+        </Text>
+        <Text style={[styles.subtitle, { color: BRAND_COLORS.white }]}>
+          Helping you ask the right questions about the complex world of tariffs
+        </Text>
+        <Text
+          style={[
+            styles.subtitle,
+            {
+              fontSize: getTypographySize("sm"),
+              marginTop: getSpacing("sm"),
+              color: "rgba(255,255,255,0.8)",
+            },
+          ]}
+        >
+          💡 Get ideas • Challenge assumptions • Save on duties
+        </Text>
+      </LinearGradient>
+
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={[
-          styles.scrollContent,
-          { paddingTop: insets.top + getSpacing("lg") },
-        ]}
+        contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <Ionicons
-            name="construct"
-            size={32}
-            color={BRAND_COLORS.electricBlue}
-          />
-          <Text style={styles.title}>Tariff Engineering</Text>
-          <Text style={styles.subtitle}>
-            Find alternative HTS classifications through material substitution
-            and semantic analysis
-          </Text>
-        </View>
-
         {/* Input Section */}
-        <View style={styles.inputSection}>
-          {/* Country Selector */}
-          <View style={styles.countrySection}>
-            <Text style={styles.inputLabel}>Country of Origin</Text>
-            <CountryLookup
-              selectedCountry={selectedCountry}
-              onSelect={(country: { code: string; name: string }) => {
-                setSelectedCountry(country);
-                // Clear previous results when country changes
-                setSemanticResults([]);
-                setMaterialResults([]);
-                setCurrentProductInfo(null);
-                setHasSearched(false);
-              }}
-            />
-          </View>
-
-          <Text style={[styles.inputLabel, { marginTop: getSpacing("lg") }]}>
-            Enter HTS Code
-          </Text>
+        <View style={[styles.inputSection, { marginTop: getSpacing("xl") }]}>
+          {/* HTS Code Input - without label */}
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
-              placeholder="Start typing HTS code (min. 3 digits)"
+              placeholder="Enter HTS code (min. 6 digits)"
               placeholderTextColor={BRAND_COLORS.mediumGray}
               value={htsCode}
               onChangeText={setHtsCode}
@@ -267,6 +453,22 @@ export default function TariffEngineeringScreen() {
             )}
           </View>
 
+          {/* Country Selector - below HTS code */}
+          <View style={{ marginTop: getSpacing("sm") }}>
+            <CountryLookup
+              selectedCountry={selectedCountry}
+              onSelect={(country: { code: string; name: string }) => {
+                setSelectedCountry(country);
+                // Clear previous results when country changes
+                setSemanticResults([]);
+                setMaterialResults([]);
+                setCreativeResults([]);
+                setCurrentProductInfo(null);
+                setHasSearched(false);
+              }}
+            />
+          </View>
+
           <TouchableOpacity
             style={[
               styles.searchButton,
@@ -279,8 +481,11 @@ export default function TariffEngineeringScreen() {
               <ActivityIndicator size="small" color={BRAND_COLORS.white} />
             ) : (
               <>
-                <Ionicons name="search" size={20} color={BRAND_COLORS.white} />
-                <Text style={styles.searchButtonText}>Find Alternatives</Text>
+                <Ionicons name="bulb" size={24} color={BRAND_COLORS.white} />
+                <Text style={styles.searchButtonText}>Ask Harmony</Text>
+                <Text style={styles.searchButtonSubtext}>
+                  She'll find questions you never thought to ask
+                </Text>
               </>
             )}
           </TouchableOpacity>
@@ -311,6 +516,83 @@ export default function TariffEngineeringScreen() {
                 </View>
               </View>
             )}
+
+            {/* Helpful Reminder */}
+            {(semanticResults.length > 0 ||
+              materialResults.length > 0 ||
+              creativeResults.length > 0) && (
+              <View
+                style={[
+                  styles.resultsSummary,
+                  {
+                    backgroundColor: BRAND_COLORS.darkNavy + "10",
+                    borderColor: BRAND_COLORS.darkNavy,
+                    borderWidth: 1,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.resultsSummaryTitle,
+                    {
+                      fontSize: getTypographySize("sm"),
+                      color: BRAND_COLORS.darkNavy,
+                    },
+                  ]}
+                >
+                  💡 Harmony's advice:
+                </Text>
+                <Text
+                  style={[
+                    styles.resultsSummaryItem,
+                    { fontSize: getTypographySize("xs") },
+                  ]}
+                >
+                  • Share these ideas with your customs broker
+                  {"\n"}• Each suggestion needs professional verification
+                  {"\n"}• Want Harmony's team to help? Book a consultation!
+                </Text>
+              </View>
+            )}
+
+            {/* Results Summary - Show what's available */}
+            {(semanticResults.length > 0 ||
+              materialResults.length > 0 ||
+              creativeResults.length > 0) && (
+              <View
+                style={[
+                  styles.resultsSummary,
+                  { backgroundColor: BRAND_COLORS.electricBlue + "15" },
+                ]}
+              >
+                <Text style={styles.resultsSummaryTitle}>
+                  🎯 Harmony found{" "}
+                  {semanticResults.length +
+                    materialResults.length +
+                    creativeResults.length}{" "}
+                  smart questions for you:
+                </Text>
+                {creativeResults.length > 0 && (
+                  <Text style={styles.resultsSummaryItem}>
+                    💭 {creativeResults.length} "What if we classified this
+                    as..." questions
+                  </Text>
+                )}
+                {semanticResults.length > 0 && (
+                  <Text style={styles.resultsSummaryItem}>
+                    🔍 {semanticResults.length} "Could this qualify as..."
+                    questions
+                  </Text>
+                )}
+                {materialResults.length > 0 && (
+                  <Text style={styles.resultsSummaryItem}>
+                    🔄 {materialResults.length} "What if we used different
+                    materials..." questions
+                  </Text>
+                )}
+              </View>
+            )}
+
             {/* Semantic Results */}
             <View style={styles.resultCategory}>
               <View style={styles.categoryHeader}>
@@ -326,8 +608,13 @@ export default function TariffEngineeringScreen() {
                     color={BRAND_COLORS.white}
                   />
                 </View>
-                <Text style={styles.categoryTitle}>Semantic Similar Codes</Text>
+                <Text style={styles.categoryTitle}>
+                  Classification Questions
+                </Text>
               </View>
+              <Text style={styles.categorySubtitle}>
+                Based on how similar products might be classified differently
+              </Text>
 
               {semanticResults.length > 0 ? (
                 <FlatList
@@ -337,7 +624,10 @@ export default function TariffEngineeringScreen() {
                   scrollEnabled={false}
                 />
               ) : (
-                <Text style={styles.emptyText}>No semantic matches found</Text>
+                <Text style={styles.emptyText}>
+                  Harmony didn't find questions for this code - but you can
+                  still ask your broker about alternatives!
+                </Text>
               )}
             </View>
 
@@ -352,8 +642,11 @@ export default function TariffEngineeringScreen() {
                 >
                   <Ionicons name="cube" size={20} color={BRAND_COLORS.white} />
                 </View>
-                <Text style={styles.categoryTitle}>Material Alternatives</Text>
+                <Text style={styles.categoryTitle}>Material Questions</Text>
               </View>
+              <Text style={styles.categorySubtitle}>
+                Ask if using different materials could reduce duties
+              </Text>
 
               {materialResults.length > 0 ? (
                 <FlatList
@@ -364,13 +657,116 @@ export default function TariffEngineeringScreen() {
                 />
               ) : (
                 <Text style={styles.emptyText}>
-                  No material alternatives found
+                  Harmony didn't find material variations - but definitely ask
+                  your broker about options!
                 </Text>
               )}
             </View>
+
+            {/* Creative Cross-Chapter Results */}
+            {creativeResults.length > 0 && (
+              <View style={styles.resultCategory}>
+                <View style={styles.categoryHeader}>
+                  <View
+                    style={[
+                      styles.categoryIcon,
+                      { backgroundColor: BRAND_COLORS.orange },
+                    ]}
+                  >
+                    <Ionicons
+                      name="bulb"
+                      size={20}
+                      color={BRAND_COLORS.white}
+                    />
+                  </View>
+                  <Text style={styles.categoryTitle}>"What If" Questions</Text>
+                </View>
+                <Text style={styles.categorySubtitle}>
+                  Creative possibilities to explore with your broker
+                </Text>
+
+                <FlatList
+                  data={creativeResults}
+                  keyExtractor={(item) => `${item.fromCode}-${item.toCode}`}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      style={[styles.resultItem, styles.creativeResultItem]}
+                      onPress={() => haptics.selection()}
+                    >
+                      <View style={styles.resultHeader}>
+                        <Text style={styles.creativeChapterChange}>
+                          Ch {item.fromChapter} → Ch {item.toChapter}
+                        </Text>
+                        <View style={[styles.savingsBadge, { minWidth: 90 }]}>
+                          <Text style={styles.savingsText}>
+                            Save {(item.fromRate - item.toRate).toFixed(1)}%
+                          </Text>
+                        </View>
+                      </View>
+                      <Text style={styles.resultCode}>{item.toCode}</Text>
+                      <Text style={styles.resultDescription}>
+                        {item.toDescription}
+                      </Text>
+                      <View style={styles.rateComparison}>
+                        <Text style={styles.oldRate}>{item.fromRate}%</Text>
+                        <Text style={styles.arrow}>→</Text>
+                        <Text style={styles.newRate}>{item.toRate}%</Text>
+                      </View>
+                      <View style={styles.creativeReasonContainer}>
+                        <Ionicons
+                          name="bulb-outline"
+                          size={16}
+                          color={BRAND_COLORS.electricBlue}
+                        />
+                        <Text style={styles.creativeReason}>
+                          Ask your broker: "{item.reasoning}"
+                        </Text>
+                      </View>
+                      {item.legalBasis && (
+                        <Text
+                          style={[
+                            styles.riskText,
+                            { marginTop: getSpacing("xs") },
+                          ]}
+                        >
+                          Rationale: {item.legalBasis}
+                        </Text>
+                      )}
+                    </TouchableOpacity>
+                  )}
+                  scrollEnabled={false}
+                />
+              </View>
+            )}
           </View>
         )}
       </ScrollView>
+
+      {/* Floating Question Button - Always visible when HTS is entered */}
+      {htsCode.length >= 6 && !hasSearched && (
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={handleSearch}
+          disabled={loading}
+        >
+          <View style={styles.floatingButtonContent}>
+            <Text style={styles.floatingButtonEmoji}>💡</Text>
+            <Text style={styles.floatingButtonText}>Ask Harmony for ideas</Text>
+          </View>
+        </TouchableOpacity>
+      )}
+
+      {/* Footer */}
+      {hasSearched && (
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>
+            Want Harmony's team to dig deeper into these ideas?
+          </Text>
+          <TouchableOpacity style={styles.consultButton}>
+            <Text style={styles.consultButtonText}>Book a Consultation</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -380,6 +776,23 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.darkGray,
     fontSize: getTypographySize("md"),
     marginHorizontal: 8,
+  },
+  backButton: {
+    alignItems: "center",
+    backgroundColor: BRAND_COLORS.orange,
+    borderRadius: getBorderRadius("md"),
+    flexDirection: "row",
+    left: getSpacing("lg"),
+    paddingHorizontal: getSpacing("sm"),
+    paddingVertical: getSpacing("xs"),
+    position: "absolute",
+    ...BRAND_SHADOWS.small,
+  },
+  backButtonText: {
+    color: BRAND_COLORS.darkNavy,
+    fontSize: getTypographySize("xs"),
+    marginLeft: 4,
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
   },
   categoryHeader: {
     alignItems: "center",
@@ -394,17 +807,56 @@ const styles = StyleSheet.create({
     marginRight: getSpacing("sm"),
     width: 32,
   },
+  categorySubtitle: {
+    fontSize: getTypographySize("xs"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.electricBlue,
+    fontStyle: "italic",
+    marginBottom: getSpacing("md"),
+    marginTop: -getSpacing("xs"),
+  },
   categoryTitle: {
     fontSize: getTypographySize("lg"),
     ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
     color: BRAND_COLORS.darkNavy,
   },
+
+  consultButton: {
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderRadius: getBorderRadius("md"),
+    paddingHorizontal: getSpacing("xl"),
+    paddingVertical: getSpacing("sm"),
+    ...BRAND_SHADOWS.medium,
+  },
+  consultButtonText: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.white,
+  },
   container: {
     backgroundColor: BRAND_COLORS.white,
     flex: 1,
   },
-  countrySection: {
-    marginBottom: getSpacing("md"),
+  creativeChapterChange: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.darkNavy,
+  },
+  creativeReason: {
+    fontSize: getTypographySize("sm"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.darkGray,
+    flex: 1,
+    marginLeft: getSpacing("xs"),
+  },
+  creativeReasonContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: getSpacing("xs"),
+  },
+  creativeResultItem: {
+    borderColor: BRAND_COLORS.orange,
+    borderWidth: 2,
   },
   currentProductCard: {
     backgroundColor: BRAND_COLORS.lightGray,
@@ -414,6 +866,7 @@ const styles = StyleSheet.create({
     marginBottom: getSpacing("lg"),
     padding: getSpacing("md"),
   },
+
   currentProductCode: {
     fontSize: getTypographySize("xl"),
     ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
@@ -451,6 +904,44 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.error,
     marginTop: getSpacing("xs"),
   },
+  floatingButton: {
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderRadius: 30,
+    bottom: getSpacing("xl"),
+    left: getSpacing("lg"),
+    paddingHorizontal: getSpacing("lg"),
+    paddingVertical: getSpacing("md"),
+    position: "absolute",
+    right: getSpacing("lg"),
+    ...BRAND_SHADOWS.large,
+    elevation: 8,
+  },
+  floatingButtonContent: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  floatingButtonEmoji: {
+    fontSize: 28,
+    marginRight: getSpacing("sm"),
+  },
+  floatingButtonText: {
+    fontSize: getTypographySize("lg"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
+    color: BRAND_COLORS.white,
+  },
+  footer: {
+    alignItems: "center",
+    backgroundColor: BRAND_COLORS.darkNavy,
+    padding: getSpacing("lg"),
+  },
+  footerText: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.white,
+    marginBottom: getSpacing("md"),
+    textAlign: "center",
+  },
   fromCountry: {
     fontSize: getTypographySize("xs"),
     ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
@@ -460,6 +951,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: getSpacing("xl"),
     paddingHorizontal: getSpacing("lg"),
+    paddingVertical: getSpacing("xl"),
+    position: "relative",
   },
   input: {
     backgroundColor: BRAND_COLORS.white,
@@ -479,12 +972,70 @@ const styles = StyleSheet.create({
     marginBottom: getSpacing("xs"),
   },
   inputSection: {
-    marginBottom: getSpacing("xl"),
+    marginBottom: getSpacing("lg"),
     marginHorizontal: getSpacing("lg"),
   },
   inputWrapper: {
     position: "relative",
     zIndex: 10,
+  },
+  modalBody: {
+    padding: getSpacing("lg"),
+  },
+  modalButton: {
+    alignItems: "center",
+    backgroundColor: BRAND_COLORS.electricBlue,
+    borderRadius: getBorderRadius("md"),
+    margin: getSpacing("lg"),
+    padding: getSpacing("md"),
+    ...BRAND_SHADOWS.medium,
+  },
+  modalButtonText: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.white,
+  },
+  modalContent: {
+    backgroundColor: BRAND_COLORS.white,
+    borderRadius: getBorderRadius("lg"),
+    maxHeight: "80%",
+    maxWidth: 500,
+    width: "100%",
+    ...BRAND_SHADOWS.large,
+  },
+  modalHeader: {
+    alignItems: "center",
+    borderBottomColor: BRAND_COLORS.lightGray,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: getSpacing("lg"),
+  },
+  modalOverlay: {
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
+    padding: getSpacing("lg"),
+  },
+  modalSubheading: {
+    fontSize: getTypographySize("lg"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getSpacing("sm"),
+    marginTop: getSpacing("md"),
+  },
+  modalText: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.darkGray,
+    lineHeight: getTypographySize("md") * 1.5,
+    marginBottom: getSpacing("md"),
+  },
+  modalTitle: {
+    fontSize: getTypographySize("xl"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
+    color: BRAND_COLORS.darkNavy,
   },
   newRate: {
     color: BRAND_COLORS.success,
@@ -495,6 +1046,16 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.darkGray,
     fontSize: getTypographySize("md"),
     textDecorationLine: "line-through",
+  },
+  questionPrompt: {
+    marginBottom: getSpacing("xs"),
+    marginTop: getSpacing("xs"),
+  },
+  questionPromptLabel: {
+    fontSize: getTypographySize("xs"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.electricBlue,
+    marginBottom: 2,
   },
   rateComparison: {
     alignItems: "center",
@@ -553,6 +1114,33 @@ const styles = StyleSheet.create({
   resultsSection: {
     paddingHorizontal: getSpacing("lg"),
   },
+  resultsSummary: {
+    backgroundColor: BRAND_COLORS.electricBlue + "10",
+    borderRadius: getBorderRadius("md"),
+    marginBottom: getSpacing("lg"),
+    padding: getSpacing("md"),
+  },
+  resultsSummaryItem: {
+    fontSize: getTypographySize("sm"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.darkGray,
+    marginTop: getSpacing("xs"),
+  },
+  resultsSummaryTitle: {
+    fontSize: getTypographySize("md"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    color: BRAND_COLORS.darkNavy,
+    marginBottom: getSpacing("xs"),
+  },
+  riskIndicator: {
+    marginTop: getSpacing("xs"),
+  },
+  riskText: {
+    fontSize: getTypographySize("xs"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("medium"),
+    color: BRAND_COLORS.darkNavy,
+    fontStyle: "italic",
+  },
   savingsBadge: {
     backgroundColor: BRAND_COLORS.success,
     borderRadius: 15,
@@ -573,21 +1161,33 @@ const styles = StyleSheet.create({
   searchButton: {
     alignItems: "center",
     backgroundColor: BRAND_COLORS.electricBlue,
-    borderRadius: getBorderRadius("md"),
-    flexDirection: "row",
-    height: getResponsiveValue(50, 56),
+    borderRadius: getBorderRadius("lg"),
+    height: getResponsiveValue(80, 90),
     justifyContent: "center",
-    marginTop: getSpacing("md"),
-    ...BRAND_SHADOWS.medium,
+    marginTop: getSpacing("xl"),
+    padding: getSpacing("md"),
+    ...BRAND_SHADOWS.large,
+    borderColor: BRAND_COLORS.electricBlue,
+    borderWidth: 2,
   },
   searchButtonDisabled: {
     backgroundColor: BRAND_COLORS.mediumGray,
+    borderColor: BRAND_COLORS.mediumGray,
+  },
+  searchButtonSubtext: {
+    fontSize: getTypographySize("xs"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("regular"),
+    color: BRAND_COLORS.white,
+    marginTop: 2,
+    opacity: 0.9,
+    textAlign: "center",
   },
   searchButtonText: {
-    fontSize: getTypographySize("md"),
-    ...BRAND_TYPOGRAPHY.getFontStyle("semibold"),
+    fontSize: getTypographySize("lg"),
+    ...BRAND_TYPOGRAPHY.getFontStyle("bold"),
     color: BRAND_COLORS.white,
-    marginLeft: getSpacing("sm"),
+    marginTop: getSpacing("xs"),
+    textAlign: "center",
   },
   searchMessage: {
     fontSize: getTypographySize("md"),

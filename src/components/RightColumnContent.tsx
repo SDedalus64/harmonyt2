@@ -210,7 +210,7 @@ const RightColumnContent = () => {
             >
               <Ionicons
                 name={getPlatformIcon(post.platform)}
-                size={28}
+                size={31} // Increased by 10% from 28
                 color={getPlatformColor(post.platform)}
               />
             </TouchableOpacity>
@@ -358,8 +358,8 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   logoImage: {
-    height: 160,
-    width: 480,
+    height: 136, // Reduced by 15% from 160
+    width: 408, // Reduced by 15% from 480
   },
   platformName: {
     fontSize: isTablet() ? 13 : 12,

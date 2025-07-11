@@ -242,7 +242,7 @@ export default function TariffEngineeringComparison({
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Tariff Engineering</Text>
+        <Text style={styles.title}>Tariff Intelligence (Beta)</Text>
         <View style={styles.dataSection}>
           <Text style={styles.subtitle}>
             {htsCode} - {description}
@@ -304,10 +304,17 @@ export default function TariffEngineeringComparison({
               size={48}
               color={BRAND_COLORS.electricBlue}
             />
-            <Text style={[styles.noResultsText, { color: BRAND_COLORS.darkNavy }]}>
+            <Text
+              style={[styles.noResultsText, { color: BRAND_COLORS.darkNavy }]}
+            >
               No lower-duty alternative classifications found for this product.
             </Text>
-            <Text style={[styles.noResultsSubtext, { color: BRAND_COLORS.electricBlue }]}>
+            <Text
+              style={[
+                styles.noResultsSubtext,
+                { color: BRAND_COLORS.electricBlue },
+              ]}
+            >
               This HTS code appears to be optimally classified for imports from{" "}
               {countryName}. Alternative classifications exist but would result
               in the same or higher duties.

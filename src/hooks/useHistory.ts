@@ -36,6 +36,39 @@ export interface HistoryItem {
   };
   // Display preference for unit calculations
   showUnitCalculations?: boolean;
+  // Tariff Engineering specific fields
+  isTariffEngineering?: boolean;
+  teData?: {
+    semanticResults: Array<{
+      code: string;
+      description: string;
+      currentDutyRate: number;
+      suggestedDutyRate: number;
+      savings: number;
+      reason?: string;
+      reasonType?: string;
+    }>;
+    materialResults: Array<{
+      code: string;
+      description: string;
+      currentDutyRate: number;
+      suggestedDutyRate: number;
+      savings: number;
+      reason?: string;
+      reasonType?: string;
+    }>;
+    bestAlternative: {
+      code: string;
+      description: string;
+      currentDutyRate: number;
+      suggestedDutyRate: number;
+      savings: number;
+      reason?: string;
+      reasonType?: string;
+    } | null;
+    totalAlternatives: number;
+    maxSavings: number;
+  };
 }
 
 const HISTORY_STORAGE_KEY = "@HarmonyTi:history";

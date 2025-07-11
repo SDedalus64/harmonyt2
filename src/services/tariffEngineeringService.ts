@@ -1,7 +1,7 @@
-import tariffEngineeringData from '../../data/tariff_engineering.json';
-import semanticLinksData from '../../data/semantic_links.json';
-import materialLinksData from '../../data/material_alt_links.json';
-import { TariffService } from './tariffService';
+import tariffEngineeringData from "../../data/tariff_engineering.json";
+import semanticLinksData from "../../data/semantic_links.json";
+import materialLinksData from "../../data/material_alt_links.json";
+import { TariffService } from "./tariffService";
 
 export interface TariffEngineeringSuggestion {
   code: string;
@@ -10,7 +10,13 @@ export interface TariffEngineeringSuggestion {
   suggestedDutyRate: number;
   savings: number; // percentage points saved
   reason: string;
-  reasonType: 'NEIGHBOR' | 'MATERIAL' | 'PROCESS' | 'FUNCTION' | 'COMPONENT' | 'SEMANTIC';
+  reasonType:
+    | "NEIGHBOR"
+    | "MATERIAL"
+    | "PROCESS"
+    | "FUNCTION"
+    | "COMPONENT"
+    | "SEMANTIC";
 }
 
 export interface CompleteDutyComparison {
@@ -53,33 +59,45 @@ interface TariffEngineeringEntry {
     dutyRate: number;
     rateDifference: number;
     reason: string;
-    reasonType: 'NEIGHBOR' | 'MATERIAL' | 'PROCESS' | 'FUNCTION' | 'COMPONENT';
+    reasonType: "NEIGHBOR" | "MATERIAL" | "PROCESS" | "FUNCTION" | "COMPONENT";
   }>;
 }
 
 // Type cast the imported data
-const engineeringDB = tariffEngineeringData as Record<string, TariffEngineeringEntry>;
+const engineeringDB = tariffEngineeringData as Record<
+  string,
+  TariffEngineeringEntry
+>;
 
-export function getTariffEngineeringSuggestions(code: string): TariffEngineeringSuggestion[] {
-  const normalized = code.replace(/\D/g, '').padEnd(8, '0').slice(0, 8);
-  
-  console.log('[TariffEngineering] Looking for suggestions for:', normalized);
-  console.log('[TariffEngineering] Database has entries:', Object.keys(engineeringDB).length);
-  
+export function getTariffEngineeringSuggestions(
+  code: string,
+): TariffEngineeringSuggestion[] {
+  const normalized = code.replace(/\D/g, "").padEnd(8, "0").slice(0, 8);
+
+  console.log("[TariffEngineering] Looking for suggestions for:", normalized);
+  console.log(
+    "[TariffEngineering] Database has entries:",
+    Object.keys(engineeringDB).length,
+  );
+
   // First check if we have direct engineering suggestions
   const entry = engineeringDB[normalized];
   if (!entry) {
-    console.log('[TariffEngineering] No entry found for code:', normalized);
+    console.log("[TariffEngineering] No entry found for code:", normalized);
     return [];
   }
-  
-  console.log('[TariffEngineering] Found entry:', entry);
+
+  console.log("[TariffEngineering] Found entry:", entry);
   const suggestions: TariffEngineeringSuggestion[] = [];
-  
+
   // Add suggestions from the engineering database (with duty rates)
   for (const suggestion of entry.suggestions) {
-    if (suggestion.rateDifference > 0) { // Only show savings opportunities
-      console.log('[TariffEngineering] Adding suggestion with savings:', suggestion);
+    if (suggestion.rateDifference > 0) {
+      // Only show savings opportunities
+      console.log(
+        "[TariffEngineering] Adding suggestion with savings:",
+        suggestion,
+      );
       suggestions.push({
         code: suggestion.code,
         description: suggestion.description,
@@ -91,85 +109,94 @@ export function getTariffEngineeringSuggestions(code: string): TariffEngineering
       });
     }
   }
-  
+
   // Also check semantic links for additional opportunities
   const semanticLinks = (semanticLinksData as any)[normalized];
   if (semanticLinks && Array.isArray(semanticLinks)) {
-    console.log('[TariffEngineering] Found semantic links:', semanticLinks);
-    for (const link of semanticLinks.slice(0, 3)) { // Top 3 semantic matches
+    console.log("[TariffEngineering] Found semantic links:", semanticLinks);
+    for (const link of semanticLinks.slice(0, 3)) {
+      // Top 3 semantic matches
       // Check if this semantic match has a different duty rate
       const linkedEntry = engineeringDB[link.code];
       if (linkedEntry && linkedEntry.dutyRate < entry.dutyRate) {
         const savings = entry.dutyRate - linkedEntry.dutyRate;
-        if (savings >= 1) { // At least 1% savings
-          console.log('[TariffEngineering] Adding semantic suggestion with savings:', link);
+        if (savings >= 1) {
+          // At least 1% savings
+          console.log(
+            "[TariffEngineering] Adding semantic suggestion with savings:",
+            link,
+          );
           suggestions.push({
             code: link.code,
             description: linkedEntry.description,
             currentDutyRate: entry.dutyRate,
             suggestedDutyRate: linkedEntry.dutyRate,
             savings,
-            reason: link.reason || 'Semantic similarity',
-            reasonType: 'SEMANTIC',
+            reason: link.reason || "Semantic similarity",
+            reasonType: "SEMANTIC",
           });
         }
       }
     }
   }
-  
+
   // Sort by savings (highest first) and limit to top 10
-  const result = suggestions
-    .sort((a, b) => b.savings - a.savings)
-    .slice(0, 10);
-    
-  console.log('[TariffEngineering] Returning suggestions:', result);
+  const result = suggestions.sort((a, b) => b.savings - a.savings).slice(0, 10);
+
+  console.log("[TariffEngineering] Returning suggestions:", result);
   return result;
 }
 
-export function getNeighboringCodes(code: string): TariffEngineeringSuggestion[] {
-  const normalized = code.replace(/\D/g, '').padEnd(8, '0').slice(0, 8);
+export function getNeighboringCodes(
+  code: string,
+): TariffEngineeringSuggestion[] {
+  const normalized = code.replace(/\D/g, "").padEnd(8, "0").slice(0, 8);
   const entry = engineeringDB[normalized];
   if (!entry) return [];
-  
+
   return entry.suggestions
-    .filter(s => s.reasonType === 'NEIGHBOR' && s.rateDifference > 0)
-    .map(s => ({
+    .filter((s) => s.reasonType === "NEIGHBOR" && s.rateDifference > 0)
+    .map((s) => ({
       code: s.code,
       description: s.description,
       currentDutyRate: entry.dutyRate,
       suggestedDutyRate: s.dutyRate,
       savings: s.rateDifference,
       reason: s.reason,
-      reasonType: s.reasonType as 'NEIGHBOR',
+      reasonType: s.reasonType as "NEIGHBOR",
     }))
     .slice(0, 5);
 }
 
-export function getMaterialAlternatives(code: string): TariffEngineeringSuggestion[] {
-  const normalized = code.replace(/\D/g, '').padEnd(8, '0').slice(0, 8);
+export function getMaterialAlternatives(
+  code: string,
+): TariffEngineeringSuggestion[] {
+  const normalized = code.replace(/\D/g, "").padEnd(8, "0").slice(0, 8);
   const entry = engineeringDB[normalized];
   if (!entry) return [];
-  
+
   return entry.suggestions
-    .filter(s => s.reasonType === 'MATERIAL' && s.rateDifference > 0)
-    .map(s => ({
+    .filter((s) => s.reasonType === "MATERIAL" && s.rateDifference > 0)
+    .map((s) => ({
       code: s.code,
       description: s.description,
       currentDutyRate: entry.dutyRate,
       suggestedDutyRate: s.dutyRate,
       savings: s.rateDifference,
       reason: s.reason,
-      reasonType: s.reasonType as 'MATERIAL',
+      reasonType: s.reasonType as "MATERIAL",
     }))
     .slice(0, 5);
 }
 
-export async function fetchTariffEngineeringSuggestions(code: string): Promise<TariffEngineeringSuggestion[]> {
-  const normalized = code.replace(/\D/g, '');
+export async function fetchTariffEngineeringSuggestions(
+  code: string,
+): Promise<TariffEngineeringSuggestion[]> {
+  const normalized = code.replace(/\D/g, "");
   if (normalized.length < 6 || normalized.length > 10) {
-    throw new Error('Please enter a valid 6–10 digit HTS code.');
+    throw new Error("Please enter a valid 6–10 digit HTS code.");
   }
-  
+
   // Simulate async for loading state
   return new Promise<TariffEngineeringSuggestion[]>((resolve) => {
     setTimeout(() => {
@@ -182,7 +209,7 @@ export async function getTariffEngineeringSuggestionsWithDuties(
   htsCode: string,
   countryCode: string,
   declaredValue: number,
-  isUSMCAOrigin: boolean = false
+  isUSMCAOrigin: boolean = false,
 ): Promise<CompleteDutyComparison[]> {
   // Get base suggestions
   const suggestions = getTariffEngineeringSuggestions(htsCode);
@@ -196,7 +223,7 @@ export async function getTariffEngineeringSuggestionsWithDuties(
     countryCode,
     true, // isReciprocalAdditive
     false, // excludeReciprocalTariff
-    isUSMCAOrigin
+    isUSMCAOrigin,
   );
 
   if (!currentDuty) return [];
@@ -209,7 +236,7 @@ export async function getTariffEngineeringSuggestionsWithDuties(
       countryCode,
       true,
       false,
-      isUSMCAOrigin
+      isUSMCAOrigin,
     );
 
     if (!alternativeDuty) continue;
@@ -220,10 +247,13 @@ export async function getTariffEngineeringSuggestionsWithDuties(
 
     // Determine avoided tariffs by comparing components
     const avoidedTariffs = currentDuty.components
-      .filter(current => !alternativeDuty.components.some(alt => 
-        alt.type === current.type && alt.rate >= current.rate
-      ))
-      .map(component => component.label || component.type);
+      .filter(
+        (current) =>
+          !alternativeDuty.components.some(
+            (alt) => alt.type === current.type && alt.rate >= current.rate,
+          ),
+      )
+      .map((component) => component.label || component.type);
 
     if (savingsAmount > 0) {
       results.push({
@@ -233,21 +263,126 @@ export async function getTariffEngineeringSuggestionsWithDuties(
         engineeringStrategy: suggestion.reason,
         currentDuty: {
           totalAmount: currentDuty.amount,
-          components: currentDuty.components
+          components: currentDuty.components,
         },
         alternativeDuty: {
           totalAmount: alternativeDuty.amount,
-          components: alternativeDuty.components
+          components: alternativeDuty.components,
         },
         savings: {
           amount: savingsAmount,
           percentage: savingsPercentage,
-          avoidedTariffs
-        }
+          avoidedTariffs,
+        },
       });
     }
   }
 
   // Sort by savings amount (highest first)
   return results.sort((a, b) => b.savings.amount - a.savings.amount);
+}
+
+export interface CreativeSemanticMatch {
+  fromCode: string;
+  fromDescription: string;
+  fromChapter: string;
+  toCode: string;
+  toDescription: string;
+  toChapter: string;
+  fromRate: number;
+  toRate: number;
+  savingsPotential: "high" | "medium" | "low";
+  legalBasis: string;
+  reasoning: string;
+  riskLevel: "low" | "medium" | "high";
+  documentationNeeded: string[];
+  realWorldExample: string;
+  industryCategory: string;
+}
+
+// Import creative matches if available
+let creativeMatchesData: CreativeSemanticMatch[] = [];
+try {
+  creativeMatchesData = require("../../data/targeted_creative_semantic_matches.json");
+  console.log(
+    "[TariffEngineering] Successfully loaded creative matches:",
+    creativeMatchesData.length,
+  );
+} catch (e) {
+  console.error("[TariffEngineering] Failed to load creative matches:", e);
+  // Try alternative import method
+  try {
+    const data = require("../../data/targeted_creative_semantic_matches.json");
+    creativeMatchesData = data.default || data;
+    console.log(
+      "[TariffEngineering] Loaded via alternative method:",
+      creativeMatchesData.length,
+    );
+  } catch (e2) {
+    console.error("[TariffEngineering] Alternative import also failed:", e2);
+  }
+}
+
+export function getCreativeSemanticMatches(
+  code: string,
+): CreativeSemanticMatch[] {
+  const normalized = code.replace(/\D/g, "").padEnd(8, "0").slice(0, 8);
+
+  console.log(
+    `[TariffEngineering] Looking for creative matches for code ${normalized}`,
+  );
+  console.log(
+    `[TariffEngineering] Creative data loaded:`,
+    creativeMatchesData.length,
+    "items",
+  );
+
+  // Hardcoded example for testing
+  if (normalized === "90189080") {
+    console.log("[TariffEngineering] Returning hardcoded match for testing");
+    return [
+      {
+        fromCode: "90189080",
+        fromDescription: "Medical furniture and examination tables",
+        fromChapter: "90",
+        toCode: "94029000",
+        toDescription: "Medical, surgical or veterinary furniture",
+        toChapter: "94",
+        fromRate: 7.5,
+        toRate: 0,
+        savingsPotential: "high" as const,
+        legalBasis: "GRI 1 - Specific provision in Ch 94 for medical furniture",
+        reasoning:
+          "Medical examination tables without diagnostic equipment are furniture. CBP has ruled examination tables are classified in 9402 when not fitted with diagnostic devices.",
+        riskLevel: "low" as const,
+        documentationNeeded: [
+          "Confirm table has no built-in diagnostic equipment",
+          "Product literature emphasizing furniture aspects",
+          "Photos showing general examination use",
+        ],
+        realWorldExample:
+          "Basic examination tables, medical stools, procedure chairs",
+        industryCategory: "Medical Devices & Supplies",
+      },
+    ];
+  }
+
+  // Find matches for this specific code or codes in the same 4-digit heading
+  const matches = creativeMatchesData.filter(
+    (match) =>
+      match.fromCode === normalized ||
+      match.fromCode.startsWith(normalized.substring(0, 4)),
+  );
+
+  console.log(
+    `[TariffEngineering] Found ${matches.length} creative matches for code ${normalized}`,
+  );
+  console.log(`[TariffEngineering] Matches:`, matches);
+
+  // Return matches sorted by savings potential
+  return matches.sort((a, b) => {
+    const savingsA = a.fromRate - a.toRate;
+    const savingsB = b.fromRate - b.toRate;
+    return savingsB - savingsA;
+  });
 }

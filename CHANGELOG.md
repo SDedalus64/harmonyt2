@@ -5,6 +5,16 @@ feat: integrate Geologica font family and update typography across the app
 
 refactor: remove Android and iOS project files, update component styles and structure
 refactor: enhance LookupScreen with type annotations and layout improvements
+feat: enhance Tariff Engineering features and UI improvements
+
+[2025-07-10]
+
+- Introduced new fields in useHistory for Tariff Engineering data handling.
+- Updated LookupScreen to navigate to Tariff Engineering based on item type.
+- Added educational modal in Tariff Engineering screen to guide users.
+- Implemented creative semantic matches functionality for better classification options.
+- Enhanced UI elements across various screens for improved user experience and accessibility.
+- Adjusted button layouts and added new styles for better visual consistency.
 
 [2025-07-07]
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Modal,
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Keyboard,
@@ -10,6 +9,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+import { Text } from "../components/Text";
 import { Ionicons } from "@expo/vector-icons";
 import { BRAND_COLORS } from "../config/brandColors";
 

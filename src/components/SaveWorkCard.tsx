@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Text } from "./Text";
 import { Ionicons } from "@expo/vector-icons";
 
 interface SaveWorkCardProps {
