@@ -7,6 +7,8 @@
       "hts8": "26100000",
       "brief_description": "Chromium ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "quantity_2_code": "CTN",
       "wto_binding_code": "B",
@@ -29,10 +31,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -76,6 +79,8 @@
       "hts8": "26110030",
       "brief_description": "Tungsten ores",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -98,10 +103,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -145,6 +151,8 @@
       "hts8": "26110060",
       "brief_description": "Tungsten concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -311,10 +319,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -358,6 +367,8 @@
       "hts8": "26121000",
       "brief_description": "Uranium ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -379,10 +390,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -426,6 +438,8 @@
       "hts8": "26122000",
       "brief_description": "Thorium ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -447,10 +461,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -494,6 +509,8 @@
       "hts8": "26131000",
       "brief_description": "Molybdenum ores and concentrates, roasted",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -514,10 +531,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 15,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (15.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -668,10 +681,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -715,6 +729,8 @@
       "hts8": "26139000",
       "brief_description": "Molybdenum ores and concentrates, not roasted",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -881,10 +897,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -928,6 +945,8 @@
       "hts8": "26140030",
       "brief_description": "Synthetic rutile",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -947,20 +966,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1004,6 +1020,8 @@
       "hts8": "26140060",
       "brief_description": "Titanium ores and concentrates, other than synthetic rutile",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1025,10 +1043,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1072,6 +1091,8 @@
       "hts8": "26151000",
       "brief_description": "Zirconium ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1093,10 +1114,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1140,6 +1162,8 @@
       "hts8": "26159030",
       "brief_description": "Synthetic tantalum-niobium concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1159,20 +1183,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1216,6 +1237,8 @@
       "hts8": "26159060",
       "brief_description": "Niobium, tantalum or vanadium ores and concentrates, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1237,10 +1260,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1284,6 +1308,8 @@
       "hts8": "26161000",
       "brief_description": "Silver ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "0.8 cents/kg on lead content",
       "mfn_rate_type_code": "T",
@@ -1298,10 +1324,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1452,10 +1474,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1499,6 +1522,8 @@
       "hts8": "26169000",
       "brief_description": "Precious metal (other than silver) ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "1.7 cents/kg on lead content",
       "mfn_rate_type_code": "T",
@@ -1513,10 +1538,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1667,10 +1688,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1714,6 +1736,8 @@
       "hts8": "26171000",
       "brief_description": "Antimony ores and concentrates",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -1736,10 +1760,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1783,6 +1808,8 @@
       "hts8": "26179000",
       "brief_description": "Metal ores and concentrates, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1804,10 +1831,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1851,6 +1879,8 @@
       "hts8": "26180000",
       "brief_description": "Granulated slag (slag sand) from the manufacture of iron or steel",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1870,22 +1900,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1929,6 +1954,8 @@
       "hts8": "26190030",
       "brief_description": "Ferrous scale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1950,10 +1977,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1997,6 +2025,8 @@
       "hts8": "26190090",
       "brief_description": "Slag, dross and other waste (except ferrous scale) from the manufacture of iron or steel",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2018,10 +2048,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

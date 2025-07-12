@@ -114,6 +114,16 @@ cd "$SCRIPT_DIR" || {
 
 print_status "Working directory: $(pwd)"
 
+# Activate virtual environment if it exists
+VENV_PATH="$SCRIPT_DIR/../../venv_tariff"
+if [ -d "$VENV_PATH" ]; then
+    print_status "Activating virtual environment..."
+    source "$VENV_PATH/bin/activate"
+else
+    print_warning "Virtual environment not found at $VENV_PATH"
+    print_warning "You may need to install dependencies: pip install pandas openpyxl pdfplumber"
+fi
+
 # Step 0: Extract Section 301 data if requested
 if [ "$EXTRACT_SECTION_301" = true ]; then
     print_info "=== Section 301 Extraction ==="
@@ -262,13 +272,22 @@ if [ "$FILTER_SECTION_301" = true ]; then
     print_status "Integrating Section 301 data from: $SECTION_301_CSV"
     print_status "Filtering to ONLY HTS codes with Section 301 add-ons..."
     
-    python3 "$SCRIPT_DIR/preprocess_tariff_data_with_301.py" \
+    python3 "$SCRIPT_DIR/preprocess_tariff_data_new.py" \
         "$CSV_FILE" "$SECTION_301_CSV" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
 else
     print_info "Processing ALL tariff data..."
     
-    python3 "$SCRIPT_DIR/preprocess_tariff_data.py" \
-        "$CSV_FILE" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
+    # Use the existing Section 301 deduplicated CSV
+    SECTION_301_CSV="$SCRIPT_DIR/../exports/section301_deduplicated.csv"
+    if [ ! -f "$SECTION_301_CSV" ]; then
+        print_warning "Section 301 deduplicated CSV not found. Section 301 rates may be incorrect."
+        print_warning "Run with --extract-301 option first to ensure correct rates."
+    else
+        print_status "Using Section 301 data from: $SECTION_301_CSV"
+    fi
+    
+    python3 "$SCRIPT_DIR/preprocess_tariff_data_new.py" \
+        "$CSV_FILE" "$SECTION_301_CSV" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
 fi
 
 if [ $? -ne 0 ]; then

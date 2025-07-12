@@ -15,6 +15,9 @@ import { tariffSearchService } from "./src/services/tariffSearchService";
 import { blogService } from "./src/services/blogService";
 import { SettingsProvider } from "./src/hooks/useSettings";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { tariffCacheService } from "./src/services/tariffCacheService";
+import { getAzureUrls } from "./src/config/azure.config";
+import { AppState, AppStateStatus } from "react-native";
 
 // First launch key for AsyncStorage
 const FIRST_LAUNCH_KEY = "@HarmonyTi:firstLaunch";
@@ -26,6 +29,20 @@ function AppContent() {
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
   const { isLoggedIn } = useAuth();
+  const appState = React.useRef(AppState.currentState);
+
+  // Function to check for cache updates
+  const checkCacheUpdates = async () => {
+    if (tariffService.isInitialized()) {
+      try {
+        const urls = getAzureUrls();
+        await tariffCacheService.startBackgroundCaching(urls.segmentIndex);
+        console.log("✅ Cache validation check complete");
+      } catch (error) {
+        console.warn("Cache validation failed:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     async function initializeApp() {
@@ -52,6 +69,25 @@ function AppContent() {
 
     initializeApp();
 
+    // Set up app state listener to check cache when app comes to foreground
+    const subscription = AppState.addEventListener(
+      "change",
+      (nextAppState: AppStateStatus) => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === "active"
+        ) {
+          console.log("App came to foreground, checking for tariff updates...");
+          checkCacheUpdates();
+        }
+        appState.current = nextAppState;
+      },
+    );
+
+    return () => {
+      subscription.remove();
+    };
+
     // Initialize heavy data services AFTER basic app state is ready
     async function initDataServices() {
       try {
@@ -72,6 +108,9 @@ function AppContent() {
         // Preload blog posts in the background
         console.log("📰 Preloading blog posts...");
         blogService.preloadBlogs();
+
+        // After initialization is complete, do an initial cache check
+        checkCacheUpdates();
       } catch (err) {
         console.warn("⚠️ Failed to initialize data services:", err);
       }

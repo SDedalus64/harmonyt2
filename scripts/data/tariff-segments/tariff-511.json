@@ -4,9 +4,11 @@
   "count": 41,
   "entries": [
     {
-      "hts8": "5111000",
+      "hts8": "51110000",
       "brief_description": "Bovine semen",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "DS",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -26,22 +28,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -82,9 +79,11 @@
       ]
     },
     {
-      "hts8": "5119100",
+      "hts8": "51191000",
       "brief_description": "Products of fish, crustaceans, molluscs or other aquatic invertebrates nesoi; dead animals of chapter 3, unfit for human consumption",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -106,10 +105,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -150,9 +150,11 @@
       ]
     },
     {
-      "hts8": "5119920",
+      "hts8": "51199200",
       "brief_description": "Parings and similar waste of raw hides or skins; glue stock nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -174,10 +176,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -218,9 +221,11 @@
       ]
     },
     {
-      "hts8": "5119930",
+      "hts8": "51199300",
       "brief_description": "Animal products chiefly used as food for animals or as ingredients in such food, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -240,22 +245,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -296,9 +296,11 @@
       ]
     },
     {
-      "hts8": "5119933",
+      "hts8": "51199330",
       "brief_description": "Horsehair and horsehair waste, whether or not put up as a layer with or without supporting material",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -320,10 +322,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -364,9 +367,11 @@
       ]
     },
     {
-      "hts8": "5119936",
+      "hts8": "51199360",
       "brief_description": "Natural sponges of animal origin",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3%",
@@ -386,10 +391,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 15,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (15.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -540,10 +541,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -584,9 +586,11 @@
       ]
     },
     {
-      "hts8": "5119940",
+      "hts8": "51199400",
       "brief_description": "Animal products nesoi; dead animals of chapter 1, unfit for human consumption",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "1.1%",
       "mfn_rate_type_code": "7",
@@ -605,12 +609,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -761,10 +759,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -808,6 +807,8 @@
       "hts8": "51100000",
       "brief_description": "Yarn of coarse animal hair or horsehair (including gimped horsehair yarn) whether or not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -827,20 +828,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -884,6 +882,8 @@
       "hts8": "51111120",
       "brief_description": "Tapestry and upholstery fabrics of carded wool/fine animal hair, over 85% wool or hair, weighing not over 140 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -904,10 +904,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1048,10 +1044,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1095,6 +1092,8 @@
       "hts8": "51111130",
       "brief_description": "Hand-woven fabrics of carded wool/fine animal hair, 85% or more wool or hair, loom width less than 76 cm, weight not over 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1115,10 +1114,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 60,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (60.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1259,10 +1254,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1306,6 +1302,8 @@
       "hts8": "51111170",
       "brief_description": "Woven fabrics, 85% or more by weight of carded wool/fine animal hair, weight not over 300 g/m2, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1326,10 +1324,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1470,10 +1464,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1517,6 +1512,8 @@
       "hts8": "51111910",
       "brief_description": "Tapestry and upholstery fabrics, woven, 85% or more by weight of carded wool/fine animal hair, weight over 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1537,10 +1534,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1681,10 +1674,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1728,6 +1722,8 @@
       "hts8": "51111920",
       "brief_description": "Hand-woven fabrics, with 85 percent or more by weight of carded wool/fine animal hair, loom width of less than 76 cm, weight ov 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1748,10 +1744,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 60,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (60.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1892,10 +1884,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1939,6 +1932,8 @@
       "hts8": "51111960",
       "brief_description": "Woven fabrics, with 85 percent or more by weight of carded wool/fine animal hair nesoi, weight over 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1959,10 +1954,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2103,10 +2094,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2150,6 +2142,8 @@
       "hts8": "51112005",
       "brief_description": "Tapestry & upholstery fabrics of carded wool/fine animal hair, mixed mainly or solely with man-made filaments, weight exceeding 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2170,10 +2164,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2314,10 +2304,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2361,6 +2352,8 @@
       "hts8": "51112010",
       "brief_description": "Tapestry & upholstery fabrics of carded wool/fine animal hair, mixed mainly or solely with man-made filaments, weight not over 140 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2381,10 +2374,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2525,10 +2514,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2572,6 +2562,8 @@
       "hts8": "51112090",
       "brief_description": "Woven fabrics of carded wool/fine animal hair, mixed mainly or solely with man-made filaments, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2592,10 +2584,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2736,10 +2724,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2783,6 +2772,8 @@
       "hts8": "51113005",
       "brief_description": "Tapestry & upholstery fabrics of carded wool/fine animal hair, mixed mainly/solely with man-made staple fibers, weight exceeding 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2803,10 +2794,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2947,10 +2934,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2994,6 +2982,8 @@
       "hts8": "51113010",
       "brief_description": "Tapestry & upholstery fabrics of carded wool/fine animal hair, mixed mainly/solely with man-made staple fibers, weight not over 140 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3014,10 +3004,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3158,10 +3144,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3205,6 +3192,8 @@
       "hts8": "51113090",
       "brief_description": "Woven fabrics of carded wool/fine animal hair, mixed mainly or solely with man-made staple fibers, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3225,10 +3214,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3369,10 +3354,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3416,6 +3402,8 @@
       "hts8": "51119030",
       "brief_description": "Woven fabrics of carded wool/fine animal hair, containing 30 percent or more by weight of silk or silk waste, valued over $33/kg",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3436,10 +3424,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 80,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (80.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3580,10 +3564,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3627,6 +3612,8 @@
       "hts8": "51119040",
       "brief_description": "Tapestry and upholstery fabrics of carded wool/fine animal hair, weight over 300 g/m2, containing less than 85% wool or hair, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3647,10 +3634,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3791,10 +3774,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3838,6 +3822,8 @@
       "hts8": "51119050",
       "brief_description": "Tapestry and upholstery fabrics of carded wool/fine animal hair, weight not over 140 g/m2, containing less than 85% wool or hair, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3858,10 +3844,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4002,10 +3984,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4049,6 +4032,8 @@
       "hts8": "51119090",
       "brief_description": "Woven fabrics of carded wool/fine animal hair, containing less than 85% wool or hair, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4069,10 +4054,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4213,10 +4194,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4260,6 +4242,8 @@
       "hts8": "51121110",
       "brief_description": "Tapestry and upholstery fabrics of combed wool/fine animal hair, containing 85% or more wool or hair, weight not over 140 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4280,10 +4264,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4424,10 +4404,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4471,6 +4452,8 @@
       "hts8": "51121130",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, over 85% wool or hair, weight not over 200 g/m2, avg wool fiber diameter 18.5 micron or <",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4491,10 +4474,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4635,10 +4614,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4682,6 +4662,8 @@
       "hts8": "51121160",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, over 85% wool or hair, weight not over 200 g/m2, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4702,10 +4684,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4846,10 +4824,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4893,6 +4872,8 @@
       "hts8": "51121920",
       "brief_description": "Tapestry and upholstery fabrics of combed wool/fine animal hair, over 85% wool or hair, weight over 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4913,10 +4894,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5057,10 +5034,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5104,6 +5082,8 @@
       "hts8": "51121960",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, over 85% wool or fine animal hair, ov 200 g/m2, avg wool fiber diameter 18.5 micron or <",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -5124,10 +5104,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5268,10 +5244,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5315,6 +5292,8 @@
       "hts8": "51121995",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, over 85% wool or fine animal hair, weight over 200 g/m2, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -5335,10 +5314,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5479,10 +5454,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5526,6 +5502,8 @@
       "hts8": "51122010",
       "brief_description": "Tapestry and upholstery fabrics of combed wool/fine animal hair, mixed mainly/solely with man-made filaments, weight over 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -5546,10 +5524,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5690,10 +5664,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5737,6 +5712,8 @@
       "hts8": "51122020",
       "brief_description": "Tapestry and upholstery fabrics of combed wool/fine animal hair, mixed mainly/solely with man-made filaments, weight not over 140 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -5757,10 +5734,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5901,10 +5874,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5948,6 +5922,8 @@
       "hts8": "51122030",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, mixed mainly or solely with man-made filaments, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -5968,10 +5944,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6112,10 +6084,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6159,6 +6132,8 @@
       "hts8": "51123010",
       "brief_description": "Tapestry and upholstery fabrics of combed wool/fine animal hair, mixed mainly/solely with man-made staple fibers, weight over 300 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -6179,10 +6154,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6323,10 +6294,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6370,6 +6342,8 @@
       "hts8": "51123020",
       "brief_description": "Tapestry & upholstery fabrics of combed wool/fine animal hair, mixed mainly/solely with man-made staple fibers, weight not over 140 g/m2",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -6390,10 +6364,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6534,10 +6504,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6581,6 +6552,8 @@
       "hts8": "51123030",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, mixed mainly or solely with man-made staple fibers, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -6601,10 +6574,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6745,10 +6714,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6792,6 +6762,8 @@
       "hts8": "51129030",
       "brief_description": "Woven fabrics of combed wool/fine animal hair, nesoi, containing 30 percent or more by weight of silk or silk waste, valued over $33/kg",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -6812,10 +6784,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 80,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (80.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6956,10 +6924,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7003,6 +6972,8 @@
       "hts8": "51129040",
       "brief_description": "Woven tapestry/upholstery fabrics of combed wool/fine animal hair, con. by wt. under 85% wool/hair & under 30% silk, over 300 g/m2, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -7023,10 +6994,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7167,10 +7134,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7214,6 +7182,8 @@
       "hts8": "51129050",
       "brief_description": "Woven tapestry/upholstery fabrics of combed wool/fine animal hair, con. by wt. under 85% wool/hair & under 30% silk, n/o 140 g/m2, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -7234,10 +7204,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7378,10 +7344,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7425,6 +7392,8 @@
       "hts8": "51129090",
       "brief_description": "Woven fabrics of combed wool or combed fine animal hair, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -7445,10 +7414,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 68.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (68.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7589,10 +7554,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7636,6 +7602,8 @@
       "hts8": "51130000",
       "brief_description": "Woven fabrics of coarse animal hair or of horsehair",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -7656,10 +7624,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7810,10 +7774,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

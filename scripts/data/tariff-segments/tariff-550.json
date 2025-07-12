@@ -26,10 +26,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -165,17 +161,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -236,10 +221,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -375,17 +356,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -427,6 +397,8 @@
       "hts8": "55012000",
       "brief_description": "Synthetic filament tow of polyesters",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -446,10 +418,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -590,10 +558,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -637,6 +606,8 @@
       "hts8": "55013000",
       "brief_description": "Synthetic filament tow of acrylic or modacrylic",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -656,10 +627,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -800,10 +767,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -847,6 +815,8 @@
       "hts8": "55014000",
       "brief_description": "Synthetic filament tow, of polypropylene",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -866,10 +836,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1010,10 +976,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1057,6 +1024,8 @@
       "hts8": "55019001",
       "brief_description": "Synthetic filament tow, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -1076,10 +1045,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1220,10 +1185,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1267,6 +1233,8 @@
       "hts8": "55021000",
       "brief_description": "Artificial filament tow of cellulose acetate",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -1286,10 +1254,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1331,10 +1295,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1378,6 +1343,8 @@
       "hts8": "55029000",
       "brief_description": "Artificial filament tow other than of cellulose acetate",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -1397,10 +1364,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1442,10 +1405,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1489,6 +1453,8 @@
       "hts8": "55031100",
       "brief_description": "Synthetic staple fibers, n/carded, combed or otherwise processed for spinning, of aramids",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -1508,13 +1474,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1655,10 +1614,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1702,6 +1662,8 @@
       "hts8": "55031910",
       "brief_description": "Synthetic staple fibers, n/carded, combed or otherwise processed for spinning, of nylon/other polyamides (except aramids), cont 10% or more",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1721,23 +1683,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1781,6 +1737,8 @@
       "hts8": "55031990",
       "brief_description": "Synthetic staple fibers, n/carded, combed or otherwise processed for spinning, of nylon or other polyamides (except aramids), nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -1800,13 +1758,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1947,10 +1898,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1994,6 +1946,8 @@
       "hts8": "55032000",
       "brief_description": "Synthetic staple fibers, not carded, combed or otherwise processed for spinning, of polyesters",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -2013,13 +1967,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2160,10 +2107,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2207,6 +2155,8 @@
       "hts8": "55033000",
       "brief_description": "Synthetic (acrylic or modacrylic) staple fibers, not carded, combed or otherwise processed for spinning",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -2226,13 +2176,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2373,10 +2316,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2420,6 +2364,8 @@
       "hts8": "55034000",
       "brief_description": "Synthetic staple fibers, not carded, combed or otherwise processed for spinning, of polypropylene",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -2439,13 +2385,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2586,10 +2525,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2633,6 +2573,8 @@
       "hts8": "55039010",
       "brief_description": "Synthetic staple fibers, not carded, combed or otherwise processed for spinning, of vinyon",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2652,23 +2594,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2712,6 +2648,8 @@
       "hts8": "55039090",
       "brief_description": "Synthetic staple fibers, not carded, combed or otherwise processed for spinning, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -2731,13 +2669,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2878,10 +2809,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2925,6 +2857,8 @@
       "hts8": "55041000",
       "brief_description": "Artificial staple fibers, not carded, combed or otherwise processed for spinning, of viscose rayon",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -2944,13 +2878,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3090,11 +3017,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3138,6 +3066,8 @@
       "hts8": "55049000",
       "brief_description": "Artificial staple fibers, not carded, combed or otherwise processed for spinning, other than of viscose rayon",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -3157,13 +3087,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3304,10 +3227,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3351,6 +3275,8 @@
       "hts8": "55051000",
       "brief_description": "Waste (including noils, yarn waste and garnetted stock) of synthetic fibers",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3370,22 +3296,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3429,6 +3350,8 @@
       "hts8": "55052000",
       "brief_description": "Waste (including noils, yarn waste and garnetted stock) of artificial fibers",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3448,22 +3371,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3507,6 +3425,8 @@
       "hts8": "55061000",
       "brief_description": "Synthetic staple fibers, carded, combed or otherwise processed for spinning, of nylon or other polyamides",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -3526,10 +3446,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 51.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (51.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3670,10 +3586,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3717,6 +3634,8 @@
       "hts8": "55062000",
       "brief_description": "Synthetic staple fibers, carded, combed or otherwise processed for spinning, of polyesters",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.7%",
@@ -3736,10 +3655,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 51.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (51.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3880,10 +3795,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3927,6 +3843,8 @@
       "hts8": "55063000",
       "brief_description": "Synthetic (acrylic or modacrylic) staple fibers, carded, combed or otherwise processed for spinning",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -3946,10 +3864,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 51.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (51.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4090,10 +4004,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4137,6 +4052,8 @@
       "hts8": "55064000",
       "brief_description": "Synthetic staple fibers of polypropylene, carded, combed or otherwise processed for spinning",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -4156,10 +4073,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 51.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (51.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4201,10 +4114,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4248,6 +4162,8 @@
       "hts8": "55069001",
       "brief_description": "Other Synthetic staple fibers nesoi, carded, combed or otherwise processed for spinning",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -4267,10 +4183,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 51.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (51.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4312,10 +4224,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4359,6 +4272,8 @@
       "hts8": "55070000",
       "brief_description": "Artificial staple fibers, carded, combed or otherwise processed for spinning",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -4378,10 +4293,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 51.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (51.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4522,10 +4433,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4569,6 +4481,8 @@
       "hts8": "55081000",
       "brief_description": "Sewing thread of synthetic staple fibers, whether or not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "11.4%",
@@ -4588,10 +4502,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.00000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.00000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4732,10 +4642,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4779,6 +4690,8 @@
       "hts8": "55082000",
       "brief_description": "Sewing thread of artificial staple fibers, whether or not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "11%",
@@ -4798,10 +4711,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.00000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.00000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4942,10 +4851,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4989,6 +4899,8 @@
       "hts8": "55091100",
       "brief_description": "Yarn (other than sewing thread) containing 85% or more by weight of nylon/polyamide staple fibers, singles, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9.4%",
@@ -5008,10 +4920,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5152,10 +5060,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5199,6 +5108,8 @@
       "hts8": "55091200",
       "brief_description": "Yarn (other than sewing thread) cont. 85% or more by weight of nylon/polyamide staple fibers, multiple or cabled, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10.6%",
@@ -5218,10 +5129,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5362,10 +5269,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5409,6 +5317,8 @@
       "hts8": "55092100",
       "brief_description": "Yarn (other than sewing thread) containing 85% or more by weight of polyester staple fibers, singles, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9.7%",
@@ -5428,10 +5338,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5572,10 +5478,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5619,6 +5526,8 @@
       "hts8": "55092200",
       "brief_description": "Yarn (other than sewing thread) cont. 85% or more by weight of polyester staple fibers, multiple or cabled, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10.6%",
@@ -5638,10 +5547,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5782,10 +5687,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5829,6 +5735,8 @@
       "hts8": "55093100",
       "brief_description": "Yarn (not sewing thread) cont. 85% or more by weight of acrylic or modacrylic staple fibers, singles, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9%",
@@ -5848,10 +5756,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5992,10 +5896,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6039,6 +5944,8 @@
       "hts8": "55093200",
       "brief_description": "Yarn (not sewing thread) cont. 85% or more by wt. of acrylic or modacrylic staple fibers,multiple or cabled,not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -6058,10 +5965,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6202,10 +6105,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6249,6 +6153,8 @@
       "hts8": "55094100",
       "brief_description": "Yarn (other than sewing thread) containing 85% or more by weight of synthetic staple fibers nesoi, singles, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9%",
@@ -6268,10 +6174,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6412,10 +6314,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6459,6 +6362,8 @@
       "hts8": "55094200",
       "brief_description": "Yarn (other than sewing thread) cont. 85% or more by weight of synthetic staple fibers nesoi, multiple or cabled, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7%",
@@ -6478,10 +6383,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6622,10 +6523,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6669,6 +6571,8 @@
       "hts8": "55095130",
       "brief_description": "Yarn (not sewing thread) of polyester staple fibers mixed mainly/solely with artificial staple fibers, single, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9.7%",
@@ -6688,10 +6592,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6832,10 +6732,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6879,6 +6780,8 @@
       "hts8": "55095160",
       "brief_description": "Yarn (not sewing thread) of polyester staple fibers mixed mainly/solely with artificial staple fibers, multiple, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10.6%",
@@ -6898,10 +6801,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7042,10 +6941,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7089,6 +6989,8 @@
       "hts8": "55095200",
       "brief_description": "Yarn (other than sewing thread) of polyester staple fibers mixed mainly/solely with wool or fine animal hair, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "12%",
@@ -7108,10 +7010,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7252,10 +7150,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7299,6 +7198,8 @@
       "hts8": "55095300",
       "brief_description": "Yarn (other than sewing thread) of polyester staple fibers mixed mainly or solely with cotton, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.2%",
@@ -7318,10 +7219,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7462,10 +7359,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7509,6 +7407,8 @@
       "hts8": "55095900",
       "brief_description": "Yarn (other than sewing thread) of polyester staple fibers nesoi, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.2%",
@@ -7528,10 +7428,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7672,10 +7568,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7719,6 +7616,8 @@
       "hts8": "55096100",
       "brief_description": "Yarn (other than sewing thread) of acrylic or modacrylic staple fibers mixed with wool or fine animal hair, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.2%",
@@ -7738,10 +7637,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7882,10 +7777,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7929,6 +7825,8 @@
       "hts8": "55096200",
       "brief_description": "Yarn (other than sewing thread) of acrylic or modacrylic staple fibers mixed mainly or solely with cotton, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "12%",
@@ -7948,10 +7846,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8092,10 +7986,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8139,6 +8034,8 @@
       "hts8": "55096920",
       "brief_description": "Yarn (not sew thread) of acrylic/modacrylic staple fibers mixed mainly/solely w/artificial staple fibers, singles, not for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9%",
@@ -8158,10 +8055,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8302,10 +8195,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8349,6 +8243,8 @@
       "hts8": "55096940",
       "brief_description": "Yarn (not sewing thread) of acrylic/modacrylic staple fiber mixed mainly/solely w/artificial staple fiber,multiple or cabled,not retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -8368,10 +8264,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8512,10 +8404,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8559,6 +8452,8 @@
       "hts8": "55096960",
       "brief_description": "Yarn (other than sewing thread) of acrylic or modacrylic staple fibers nesoi, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.2%",
@@ -8578,10 +8473,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8722,10 +8613,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8769,6 +8661,8 @@
       "hts8": "55099100",
       "brief_description": "Yarn (other than sewing thread) of synthetic staple fibers mixed mainly or solely with wool or fine animal hair, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "12%",
@@ -8788,10 +8682,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8932,10 +8822,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8979,6 +8870,8 @@
       "hts8": "55099200",
       "brief_description": "Yarn (other than sewing thread) of synthetic staple fibers mixed mainly or solely with cotton, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -8998,10 +8891,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9142,10 +9031,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9189,6 +9079,8 @@
       "hts8": "55099920",
       "brief_description": "Yarn (not sewing thread) of synthetic staple fibers nesoi, mixed mainly/solely w/artificial staple fibers, singles, not for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "9%",
@@ -9208,10 +9100,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 54,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (54.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9352,10 +9240,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9399,6 +9288,8 @@
       "hts8": "55099940",
       "brief_description": "Yarn (not sewing thread) of synthetic staple fibers nesoi, mixed mainly/solely w/artificial staple fibers, multiple, not for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10.6%",
@@ -9418,10 +9309,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 61.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (61.5%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9562,10 +9449,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9609,6 +9497,8 @@
       "hts8": "55099960",
       "brief_description": "Yarn (other than sewing thread) of synthetic staple fibers nesoi, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.2%",
@@ -9628,10 +9518,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 81,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (81.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9772,10 +9658,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

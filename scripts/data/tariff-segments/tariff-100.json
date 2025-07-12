@@ -7,6 +7,8 @@
       "hts8": "10011100",
       "brief_description": "Durum wheat, seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.65 cents/kg",
@@ -172,10 +174,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -219,6 +222,8 @@
       "hts8": "10011900",
       "brief_description": "Durum wheat, other than seed",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.65 cents/kg",
@@ -383,11 +388,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -431,6 +437,8 @@
       "hts8": "10019100",
       "brief_description": "Seed of wheat and meslin, other than durum wheat",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.8%",
@@ -450,12 +458,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -605,11 +607,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -653,6 +656,8 @@
       "hts8": "10019900",
       "brief_description": "Wheat & meslin other than durum or seed wheat",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.35 cents/kg",
@@ -818,10 +823,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -865,6 +871,8 @@
       "hts8": "10021000",
       "brief_description": "Rye, seed",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -885,11 +893,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -933,6 +942,8 @@
       "hts8": "10029000",
       "brief_description": "Rye, other than seed",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -953,11 +964,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1001,6 +1013,8 @@
       "hts8": "10031000",
       "brief_description": "Barley, seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.15 cents/kg",
@@ -1166,10 +1180,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1213,6 +1228,8 @@
       "hts8": "10039020",
       "brief_description": "Barley, other than seed, for malting purposes",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.1 cents/kg",
@@ -1378,10 +1395,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1425,6 +1443,8 @@
       "hts8": "10039040",
       "brief_description": "Barley, not seed, other than for malting purposes",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.15 cents/kg",
@@ -1590,10 +1610,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1637,6 +1658,8 @@
       "hts8": "10041000",
       "brief_description": "Oats, seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1658,10 +1681,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1705,6 +1729,8 @@
       "hts8": "10049000",
       "brief_description": "Oats, other than seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1726,10 +1752,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1773,6 +1800,8 @@
       "hts8": "10051000",
       "brief_description": "Seed corn (maize)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1793,11 +1822,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1841,6 +1871,8 @@
       "hts8": "10059020",
       "brief_description": "Yellow dent corn",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.05 cents/kg",
@@ -2006,10 +2038,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2053,6 +2086,8 @@
       "hts8": "10059040",
       "brief_description": "Corn (maize), other than seed and yellow dent corn",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.25 cents/kg",
@@ -2218,10 +2253,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2265,6 +2301,8 @@
       "hts8": "10061000",
       "brief_description": "Rice in the husk (paddy or rough)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.8 cents/kg",
@@ -2429,11 +2467,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2477,6 +2516,8 @@
       "hts8": "10062020",
       "brief_description": "Basmati rice, husked",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.83 cents/kg",
@@ -2642,10 +2683,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2689,6 +2731,8 @@
       "hts8": "10062040",
       "brief_description": "Husked (brown) rice, other than Basmati",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.1 cents/kg",
@@ -2854,10 +2898,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2901,6 +2946,8 @@
       "hts8": "10063010",
       "brief_description": "Rice semi-milled or wholly milled, whether or not polished or glazed, parboiled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "11.2%",
@@ -2920,10 +2967,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3073,10 +3116,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3120,6 +3164,8 @@
       "hts8": "10063090",
       "brief_description": "Rice semi-milled or wholly milled, whether or not polished or glazed, other than parboiled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4 cents/kg",
@@ -3285,10 +3331,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3332,6 +3379,8 @@
       "hts8": "10064000",
       "brief_description": "Broken rice",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.44 cents/kg",
@@ -3497,10 +3546,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3544,6 +3594,8 @@
       "hts8": "10071000",
       "brief_description": "Grain sorghum, seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.22 cents/kg",
@@ -3709,10 +3761,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3756,6 +3809,8 @@
       "hts8": "10079000",
       "brief_description": "Grain sorghum, other than seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.22 cents/kg",
@@ -3921,10 +3976,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3968,6 +4024,8 @@
       "hts8": "10081000",
       "brief_description": "Buckwheat",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3989,10 +4047,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4036,6 +4095,8 @@
       "hts8": "10082100",
       "brief_description": "Millet, seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.32 cents/kg",
@@ -4201,10 +4262,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4248,6 +4310,8 @@
       "hts8": "10082900",
       "brief_description": "Millet, other than seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.32 cents/kg",
@@ -4413,10 +4477,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4460,6 +4525,8 @@
       "hts8": "10083000",
       "brief_description": "Canary seed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.12 cents/kg",
@@ -4625,10 +4692,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4672,6 +4740,8 @@
       "hts8": "10084000",
       "brief_description": "Fonio (Digitaria spp.)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.1%",
@@ -4691,12 +4761,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4846,11 +4910,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4894,6 +4959,8 @@
       "hts8": "10085000",
       "brief_description": "Quinoa (Chenopodium quinoa)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.1%",
@@ -4913,12 +4980,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5069,10 +5130,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5116,6 +5178,8 @@
       "hts8": "10086000",
       "brief_description": "Triticale",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.1%",
@@ -5135,12 +5199,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5290,11 +5348,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5338,6 +5397,8 @@
       "hts8": "10089001",
       "brief_description": "Cereals nesoi (including wild rice)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.1%",
@@ -5357,12 +5418,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5513,10 +5568,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

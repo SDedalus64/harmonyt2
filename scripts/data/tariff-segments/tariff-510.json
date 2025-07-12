@@ -4,9 +4,11 @@
   "count": 69,
   "entries": [
     {
-      "hts8": "5100020",
+      "hts8": "51000200",
       "brief_description": "Ambergris, castoreum, civet, and musk used in the preparation of pharmaceutical products",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.1%",
@@ -26,10 +28,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -179,11 +177,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -224,9 +223,11 @@
       ]
     },
     {
-      "hts8": "5100040",
+      "hts8": "51000400",
       "brief_description": "Cantharides; bile; glands and other animal products nesoi, used in pharmaceutical products",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -248,10 +249,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -295,6 +297,8 @@
       "hts8": "51011110",
       "brief_description": "Unimproved wool and other wool not finer than 46s, greasy, shorn, not carded or combed, for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -317,10 +321,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -364,6 +369,8 @@
       "hts8": "51011120",
       "brief_description": "Unimproved wool and other wool not finer than 40s, greasy, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -386,10 +393,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -433,6 +441,8 @@
       "hts8": "51011140",
       "brief_description": "Wool, excluding unimproved, finer than 40s but not 44s, greasy, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -455,10 +465,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -502,6 +513,8 @@
       "hts8": "51011150",
       "brief_description": "Wool, excluding unimproved, finer than 44s but not 46s, greasy, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -524,10 +537,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -571,6 +585,8 @@
       "hts8": "51011160",
       "brief_description": "Wool, excluding unimproved, finer than 46s, greasy, shorn, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -735,10 +751,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -782,6 +799,8 @@
       "hts8": "51011910",
       "brief_description": "Unimproved wool and other wool not finer than 46s, greasy, not shorn, not carded or combed, for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -804,10 +823,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -851,6 +871,8 @@
       "hts8": "51011920",
       "brief_description": "Unimproved wool and other wool not finer than 40s, greasy, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -873,10 +895,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -920,6 +943,8 @@
       "hts8": "51011940",
       "brief_description": "Wool, excl. unimproved, finer than 40s, but not 44s, greasy, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -942,10 +967,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -989,6 +1015,8 @@
       "hts8": "51011950",
       "brief_description": "Wool, excluding unimproved, finer than 44s but not 46s, greasy, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1011,10 +1039,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1058,6 +1087,8 @@
       "hts8": "51011960",
       "brief_description": "Wool, excluding unimproved, finer than 46s, greasy, incl. fleece-washed, not shorn, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1222,10 +1253,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1269,6 +1301,8 @@
       "hts8": "51012110",
       "brief_description": "Unimproved wool and other wool not finer than 46s, degreased, not further processed, shorn, not carded or combed, for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1291,10 +1325,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1338,6 +1373,8 @@
       "hts8": "51012115",
       "brief_description": "Unimproved wool and other wool not finer than 40s, degreased, not further processed, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1360,10 +1397,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1407,6 +1445,8 @@
       "hts8": "51012130",
       "brief_description": "Wool, excl. unimproved, finer than 40s but not 44s, degreased, not further processed, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1429,10 +1469,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1476,6 +1517,8 @@
       "hts8": "51012135",
       "brief_description": "Wool, excl. unimproved, finer than 44s but not 46s, degreased, not further processed, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1498,10 +1541,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1545,6 +1589,8 @@
       "hts8": "51012140",
       "brief_description": "Wool, excl. unimproved, finer than 46s, degreased, not further processed, shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1709,10 +1755,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1756,6 +1803,8 @@
       "hts8": "51012165",
       "brief_description": "Unimproved wool and other wool, not finer than 46s, degreased, shorn, not carbonized, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1775,20 +1824,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1832,6 +1878,8 @@
       "hts8": "51012170",
       "brief_description": "Unimproved wool and other wool, finer than 46s, degreased, shorn, not carbonized, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5 cents/kg + 5.3%",
@@ -1851,10 +1899,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1995,10 +2039,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2042,6 +2087,8 @@
       "hts8": "51012910",
       "brief_description": "Unimproved wool and other wool not finer than 46s, degreased, not further processed, not shorn, not carded or combed, for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2064,10 +2111,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2111,6 +2159,8 @@
       "hts8": "51012915",
       "brief_description": "Unimproved wool and other wool not finer than 40s, degreased, not further processed, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2133,10 +2183,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2180,6 +2231,8 @@
       "hts8": "51012930",
       "brief_description": "Wool, excl. unimproved, finer than 40s but not 44s, degreased, not further processed, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2202,10 +2255,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2249,6 +2303,8 @@
       "hts8": "51012935",
       "brief_description": "Wool, excl. unimproved, finer than 44s but not 46s, degreased, not further processed, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2271,10 +2327,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2318,6 +2375,8 @@
       "hts8": "51012940",
       "brief_description": "Wool, excl. unimproved, finer than 46s, degreased, not further processed, not shorn, not carded or combed, not for special uses",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -2482,10 +2541,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2529,6 +2589,8 @@
       "hts8": "51012965",
       "brief_description": "Unimproved wool and other wool, not finer than 46s, not shorn, not carbonized, degreased and further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2548,20 +2610,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2605,6 +2664,8 @@
       "hts8": "51012970",
       "brief_description": "Wool, finer than 46s, not carded or combed, not carbonized, not shorn, degreased and processed to remove grease",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5 cents/kg + 5.3%",
@@ -2624,10 +2685,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2768,10 +2825,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2815,6 +2873,8 @@
       "hts8": "51013010",
       "brief_description": "Unimproved wool and other wool, not finer than 40s, carbonized, not further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2836,10 +2896,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2883,6 +2944,8 @@
       "hts8": "51013015",
       "brief_description": "Wool, excluding unimproved, finer than 40s but not finer than 44s, carbonized, not further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2904,10 +2967,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2951,6 +3015,8 @@
       "hts8": "51013030",
       "brief_description": "Wool, excluding unimproved, finer than 44s but not finer than 46s, carbonized, not further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2972,10 +3038,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3019,6 +3086,8 @@
       "hts8": "51013040",
       "brief_description": "Wool, excluding unimproved, finer than 46s, carbonized, not further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "24.4 cents/kg",
@@ -3182,10 +3251,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3229,6 +3299,8 @@
       "hts8": "51013065",
       "brief_description": "Unimproved wool and other wool, not finer than 46s, carbonized and further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3248,20 +3320,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3305,6 +3374,8 @@
       "hts8": "51013070",
       "brief_description": "Unimproved wool and other wool, finer than 46s, carbonized and further processed, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5 cents/kg + 5.3%",
@@ -3324,10 +3395,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3468,10 +3535,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3515,6 +3583,8 @@
       "hts8": "51021110",
       "brief_description": "Fine hair of Kashmir (cashmere) goats, not processed in any manner beyond the degreased or carbonized condition, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3679,10 +3749,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3726,6 +3797,8 @@
       "hts8": "51021190",
       "brief_description": "Fine hair of Kashmir (cashmere) goats, processed beyond the degreased or carbonized condition, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -3746,10 +3819,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3890,10 +3959,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3937,6 +4007,8 @@
       "hts8": "51021920",
       "brief_description": "Fine hair of the camel, not processed in any manner beyond the degreased or carbonized condition, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4101,10 +4173,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4148,6 +4221,8 @@
       "hts8": "51021960",
       "brief_description": "Fine animal hair (other than Kashmir or camel), not processed beyond the degreased or carbonized condition, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CYK",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -4167,11 +4242,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -4323,10 +4393,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4370,6 +4441,8 @@
       "hts8": "51021980",
       "brief_description": "Fur, prepared for hatters' use, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4389,20 +4462,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4446,6 +4516,8 @@
       "hts8": "51021990",
       "brief_description": "Fine animal hair (other than Kashmir), processed beyond the degreased or carbonized condition, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.9 cents/kg + 4%",
@@ -4465,10 +4537,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4609,10 +4677,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4656,6 +4725,8 @@
       "hts8": "51022000",
       "brief_description": "Coarse animal hair, not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4677,10 +4748,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4724,6 +4796,8 @@
       "hts8": "51031000",
       "brief_description": "Noils of wool or of fine animal hair",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.6 cents/kg",
@@ -4889,10 +4963,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4936,6 +5011,8 @@
       "hts8": "51032000",
       "brief_description": "Waste, other than noils, of wool or of fine animal hair, including yarn waste but excluding garnetted stock",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.6 cents/kg",
@@ -5101,10 +5178,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5148,6 +5226,8 @@
       "hts8": "51033000",
       "brief_description": "Waste of coarse animal hair, including yarn waste but excluding garnetted stock",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7%",
@@ -5167,10 +5247,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5319,10 +5395,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5366,6 +5443,8 @@
       "hts8": "51040000",
       "brief_description": "Garnetted stock of wool or of fine or coarse animal hair",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5387,10 +5466,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5434,6 +5514,8 @@
       "hts8": "51051000",
       "brief_description": "Carded wool",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5 cents/kg + 5.3%",
@@ -5453,10 +5535,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5597,10 +5675,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5644,6 +5723,8 @@
       "hts8": "51052100",
       "brief_description": "Combed wool in fragments",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7 cents/kg + 3%",
@@ -5663,10 +5744,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5807,10 +5884,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5854,6 +5932,8 @@
       "hts8": "51052900",
       "brief_description": "Wool tops and other combed wool, except in fragments",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.9 cents/kg + 3.1%",
@@ -5873,10 +5953,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6017,10 +6093,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6064,6 +6141,8 @@
       "hts8": "51053100",
       "brief_description": "Fine hair of Kashmir (cashmere) goats, carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.8 cents/kg + 5.5%",
@@ -6083,10 +6162,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6227,10 +6302,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6274,6 +6350,8 @@
       "hts8": "51053900",
       "brief_description": "Fine animal hair (other than Kashmir), carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.8 cents/kg + 5.5%",
@@ -6293,10 +6371,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6437,10 +6511,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6484,6 +6559,8 @@
       "hts8": "51054000",
       "brief_description": "Coarse animal hair, carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6503,20 +6580,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6560,6 +6634,8 @@
       "hts8": "51061000",
       "brief_description": "Yarn of carded wool, containing 85 percent or more by weight of wool, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -6579,10 +6655,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6723,10 +6795,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6770,6 +6843,8 @@
       "hts8": "51062000",
       "brief_description": "Yarn of carded wool, containing less than 85 percent by weight of wool, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -6789,10 +6864,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6933,10 +7004,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6980,6 +7052,8 @@
       "hts8": "51071030",
       "brief_description": "Yarn of combed wool, containing 85% or more by weight of wool, not put up for retail sale, of wool fiber avg diameter 18.5 micron or <",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -6999,10 +7073,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7143,10 +7213,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7190,6 +7261,8 @@
       "hts8": "51071060",
       "brief_description": "Yarn of combed wool, containing 85% or more by weight of wool, not put up for retail sale, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -7209,10 +7282,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7353,10 +7422,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7400,6 +7470,8 @@
       "hts8": "51072030",
       "brief_description": "Yarn of combed wool, containing less than 85 percent by weight of wool, not put up retail sale, of wool fiber avg diameter 18.5 micron or <",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -7419,10 +7491,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7563,10 +7631,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7610,6 +7679,8 @@
       "hts8": "51072060",
       "brief_description": "Yarn of combed wool, containing less than 85 percent by weight of wool, not put up retail sale, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -7629,10 +7700,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7773,10 +7840,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7820,6 +7888,8 @@
       "hts8": "51081030",
       "brief_description": "Yarn of Angora rabbit hair, carded, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -7839,10 +7909,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7983,10 +8049,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8030,6 +8097,8 @@
       "hts8": "51081040",
       "brief_description": "Yarn of mohair, carded, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -8049,10 +8118,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8193,10 +8258,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8240,6 +8306,8 @@
       "hts8": "51081080",
       "brief_description": "Yarn of fine animal hair other than Angora rabbit hair or mohair, carded, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -8259,10 +8327,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8403,10 +8467,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8450,6 +8515,8 @@
       "hts8": "51082030",
       "brief_description": "Yarn of Angora rabbit hair, combed, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -8469,10 +8536,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8613,10 +8676,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8660,6 +8724,8 @@
       "hts8": "51082040",
       "brief_description": "Yarn of mohair, combed, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -8679,10 +8745,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8823,10 +8885,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8870,6 +8933,8 @@
       "hts8": "51082080",
       "brief_description": "Yarn of fine animal hair other than Angora rabbit hair or mohair, combed, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -8889,10 +8954,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9033,10 +9094,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9080,6 +9142,8 @@
       "hts8": "51091020",
       "brief_description": "Yarn of wool, containing 85 percent or more by weight of wool, colored, cut into uniform lengths of not over 8 cm, put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9101,10 +9165,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9148,6 +9213,8 @@
       "hts8": "51091040",
       "brief_description": "Yarn of Angora rabbit hair, containing 85 percent or more by weight of the Angora hair, put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -9167,10 +9234,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9311,10 +9374,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9358,6 +9422,8 @@
       "hts8": "51091080",
       "brief_description": "Yarn of wool nesoi, or fine animal hair nesoi, over 85% or > of that wool/hair, for retail sale, of wool fiber avg diamter 18.5 micron or <",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -9377,10 +9443,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9521,10 +9583,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9568,6 +9631,8 @@
       "hts8": "51091090",
       "brief_description": "Yarn of wool nesoi, or fine animal hair nesoi, over 85% or > of that wool/hair, put up for retail sale, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -9587,10 +9652,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9731,10 +9792,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9778,6 +9840,8 @@
       "hts8": "51099020",
       "brief_description": "Yarn of wool, colored, and cut into uniform lengths of not over 8 cm, containing less than 85% by weight of wool, put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9799,10 +9863,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9846,6 +9911,8 @@
       "hts8": "51099040",
       "brief_description": "Yarn of Angora rabbit hair containing less than 85 percent by weight of the Angora hair, put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -9865,10 +9932,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -10009,10 +10072,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10056,6 +10120,8 @@
       "hts8": "51099080",
       "brief_description": "Yarn of wool nesoi, or fine animal hair nesoi, < 85% of that wool/hair, for retail sale, of wool fiber avg diameter 18.5 micron or <",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -10075,10 +10141,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -10219,10 +10281,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10266,6 +10329,8 @@
       "hts8": "51099090",
       "brief_description": "Yarn of wool nesoi, or fine animal hair nesoi, < 85% of that wool/hair, put up for retail sale, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -10285,10 +10350,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 55.50000000000001,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (55.50000000000001%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -10429,10 +10490,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

@@ -4,9 +4,11 @@
   "count": 99,
   "entries": [
     {
-      "hts8": "2101100",
+      "hts8": "21011000",
       "brief_description": "Hams, shoulders and cuts thereof with bone in, salted, in brine, dried or smoked",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4 cents/kg",
@@ -171,11 +173,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -216,9 +219,11 @@
       ]
     },
     {
-      "hts8": "2101200",
+      "hts8": "21012000",
       "brief_description": "Bellies (streaky) and cuts thereof of swine, salted, in brine, dried or smoked",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4 cents/kg",
@@ -383,11 +388,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -428,9 +434,11 @@
       ]
     },
     {
-      "hts8": "2101900",
+      "hts8": "21019000",
       "brief_description": "Meat of swine other than hams, shoulders, bellies (streaky) and cuts thereof, salted, in brine, dried or smoked",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4 cents/kg",
@@ -596,10 +604,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -640,9 +649,11 @@
       ]
     },
     {
-      "hts8": "2102000",
+      "hts8": "21020000",
       "brief_description": "Meat of bovine animals, salted, in brine, dried or smoked",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -662,20 +673,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -716,9 +724,11 @@
       ]
     },
     {
-      "hts8": "2109100",
+      "hts8": "21091000",
       "brief_description": "Meat and edible offal of primates, salted, in brine, dried or smoked; edible flours and meals thereof",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.3%",
@@ -738,10 +748,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -891,11 +897,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -936,9 +943,11 @@
       ]
     },
     {
-      "hts8": "2109201",
+      "hts8": "21092010",
       "brief_description": "Meat, edible offal, & meals of whales,dolphins,porpoises,manatees,dugongs,seals, sea lions, walruses,salted,in brine,dried or smoked",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.3%",
@@ -958,10 +967,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1111,11 +1116,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1156,9 +1162,11 @@
       ]
     },
     {
-      "hts8": "2109300",
+      "hts8": "21093000",
       "brief_description": "Meat and edible offal of reptiles, salted, in brine, dried or smoked; edible flours and meals thereof",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.3%",
@@ -1178,10 +1186,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1331,11 +1335,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1376,9 +1381,11 @@
       ]
     },
     {
-      "hts8": "2109920",
+      "hts8": "21099200",
       "brief_description": "Meat and edible offal of poultry of heading 0105, in brine, dried or smoked; edible flours and meals thereof",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.3%",
@@ -1398,10 +1405,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1551,11 +1554,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1596,9 +1600,11 @@
       ]
     },
     {
-      "hts8": "2109991",
+      "hts8": "21099910",
       "brief_description": "Meat and edible offal not elsewhere specified or included, salted, in brine, dried or smoked; edible flours and meals thereof",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.3%",
@@ -1618,10 +1624,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1771,11 +1773,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1819,6 +1822,8 @@
       "hts8": "21011121",
       "brief_description": "Instant coffee, not flavored",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1839,11 +1844,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1887,6 +1893,8 @@
       "hts8": "21011129",
       "brief_description": "Extracts, essences and concentrates of coffee other than unflavored instant coffee",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1907,11 +1915,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1955,6 +1964,8 @@
       "hts8": "21011232",
       "brief_description": "Preparations with a basis of extracts, essences or concentrates or with a basis of coffee, subject to general note 15 (outside quota)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -1974,10 +1985,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2127,11 +2134,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2175,6 +2183,8 @@
       "hts8": "21011234",
       "brief_description": "Blend syrup (Ch17 add US note 4) preparation w/basis of extract,essence or concentrate or w/basis of coffee,subj. quota of Ch17 add US nte 9",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -2194,10 +2204,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -2264,11 +2270,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2312,6 +2319,8 @@
       "hts8": "21011238",
       "brief_description": "Blend syrup (Ch17 add US note 4) preparation w/basis of extract, essence or concentrate or w/ basis of coffee, over Ch17 add US note 9 quota",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 8.5%",
@@ -2332,12 +2341,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2422,11 +2425,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2470,6 +2474,8 @@
       "hts8": "21011244",
       "brief_description": "Preparation ov 65% sugar (Ch17 add US nte 2) w/basis of extract,essence or concentrate or w/basis of coffee,subj. quota of Ch17 add US nte 7",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -2489,10 +2495,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -2559,11 +2561,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2607,6 +2610,8 @@
       "hts8": "21011248",
       "brief_description": "Preparation ov 65% sugar (Ch17 add US note 2) w/ basis of extract, essence or concentrate or w/ basis of coffee, ov Ch17 add US note 9 quota",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 8.5%",
@@ -2627,12 +2632,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2717,11 +2716,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2765,6 +2765,8 @@
       "hts8": "21011254",
       "brief_description": "Preparation ov 10% sugar (Ch17 add US nte 3) w/basis of extract,essence or concentrate or w/basis of coffee,subj. quota of Ch17 add US nte 8",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -2784,10 +2786,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2925,11 +2923,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2973,6 +2972,8 @@
       "hts8": "21011258",
       "brief_description": "Preparation ov 10% sugar (Ch17 add US note 3) w/ basis of extract, essence or concentrate or w/ basis of coffee, ov Ch17 add US note 8 quota",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 8.5%",
@@ -2993,12 +2994,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3083,11 +3078,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3131,6 +3127,8 @@
       "hts8": "21011290",
       "brief_description": "Preparations nesoi, with a basis of extracts, essences or concentrates or with a basis of coffee",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "8.5%",
@@ -3150,10 +3148,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3303,11 +3297,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3351,6 +3346,8 @@
       "hts8": "21012020",
       "brief_description": "Extracts, essences or concentrates of tea or mate",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3370,22 +3367,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3429,6 +3421,8 @@
       "hts8": "21012032",
       "brief_description": "Preparations with a basis of extracts, essences or concentrates or with a basis of tea or mate, subject to general note 15 (outside quota)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -3448,10 +3442,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3601,11 +3591,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3649,6 +3640,8 @@
       "hts8": "21012034",
       "brief_description": "Blend syrup (Ch17 add US nte 4) preparation w/basis extract/essence/concentrate or w/basis of tea or mate,subj. quota of Ch17 add US nte 9",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -3668,10 +3661,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -3738,11 +3727,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3786,6 +3776,8 @@
       "hts8": "21012038",
       "brief_description": "Blend syrup (Ch17 add US note 4) preparation w/basis of extract/essence/concentrate or w/basis of tea or mate, over Ch17 add US note 9 quota",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 8.5%",
@@ -3806,12 +3798,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3896,11 +3882,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3944,6 +3931,8 @@
       "hts8": "21012044",
       "brief_description": "Preparation ov 65% sugar (Ch17 add US nte 2) w/basis extract/essence/concentrate or w/basis of tea or mate,subj. quota of Ch17 add US note 7",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -3963,10 +3952,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -4033,11 +4018,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4081,6 +4067,8 @@
       "hts8": "21012048",
       "brief_description": "Preparation ov 65% sugar (Ch17 add US note 2) w/basis of extract/essence/concentrate or w/basis of tea or mate, ov Ch17 add US note 9 quota",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 8.5%",
@@ -4101,12 +4089,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4191,11 +4173,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4239,6 +4222,8 @@
       "hts8": "21012054",
       "brief_description": "Preparation ov 10% sugar (Ch17 add US nte 3) w/basis extract/essence/concentrate or w/basis of tea or mate,subj. quota of Ch17 add US note 8",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -4258,10 +4243,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4399,11 +4380,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4447,6 +4429,8 @@
       "hts8": "21012058",
       "brief_description": "Preparation ov 10% sugar (Ch17 add US note 3) w/basis of extract/essence/concentrate or w/basis of tea or mate, ov Ch17 add US note 8 quota",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 8.5%",
@@ -4467,12 +4451,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4557,11 +4535,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4605,6 +4584,8 @@
       "hts8": "21012090",
       "brief_description": "Preparations nesoi, with a basis of extracts, essences or concentrates or with a basis of tea or mate",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "8.5%",
@@ -4624,10 +4605,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4777,11 +4754,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4825,6 +4803,8 @@
       "hts8": "21013000",
       "brief_description": "Roasted chicory and other roasted coffee substitutes and extracts, essences and concentrates thereof",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.1 cents/kg",
@@ -4989,11 +4969,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5037,6 +5018,8 @@
       "hts8": "21021000",
       "brief_description": "Active yeasts",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -5056,10 +5039,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5209,11 +5188,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5257,6 +5237,8 @@
       "hts8": "21022020",
       "brief_description": "Inactive yeasts (except dried brewers' yeast)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -5276,10 +5258,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5429,11 +5407,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5477,6 +5456,8 @@
       "hts8": "21022040",
       "brief_description": "Dried brewers' yeast, crude",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5497,11 +5478,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5545,6 +5527,8 @@
       "hts8": "21022060",
       "brief_description": "Single-cell micro-organisms, dead, excluding yeasts, (but not including vaccines of heading 3002)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -5564,13 +5548,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5720,11 +5697,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5768,6 +5746,8 @@
       "hts8": "21023000",
       "brief_description": "Prepared baking powders",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5787,23 +5767,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5847,6 +5821,8 @@
       "hts8": "21031000",
       "brief_description": "Soy sauce",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3%",
@@ -5866,10 +5842,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6020,10 +5992,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6067,6 +6040,8 @@
       "hts8": "21032020",
       "brief_description": "Tomato ketchup",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6%",
@@ -6086,10 +6061,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6239,11 +6210,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6287,6 +6259,8 @@
       "hts8": "21032040",
       "brief_description": "Tomato sauces, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "11.6%",
@@ -6306,10 +6280,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6459,11 +6429,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6507,6 +6478,8 @@
       "hts8": "21033020",
       "brief_description": "Mustard flour and meal",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6527,11 +6500,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6575,6 +6549,8 @@
       "hts8": "21033040",
       "brief_description": "Prepared mustard",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.8 cents/kg",
@@ -6739,11 +6715,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6787,6 +6764,8 @@
       "hts8": "21039020",
       "brief_description": "Sauces derived or prepared from fish",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6806,20 +6785,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6863,6 +6839,8 @@
       "hts8": "21039040",
       "brief_description": "Nonalcoholic preparations of yeast extract (other than sauces)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -6882,10 +6860,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7035,11 +7009,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7083,6 +7058,8 @@
       "hts8": "21039072",
       "brief_description": "Mixed condiments and mixed seasonings (described in add US note 3 to Ch. 21), subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -7102,10 +7079,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7255,11 +7228,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7303,6 +7277,8 @@
       "hts8": "21039074",
       "brief_description": "Mixed condiments and mixed seasonings (described in add US note 3 to Ch. 21), subject to add. US note 8(a) to Ch.17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -7322,10 +7298,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7463,11 +7435,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7511,6 +7484,8 @@
       "hts8": "21039078",
       "brief_description": "Mixed condiments and mixed seasonings (described in add US note 3 to Ch. 21), not subject to gen note 15 or add. US note 8(a) to Ch.17",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "30.5 cents/kg + 6.4%",
@@ -7530,11 +7505,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -7620,11 +7590,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7668,6 +7639,8 @@
       "hts8": "21039080",
       "brief_description": "Mixed condiments and mixed seasonings, not described in add US note 3 to Ch. 21",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -7687,10 +7660,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7841,10 +7810,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7888,6 +7858,8 @@
       "hts8": "21039090",
       "brief_description": "Sauces and preparations therefor, neosi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -7907,10 +7879,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8060,11 +8028,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8108,6 +8077,8 @@
       "hts8": "21041000",
       "brief_description": "Soups and broths and preparations therefor",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -8127,10 +8098,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8280,11 +8247,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8328,6 +8296,8 @@
       "hts8": "21042010",
       "brief_description": "Homogenized composite food preps put up for retail sale for infants or for dietectic purposes",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.5%",
@@ -8347,10 +8317,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8397,11 +8363,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8445,6 +8412,8 @@
       "hts8": "21042050",
       "brief_description": "Homogenized composite food preps put up for retail sale for young children",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -8464,10 +8433,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -8523,11 +8488,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8571,6 +8537,8 @@
       "hts8": "21050005",
       "brief_description": "Ice cream, whether or not w/cocoa, subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "20%",
@@ -8589,11 +8557,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -8744,11 +8707,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8792,6 +8756,8 @@
       "hts8": "21050010",
       "brief_description": "Ice cream, whether or not w/cocoa, subject to add. US note 5 to Ch. 21, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "20%",
@@ -8810,11 +8776,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -8953,11 +8914,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9001,6 +8963,8 @@
       "hts8": "21050020",
       "brief_description": "Ice cream, whether or not containing cocoa, not subject to gen note 15 or add. US note 5 to Ch.21",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "50.2 cents/kg + 17%",
@@ -9021,10 +8985,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9142,11 +9102,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9190,6 +9151,8 @@
       "hts8": "21050025",
       "brief_description": "Edible ice (dairy prod. described in add US note 1 to Ch. 4), subject to gen note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "20%",
@@ -9208,11 +9171,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -9363,11 +9321,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9411,6 +9370,8 @@
       "hts8": "21050030",
       "brief_description": "Edible ice (dairy prod. described in add US note 1 to Ch. 4), subject to add US note 10 to Ch. 4, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "20%",
@@ -9429,11 +9390,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -9582,11 +9538,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9630,6 +9587,8 @@
       "hts8": "21050040",
       "brief_description": "Edible ice except ice cream, dairy products described in add'l U.S. note 1 to chap. 4, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "50.2 cents/kg + 17%",
@@ -9650,10 +9609,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -9770,11 +9725,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9818,6 +9774,8 @@
       "hts8": "21050050",
       "brief_description": "Edible ice, except ice cream, not described in add US note 1 to Ch. 4, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "17%",
@@ -9837,10 +9795,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -9990,11 +9944,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10038,6 +9993,8 @@
       "hts8": "21061000",
       "brief_description": "Protein concentrates and textured protein substances",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -10057,10 +10014,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -10211,10 +10164,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10258,6 +10212,8 @@
       "hts8": "21069003",
       "brief_description": "Food preps, nesoi, n/o 5.5% bf, mixed w/other ingred. if o/16% milk solids capable of being further proc., subj. to GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.9 cents/kg",
@@ -10422,11 +10378,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10470,6 +10427,8 @@
       "hts8": "21069006",
       "brief_description": "Food preps, nesoi, n/o 5.5% bf, mixed w/other ingred. if o/16% milk solids capable of being further proc., subj. to Ch4 US nte 10, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.9 cents/kg",
@@ -10632,11 +10591,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10680,6 +10640,8 @@
       "hts8": "21069009",
       "brief_description": "Food preps, nesoi, n/o 5.5% b'fat, mixed w/other ingredi., if o/16% milk solids by wt, capable of being further proc, bulk, nesoi, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "86.2 cents/kg",
@@ -10812,11 +10774,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10860,6 +10823,8 @@
       "hts8": "21069012",
       "brief_description": "Compound alcoholic preparations of a kind used for the manufacture of beverages, over 20% weight alcohol but not over 0.5% vol alcohol",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2 cents/kg + 1.9%",
@@ -10880,13 +10845,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -11036,11 +10994,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -11084,6 +11043,8 @@
       "hts8": "21069015",
       "brief_description": "Compound alcoholic preparations used in the manufacture of beverages, cont. over 20% not over 50% of alcohol by weight",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "8.4 cents/kg + 1.9%",
@@ -11104,13 +11065,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -11260,11 +11214,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -11308,6 +11263,8 @@
       "hts8": "21069018",
       "brief_description": "Compound alcoholic preparations of a kind used for the manufacture of beverages, containing over 50% of alcohol by weight",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "17 cents/kg + 1.9%",
@@ -11328,13 +11285,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -11484,11 +11434,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -11532,6 +11483,8 @@
       "hts8": "21069022",
       "brief_description": "Butter substitutes o/10% by wt of milk solids, o/45% butterfat, subject to gen. note 15 to the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "15.4 cents/kg",
@@ -11696,11 +11649,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -11744,6 +11698,8 @@
       "hts8": "21069024",
       "brief_description": "Butter substitutes o/10% by wt of milk solids, o/45% butterfat, subject to add US note 14 to Ch.4, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "15.4 cents/kg",
@@ -11896,11 +11852,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -11944,6 +11901,8 @@
       "hts8": "21069026",
       "brief_description": "Butter substitutes o/10% by wt of milk solids, o/45% butterfat, not subject to gen note 15 or add US note 14 to Ch.4",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "$1.996/kg",
@@ -12082,11 +12041,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -12130,6 +12090,8 @@
       "hts8": "21069028",
       "brief_description": "Butter substitutes o/10% by wt of milk solids, n/o 45% butterfat, neosi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.1 cents/kg",
@@ -12294,11 +12256,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -12342,6 +12305,8 @@
       "hts8": "21069032",
       "brief_description": "Butter substitutes n/o 10% by wt of milk solids, o/45% butterfat, subject to gen. note 15 to the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "15.4 cents/kg",
@@ -12506,11 +12471,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -12554,6 +12520,8 @@
       "hts8": "21069034",
       "brief_description": "Butter substitutes n/o 10% by wt of milk solids, o/45% butterfat, subject to add US note 14 to Ch.4, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "15.4 cents/kg",
@@ -12706,11 +12674,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -12754,6 +12723,8 @@
       "hts8": "21069036",
       "brief_description": "Butter substitutes n/o 10% by wt of milk solids, o/45% butterfat, not subject to gen note 15 or add US note 14 to Ch.4",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "$1.996/kg",
@@ -12892,11 +12863,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -12940,6 +12912,8 @@
       "hts8": "21069038",
       "brief_description": "Butter substitutes n/o 10% by wt of milk solids, n/o 45% butterfat, neosi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.1 cents/kg",
@@ -13104,11 +13078,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -13171,22 +13146,7 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -13228,6 +13188,8 @@
       "hts8": "21069042",
       "brief_description": "Syrups from cane/beet sugar, neosi, w/added coloring but not added flavoring, subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.6606 cents/kg of total sugars",
@@ -13392,11 +13354,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -13440,6 +13403,8 @@
       "hts8": "21069044",
       "brief_description": "Syrups from cane/beet sugar, neosi, w/added coloring but not added flavoring, subject to add US note 5 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.6606 cents/kg of total sugars",
@@ -13594,11 +13559,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -13642,6 +13608,8 @@
       "hts8": "21069046",
       "brief_description": "Syrups from cane/beet sugar, neosi, w/added coloring but not added flavoring, not subject to gen note 15 or add US note 5 to Ch. 17",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "35.74 cents/kg",
@@ -13742,11 +13710,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -13790,6 +13759,8 @@
       "hts8": "21069048",
       "brief_description": "Orange juice, fortified with vitamins or minerals",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.85 cents/liter",
@@ -13954,11 +13925,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -14002,6 +13974,8 @@
       "hts8": "21069052",
       "brief_description": "Juice of any single fruit or vegetables juices (o/t orange), concentrated, fortified with vitamins or minerals",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "The rate applicable to the natural juice in heading 2009",
@@ -14017,10 +13991,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -14170,11 +14140,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -14218,6 +14189,8 @@
       "hts8": "21069054",
       "brief_description": "Mixtures of fruit or vegetable juices, fortified with vitamins or minerals, nesoi, mixtures of juices in concentrated form",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "The rate applicable to the natural juice in heading 2009",
@@ -14233,10 +14206,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -14386,11 +14355,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -14434,6 +14404,8 @@
       "hts8": "21069058",
       "brief_description": "Food preparations of gelatin, neosi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.8%",
@@ -14453,13 +14425,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -14609,11 +14574,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -14657,6 +14623,8 @@
       "hts8": "21069062",
       "brief_description": "Food preps, nesoi, o/10% by wt of milk solids, subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -14676,10 +14644,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -14829,11 +14793,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -14877,6 +14842,8 @@
       "hts8": "21069064",
       "brief_description": "Food preps, nesoi, o/10% by wt of milk solids, dairy prods, descr. in add US note 1 to Ch.4: subject to add US note 10 to Ch.4, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -14896,10 +14863,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -15047,11 +15010,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -15095,6 +15059,8 @@
       "hts8": "21069066",
       "brief_description": "Food preps, nesoi, o/10% by wt of milk solids, dairy prods, descr. in add US note 1 to Ch.4: not subject to Ch4 US note 10, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "70.4 cents/kg + 8.5%",
@@ -15115,12 +15081,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -15237,11 +15197,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -15285,6 +15246,8 @@
       "hts8": "21069068",
       "brief_description": "Blended syrups, neosi, o/10% milk solids, descr. in add US note 4 to Ch 17: subject to add US note 9 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -15304,10 +15267,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -15374,11 +15333,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -15422,6 +15382,8 @@
       "hts8": "21069072",
       "brief_description": "Blended syrups, neosi, o/10% milk solids, descr. in add US note 4 to Ch 17: not subject to add US note 9 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "70.4 cents/kg + 8.5%",
@@ -15442,12 +15404,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -15532,11 +15488,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -15580,6 +15537,8 @@
       "hts8": "21069074",
       "brief_description": "Food preps, nesoi, o/10% milk solids, o/65% sugar, descr. in add US note 2 to Ch.17, subject to add US note 7 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -15599,10 +15558,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -15669,11 +15624,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -15717,6 +15673,8 @@
       "hts8": "21069076",
       "brief_description": "Food preps, nesoi, o/10% milk solids, o/65% sugar, descr. in add US note 2 to Ch.17, not subject to add US note 7 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "70.4 cents/kg + 8.5%",
@@ -15737,12 +15695,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -15827,11 +15779,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -15875,6 +15828,8 @@
       "hts8": "21069078",
       "brief_description": "Food preps, nesoi, o/10% milk solids, o/10% sugar, descr. in add US note 3 to Ch.17, subject to add US note 8 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -15894,10 +15849,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -16035,11 +15986,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -16083,6 +16035,8 @@
       "hts8": "21069080",
       "brief_description": "Food preps, nesoi, o/10% milk solids, o/10% sugar, descr. in add US note 3 to Ch.17, not subject to add US note 8 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "70.4 cents/kg + 8.5%",
@@ -16103,12 +16057,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -16193,11 +16141,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -16241,6 +16190,8 @@
       "hts8": "21069082",
       "brief_description": "Food preps, nesoi, o/10% milk solids, neosi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -16260,10 +16211,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -16413,11 +16360,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -16461,6 +16409,8 @@
       "hts8": "21069083",
       "brief_description": "Food preps, nesoi, n/o 10% by wt of milk solids, subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -16480,10 +16430,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -16633,11 +16579,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -16681,6 +16628,8 @@
       "hts8": "21069085",
       "brief_description": "Food preps, nesoi, n/o 10% by wt of milk solids, dairy prods, descr. in add US note 1 to Ch.4: subject to add US note 10 to Ch.4, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -16700,10 +16649,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -16851,11 +16796,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -16899,6 +16845,8 @@
       "hts8": "21069087",
       "brief_description": "Food preps, nesoi, n/o 10% by wt of milk solids, dairy prods, descr. in add US note 1 to Ch.4: n/subject to add US note 10 to Ch. 4, n/GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "28.8 cents/kg + 8.5%",
@@ -16919,12 +16867,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -17041,11 +16983,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -17089,6 +17032,8 @@
       "hts8": "21069089",
       "brief_description": "Blended syrups, neosi, n/o 10% milk solids, descr. in add US note 4 to Ch 17: subject to add US note 9 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -17108,10 +17053,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -17178,11 +17119,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -17226,6 +17168,8 @@
       "hts8": "21069091",
       "brief_description": "Blended syrups, neosi, n/o/10% milk solids, descr. in add US note 4 to Ch 17: not subject to add US note 9 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "28.8 cents/kg + 8.5%",
@@ -17246,12 +17190,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -17336,11 +17274,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -17384,6 +17323,8 @@
       "hts8": "21069092",
       "brief_description": "Food preps, nesoi, n/o 10% milk solids, o/65% sugar, descr. in add US note 2 to Ch.17, subject to add US note 7 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -17403,10 +17344,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "oman",
@@ -17473,11 +17410,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -17521,6 +17459,8 @@
       "hts8": "21069094",
       "brief_description": "Food preps, nesoi, n/o 10% milk solids, o/65% sugar, descr. in add US note 2 to Ch.17, not subject to add US note 7 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "28.8 cents/kg + 8.5%",
@@ -17541,12 +17481,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -17631,11 +17565,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -17679,6 +17614,8 @@
       "hts8": "21069095",
       "brief_description": "Food preps, nesoi, n/o 10% milk solids, o/10% sugar, descr. in add US note 3 to Ch.17, subject to add US note 8 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "10%",
@@ -17698,10 +17635,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -17839,11 +17772,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -17887,6 +17821,8 @@
       "hts8": "21069097",
       "brief_description": "Food preps, nesoi, n/o 10% milk solids, o/10% sugar, descr. in add US note 3 to Ch.17, not subject to add US note 8 to Ch. 17, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "28.8 cents/kg + 8.5%",
@@ -17907,12 +17843,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -17997,11 +17927,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -18064,10 +17995,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -18119,17 +18046,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",

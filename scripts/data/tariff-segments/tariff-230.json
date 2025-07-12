@@ -7,6 +7,8 @@
       "hts8": "23011000",
       "brief_description": "Flours, meals, and pellets, of meat or meat offal unfit for human consumption; greaves (cracklings)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -28,10 +30,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -75,6 +78,8 @@
       "hts8": "23012000",
       "brief_description": "Flours, meals, and pellets, of fish or of crustaceans, molluscs or other aquatic invertebrates, unfit for human consumption",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -96,10 +101,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -143,6 +149,8 @@
       "hts8": "23021000",
       "brief_description": "Bran, sharps (middlings) and other residues, derived from the sifting, milling or other working of corn (maize)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -162,22 +170,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -221,6 +224,8 @@
       "hts8": "23023000",
       "brief_description": "Bran, sharps (middlings) and other residues, derived from the sifting, milling or other working of wheat",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -240,22 +245,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -299,6 +299,8 @@
       "hts8": "23024001",
       "brief_description": "Bran, sharps (middlings) and other residues, derived from the sifting, milling or other working of cereals, excluding corn, rice and wheat",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -318,22 +320,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -377,6 +374,8 @@
       "hts8": "23025000",
       "brief_description": "Bran, sharps (middlings) and other residues, derived from the sifting, milling or other working of leguminous plants",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4%",
@@ -396,10 +395,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -550,10 +545,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -597,6 +593,8 @@
       "hts8": "23031000",
       "brief_description": "Residues of starch manufacture and similar residues",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4%",
@@ -616,10 +614,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -770,10 +764,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -817,6 +812,8 @@
       "hts8": "23032000",
       "brief_description": "Beet-pulp, bagasse and other waste of sugar manufacture",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -838,10 +835,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -885,6 +883,8 @@
       "hts8": "23033000",
       "brief_description": "Brewing or distilling dregs and waste",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -906,10 +906,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -953,6 +954,8 @@
       "hts8": "23040000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of soybean oil",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.45 cents/kg",
@@ -1118,10 +1121,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1165,6 +1169,8 @@
       "hts8": "23050000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of peanut (ground-nut) oil",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.32 cents/kg",
@@ -1330,10 +1336,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1377,6 +1384,8 @@
       "hts8": "23061000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, of cotton seeds",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.56 cents/kg",
@@ -1541,11 +1550,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1589,6 +1599,8 @@
       "hts8": "23062000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, of linseed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.12 cents/kg",
@@ -1754,10 +1766,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1801,6 +1814,8 @@
       "hts8": "23063000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, of sunflower seeds",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.45 cents/kg",
@@ -1966,10 +1981,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2013,6 +2029,8 @@
       "hts8": "23064100",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, of low erucic acid rape or colza seeds",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.17 cents/kg",
@@ -2178,10 +2196,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2225,6 +2244,8 @@
       "hts8": "23064900",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats/oils, of rape or colza seeds (other than low erucic acid)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.17 cents/kg",
@@ -2390,10 +2411,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2437,6 +2459,8 @@
       "hts8": "23065000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, of coconut or copra",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.45 cents/kg",
@@ -2601,11 +2625,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2649,6 +2674,8 @@
       "hts8": "23066000",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, of palm nuts or kernels",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.32 cents/kg",
@@ -2813,11 +2840,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2861,6 +2889,8 @@
       "hts8": "23069001",
       "brief_description": "Oilcake and other solid residues, resulting from the extraction of vegetable fats or oils, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.32 cents/kg",
@@ -3026,10 +3056,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3073,6 +3104,8 @@
       "hts8": "23070000",
       "brief_description": "Wine lees; argol",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3093,11 +3126,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3141,6 +3175,8 @@
       "hts8": "23080010",
       "brief_description": "Acorns and horse-chestnuts, of a kind used in animal feeding, not elsewhere specified or included",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4%",
@@ -3160,10 +3196,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3313,11 +3345,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3361,6 +3394,8 @@
       "hts8": "23080093",
       "brief_description": "Screenings, scalpings, chaff or scourings, ground or not ground of flaxseed (linseed), of a kind used in animal feeding, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3380,22 +3415,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3439,6 +3469,8 @@
       "hts8": "23080095",
       "brief_description": "Dehydrated marigolds, of a kind used in animal feeding, not elsewhere specified or included",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.9%",
@@ -3458,10 +3490,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3612,10 +3640,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3659,6 +3688,8 @@
       "hts8": "23080098",
       "brief_description": "Vegetable materials and vegetable waste, vegetable residues and byproducts, of a kind used in animal feeding, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4%",
       "mfn_rate_type_code": "7",
@@ -3677,10 +3708,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3831,10 +3858,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3878,6 +3906,8 @@
       "hts8": "23091000",
       "brief_description": "Dog or cat food, put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3897,22 +3927,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3956,6 +3981,8 @@
       "hts8": "23099010",
       "brief_description": "Mixed feed or mixed feed ingredients used in animal feeding",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
       "mfn_rate_type_code": "0",
@@ -3974,22 +4001,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4033,6 +4055,8 @@
       "hts8": "23099022",
       "brief_description": "Animal feeds w/milk or milk derivatives, o/10% by wt of milk solids, subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -4052,10 +4076,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4205,11 +4225,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4253,6 +4274,8 @@
       "hts8": "23099024",
       "brief_description": "Animal feeds w/milk or milk derivatives, o/10% by wt of milk solids, subject to add note 2 to Ch. 23, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -4272,10 +4295,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4423,11 +4442,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4471,6 +4491,8 @@
       "hts8": "23099028",
       "brief_description": "Animal feeds w/milk or milk derivatives, o/10% by wt of milk solids, not subject to gen note 15 or add note 2 to Ch. 23",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "80.4 cents/kg + 6.4%",
@@ -4490,11 +4512,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -4618,11 +4635,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4666,6 +4684,8 @@
       "hts8": "23099042",
       "brief_description": "Animal feeds w/milk or milk derivatives, n/o 10% by wt of milk solids, subject to gen. note 15 of the HTS",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -4685,10 +4705,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4838,11 +4854,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4886,6 +4903,8 @@
       "hts8": "23099044",
       "brief_description": "Animal feeds w/milk or milk derivatives, n/o 10% by wt of milk solids, subject to add note 2 to Ch. 23, not GN15",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.5%",
@@ -4905,10 +4924,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5056,11 +5071,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5104,6 +5120,8 @@
       "hts8": "23099048",
       "brief_description": "Animal feeds w/milk or milk derivatives, n/o 10% by wt of milk solids, not subject to gen note 15 or add note 2 to Ch. 23",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "80.4 cents/kg + 6.4%",
@@ -5123,11 +5141,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -5251,11 +5264,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5299,6 +5313,8 @@
       "hts8": "23099060",
       "brief_description": "Animal feeds containing egg, other than mixed feeds or mixed feed ingredients, not containing milk or milk derivatives",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.9%",
@@ -5318,10 +5334,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5471,11 +5483,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5519,6 +5532,8 @@
       "hts8": "23099070",
       "brief_description": "Other preps nes with a basis of vitamin B12, for supplementing animal in animal feeding, not cont milk or egg prods",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4%",
@@ -5538,10 +5553,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5692,10 +5703,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5739,6 +5751,8 @@
       "hts8": "23099095",
       "brief_description": "Other preps nes of a kind used in animal feeding, not cont milk or egg prods",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.4%",
@@ -5758,10 +5772,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5912,10 +5922,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

@@ -7,6 +7,8 @@
       "hts8": "28100000",
       "brief_description": "Oxides of boron; boric acids",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.5%",
@@ -25,11 +27,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -181,10 +178,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -228,6 +226,8 @@
       "hts8": "28111100",
       "brief_description": "Hydrogen fluoride (Hydrofluoric acid)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -249,10 +249,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -296,6 +297,8 @@
       "hts8": "28111200",
       "brief_description": "Hydrogen cyanide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -315,13 +318,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -366,10 +362,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -413,6 +410,8 @@
       "hts8": "28111910",
       "brief_description": "Arsenic acid",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.3%",
@@ -431,11 +430,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -586,11 +580,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -634,6 +629,8 @@
       "hts8": "28111930",
       "brief_description": "Hydrobromic acid",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -653,23 +650,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -713,6 +704,8 @@
       "hts8": "28111961",
       "brief_description": "Sulfamic acid and other inorganic acids NESOI",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -732,13 +725,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -783,10 +769,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -830,6 +817,8 @@
       "hts8": "28112100",
       "brief_description": "Carbon dioxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -849,13 +838,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1006,10 +988,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1053,6 +1036,8 @@
       "hts8": "28112210",
       "brief_description": "Synthetic silica gel",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -1072,13 +1057,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1229,10 +1207,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1276,6 +1255,8 @@
       "hts8": "28112250",
       "brief_description": "Silicon dioxide, other than synthetic silica gel",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1297,10 +1278,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1344,6 +1326,8 @@
       "hts8": "28112910",
       "brief_description": "Arsenic trioxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1365,10 +1349,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1412,6 +1397,8 @@
       "hts8": "28112920",
       "brief_description": "Selenium dioxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1433,10 +1420,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1480,6 +1468,8 @@
       "hts8": "28112930",
       "brief_description": "Sulfur dioxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -1499,13 +1489,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1656,10 +1639,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1703,6 +1687,8 @@
       "hts8": "28112950",
       "brief_description": "Other inorganic oxygen compounds of nonmetals, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -1722,13 +1708,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1879,10 +1858,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1926,6 +1906,8 @@
       "hts8": "28121100",
       "brief_description": "Carbonyl dichloride (Phosgene)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -1945,13 +1927,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1996,10 +1971,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2043,6 +2019,8 @@
       "hts8": "28121200",
       "brief_description": "Phosphorus oxychloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2062,13 +2040,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2113,10 +2084,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2160,6 +2132,8 @@
       "hts8": "28121300",
       "brief_description": "Phosphorus trichloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2179,13 +2153,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2230,10 +2197,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2277,6 +2245,8 @@
       "hts8": "28121400",
       "brief_description": "Phosphorus pentachloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2296,23 +2266,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2356,6 +2320,8 @@
       "hts8": "28121500",
       "brief_description": "Sulfur monochloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2375,13 +2341,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2426,10 +2385,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2473,6 +2433,8 @@
       "hts8": "28121600",
       "brief_description": "Sulfur dichloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2492,13 +2454,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2543,10 +2498,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2590,6 +2546,8 @@
       "hts8": "28121700",
       "brief_description": "Thionyl chloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2609,13 +2567,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2660,10 +2611,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2707,6 +2659,8 @@
       "hts8": "28121900",
       "brief_description": "Other chlorides and chloride oxides",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2726,13 +2680,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2777,10 +2724,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2824,6 +2772,8 @@
       "hts8": "28129000",
       "brief_description": "Halides and halide oxides of nonmetals, excluding chlorides and chloride oxides",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -2843,13 +2793,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3000,10 +2943,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3047,6 +2991,8 @@
       "hts8": "28131000",
       "brief_description": "Carbon disulfide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -3066,13 +3012,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3223,10 +3162,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3270,6 +3210,8 @@
       "hts8": "28139010",
       "brief_description": "Arsenic sulfides",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3291,10 +3233,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3338,6 +3281,8 @@
       "hts8": "28139020",
       "brief_description": "Phosphorus sulfides",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3357,23 +3302,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3417,6 +3356,8 @@
       "hts8": "28139050",
       "brief_description": "Sulfides of nonmetals, excluding carbon disulfide and sulfides of arsenic or phosphorus",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -3436,13 +3377,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3593,10 +3527,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3640,6 +3575,8 @@
       "hts8": "28141000",
       "brief_description": "Anhydrous ammonia",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3661,10 +3598,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3708,6 +3646,8 @@
       "hts8": "28142000",
       "brief_description": "Ammonia in aqueous solution",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "quantity_2_code": "CTN",
       "wto_binding_code": "B",
@@ -3730,10 +3670,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3777,6 +3718,8 @@
       "hts8": "28151100",
       "brief_description": "Sodium hydroxide (Caustic soda), solid",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3798,10 +3741,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3845,6 +3789,8 @@
       "hts8": "28151200",
       "brief_description": "Sodium hydroxide (Caustic soda), in aqueous solution (Soda lye or liquid soda)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -3867,10 +3813,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3914,6 +3861,8 @@
       "hts8": "28152000",
       "brief_description": "Potassium hydroxide (Caustic potash)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3935,10 +3884,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3982,6 +3932,8 @@
       "hts8": "28153000",
       "brief_description": "Peroxides of sodium or potassium",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -4001,13 +3953,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4158,10 +4103,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4205,6 +4151,8 @@
       "hts8": "28161000",
       "brief_description": "Hydroxide and peroxide of magnesium",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -4225,13 +4173,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4382,10 +4323,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4429,6 +4371,8 @@
       "hts8": "28164010",
       "brief_description": "Oxides, hydroxides and peroxides of strontium",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -4448,13 +4392,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4605,10 +4542,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4652,6 +4590,8 @@
       "hts8": "28164020",
       "brief_description": "Oxides, hydroxides and peroxides of barium",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2%",
@@ -4671,10 +4611,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (10.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4825,10 +4761,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4872,6 +4809,8 @@
       "hts8": "28170000",
       "brief_description": "Zinc oxide; zinc peroxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4891,21 +4830,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4949,6 +4884,8 @@
       "hts8": "28181010",
       "brief_description": "Artificial corundum, crude",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4969,11 +4906,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5017,6 +4955,8 @@
       "hts8": "28181020",
       "brief_description": "Artificial corundum, in grains, or ground, pulverized or refined",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.3%",
@@ -5035,11 +4975,6 @@
       "ntr_suspended_countries": [
         "RU",
         "BY"
-      ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
       ],
       "available_programs": [
         {
@@ -5190,11 +5125,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5238,6 +5174,8 @@
       "hts8": "28182000",
       "brief_description": "Aluminum oxide, other than artificial corundum",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5259,10 +5197,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5306,6 +5245,8 @@
       "hts8": "28183000",
       "brief_description": "Aluminum hydroxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5327,10 +5268,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5374,6 +5316,8 @@
       "hts8": "28191000",
       "brief_description": "Chromium trioxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -5393,13 +5337,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5550,10 +5487,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5597,6 +5535,8 @@
       "hts8": "28199000",
       "brief_description": "Chromium oxides and hydroxides, other than chromium trioxide",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.7%",
@@ -5616,13 +5556,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5773,10 +5706,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

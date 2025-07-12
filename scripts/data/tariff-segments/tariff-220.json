@@ -7,6 +7,8 @@
       "hts8": "22011000",
       "brief_description": "Mineral waters and aerated waters, not containing added sugar or other sweetening matter nor flavored",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.26 cents/liter",
@@ -172,10 +174,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -219,6 +222,8 @@
       "hts8": "22019000",
       "brief_description": "Waters (incl. ice, snow and steam), ot/than mineral waters or aerated waters, not cont. added sugar or other sweetening matter nor flavored",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -240,10 +245,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -287,6 +293,8 @@
       "hts8": "22021000",
       "brief_description": "Waters, including mineral waters and aerated waters, containing added sugar or other sweetening matter or flavored",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.2 cents/liter",
@@ -452,10 +460,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -499,6 +508,8 @@
       "hts8": "22029100",
       "brief_description": "Nonalcoholic beer",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.2 cents/liter",
@@ -562,11 +573,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -610,6 +622,8 @@
       "hts8": "22029910",
       "brief_description": "Chocolate milk drink",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -630,10 +644,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -775,11 +785,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -823,6 +834,8 @@
       "hts8": "22029922",
       "brief_description": "Milk-based drinks described in general note 15 of USHTS and entered pursuant to its provisions, nonalcoholic, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -843,10 +856,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -903,11 +912,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -951,6 +961,8 @@
       "hts8": "22029924",
       "brief_description": "Milk-based drinks described in additional US note 10 to chapter 4 and entered pursuant to its provisions, nonalcoholic, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -971,10 +983,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1030,11 +1038,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1078,6 +1087,8 @@
       "hts8": "22029928",
       "brief_description": "Milk-based drinks, nonalcoholic, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1184,11 +1195,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1232,6 +1244,8 @@
       "hts8": "22029930",
       "brief_description": "Orange juice, fortified with vitamins or minerals not made from a juice having a degree of concentration of >=1.5",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.5 cents/liter",
@@ -1312,10 +1326,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1359,6 +1374,8 @@
       "hts8": "22029935",
       "brief_description": "Orange juice fortified with vitamins or minerals, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "7.85 cents/liter",
@@ -1448,10 +1465,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1495,6 +1513,8 @@
       "hts8": "22029936",
       "brief_description": "Juice of any single fruit or vegetable (except orange juice) fortified with vitamins or minerals, in nonconcentrated form",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "The rate applicable to the natural juice in heading 2009",
@@ -1510,10 +1530,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1580,10 +1596,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1627,6 +1644,8 @@
       "hts8": "22029937",
       "brief_description": "Fruit or vegetable juices, fortified with vitamins or minerals, mixtures of juices in non-concentrated form",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "The rate applicable to the natural juice in heading 2009",
@@ -1642,10 +1661,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1712,10 +1727,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1818,17 +1834,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1870,6 +1875,8 @@
       "hts8": "22030000",
       "brief_description": "Beer made from malt",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1892,10 +1899,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1939,6 +1947,8 @@
       "hts8": "22041000",
       "brief_description": "Sparkling wine, made from grapes",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "19.8 cents/liter",
@@ -2105,10 +2115,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2152,6 +2163,8 @@
       "hts8": "22042120",
       "brief_description": "Effervescent grape wine, in containers holding 2 liters or less",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "19.8 cents/liter",
@@ -2318,10 +2331,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2365,6 +2379,8 @@
       "hts8": "22042130",
       "brief_description": "Tokay wine (not carbonated) not over 14% alcohol, in containers not over 2 liters",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.3 cents/liter",
@@ -2531,10 +2547,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2578,6 +2595,8 @@
       "hts8": "22042150",
       "brief_description": "Wine other than Tokay (not carbonated), not over 14% alcohol, in containers not over 2 liters",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.3 cents/liter",
@@ -2744,10 +2763,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2791,6 +2811,8 @@
       "hts8": "22042160",
       "brief_description": "Marsala wine, over 14% vol. alcohol, in containers holding 2 liters or less",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3 cents/liter",
@@ -2957,10 +2979,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3004,6 +3027,8 @@
       "hts8": "22042180",
       "brief_description": "Grape wine, other than Marsala, not sparkling or effervescent, over 14% vol. alcohol, in containers holding 2 liters or less",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "16.9 cents/liter",
@@ -3170,10 +3195,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3217,6 +3243,8 @@
       "hts8": "22042220",
       "brief_description": "Wine of fresh grapes, other than sparkling wine, of an alcoholic strength by volume <=14% in containers holding over 2 liters but not over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "8.4 cents/liter",
@@ -3297,11 +3325,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3345,6 +3374,8 @@
       "hts8": "22042240",
       "brief_description": "Wine of fresh grapes, other than sparkling wine, of an alcoholic strength by volume >14% in containers holding over 2 liters but not over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "22.4 cents/liter",
@@ -3425,11 +3456,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3473,6 +3505,8 @@
       "hts8": "22042260",
       "brief_description": "Wine of fresh grapes, other than sparkling wine, of an alcoholic strength by volume <=14% in containers holding over 4 liters but not over 10 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "14 cents/liter",
@@ -3570,11 +3604,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3618,6 +3653,8 @@
       "hts8": "22042280",
       "brief_description": "Wine of fresh grapes, other than sparkling wine, of an alcoholic strength by volume >14% in containerss holding over 4 liters but not over 10 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "22.4 cents/liter",
@@ -3706,11 +3743,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3754,6 +3792,8 @@
       "hts8": "22042961",
       "brief_description": "Wine of fresh grapes, other than sparkling wine, of an alcoholic strength by volume <=14% in containers holding >10 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "14 cents/liter",
@@ -3851,11 +3891,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3899,6 +3940,8 @@
       "hts8": "22042981",
       "brief_description": "Wine of fresh grapes, other than sparkling wine, of an alcoholic strength by volume >14% in containers holding >10 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "22.4 cents/liter",
@@ -3987,11 +4030,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4035,6 +4079,8 @@
       "hts8": "22043000",
       "brief_description": "Grape must, nesoi, in fermentation or with fermentation arrested otherwise than by addition of alcohol",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "quantity_2_code": "PFL",
       "wto_binding_code": "B",
@@ -4201,11 +4247,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4249,6 +4296,8 @@
       "hts8": "22051030",
       "brief_description": "Vermouth in containers holding 2 liters or less",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.5 cents/liter",
@@ -4414,11 +4463,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4462,6 +4512,8 @@
       "hts8": "22051060",
       "brief_description": "Wine of fresh grapes flavored with plants or aromatic substances, other than vermouth, in containers holding 2 liters or less",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2 cents/liter",
@@ -4627,11 +4679,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4675,6 +4728,8 @@
       "hts8": "22059020",
       "brief_description": "Vermouth in containers each holding over 2 liters but not over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.5 cents/liter",
@@ -4840,11 +4895,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4888,6 +4944,8 @@
       "hts8": "22059040",
       "brief_description": "Vermouth in containers each holding over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.8 cents/liter",
@@ -5053,11 +5111,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5101,6 +5160,8 @@
       "hts8": "22059060",
       "brief_description": "Wine of fresh grapes flavored with plants or aromatic substances, other than vermouth, in containers holding over 2 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2 cents/liter",
@@ -5266,11 +5327,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5314,6 +5376,8 @@
       "hts8": "22060015",
       "brief_description": "Cider, fermented, whether still or sparkling",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "0.4 cents/liter",
@@ -5479,11 +5543,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5527,6 +5592,8 @@
       "hts8": "22060030",
       "brief_description": "Prune wine",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "quantity_2_code": "PFL",
       "wto_binding_code": "B",
@@ -5693,11 +5760,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5741,6 +5809,8 @@
       "hts8": "22060045",
       "brief_description": "Rice wine or sake",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "3 cents/liter",
@@ -5907,10 +5977,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5954,6 +6025,8 @@
       "hts8": "22060060",
       "brief_description": "Effervescent wine, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "13.9 cents/liter",
@@ -6119,11 +6192,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6167,6 +6241,8 @@
       "hts8": "22060090",
       "brief_description": "Fermented beverages (other than grape wine, beer, cider, prune wine, sake, vermouth, or other effervescent wines)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2 cents/liter",
@@ -6333,10 +6409,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6380,6 +6457,8 @@
       "hts8": "22071030",
       "brief_description": "Undenatured ethyl alcohol of 80 percent vol. alcohol or higher, for beverage purposes",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "18.9 cents/pf.liter",
@@ -6546,10 +6625,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6593,6 +6673,8 @@
       "hts8": "22071060",
       "brief_description": "Undenatured ethyl alcohol of 80 percent vol. alcohol or higher, for nonbeverage purposes",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.5%",
@@ -6613,10 +6695,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6761,10 +6839,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6808,6 +6887,8 @@
       "hts8": "22072000",
       "brief_description": "Ethyl alcohol and other spirits, denatured, of any strength",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "L",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.9%",
@@ -6828,10 +6909,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6975,11 +7052,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7023,6 +7101,8 @@
       "hts8": "22082010",
       "brief_description": "Pisco and singani",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7044,11 +7124,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7092,6 +7173,8 @@
       "hts8": "22082020",
       "brief_description": "Grape brandy, excluding pisco and singani, in containers not over 4 liters, not over $2.38/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7113,11 +7196,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7161,6 +7245,8 @@
       "hts8": "22082030",
       "brief_description": "Grape brandy, excluding pisco and singani, in containers not over 4 liters, valued over $2.38 to $3.43/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7182,11 +7268,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7230,6 +7317,8 @@
       "hts8": "22082040",
       "brief_description": "Grape brandy, excluding pisco and singani, in containers not over 4 liters, valued over $3.43/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7251,11 +7340,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7299,6 +7389,8 @@
       "hts8": "22082050",
       "brief_description": "Grape brandy, excluding pisco and singani, in containers over 4 liters, not over $2.38/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7320,11 +7412,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7368,6 +7461,8 @@
       "hts8": "22082060",
       "brief_description": "Grape brandy, excluding pisco and singani, in containers over 4 liters, over $2.38/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7389,11 +7484,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7437,6 +7533,8 @@
       "hts8": "22083030",
       "brief_description": "Irish and Scotch whiskies",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7458,11 +7556,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7506,6 +7605,8 @@
       "hts8": "22083060",
       "brief_description": "Whiskies, other than Irish and Scotch whiskies",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7527,11 +7628,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7575,6 +7677,8 @@
       "hts8": "22084020",
       "brief_description": "Rum and tafia, in containers each holding not over 4 liters, valued not over $3/proof liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "23.7 cents/pf.liter",
@@ -7740,11 +7844,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7788,6 +7893,8 @@
       "hts8": "22084040",
       "brief_description": "Rum and tafia, in containers each holding not over 4 liters, valued over $3/proof liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7809,11 +7916,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7857,6 +7965,8 @@
       "hts8": "22084060",
       "brief_description": "Rum and tafia, in containers each holding over 4 liters, valued not over $0.69/proof liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "23.7 cents/pf.liter",
@@ -8022,11 +8132,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8070,6 +8181,8 @@
       "hts8": "22084080",
       "brief_description": "Rum and tafia, in containers each holding over 4 liters, valued over $0.69/proof liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8091,11 +8204,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8139,6 +8253,8 @@
       "hts8": "22085000",
       "brief_description": "Gin and Geneve",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8160,11 +8276,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8208,6 +8325,8 @@
       "hts8": "22086010",
       "brief_description": "Vodka, in containers each holding not over 4 liters, valued not over $2.05/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8229,11 +8348,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8277,6 +8397,8 @@
       "hts8": "22086020",
       "brief_description": "Vodka, in containers each holding not over 4 liters, valued over $2.05/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8298,11 +8420,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8346,6 +8469,8 @@
       "hts8": "22086050",
       "brief_description": "Vodka, in containers each holding over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8367,11 +8492,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8415,6 +8541,8 @@
       "hts8": "22087000",
       "brief_description": "Liqueurs and cordials",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8436,11 +8564,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8484,6 +8613,8 @@
       "hts8": "22089001",
       "brief_description": "Aquavit",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8505,11 +8636,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8553,6 +8685,8 @@
       "hts8": "22089005",
       "brief_description": "Bitters, not fit for use as beverages",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8574,11 +8708,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8622,6 +8757,8 @@
       "hts8": "22089010",
       "brief_description": "Bitters, fit for use as beverages",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8643,11 +8780,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8691,6 +8829,8 @@
       "hts8": "22089012",
       "brief_description": "Slivovitz brandy, valued not over $3.43/liter, in containers each holding not over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8712,11 +8852,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8760,6 +8901,8 @@
       "hts8": "22089014",
       "brief_description": "Slivovitz brandy, valued not over $3.43/liter, in containers each holding over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8781,11 +8924,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8829,6 +8973,8 @@
       "hts8": "22089015",
       "brief_description": "Slivovitz brandy, valued over $3.43/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8850,11 +8996,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8898,6 +9045,8 @@
       "hts8": "22089020",
       "brief_description": "Brandy, except slivovitz, in containers each holding not over 4 liters, valued not over $2.38/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8919,11 +9068,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8967,6 +9117,8 @@
       "hts8": "22089025",
       "brief_description": "Brandy, except grape brandy and slivovitz, in containers each holding not over 4 liters, valued over $2.38 but not over $3.43/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -8988,11 +9140,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9036,6 +9189,8 @@
       "hts8": "22089030",
       "brief_description": "Brandy, except grape brandy and slivovitz, in containers each holding not over 4 liters, valued over $3.43/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9057,11 +9212,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9105,6 +9261,8 @@
       "hts8": "22089035",
       "brief_description": "Brandy, except grape brandy and slivovitz, in containers each holding over 4 liters, valued not over $2.38/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9126,11 +9284,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9174,6 +9333,8 @@
       "hts8": "22089040",
       "brief_description": "Brandy, except grape brandy and slivovitz, in containers each holding over 4 liters, valued over $2.38/liter",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9195,11 +9356,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9243,6 +9405,8 @@
       "hts8": "22089046",
       "brief_description": "Kirschwasser and ratafia",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9264,11 +9428,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9312,6 +9477,8 @@
       "hts8": "22089050",
       "brief_description": "Tequila, in containers each holding not over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9333,11 +9500,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9381,6 +9549,8 @@
       "hts8": "22089055",
       "brief_description": "Tequila, in containers each holding over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9402,11 +9572,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9450,6 +9621,8 @@
       "hts8": "22089071",
       "brief_description": "Imitations of brandy and other spirituous beverages containing alcohol",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9471,11 +9644,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9519,6 +9693,8 @@
       "hts8": "22089072",
       "brief_description": "Mescal in containers each holding not over 4 liters",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9540,11 +9716,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9588,6 +9765,8 @@
       "hts8": "22089075",
       "brief_description": "Spirits nesoi, fit for use as beverages or for beverage purposes",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -9609,11 +9788,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9657,6 +9837,8 @@
       "hts8": "22089080",
       "brief_description": "Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80 percent vol., nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "PFL",
       "wto_binding_code": "B",
       "mfn_text_rate": "21.1 cents/pf.liter",
@@ -9822,11 +10004,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9870,6 +10053,8 @@
       "hts8": "22090000",
       "brief_description": "Vinegar and substitutes for vinegar obtained from acetic acid",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "PFL",
       "quantity_2_code": "L",
       "wto_binding_code": "B",
@@ -10036,10 +10221,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

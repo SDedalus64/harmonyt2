@@ -5,7 +5,7 @@ This script processes the raw tariff CSV data and integrates Section 301 data
 to create a clean JSON file that's easier for the app to consume.
 
 Usage:
-  python preprocess_tariff_data_with_301.py <input_csv> <section301_csv> <output_json> [hts_revision] [--inject-extra-tariffs]
+  python preprocess_tariff_data_new.py <input_csv> <section301_csv> <output_json> [hts_revision] [--inject-extra-tariffs]
 
 Arguments:
   <input_csv>              Path to the input tariff CSV file.
@@ -20,6 +20,7 @@ import json
 import re
 from typing import Dict, Any, Optional, List
 import sys
+import os
 from datetime import datetime
 import argparse
 import pandas as pd
@@ -132,18 +133,33 @@ ADDITIVE_DUTIES = {
 # Load Section 301 data
 SECTION_301_DATA = {}
 
+# Load Section 201 data
+SECTION_201_DATA = {}
+
 def normalize_hts_code(hts_code: str) -> str:
     """Normalize HTS code to 8-digit format without dots for matching"""
     # Remove all non-digits
     code = re.sub(r'[^\d]', '', str(hts_code))
     
-    # Pad with zeros if too short
+    # Remove leading zeros but ensure we have at least 8 digits
+    code = code.lstrip('0') or '0'  # Keep at least one zero if all zeros
+    
+    # If less than 8 digits after removing leading zeros, pad on the right
     if len(code) < 8:
         code = code.ljust(8, '0')
     
-    # Truncate if too long
+    # If more than 8 digits, take first 8
     if len(code) > 8:
         code = code[:8]
+    
+    # Special handling: if code starts with 0 after normalization, it's likely
+    # a chapter 01-09 code that should not have leading zero in database
+    # Example: 0101.21.00 -> 01012100 -> 10121000
+    if code.startswith('0') and len(code) == 8:
+        # Try without the leading zero
+        code_without_zero = code[1:] + '0'
+        # This transforms 01012100 -> 10121000
+        return code_without_zero
     
     return code
 
@@ -180,10 +196,53 @@ def load_section_301_data(section301_csv_path: str):
         print("Section 301 examples (normalized):")
         for code, data in examples:
             print(f"  {code} <- {data['original_code']} (List {data['list']})")
+        
+        # Show specific example for horses
+        if '10121000' in SECTION_301_DATA:
+            print(f"\nFound 10121000: {SECTION_301_DATA['10121000']}")
+        if '01012100' in SECTION_301_DATA:
+            print(f"Found 01012100: {SECTION_301_DATA['01012100']}")
         return True
     except Exception as e:
         print(f"Error loading Section 301 data: {e}")
         return False
+
+def load_section_201_data(section201_csv_path: str):
+    """Load Section 201 solar data into a lookup dictionary"""
+    global SECTION_201_DATA
+    try:
+        # If file doesn't exist, just return True (Section 201 is optional)
+        if not os.path.exists(section201_csv_path):
+            print(f"Section 201 CSV not found at {section201_csv_path}, skipping...")
+            return True
+            
+        df = pd.read_csv(section201_csv_path, comment='#')
+        for _, row in df.iterrows():
+            hts_code = str(row['HTS_Code']).strip()
+            # Normalize the HTS code for matching
+            normalized_code = normalize_hts_code(hts_code)
+            
+            # Parse exempt countries
+            exempt_countries = []
+            exempt_str = row.get('Exempt_Countries')
+            if exempt_str and pd.notna(exempt_str):
+                exempt_countries = [c.strip() for c in str(exempt_str).split(',')]
+            
+            SECTION_201_DATA[normalized_code] = {
+                'rate': float(row.get('Current_Rate', 14.0)) if row.get('Current_Rate') else 14.0,
+                'product_type': row.get('Product_Type', 'solar'),
+                'quota_gw': float(row.get('Quota_GW', 0)) if row.get('Quota_GW') else 0,
+                'exempt_countries': exempt_countries,
+                'notes': row.get('Notes', ''),
+                'original_code': hts_code  # Keep original for reference
+            }
+        
+        print(f"Loaded {len(SECTION_201_DATA)} Section 201 solar HTS codes")
+        return True
+    except Exception as e:
+        print(f"Warning: Could not load Section 201 data: {e}")
+        # Return True anyway - Section 201 is optional
+        return True
 
 def clean_field_name(field_name: str) -> str:
     """Clean and standardize field names"""
@@ -215,8 +274,14 @@ def is_aluminum_product(hts_code: str) -> bool:
 
 def is_solar_product(hts_code: str) -> bool:
     """Check if HTS code is a solar product"""
-    # Solar cells and modules
-    return hts_code.startswith('854142') or hts_code.startswith('854143')
+    # Solar cells and modules (8541.42 and 8541.43)
+    # Check both 6-digit and 8-digit prefixes to handle different formats
+    return (hts_code.startswith('854142') or hts_code.startswith('854143') or
+            hts_code.startswith('85414200') or hts_code.startswith('85414300') or
+            # Also check for generators and batteries with CSPV cells
+            hts_code.startswith('85013180') or  # DC generators with CSPV
+            hts_code.startswith('85016100') or  # AC generators with CSPV
+            hts_code.startswith('85072080'))    # Lead-acid batteries with CSPV
 
 def is_energy_product(hts_code: str) -> bool:
     """Check if HTS code is an energy product"""
@@ -299,8 +364,21 @@ def determine_additive_duties(hts_code: str, entry: Dict[str, Any]) -> List[Dict
             'label': f"Section 301 List {section_301_info['list']} ({section_301_info['rate']}%)"
         })
 
-    # Check for Section 201 duties (Solar)
-    if is_solar_product(hts_code):
+    # Check for Section 201 duties using normalized code (similar to Section 301)
+    if normalized_code in SECTION_201_DATA:
+        section_201_info = SECTION_201_DATA[normalized_code]
+        additive_duties.append({
+            'type': 'section_201',
+            'name': 'Section 201 - Solar Safeguard',
+            'rate': section_201_info['rate'],
+            'product_type': section_201_info['product_type'],
+            'countries': 'all',
+            'exclusions': section_201_info['exempt_countries'],
+            'label': f"Section 201 Solar ({section_201_info['rate']}%)",
+            'notes': section_201_info.get('notes', '')
+        })
+    elif is_solar_product(hts_code):
+        # Fallback to prefix matching if not in lookup table
         solar_info = ADDITIVE_DUTIES.get('section_201_solar', {})
         additive_duties.append({
             'type': 'section_201',
@@ -313,7 +391,7 @@ def determine_additive_duties(hts_code: str, entry: Dict[str, Any]) -> List[Dict
 
     return additive_duties
 
-def process_tariff_entry(row: Dict[str, Any], inject_extra_tariffs: bool) -> Optional[Dict[str, Any]]:
+def process_tariff_entry(row: Dict[str, Any], inject_extra_tariffs: bool, section_301_only: bool = True) -> Optional[Dict[str, Any]]:
     """Process a single tariff entry, handling special cases"""
 
     # Clean all field names in the row
@@ -337,9 +415,19 @@ def process_tariff_entry(row: Dict[str, Any], inject_extra_tariffs: bool) -> Opt
     # Normalize HTS code for Section 301 matching
     normalized_code = normalize_hts_code(hts_code)
     
+    # Debug specific codes
+    if hts_code.startswith('101210') or hts_code.startswith('010121'):
+        print(f"Debug: Processing {hts_code} -> normalized to {normalized_code}")
+        if normalized_code in SECTION_301_DATA:
+            print(f"  Found in Section 301: {SECTION_301_DATA[normalized_code]}")
+        else:
+            print(f"  NOT found in Section 301 data")
+    
     # Check if this HTS code has Section 301 duties
-    if normalized_code not in SECTION_301_DATA:
-        # Skip entries that don't have Section 301 duties
+    has_section_301 = normalized_code in SECTION_301_DATA
+    
+    if section_301_only and not has_section_301:
+        # Skip entries that don't have Section 301 duties when filtering
         return None
 
     # Create cleaned entry
@@ -347,9 +435,12 @@ def process_tariff_entry(row: Dict[str, Any], inject_extra_tariffs: bool) -> Opt
         'hts8': hts_code,
         'brief_description': row.get('brief_description', row.get('Description', '')),
         'is_chapter_99': is_chapter_99_code(hts_code),
-        'section_301_list': SECTION_301_DATA[normalized_code]['list'],
-        'section_301_rate': SECTION_301_DATA[normalized_code]['rate']
     }
+    
+    # Add Section 301 info if available
+    if has_section_301:
+        entry['section_301_list'] = SECTION_301_DATA[normalized_code]['list']
+        entry['section_301_rate'] = SECTION_301_DATA[normalized_code]['rate']
 
     # Copy over standard fields
     standard_fields = [
@@ -562,6 +653,11 @@ def main():
         action='store_true',
         help="Flag to inject Reciprocal, Fentanyl, and IEEPA tariffs."
     )
+    parser.add_argument(
+        '--section-301-only',
+        action='store_true',
+        help="Filter to ONLY HTS codes that have Section 301 duties."
+    )
     args = parser.parse_args()
 
     input_file = args.input_csv
@@ -569,10 +665,15 @@ def main():
     output_file = args.output_json
     hts_revision = args.hts_revision
     inject_extra_tariffs = args.inject_extra_tariffs
+    section_301_only = args.section_301_only
 
     print(f"Processing {input_file}...")
     print(f"Loading Section 301 data from {section301_file}...")
     print(f"HTS Revision: {hts_revision}")
+    if section_301_only:
+        print("Filtering to ONLY Section 301 HTS codes.")
+    else:
+        print("Processing ALL HTS codes (Section 301 rates will be applied where applicable).")
     if inject_extra_tariffs:
         print("Injecting extra tariffs (Fentanyl, Reciprocal, IEEPA) is ENABLED.")
     else:
@@ -582,6 +683,11 @@ def main():
     if not load_section_301_data(section301_file):
         print("Failed to load Section 301 data. Exiting.")
         sys.exit(1)
+    
+    # Load Section 201 data (optional - won't fail if file doesn't exist)
+    # Look for section201_solar.csv in the exports directory
+    section201_file = os.path.join(os.path.dirname(section301_file), 'section201_solar.csv')
+    load_section_201_data(section201_file)
 
     entries = []
     chapter_99_count = 0
@@ -598,9 +704,9 @@ def main():
 
         for row in reader:
             total_processed += 1
-            entry = process_tariff_entry(row, inject_extra_tariffs)
+            entry = process_tariff_entry(row, inject_extra_tariffs, section_301_only)
             if entry is None:
-                continue  # Skip entries without Section 301 duties
+                continue  # Skip entries based on filtering criteria
 
             entries.append(entry)
 
@@ -620,7 +726,10 @@ def main():
                         section_201_count += 1
 
     print(f"\nProcessed {total_processed} total tariff entries")
-    print(f"Found {len(entries)} entries with Section 301 duties")
+    if section_301_only:
+        print(f"Found {len(entries)} entries with Section 301 duties")
+    else:
+        print(f"Included {len(entries)} total entries")
     print(f"  - Chapter 99 codes: {chapter_99_count}")
     print(f"  - Special provisions: {special_provision_count}")
     print(f"  - With reciprocal tariffs: {reciprocal_tariff_count}")
@@ -631,13 +740,15 @@ def main():
     # Count by Section 301 list
     list_counts = {}
     for entry in entries:
-        list_num = entry.get('section_301_list', 'Unknown')
-        list_counts[list_num] = list_counts.get(list_num, 0) + 1
+        if 'section_301_list' in entry:
+            list_num = entry.get('section_301_list', 'Unknown')
+            list_counts[list_num] = list_counts.get(list_num, 0) + 1
     
-    print("\nSection 301 breakdown by list:")
-    for list_num in sorted(list_counts.keys()):
-        rate = "25%" if list_num in ['1', '2', '3'] else "7.5%" if list_num == '4a' else "Unknown"
-        print(f"  - List {list_num}: {list_counts[list_num]} entries ({rate} tariff)")
+    if list_counts:
+        print("\nSection 301 breakdown by list:")
+        for list_num in sorted(list_counts.keys()):
+            rate = "25%" if list_num in ['1', '2', '3'] else "7.5%" if list_num == '4a' else "Unknown"
+            print(f"  - List {list_num}: {list_counts[list_num]} entries ({rate} tariff)")
 
     # Create output structure
     output_data = {
@@ -652,7 +763,7 @@ def main():
             'section_301_entries': section_301_count,
             'section_232_entries': section_232_count,
             'section_201_entries': section_201_count,
-            'section_301_only': True,  # This file contains only Section 301 affected items
+            'section_301_only': section_301_only,  # Whether this file contains only Section 301 affected items
             'section_301_breakdown': list_counts,
             'preprocessing_version': '3.0',
             'hts_revision': hts_revision,
@@ -667,8 +778,12 @@ def main():
         json.dump(output_data, f, indent=2, ensure_ascii=False)
 
     print(f"\nOutput written to {output_file}")
-    print("\nIMPORTANT: This output contains ONLY HTS codes that have Section 301 add-ons.")
-    print("Use this for HarmonyTi Results and Tariff Intelligence features.")
+    if section_301_only:
+        print("\nIMPORTANT: This output contains ONLY HTS codes that have Section 301 add-ons.")
+        print("Use this for HarmonyTi Results and Tariff Intelligence features.")
+    else:
+        print("\nIMPORTANT: This output contains ALL HTS codes.")
+        print("Section 301 rates have been applied where applicable.")
 
 if __name__ == '__main__':
     main() 

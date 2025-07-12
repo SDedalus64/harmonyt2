@@ -7,6 +7,8 @@
       "hts8": "53101000",
       "brief_description": "Unbleached woven fabrics of jute or of other textile bast fibers of heading 5303",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -27,20 +29,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -84,6 +83,8 @@
       "hts8": "53109000",
       "brief_description": "Woven fabrics of jute or of other textile bast fibers of heading 5303, other than unbleached",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -104,20 +105,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 11.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (11.5%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -161,6 +159,8 @@
       "hts8": "53110020",
       "brief_description": "Woven fabrics of other vegetable textile fibers, containing more than 17% by weight of wool or fine animal hair",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -181,10 +181,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 90,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (90.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -325,10 +321,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -372,6 +369,8 @@
       "hts8": "53110030",
       "brief_description": "Woven fabrics of other vegetable textile fibers, containing cotton and manmade fibers, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -392,20 +391,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 78,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (78.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -449,6 +445,8 @@
       "hts8": "53110040",
       "brief_description": "Woven fabrics of other vegetable textile fibers, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -469,20 +467,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -526,6 +521,8 @@
       "hts8": "53110060",
       "brief_description": "Woven fabrics of paper yarn",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.7%",
@@ -545,10 +542,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -699,10 +692,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

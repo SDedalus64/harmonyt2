@@ -50,6 +50,16 @@ cd "$SCRIPT_DIR" || {
 
 print_status "Working directory: $(pwd)"
 
+# Activate virtual environment if it exists
+VENV_PATH="$SCRIPT_DIR/../../venv_tariff"
+if [ -d "$VENV_PATH" ]; then
+    print_status "Activating virtual environment..."
+    source "$VENV_PATH/bin/activate"
+else
+    print_warning "Virtual environment not found at $VENV_PATH"
+    print_warning "You may need to install dependencies: pip install pandas openpyxl pdfplumber"
+fi
+
 # Check for Section 301 deduplicated CSV
 SECTION_301_CSV="$SCRIPT_DIR/../exports/section301_deduplicated.csv"
 if [[ ! -f "$SECTION_301_CSV" ]]; then
@@ -172,7 +182,7 @@ if [ -f "$CSV_FILE" ]; then
     print_status "Integrating Section 301 data from: $SECTION_301_CSV"
     print_status "Filtering to ONLY HTS codes with Section 301 add-ons..."
     
-    python3 "$SCRIPT_DIR/preprocess_tariff_data_with_301.py" "$CSV_FILE" "$SECTION_301_CSV" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
+    python3 "$SCRIPT_DIR/preprocess_tariff_data_new.py" "$CSV_FILE" "$SECTION_301_CSV" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
 
     if [ $? -ne 0 ]; then
         print_error "Failed to process tariff data"

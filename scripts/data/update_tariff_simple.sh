@@ -20,17 +20,17 @@ LATEST_EXCEL=$(ls -t tariff_data_2025/tariff_database_*.xlsx 2>/dev/null | head 
 
 if [ -z "$LATEST_EXCEL" ]; then
     # Try old format in current directory
-    LATEST_CSV=$(ls -t tariff_database_*.csv 2>/dev/null | head -1)
-    
-    if [ -z "$LATEST_CSV" ]; then
+LATEST_CSV=$(ls -t tariff_database_*.csv 2>/dev/null | head -1)
+
+if [ -z "$LATEST_CSV" ]; then
         echo "No tariff database files found!"
         echo "Please place your tariff_database_2025_MM_DD_R##.xlsx file in the tariff_data_2025 directory"
-        exit 1
-    fi
-    
+    exit 1
+fi
+
     echo "Using existing CSV: $LATEST_CSV"
     CSV_FILE="$LATEST_CSV"
-    
+
     # Extract date from old format for output naming
     DATE_PART=$(basename "$CSV_FILE" | grep -oE '[0-9]{8}' | tail -1)
     REVISION=""
@@ -57,11 +57,11 @@ else
     CSV_FILE="tariff_database_2025_${DATE_FORMATTED}.csv"
     echo "Converting Excel to CSV..."
     python3 excel_to_csv.py "$LATEST_EXCEL" "$CSV_FILE"
-    
-    if [ $? -ne 0 ]; then
+
+if [ $? -ne 0 ]; then
         echo "Failed to convert Excel to CSV"
-        exit 1
-    fi
+    exit 1
+fi
     echo "✓ CSV conversion complete"
 fi
 

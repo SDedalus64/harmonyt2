@@ -7,39 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D536FF02BDF466AA4B9FDD9 /* Geologica-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C64E637EDC24AD7A126FCE3 /* Geologica-Medium.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		2BD5EA68EED97DE5F3738CED /* libPods-HarmonyTi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F6A2C0BB247192ADEFE82E9 /* libPods-HarmonyTi.a */; };
+		20D450EA947544E697B7BD1C /* Geologica-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 300EEDB36B60499C9E439D98 /* Geologica-SemiBold.ttf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		8DE2899BDA8E4D95B2F2645B /* Geologica-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 250890561B48437FBE7A8E5F /* Geologica-Bold.ttf */; };
-		9486C8DAC5E94D99BA039E42 /* Geologica-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 799BC95F56A047BC8FAE5222 /* Geologica-Medium.ttf */; };
-		9BE9E7516F7FA99DC817F209 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FD090C9B421C9E1DD8D90CF5 /* PrivacyInfo.xcprivacy */; };
+		58BC533A8C06BC87026A8E7B /* libPods-HarmonyTi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B33053D1E7B90E4D06F75A73 /* libPods-HarmonyTi.a */; };
+		81C804B5C7A07A6C71080C72 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4BA21A75C0DB3EC77693A013 /* PrivacyInfo.xcprivacy */; };
+		952177494F874985A2A720B7 /* Geologica-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6981156174A41239CA6002C /* Geologica-Regular.ttf */; };
+		955D110335E74EB7A46C12A6 /* Geologica-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5642056E76684F998888B23C /* Geologica-Bold.ttf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		BEA692CAF3AB12D133453376 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F02158E6F98BDB924327B19 /* ExpoModulesProvider.swift */; };
-		D00EAA68F66245F9A2E5A877 /* Geologica-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 880BBD7E19CD48BB9EBDCCB5 /* Geologica-Light.ttf */; };
-		D86234BB788E427F80546E26 /* Geologica-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BEB5BAA608842888461B74E /* Geologica-Regular.ttf */; };
-		DC18C3D3BE1E4C06A0D8070B /* Geologica-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 334D4657E41340E689B0D41E /* Geologica-SemiBold.ttf */; };
+		D1D17C46882773FDBFA9B1A3 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD92AB9772628048F35688 /* ExpoModulesProvider.swift */; };
+		D956827E7C8B4F05B94C251A /* Geologica-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30273A305CD1440FBE3D459A /* Geologica-Light.ttf */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BA11E568E55F8E624F9A686 /* Pods-HarmonyTi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.debug.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* HarmonyTi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HarmonyTi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = HarmonyTi/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = HarmonyTi/Info.plist; sourceTree = "<group>"; };
-		1BEB5BAA608842888461B74E /* Geologica-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Regular.ttf"; path = "../assets/fonts/Geologica-Regular.ttf"; sourceTree = "<group>"; };
-		250890561B48437FBE7A8E5F /* Geologica-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Bold.ttf"; path = "../assets/fonts/Geologica-Bold.ttf"; sourceTree = "<group>"; };
-		2BC59219B0F6D67AAF3B1E18 /* Pods-HarmonyTi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.debug.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.debug.xcconfig"; sourceTree = "<group>"; };
-		334D4657E41340E689B0D41E /* Geologica-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-SemiBold.ttf"; path = "../assets/fonts/Geologica-SemiBold.ttf"; sourceTree = "<group>"; };
-		4F6A2C0BB247192ADEFE82E9 /* libPods-HarmonyTi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HarmonyTi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		799BC95F56A047BC8FAE5222 /* Geologica-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Medium.ttf"; path = "../assets/fonts/Geologica-Medium.ttf"; sourceTree = "<group>"; };
-		880BBD7E19CD48BB9EBDCCB5 /* Geologica-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Light.ttf"; path = "../assets/fonts/Geologica-Light.ttf"; sourceTree = "<group>"; };
-		929DA267AB8A7EC73EF7346F /* Pods-HarmonyTi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.release.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.release.xcconfig"; sourceTree = "<group>"; };
-		9F02158E6F98BDB924327B19 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-HarmonyTi/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		2C64E637EDC24AD7A126FCE3 /* Geologica-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Medium.ttf"; path = "../assets/fonts/Geologica-Medium.ttf"; sourceTree = "<group>"; };
+		300EEDB36B60499C9E439D98 /* Geologica-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-SemiBold.ttf"; path = "../assets/fonts/Geologica-SemiBold.ttf"; sourceTree = "<group>"; };
+		30273A305CD1440FBE3D459A /* Geologica-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Light.ttf"; path = "../assets/fonts/Geologica-Light.ttf"; sourceTree = "<group>"; };
+		4BA21A75C0DB3EC77693A013 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = HarmonyTi/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		5642056E76684F998888B23C /* Geologica-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Bold.ttf"; path = "../assets/fonts/Geologica-Bold.ttf"; sourceTree = "<group>"; };
+		765B3BEB459029787565FDEE /* Pods-HarmonyTi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HarmonyTi.release.xcconfig"; path = "Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi.release.xcconfig"; sourceTree = "<group>"; };
+		7EFD92AB9772628048F35688 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-HarmonyTi/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = HarmonyTi/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B33053D1E7B90E4D06F75A73 /* libPods-HarmonyTi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HarmonyTi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C6981156174A41239CA6002C /* Geologica-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Geologica-Regular.ttf"; path = "../assets/fonts/Geologica-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = HarmonyTi/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* HarmonyTi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "HarmonyTi-Bridging-Header.h"; path = "HarmonyTi/HarmonyTi-Bridging-Header.h"; sourceTree = "<group>"; };
-		FD090C9B421C9E1DD8D90CF5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = HarmonyTi/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BD5EA68EED97DE5F3738CED /* libPods-HarmonyTi.a in Frameworks */,
+				58BC533A8C06BC87026A8E7B /* libPods-HarmonyTi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				FD090C9B421C9E1DD8D90CF5 /* PrivacyInfo.xcprivacy */,
+				4BA21A75C0DB3EC77693A013 /* PrivacyInfo.xcprivacy */,
 			);
 			name = HarmonyTi;
 			sourceTree = "<group>";
@@ -72,17 +72,30 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				4F6A2C0BB247192ADEFE82E9 /* libPods-HarmonyTi.a */,
+				B33053D1E7B90E4D06F75A73 /* libPods-HarmonyTi.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7B22B94EE5B575317E1420BE /* ExpoModulesProviders */ = {
+		430A48DE751A5E14B2FD7AA7 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				9CC3459668F864662149BAE3 /* HarmonyTi */,
+				8D88CAC5E5FB06858E40432B /* HarmonyTi */,
 			);
 			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		6858F6B39E1C48EA8A4D38D0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5642056E76684F998888B23C /* Geologica-Bold.ttf */,
+				30273A305CD1440FBE3D459A /* Geologica-Light.ttf */,
+				2C64E637EDC24AD7A126FCE3 /* Geologica-Medium.ttf */,
+				C6981156174A41239CA6002C /* Geologica-Regular.ttf */,
+				300EEDB36B60499C9E439D98 /* Geologica-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -99,9 +112,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				7B22B94EE5B575317E1420BE /* ExpoModulesProviders */,
-				E001D3E0F255479EB5D52E4C /* Resources */,
-				9E935F984B8227A9430DDDEA /* Pods */,
+				430A48DE751A5E14B2FD7AA7 /* ExpoModulesProviders */,
+				6858F6B39E1C48EA8A4D38D0 /* Resources */,
+				A4E1561FAA34AEC26FBDD869 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -116,19 +129,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9CC3459668F864662149BAE3 /* HarmonyTi */ = {
+		8D88CAC5E5FB06858E40432B /* HarmonyTi */ = {
 			isa = PBXGroup;
 			children = (
-				9F02158E6F98BDB924327B19 /* ExpoModulesProvider.swift */,
+				7EFD92AB9772628048F35688 /* ExpoModulesProvider.swift */,
 			);
 			name = HarmonyTi;
 			sourceTree = "<group>";
 		};
-		9E935F984B8227A9430DDDEA /* Pods */ = {
+		A4E1561FAA34AEC26FBDD869 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2BC59219B0F6D67AAF3B1E18 /* Pods-HarmonyTi.debug.xcconfig */,
-				929DA267AB8A7EC73EF7346F /* Pods-HarmonyTi.release.xcconfig */,
+				0BA11E568E55F8E624F9A686 /* Pods-HarmonyTi.debug.xcconfig */,
+				765B3BEB459029787565FDEE /* Pods-HarmonyTi.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -143,19 +156,6 @@
 			path = HarmonyTi/Supporting;
 			sourceTree = "<group>";
 		};
-		E001D3E0F255479EB5D52E4C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				250890561B48437FBE7A8E5F /* Geologica-Bold.ttf */,
-				880BBD7E19CD48BB9EBDCCB5 /* Geologica-Light.ttf */,
-				799BC95F56A047BC8FAE5222 /* Geologica-Medium.ttf */,
-				1BEB5BAA608842888461B74E /* Geologica-Regular.ttf */,
-				334D4657E41340E689B0D41E /* Geologica-SemiBold.ttf */,
-			);
-			name = Resources;
-			path = "";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -163,14 +163,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "HarmonyTi" */;
 			buildPhases = (
-				D5DFC316F2BEA1E238A90214 /* [CP] Check Pods Manifest.lock */,
-				2A7AB43D624094BBC6DA59F9 /* [Expo] Configure project */,
+				74EA9AC6A91EB799960AA9A4 /* [CP] Check Pods Manifest.lock */,
+				31576F3708445F2F01369CEE /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				2C1A6BDFB8D8A57943A8CD01 /* [CP] Embed Pods Frameworks */,
-				449DE14EA0656E28F0F7F1CE /* [CP] Copy Pods Resources */,
+				BBDBC7BE8CADC3784236EC2C /* [CP] Embed Pods Frameworks */,
+				96D1B342040CCE74977E6140 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -220,12 +220,12 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				9BE9E7516F7FA99DC817F209 /* PrivacyInfo.xcprivacy in Resources */,
-				8DE2899BDA8E4D95B2F2645B /* Geologica-Bold.ttf in Resources */,
-				D00EAA68F66245F9A2E5A877 /* Geologica-Light.ttf in Resources */,
-				9486C8DAC5E94D99BA039E42 /* Geologica-Medium.ttf in Resources */,
-				D86234BB788E427F80546E26 /* Geologica-Regular.ttf in Resources */,
-				DC18C3D3BE1E4C06A0D8070B /* Geologica-SemiBold.ttf in Resources */,
+				81C804B5C7A07A6C71080C72 /* PrivacyInfo.xcprivacy in Resources */,
+				955D110335E74EB7A46C12A6 /* Geologica-Bold.ttf in Resources */,
+				D956827E7C8B4F05B94C251A /* Geologica-Light.ttf in Resources */,
+				0D536FF02BDF466AA4B9FDD9 /* Geologica-Medium.ttf in Resources */,
+				952177494F874985A2A720B7 /* Geologica-Regular.ttf in Resources */,
+				20D450EA947544E697B7BD1C /* Geologica-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +247,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 		};
-		2A7AB43D624094BBC6DA59F9 /* [Expo] Configure project */ = {
+		31576F3708445F2F01369CEE /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -266,25 +266,29 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-HarmonyTi/expo-configure-project.sh\"\n";
 		};
-		2C1A6BDFB8D8A57943A8CD01 /* [CP] Embed Pods Frameworks */ = {
+		74EA9AC6A91EB799960AA9A4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+				"$(DERIVED_FILE_DIR)/Pods-HarmonyTi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		449DE14EA0656E28F0F7F1CE /* [CP] Copy Pods Resources */ = {
+		96D1B342040CCE74977E6140 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,26 +324,22 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D5DFC316F2BEA1E238A90214 /* [CP] Check Pods Manifest.lock */ = {
+		BBDBC7BE8CADC3784236EC2C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HarmonyTi-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HarmonyTi/Pods-HarmonyTi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -350,7 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				BEA692CAF3AB12D133453376 /* ExpoModulesProvider.swift in Sources */,
+				D1D17C46882773FDBFA9B1A3 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +359,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2BC59219B0F6D67AAF3B1E18 /* Pods-HarmonyTi.debug.xcconfig */;
+			baseConfigurationReference = 0BA11E568E55F8E624F9A686 /* Pods-HarmonyTi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -395,7 +395,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 929DA267AB8A7EC73EF7346F /* Pods-HarmonyTi.release.xcconfig */;
+			baseConfigurationReference = 765B3BEB459029787565FDEE /* Pods-HarmonyTi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

@@ -7,6 +7,8 @@
       "hts8": "36010000",
       "brief_description": "Propellant powders",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.25%",
@@ -26,10 +28,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 60,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (60.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -179,11 +177,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -227,6 +226,8 @@
       "hts8": "36020000",
       "brief_description": "Prepared explosives, other than propellant powders",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -247,11 +248,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -314,11 +316,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [
         {
           "program_key": "cbi",
@@ -464,17 +461,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -535,11 +521,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [
         {
           "program_key": "cbi",
@@ -685,17 +666,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -756,10 +726,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -905,17 +871,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -976,11 +931,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1126,17 +1076,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1197,11 +1136,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1347,17 +1281,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1418,11 +1341,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1568,17 +1486,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1620,6 +1527,8 @@
       "hts8": "36041010",
       "brief_description": "Display or special fireworks (Class 1.3G)",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.4%",
@@ -1639,10 +1548,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 12.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (12.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1792,11 +1697,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1840,6 +1746,8 @@
       "hts8": "36041090",
       "brief_description": "Fireworks, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -1859,10 +1767,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 12.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (12.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2012,11 +1916,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2060,6 +1965,8 @@
       "hts8": "36049000",
       "brief_description": "Signaling flares, rain rockets, fog signals and other pyrotechnic articles, excluding fireworks",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -2079,10 +1986,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2232,11 +2135,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2280,6 +2184,8 @@
       "hts8": "36050000",
       "brief_description": "Matches, other than pyrotechnic articles of heading 3604",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2300,11 +2206,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2348,6 +2255,8 @@
       "hts8": "36061000",
       "brief_description": "Liquid or liquefied-gas fuels in containers used for filling cigarette or similar lighters of a capacity not exceeding 300 cubic cm",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2369,10 +2278,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2435,10 +2345,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 56.699999999999996,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (56.699999999999996%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2584,17 +2490,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2636,6 +2531,8 @@
       "hts8": "36069040",
       "brief_description": "Metaldehyde",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2655,23 +2552,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2715,6 +2606,8 @@
       "hts8": "36069080",
       "brief_description": "Articles of combustible materials as specified in note 2 of chap. 36, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -2734,13 +2627,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2890,11 +2776,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [

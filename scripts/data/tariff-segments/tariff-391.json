@@ -7,6 +7,8 @@
       "hts8": "39100000",
       "brief_description": "Silicones in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3%",
@@ -27,13 +29,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -184,10 +179,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -231,6 +227,8 @@
       "hts8": "39111000",
       "brief_description": "Petroleum resins, coumarone, indene, or coumarone-indene resins and polyterpenes, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.1%",
@@ -250,10 +248,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 49,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (49.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -404,10 +398,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -471,10 +466,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -620,17 +611,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -672,6 +652,8 @@
       "hts8": "39119010",
       "brief_description": "Elastomeric polysulfides, polysulfones and other products specified in note 3 to chapter 39, nesoi, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -691,20 +673,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -748,6 +727,8 @@
       "hts8": "39119015",
       "brief_description": "Specified carbodiimide or homopolymer with polyethylene thermoplastic goods",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -767,20 +748,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 49,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (49.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -824,6 +802,8 @@
       "hts8": "39119025",
       "brief_description": "Thermoplastic polysulfides, polysulfones & oth products spec in note 3, chapt 39, cont aromatic monomer units or derived therefrom",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.1%",
@@ -844,10 +824,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 49,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (49.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -998,10 +974,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1045,6 +1022,8 @@
       "hts8": "39119035",
       "brief_description": "Benzenamine; and hydrocarbon novolac cyanate ester",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1064,20 +1043,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1121,6 +1097,8 @@
       "hts8": "39119045",
       "brief_description": "Thermosetting polysulfides, polysulfones & oth products spec in note 3, chapt 39, cont aromatic monomer units or derived therefrom",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.8%",
@@ -1141,10 +1119,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 45,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (45.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1295,10 +1269,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1342,6 +1317,8 @@
       "hts8": "39119070",
       "brief_description": "Chlorinated synthetic rubber",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1361,20 +1338,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.5%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1438,10 +1412,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1587,17 +1557,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1639,6 +1598,8 @@
       "hts8": "39121100",
       "brief_description": "Cellulose acetates, nesoi, in primary forms, nonplasticized",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.6%",
@@ -1658,10 +1619,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 73.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (73.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1812,10 +1769,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1859,6 +1817,8 @@
       "hts8": "39121200",
       "brief_description": "Cellulose acetates, nesoi, in primary forms, plasticized",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.6%",
@@ -1878,10 +1838,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 73.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (73.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2032,10 +1988,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2079,6 +2036,8 @@
       "hts8": "39122000",
       "brief_description": "Cellulose nitrates (including collodions), in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.2%",
@@ -2099,10 +2058,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 34.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (34.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2253,10 +2208,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2300,6 +2256,8 @@
       "hts8": "39123100",
       "brief_description": "Carboxymethylcellulose and its salts",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.4%",
@@ -2320,10 +2278,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 66,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (66.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2474,10 +2428,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2521,6 +2476,8 @@
       "hts8": "39123900",
       "brief_description": "Cellulose ethers, other than carboxymethylcellulose and its salts, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -2541,10 +2498,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2695,10 +2648,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2742,6 +2696,8 @@
       "hts8": "39129000",
       "brief_description": "Cellulose and its chemical derivatives nesoi, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.2%",
@@ -2762,10 +2718,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 34.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (34.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2916,10 +2868,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2963,6 +2916,8 @@
       "hts8": "39131000",
       "brief_description": "Alginic acid, and its salts and esters, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -2982,13 +2937,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3138,11 +3086,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3186,6 +3135,8 @@
       "hts8": "39139010",
       "brief_description": "Chemical derivatives of natural rubber, nesoi, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3205,20 +3156,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3262,6 +3210,8 @@
       "hts8": "39139020",
       "brief_description": "Polysaccharides and their derivatives, nesoi, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.8%",
@@ -3282,10 +3232,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3436,10 +3382,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3483,6 +3430,8 @@
       "hts8": "39139050",
       "brief_description": "Natural polymers and modified natural polymers, nesoi, in primary forms",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -3503,10 +3452,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3657,10 +3602,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3704,6 +3650,8 @@
       "hts8": "39140020",
       "brief_description": "Cross-linked polyvinylbenzyltrimethylammonium chloride (Cholestyramine resin USP)",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3723,20 +3671,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3780,6 +3725,8 @@
       "hts8": "39140060",
       "brief_description": "Ion-exchangers based on polymers of headings 3901 to 3913, in primary forms, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.9%",
@@ -3800,10 +3747,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3954,10 +3897,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4001,6 +3945,8 @@
       "hts8": "39151000",
       "brief_description": "Waste, parings and scraps, of polymers of ethylene",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4020,22 +3966,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4079,6 +4020,8 @@
       "hts8": "39152000",
       "brief_description": "Waste, parings and scrap, of polymers of styrene",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4098,22 +4041,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4157,6 +4095,8 @@
       "hts8": "39153000",
       "brief_description": "Waste, parings and scrap, of polymers of vinyl chloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4176,22 +4116,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4235,6 +4170,8 @@
       "hts8": "39159000",
       "brief_description": "Waste, parings and scrap, of plastics, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4254,22 +4191,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4313,6 +4245,8 @@
       "hts8": "39161000",
       "brief_description": "Monofilament with cross-section dimension over 1 mm, rods, sticks, profile shapes, at most surface-worked, of polymers of ethylene",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.8%",
@@ -4333,10 +4267,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4487,10 +4417,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4534,6 +4465,8 @@
       "hts8": "39162000",
       "brief_description": "Monofilament with cross-section dimension over 1 mm, rods, sticks, profile shapes, at most surface-worked, of polymers of vinyl chloride",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "5.8%",
       "mfn_rate_type_code": "7",
@@ -4552,10 +4485,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4706,10 +4635,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4753,6 +4683,8 @@
       "hts8": "39169010",
       "brief_description": "Monofilament with cross-section dimension over 1 mm, rods, sticks, profile shapes, at most surface-worked, of acrylic polymers",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -4772,10 +4704,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40.6,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.6%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4926,10 +4854,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4973,6 +4902,8 @@
       "hts8": "39169020",
       "brief_description": "Monofilament racket strings of plastics of which any cross-sectional dimension exceeds 1 mm",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -4992,10 +4923,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5146,10 +5073,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5193,6 +5121,8 @@
       "hts8": "39169030",
       "brief_description": "Monafilament nesoi, of plastics, excluding ethylene, vinyl chloride and acrylic polymers",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -5212,10 +5142,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5366,10 +5292,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5413,6 +5340,8 @@
       "hts8": "39169050",
       "brief_description": "Rods, sticks and profile shapes, at most surface-worked, of plastics, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.8%",
@@ -5433,10 +5362,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5587,10 +5512,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5634,6 +5560,8 @@
       "hts8": "39171010",
       "brief_description": "Artificial guts (sausage casings) of cellulosic plastics materials",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -5653,10 +5581,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 60,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (60.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5807,10 +5731,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5854,6 +5779,8 @@
       "hts8": "39171060",
       "brief_description": "Artificial guts (sausage casings) of collagen",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5873,20 +5800,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5930,6 +5854,8 @@
       "hts8": "39171090",
       "brief_description": "Artificial guts (sausage casings) of hardened protein, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -5949,10 +5875,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6103,10 +6025,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6150,6 +6073,8 @@
       "hts8": "39172100",
       "brief_description": "Tubes, pipes and hoses, rigid, of polymers of ethylene",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -6170,13 +6095,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6327,10 +6245,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6374,6 +6293,8 @@
       "hts8": "39172200",
       "brief_description": "Tubes, pipes and hoses, rigid, of polymers of propylene",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -6394,13 +6315,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6551,10 +6465,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6598,6 +6513,8 @@
       "hts8": "39172300",
       "brief_description": "Tubes, pipes and hoses, rigid, of polymers of vinyl chloride",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -6618,13 +6535,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6775,10 +6685,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6822,6 +6733,8 @@
       "hts8": "39172900",
       "brief_description": "Tubes, pipes and hoses, rigid, of other plastics nesoi",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
       "mfn_rate_type_code": "7",
@@ -6841,13 +6754,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -6998,10 +6904,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7045,6 +6952,8 @@
       "hts8": "39173100",
       "brief_description": "Flexible plastic tubes, pipes and hoses, having a minimum burst pressure of 27.6 MPa",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -7065,13 +6974,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7222,10 +7124,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7269,6 +7172,8 @@
       "hts8": "39173200",
       "brief_description": "Tubes, pipes and hoses, of plastics, other than rigid, not reinforced or otherwise combined with other materials, without fittings",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -7288,13 +7193,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7445,10 +7343,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7492,6 +7391,8 @@
       "hts8": "39173300",
       "brief_description": "Flexible plastic tubes, pipes and hoses, nesoi, with fittings, not reinforced or otherwise combined with other materials",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -7512,13 +7413,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7669,10 +7563,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7716,6 +7611,8 @@
       "hts8": "39173900",
       "brief_description": "Flexible plastic tubes, pipes and hoses, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.1%",
@@ -7736,13 +7633,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -7893,10 +7783,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7940,6 +7831,8 @@
       "hts8": "39174000",
       "brief_description": "Fittings of plastics, for plastic tubes, pipes and hoses, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -7960,10 +7853,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 80,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (80.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8114,10 +8003,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8161,6 +8051,8 @@
       "hts8": "39181010",
       "brief_description": "Vinyl tile floor coverings",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -8180,10 +8072,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8334,10 +8222,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8381,6 +8270,8 @@
       "hts8": "39181020",
       "brief_description": "Vinyl flooring, excluding vinyl tile",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -8400,10 +8291,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8554,10 +8441,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8601,6 +8489,8 @@
       "hts8": "39181031",
       "brief_description": "Wall or ceiling coverings, with a backing of manmade fibers, greater than 70% by weight of PVC",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -8620,13 +8510,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8777,10 +8660,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -8824,6 +8708,8 @@
       "hts8": "39181032",
       "brief_description": "Wall or ceiling coverings, with a backing of manmade fibers, less than or equal to 70% by weight of PVC",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -8843,10 +8729,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 84.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (84.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -8997,10 +8879,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9044,6 +8927,8 @@
       "hts8": "39181040",
       "brief_description": "Wall or ceiling coverings of polymers of vinyl chloride with a backing of textile fibers other than of manmade fibers",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -9063,10 +8948,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -9217,10 +9098,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9264,6 +9146,8 @@
       "hts8": "39181050",
       "brief_description": "Wall or ceiling coverings of polymers of vinyl chloride, without a backing of textile fibers",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -9283,13 +9167,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -9440,10 +9317,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9487,6 +9365,8 @@
       "hts8": "39189010",
       "brief_description": "Floor coverings of plastics, other than of polymers of vinyl chloride, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -9506,10 +9386,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -9660,10 +9536,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9707,6 +9584,8 @@
       "hts8": "39189020",
       "brief_description": "Wall or ceiling coverings, with a backing of manmade fibers, of plastics other than polymers of vinyl chloride",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -9726,10 +9605,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 84.5,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (84.5%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -9880,10 +9755,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -9927,6 +9803,8 @@
       "hts8": "39189030",
       "brief_description": "Wall or ceiling coverings of plastics other than of polymers of vinyl chloride with a backing of textile fibers other than of manmade fiber",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -9946,10 +9824,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -10100,10 +9974,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10147,6 +10022,8 @@
       "hts8": "39189050",
       "brief_description": "Wall or ceiling coverings of plastics other than vinyl chloride, without a backing of textile fibers",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.2%",
@@ -10166,13 +10043,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -10323,10 +10193,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10370,6 +10241,8 @@
       "hts8": "39191010",
       "brief_description": "Self-adhesive plates, sheets, other flat shapes, of plastics, in rolls n/o 20 cm wide, light-reflecting surface produced by glass grains",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
       "mfn_rate_type_code": "7",
@@ -10388,10 +10261,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -10542,10 +10411,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10589,6 +10459,8 @@
       "hts8": "39191020",
       "brief_description": "Self-adhesive plates, sheets, other flat shapes, of plastics, in rolls n/o 20 cm wide, not having a light-reflecting glass grain surface",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -10609,10 +10481,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -10763,10 +10631,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -10810,6 +10679,8 @@
       "hts8": "39199010",
       "brief_description": "Self-adhesive plates, sheets, other flat shapes, of plastics, light-reflecting surface produced by glass grains, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -10829,10 +10700,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -10983,10 +10850,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -11030,6 +10898,8 @@
       "hts8": "39199050",
       "brief_description": "Self-adhesive plates, sheets, other flat shapes, of plastics, not having a light-reflecting surface produced by glass grains, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "2",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -11050,10 +10920,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -11204,10 +11070,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "2",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 2 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

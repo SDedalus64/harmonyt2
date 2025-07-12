@@ -32,9 +32,9 @@ print_warning() {
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if we found the scripts directory
-if [[ ! -f "$SCRIPT_DIR/preprocess_tariff_data.py" ]]; then
-    print_error "Cannot find preprocess_tariff_data.py in $SCRIPT_DIR"
-    print_error "Please ensure preprocess_tariff_data.py exists in the scripts/data directory"
+if [[ ! -f "$SCRIPT_DIR/preprocess_tariff_data_new.py" ]]; then
+    print_error "Cannot find preprocess_tariff_data_new.py in $SCRIPT_DIR"
+    print_error "Please ensure preprocess_tariff_data_new.py exists in the scripts/data directory"
     exit 1
 fi
 
@@ -48,6 +48,16 @@ cd "$SCRIPT_DIR" || {
 }
 
 print_status "Working directory: $(pwd)"
+
+# Activate virtual environment if it exists
+VENV_PATH="$SCRIPT_DIR/../../venv_tariff"
+if [ -d "$VENV_PATH" ]; then
+    print_status "Activating virtual environment..."
+    source "$VENV_PATH/bin/activate"
+else
+    print_warning "Virtual environment not found at $VENV_PATH"
+    print_warning "You may need to install dependencies: pip install pandas openpyxl pdfplumber"
+fi
 
 # Check arguments
 if [ $# -lt 1 ]; then
@@ -159,7 +169,16 @@ if [ -f "$CSV_FILE" ]; then
     print_status "Processing ALL tariff data with revision: $REVISION"
     print_status "Including all HTS codes, not just Section 301..."
     
-    python3 "$SCRIPT_DIR/preprocess_tariff_data.py" "$CSV_FILE" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
+    # Use the existing Section 301 deduplicated CSV for correct rates
+    SECTION_301_CSV="$SCRIPT_DIR/../exports/section301_deduplicated.csv"
+    if [ ! -f "$SECTION_301_CSV" ]; then
+        print_warning "Section 301 deduplicated CSV not found. Section 301 rates may be incorrect."
+        print_warning "Run extract_section301_from_pdf.py first to ensure correct rates."
+    else
+        print_status "Using Section 301 data from: $SECTION_301_CSV"
+    fi
+    
+    python3 "$SCRIPT_DIR/preprocess_tariff_data_new.py" "$CSV_FILE" "$SECTION_301_CSV" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
 
     if [ $? -ne 0 ]; then
         print_error "Failed to process tariff data"

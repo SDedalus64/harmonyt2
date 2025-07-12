@@ -7,6 +7,8 @@
       "hts8": "50010000",
       "brief_description": "Silkworm cocoons suitable for reeling",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -28,10 +30,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -75,6 +78,8 @@
       "hts8": "50020000",
       "brief_description": "Raw silk (not thrown)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -96,10 +101,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -143,6 +149,8 @@
       "hts8": "50030010",
       "brief_description": "Silk waste (including cocoons unsuitable for reeling, yarn waste and garnetted stock) not carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -164,10 +172,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -211,6 +220,8 @@
       "hts8": "50030090",
       "brief_description": "Silk waste (including cocoons unsuitable for reeling, yarn waste and garnetted stock) carded or combed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.5%",
@@ -230,10 +241,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -384,10 +391,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -431,6 +439,8 @@
       "hts8": "50040000",
       "brief_description": "Silk yarns (other than yarn spun from silk waste) not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -450,20 +460,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -507,6 +514,8 @@
       "hts8": "50050000",
       "brief_description": "Yarn spun from silk waste, not put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -526,20 +535,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -583,6 +589,8 @@
       "hts8": "50060010",
       "brief_description": "Spun yarn, containing 85% or more by weight of silk, put up for retail sale; silkworm gut",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -602,20 +610,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -659,6 +664,8 @@
       "hts8": "50060090",
       "brief_description": "Spun silk yarn, containing less than 85% by weight of silk, put up for retail sale",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -678,20 +685,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -735,6 +739,8 @@
       "hts8": "50071030",
       "brief_description": "Woven fabrics of noil silk, containing 85 percent or more by weight of silk or silk waste",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -755,10 +761,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 90,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (90.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -909,10 +911,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -956,6 +959,8 @@
       "hts8": "50071060",
       "brief_description": "Woven fabrics of noil silk, containing less than 85 percent by weight of silk or silk waste",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -976,10 +981,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 90,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (90.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1128,10 +1129,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1175,6 +1177,8 @@
       "hts8": "50072000",
       "brief_description": "Woven fabrics containing 85 percent or more by weight of silk or of silk waste, other than noil silk",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1195,20 +1199,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 90,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (90.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1252,6 +1253,8 @@
       "hts8": "50079030",
       "brief_description": "Woven silk fabrics, containing 85 percent or more by weight of silk or silk waste, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1272,10 +1275,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 90,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (90.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1426,10 +1425,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1473,6 +1473,8 @@
       "hts8": "50079060",
       "brief_description": "Other silk woven fabrics, containing less than 85 percent by weight of silk or silk waste, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "KG",
       "wto_binding_code": "B",
@@ -1493,10 +1495,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 90,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (90.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1645,10 +1643,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

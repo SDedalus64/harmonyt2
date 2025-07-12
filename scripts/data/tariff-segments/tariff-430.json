@@ -7,6 +7,8 @@
       "hts8": "43011000",
       "brief_description": "Raw furskins of mink, whole, with or without head, tail or paws",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -27,11 +29,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -75,6 +78,8 @@
       "hts8": "43013000",
       "brief_description": "Raw lamb furskins of Astrakhan, Broadtail, Caracul, Persian, Indian, Chinese, Mongolian, Tibetan, whole",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -95,11 +100,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -143,6 +149,8 @@
       "hts8": "43016030",
       "brief_description": "Raw furskins of silver, black or platinum fox (including mutations of these), whole, with or without head, tail or paws",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.1%",
@@ -162,10 +170,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -315,11 +319,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -363,6 +368,8 @@
       "hts8": "43016060",
       "brief_description": "Raw furskins of fox, other than of silver, black or platinum fox, whole, with or without head, tail or paws",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -383,11 +390,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -431,6 +439,8 @@
       "hts8": "43018002",
       "brief_description": "Other furskins, whole, with or without head, tail, or paws",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -451,11 +461,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -499,6 +510,8 @@
       "hts8": "43019000",
       "brief_description": "Heads, tails, paws and other pieces or cuttings of raw furskins, suitable for furriers' use",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -519,11 +532,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -567,6 +581,8 @@
       "hts8": "43021100",
       "brief_description": "Tanned or dressed whole furskins of mink, with or without head, tail or paws, not assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.1%",
@@ -586,13 +602,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -743,10 +752,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -790,6 +800,8 @@
       "hts8": "43021913",
       "brief_description": "Tanned/dressed whole skins of Astrakhan, Broadtail, Caracul, Persian, Indian, Mongolian, Chinese & Tibetan lamb, not assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.2%",
@@ -809,10 +821,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -963,10 +971,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1010,6 +1019,8 @@
       "hts8": "43021915",
       "brief_description": "Tanned or dressed whole furskins of silver, black or platinum fox (including mutations), with or without head, tail or paws, not assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.6%",
@@ -1029,10 +1040,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1183,10 +1190,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1230,6 +1238,8 @@
       "hts8": "43021930",
       "brief_description": "Tanned or dressed whole furskins of beaver, chinchilla, ermine, lynx, raccoon, sable, other specified animals, not dyed, not assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.5%",
@@ -1249,13 +1259,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1406,10 +1409,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1453,6 +1457,8 @@
       "hts8": "43021945",
       "brief_description": "Tanned or dressed whole furskins of beaver, chinchilla, ermine, lynx, raccoon, sable, wolf, other specified animals, dyed, not assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.2%",
@@ -1472,10 +1478,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1626,10 +1628,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1673,6 +1676,8 @@
       "hts8": "43021955",
       "brief_description": "Tanned or dressed whole furskins of rabbit or hare, with or without head, tail or paws, not assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.7%",
@@ -1692,13 +1697,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1849,10 +1847,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1896,6 +1895,8 @@
       "hts8": "43021960",
       "brief_description": "Tanned or dressed whole furskins, nesoi, with or without head, tail or paws, not assembled, not dyed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.5%",
@@ -1915,13 +1916,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2072,10 +2066,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2119,6 +2114,8 @@
       "hts8": "43021975",
       "brief_description": "Tanned or dressed whole furskins, nesoi, with or without head, tail or paws, not assembled, dyed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.7%",
@@ -2138,10 +2135,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2292,10 +2285,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2339,6 +2333,8 @@
       "hts8": "43022030",
       "brief_description": "Heads, tails, paws, other pieces or cuttings of dressed or tanned furskins, of beaver, ermine, wolf, other specified animals, nt assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "2.1%",
@@ -2358,13 +2354,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2515,10 +2504,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2562,6 +2552,8 @@
       "hts8": "43022060",
       "brief_description": "Heads, tails, paws and other pieces or cuttings of dressed or tanned furskins, nesoi, not assembled, not dyed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.5%",
@@ -2581,13 +2573,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2738,10 +2723,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2785,6 +2771,8 @@
       "hts8": "43022090",
       "brief_description": "Heads, tails, paws and other pieces or cuttings of dressed or tanned furskins, nesoi, not assembled, dyed",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "1.7%",
@@ -2804,10 +2792,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2958,10 +2942,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3005,6 +2990,8 @@
       "hts8": "43023000",
       "brief_description": "Whole furskins and pieces or cuttings thereof, tanned and dressed, assembled",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.3%",
@@ -3024,10 +3011,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3178,10 +3161,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3225,6 +3209,8 @@
       "hts8": "43031000",
       "brief_description": "Articles of apparel and clothing accessories, of furskins",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "4%",
@@ -3244,10 +3230,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3398,10 +3380,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3445,6 +3428,8 @@
       "hts8": "43039000",
       "brief_description": "Articles of furskin, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3464,20 +3449,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3521,6 +3503,8 @@
       "hts8": "43040000",
       "brief_description": "Artificial fur and articles thereof",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5%",
@@ -3540,10 +3524,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 74,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (74.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -3694,10 +3674,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

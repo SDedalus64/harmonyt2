@@ -26,22 +26,7 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -102,22 +87,7 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -159,6 +129,8 @@
       "hts8": "44012100",
       "brief_description": "Coniferous wood in chips or particles",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CTN",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -180,10 +152,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -227,6 +200,8 @@
       "hts8": "44012200",
       "brief_description": "Nonconiferous wood in chips or particles",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "CTN",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -248,10 +223,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -295,6 +271,8 @@
       "hts8": "44013100",
       "brief_description": "Sawdust and wood waste and scrap,  pellets",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -316,10 +294,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -379,17 +358,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -431,6 +399,8 @@
       "hts8": "44013920",
       "brief_description": "Artificial fire logs, composed of wax and sawdust, with or without added materials",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -450,20 +420,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -523,17 +490,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -591,17 +547,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -659,17 +604,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -711,6 +645,8 @@
       "hts8": "44021000",
       "brief_description": "Wood charcoal (including shell or nut charcoal), whether or not agglomerated, of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -732,10 +668,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -795,17 +732,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -863,17 +789,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -930,17 +845,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -997,17 +901,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1064,17 +957,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1131,17 +1013,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1198,17 +1069,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1265,17 +1125,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1332,17 +1181,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1399,17 +1237,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1451,6 +1278,8 @@
       "hts8": "44034100",
       "brief_description": "Wood in the rough/roughly squared,of Dark Red Meranti,Light Red Meranti and Meranti Bakau,not treated with paint/stain/cresote/other preserv",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1472,10 +1301,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1535,17 +1365,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1603,17 +1422,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1655,6 +1463,8 @@
       "hts8": "44039100",
       "brief_description": "Oak wood in the rough, whether or not stripped of bark or sapwood, or roughly squared, not treated with preservatives",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1676,10 +1486,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1739,17 +1550,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1807,17 +1607,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1875,17 +1664,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1943,17 +1721,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2011,17 +1778,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2079,17 +1835,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2147,17 +1892,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2199,6 +1933,8 @@
       "hts8": "44041000",
       "brief_description": "Coniferous wood, roughly shaped into poles, pickets, stakes, sticks and other forms, to be finished into specific articles or products",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2220,10 +1956,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2267,6 +2004,8 @@
       "hts8": "44042000",
       "brief_description": "Nonconiferous wood, roughly shaped into poles, pickets, stakes, sticks and other forms, to be finished into specific articles or products",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2288,10 +2027,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2335,6 +2075,8 @@
       "hts8": "44050000",
       "brief_description": "Wood wool (excelsior); wood flour",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -2354,10 +2096,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -2508,10 +2246,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2572,17 +2311,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2641,17 +2369,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2710,17 +2427,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2779,17 +2485,6 @@
       "col2_specific_rate": 0,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2847,17 +2542,6 @@
       "col2_specific_rate": 1.7,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2915,17 +2599,6 @@
       "col2_specific_rate": 1.7,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2983,17 +2656,6 @@
       "col2_specific_rate": 1.7,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -3051,17 +2713,6 @@
       "col2_specific_rate": 1.7,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -3119,17 +2770,6 @@
       "col2_specific_rate": 1.7,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -3171,6 +2811,8 @@
       "hts8": "44072100",
       "brief_description": "Dark Red Meranti, Light Red Meranti and other specified tropical woods, sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3192,10 +2834,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3239,6 +2882,8 @@
       "hts8": "44072200",
       "brief_description": "Okoume, Obeche, Sapelli and other specified tropical woods, sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3260,10 +2905,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3323,17 +2969,6 @@
       "col2_specific_rate": 1.27,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -3375,6 +3010,8 @@
       "hts8": "44072500",
       "brief_description": "Dark Red Meranti, Light Red Meranti and Meranti Bakau wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3396,10 +3033,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3443,6 +3081,8 @@
       "hts8": "44072600",
       "brief_description": "White Lauan, White Meranti, White Seraya, Yellow Meranta and Alan wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3464,10 +3104,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3511,6 +3152,8 @@
       "hts8": "44072700",
       "brief_description": "Sapelli wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3532,10 +3175,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3579,6 +3223,8 @@
       "hts8": "44072800",
       "brief_description": "Iroko wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3600,10 +3246,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3663,17 +3310,6 @@
       "col2_specific_rate": 1.27,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -3715,6 +3351,8 @@
       "hts8": "44079100",
       "brief_description": "Oak wood, sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3736,10 +3374,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3783,6 +3422,8 @@
       "hts8": "44079200",
       "brief_description": "Beech wood, sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3804,10 +3445,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3851,6 +3493,8 @@
       "hts8": "44079300",
       "brief_description": "Maple wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3872,10 +3516,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3919,6 +3564,8 @@
       "hts8": "44079400",
       "brief_description": "Cherry wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3940,10 +3587,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3987,6 +3635,8 @@
       "hts8": "44079500",
       "brief_description": "Ash wood sawn or chipped lengthwise, sliced or peeled, over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4008,10 +3658,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4071,17 +3722,6 @@
       "col2_specific_rate": 1.27,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -4139,17 +3779,6 @@
       "col2_specific_rate": 1.27,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -4207,17 +3836,6 @@
       "col2_specific_rate": 1.27,
       "col2_other_rate": 0,
       "available_programs": [],
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -4259,6 +3877,8 @@
       "hts8": "44081001",
       "brief_description": "Coniferous veneer sheets and sheets for plywood & coniferous wood sawn/sliced/peeled not over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4278,20 +3898,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4335,6 +3952,8 @@
       "hts8": "44083101",
       "brief_description": "Dark Red Meranti, Light Red Meranti and Meranti Bakau veneer sheets and sheets for plywood and other wood sawn/sliced/peeled, n/o 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4354,20 +3973,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4411,6 +4027,8 @@
       "hts8": "44083902",
       "brief_description": "Other tropical wood veneer sheets and sheets for plywood, and wood sawn/sliced/peeled n/o 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4430,20 +4048,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4487,6 +4102,8 @@
       "hts8": "44089001",
       "brief_description": "Nontropical nonconiferous veneer sheets and sheets for plywood and other wood sawn/sliced/peeled, not over 6 mm thick",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4506,20 +4123,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4563,6 +4177,8 @@
       "hts8": "44091005",
       "brief_description": "Coniferous wood continuously shaped along any of its ends, whether or not also continuously shaped along any its edges or faces",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -4582,10 +4198,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -4736,10 +4348,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4783,6 +4396,8 @@
       "hts8": "44091010",
       "brief_description": "Coniferous wood siding continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -4805,10 +4420,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4852,6 +4468,8 @@
       "hts8": "44091020",
       "brief_description": "Coniferous wood flooring continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -4872,20 +4490,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4929,6 +4544,8 @@
       "hts8": "44091040",
       "brief_description": "Standard wood moldings of pine (Pinus spp.) continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4948,21 +4565,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5006,6 +4619,8 @@
       "hts8": "44091045",
       "brief_description": "Standard coniferous wood moldings, other than of pine, continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5025,21 +4640,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5083,6 +4694,8 @@
       "hts8": "44091050",
       "brief_description": "Coniferous wood moldings, other than standard type, continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5102,20 +4715,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5159,6 +4769,8 @@
       "hts8": "44091060",
       "brief_description": "Coniferous wood dowel rods, plain, continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -5179,21 +4791,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5237,6 +4845,8 @@
       "hts8": "44091065",
       "brief_description": "Coniferous wood dowel rod, sanded/grooved/otherwise advanced in condition, continuously shaped along any of edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -5257,10 +4867,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5411,10 +5017,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5458,6 +5065,8 @@
       "hts8": "44091090",
       "brief_description": "Coniferous wood, other than siding, flooring, moldings or dowel rod, continuously shaped along any of its edges or faces but not on its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -5480,10 +5089,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5527,6 +5137,8 @@
       "hts8": "44092105",
       "brief_description": "Nonconiferous wood (bamboo) continuously shaped along any of its ends, wether or not also continuously shaped along any its edges or faces",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -5546,10 +5158,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -5700,10 +5308,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5747,6 +5356,8 @@
       "hts8": "44092190",
       "brief_description": "Bamboo, other than continuously shaped along any of its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5768,10 +5379,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5815,6 +5427,8 @@
       "hts8": "44092205",
       "brief_description": "Nonconiferous tropical wood continuously shaped along any ends, whether or not also continuously shaped along any edges or faces",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -5835,10 +5449,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -5892,10 +5502,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -5939,6 +5550,8 @@
       "hts8": "44092210",
       "brief_description": "Nonconiferous tropical wood siding, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -5960,10 +5573,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6007,6 +5621,8 @@
       "hts8": "44092225",
       "brief_description": "Nonconiferous tropical wood flooring, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -6027,21 +5643,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6085,6 +5697,8 @@
       "hts8": "44092240",
       "brief_description": "Nonconiferous tropical wood standard moldings, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6104,21 +5718,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6162,6 +5772,8 @@
       "hts8": "44092250",
       "brief_description": "Other nonconiferous tropical wood moldings, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6181,20 +5793,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6238,6 +5847,8 @@
       "hts8": "44092260",
       "brief_description": "Plain nonconiferous tropical wood dowel rods, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6257,21 +5868,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6315,6 +5922,8 @@
       "hts8": "44092265",
       "brief_description": "Nonconif. tropical wood dowel rods, sanded/grooved/otherwise advanced in condition, whether or not continuous. along edges or faces but not ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.9%",
@@ -6334,10 +5943,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6391,10 +5996,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6438,6 +6044,8 @@
       "hts8": "44092290",
       "brief_description": "Other nonconiferous tropical wood, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6459,10 +6067,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6506,6 +6115,8 @@
       "hts8": "44092906",
       "brief_description": "Other nonconiferous wood, continuously shaped along any ends, whether or not also continuously shaped along any edges or faces",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -6526,10 +6137,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -6583,10 +6190,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6630,6 +6238,8 @@
       "hts8": "44092911",
       "brief_description": "Other nonconiferous wood siding, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6651,10 +6261,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6698,6 +6309,8 @@
       "hts8": "44092926",
       "brief_description": "Other nonconiferous wood flooring, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M2",
       "quantity_2_code": "M3",
       "wto_binding_code": "B",
@@ -6718,21 +6331,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6776,6 +6385,8 @@
       "hts8": "44092941",
       "brief_description": "Other nonconiferous standard wood moldings, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6795,21 +6406,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6853,6 +6460,8 @@
       "hts8": "44092951",
       "brief_description": "Other nonconiferous wood moldings, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6872,20 +6481,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -6929,6 +6535,8 @@
       "hts8": "44092961",
       "brief_description": "Plain other nonconif. wood dowel rods,  whether or not continuously shaped along edges or faces but not ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -6948,21 +6556,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7006,6 +6610,8 @@
       "hts8": "44092966",
       "brief_description": "Other nonconif. wood dowel rods, sanded/grooved/otherwise advanced in condition, whether or not continuously shaped along edges or faces but not ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.9%",
@@ -7025,10 +6631,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -7082,10 +6684,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -7129,6 +6732,8 @@
       "hts8": "44092991",
       "brief_description": "Other nonconiferous wood, whether or not continuously shaped along its edges or faces but not its ends",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -7150,10 +6755,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [

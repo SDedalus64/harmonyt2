@@ -26,10 +26,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -175,17 +171,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -246,10 +231,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -395,17 +376,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -447,6 +417,8 @@
       "hts8": "44209020",
       "brief_description": "Wooden cigar and cigarette boxes",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -466,20 +438,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 60,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (60.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -523,6 +492,8 @@
       "hts8": "44209045",
       "brief_description": "Wooden jewelry boxes, silverware chests, microscope, tool or utensil cases, similar boxes, cases and chests, not lined with textile fabrics",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.3%",
@@ -542,10 +513,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -696,10 +663,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -743,6 +711,8 @@
       "hts8": "44209065",
       "brief_description": "Wooden jewelry boxes, silverware chests, microscope, tool or utensil cases, similar boxes, cases and chests, lined with textile fabrics",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "NO",
       "wto_binding_code": "B",
@@ -763,20 +733,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 20,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (20.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -820,6 +787,8 @@
       "hts8": "44209080",
       "brief_description": "Wood marquetry and inlaid wood; wooden articles of furniture, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -839,10 +808,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -993,10 +958,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1040,6 +1006,8 @@
       "hts8": "44211000",
       "brief_description": "Wooden clothes hangers",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "HUN",
       "wto_binding_code": "B",
       "mfn_text_rate": "3.2%",
@@ -1059,10 +1027,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1212,11 +1176,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1278,10 +1243,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1332,17 +1293,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1402,10 +1352,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1456,17 +1402,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -1508,6 +1443,8 @@
       "hts8": "44219110",
       "brief_description": "Plain wood dowel pins of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1527,21 +1464,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1585,6 +1518,8 @@
       "hts8": "44219120",
       "brief_description": "Wood dowel pins of bamboo,  sanded, grooved or otherwise advanced in condition",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.9%",
@@ -1604,10 +1539,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1663,10 +1594,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1710,6 +1642,8 @@
       "hts8": "44219130",
       "brief_description": "Blinds, shutters, screens and shades of bamboo, with wooden frames having fixed louver boards or slats in the center",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "10.7%",
@@ -1729,10 +1663,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1787,11 +1717,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1835,6 +1766,8 @@
       "hts8": "44219140",
       "brief_description": "Blinds, shutters, screens and shades of bamboo, with wooden frames w/o fixed louver boards or slats in the center",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.1%",
@@ -1854,10 +1787,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -1912,11 +1841,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1960,6 +1890,8 @@
       "hts8": "44219150",
       "brief_description": "Toothpicks of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1979,23 +1911,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2039,6 +1965,8 @@
       "hts8": "44219160",
       "brief_description": "Skewers, candy sticks, ice cream sticks, tongue depressors, drink mixers and similar wares, other than toothpicks, of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.1%",
@@ -2058,10 +1986,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2116,11 +2040,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2164,6 +2089,8 @@
       "hts8": "44219170",
       "brief_description": "Pickets, palings, posts and rails of bamboo, sawn; assembled fence sections of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2185,10 +2112,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2232,6 +2160,8 @@
       "hts8": "44219180",
       "brief_description": "Spring-type clothespins of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "GRS",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5 cents/gross",
@@ -2300,11 +2230,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2348,6 +2279,8 @@
       "hts8": "44219185",
       "brief_description": "Clothespins other than spring-type, of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "GRS",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.8%",
@@ -2367,10 +2300,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2425,11 +2354,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2473,6 +2403,8 @@
       "hts8": "44219188",
       "brief_description": "Canoe paddles of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2492,20 +2424,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2549,6 +2478,8 @@
       "hts8": "44219193",
       "brief_description": "Theatrical, ballet and operatic scenery and properties, including sets, of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2568,20 +2499,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2625,6 +2553,8 @@
       "hts8": "44219194",
       "brief_description": "Edge-glued lumber of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2644,22 +2574,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2721,10 +2646,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -2775,17 +2696,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",
@@ -2827,6 +2737,8 @@
       "hts8": "44219910",
       "brief_description": "Plain coniferous wood dowel pins",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2846,21 +2758,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2904,6 +2812,8 @@
       "hts8": "44219915",
       "brief_description": "Plain wood dowel pins, other than of coniferous wood or of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -2923,21 +2833,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -2981,6 +2887,8 @@
       "hts8": "44219920",
       "brief_description": "Wood dowel pins of wood other than of bamboo, the foregoing sanded, grooved or otherwise advanced in condition",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.9%",
@@ -3000,10 +2908,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3057,10 +2961,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3104,6 +3009,8 @@
       "hts8": "44219930",
       "brief_description": "Blinds, shutters, screens and shades of wood other than bamboo, with wooden frames having fixed louver boards or slats in the center",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "10.7%",
@@ -3123,10 +3030,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3181,11 +3084,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3229,6 +3133,8 @@
       "hts8": "44219940",
       "brief_description": "Blinds, shutters, screens and shades of wood other than bamboo, with wooden frames w/o fixed louver boards or slats in the center",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.1%",
@@ -3248,10 +3154,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 50,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (50.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3306,11 +3208,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3354,6 +3257,8 @@
       "hts8": "44219950",
       "brief_description": "Toothpicks of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3373,23 +3278,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3433,6 +3332,8 @@
       "hts8": "44219960",
       "brief_description": "Skewers, candy sticks, ice cream sticks, tongue depressors, drink mixers and similar wares, other than toothpicks, of wood other than bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5.1%",
@@ -3452,10 +3353,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3510,11 +3407,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3558,6 +3456,8 @@
       "hts8": "44219970",
       "brief_description": "Pickets, palings, posts and rails, sawn, of wood other than of bamboo; assembled fence sections of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3579,10 +3479,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3626,6 +3527,8 @@
       "hts8": "44219980",
       "brief_description": "Spring-type clothespins of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "GRS",
       "wto_binding_code": "B",
       "mfn_text_rate": "6.5 cents/gross",
@@ -3692,11 +3595,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3740,6 +3644,8 @@
       "hts8": "44219985",
       "brief_description": "Clothespins other than spring-type, of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "GRS",
       "wto_binding_code": "B",
       "mfn_text_rate": "4.8%",
@@ -3759,10 +3665,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -3815,11 +3717,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3863,6 +3766,8 @@
       "hts8": "44219988",
       "brief_description": "Canoe paddles of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "NO",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3882,20 +3787,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 35,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (35.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -3939,6 +3841,8 @@
       "hts8": "44219993",
       "brief_description": "Theatrical, ballet and operatic scenery and properties, including sets, of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -3958,20 +3862,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4015,6 +3916,8 @@
       "hts8": "44219994",
       "brief_description": "Edge-glued lumber of wood other than of bamboo",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "M3",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -4034,22 +3937,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 10,
-      "trade_action_countries": [
-        "CA"
-      ],
-      "trade_action_label": "Trade Action Tariff (10%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -4111,10 +4009,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 33.300000000000004,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (33.300000000000004%)",
       "available_programs": [
         {
           "program_key": "jordan",
@@ -4165,17 +4059,6 @@
       "usmca_rate_type_code": "0.0",
       "usmca_specific_rate": "0.0",
       "usmca_other_rate": "0.0",
-      "additive_duties": [
-        {
-          "type": "section_301",
-          "name": "Section 301 - China Trade",
-          "rate": 25,
-          "countries": [
-            "CN"
-          ],
-          "label": "Section 301 (25.0%)"
-        }
-      ],
       "reciprocal_tariffs": [
         {
           "country": "CN",

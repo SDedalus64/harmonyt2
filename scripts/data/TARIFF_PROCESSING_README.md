@@ -29,12 +29,20 @@ chmod +x process_tariff_unified.sh
 
 ### Python Dependencies
 
-First-time setup:
+The scripts automatically activate the virtual environment if it exists at `venv_tariff`.
+
+First-time setup (from project root):
 
 ```bash
 python3 -m venv venv_tariff
 source venv_tariff/bin/activate
-pip install -r ../../requirements.txt
+pip install -r requirements.txt
+```
+
+Manual activation (if needed):
+
+```bash
+source venv_tariff/bin/activate
 ```
 
 The `requirements.txt` includes:
@@ -94,7 +102,7 @@ az login
 
 2. **Tariff Data Processing**
    - **All entries**: `preprocess_tariff_data.py`
-   - **Section 301 only**: `preprocess_tariff_data_with_301.py`
+   - **Section 301 only**: `preprocess_tariff_data_new.py`
    - Adds special tariff calculations
    - Injects extra tariffs (Reciprocal, IEEPA, etc.)
    - Outputs JSON with structured data
@@ -157,9 +165,13 @@ The system uses a shared configuration approach:
 
 ### Missing pandas/openpyxl
 
+The scripts should automatically activate the virtual environment. If you still see module errors:
+
 ```bash
+# From project root
+python3 -m venv venv_tariff
 source venv_tariff/bin/activate
-pip install pandas openpyxl
+pip install -r requirements.txt
 ```
 
 ### Section 301 CSV not found

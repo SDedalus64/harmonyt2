@@ -7,6 +7,8 @@
       "hts8": "26201100",
       "brief_description": "Hard zinc spelter",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -26,21 +28,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": false,
-      "column2_countries": [
-        "CU",
-        "KP"
-      ],
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -84,6 +82,8 @@
       "hts8": "26201930",
       "brief_description": "Zinc dross and skimmings (not from from the mfr. of iron or steel)",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -106,10 +106,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -153,6 +154,8 @@
       "hts8": "26201960",
       "brief_description": "Ash and residues (not from the mfr. of iron or steel), containing mainly zinc, other than hard zinc spelter/zinc dross & skimmings",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "0.7 cents/kg on copper content + 0.7 cents/kg on lead content",
       "mfn_rate_type_code": "T",
@@ -167,10 +170,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -321,10 +320,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -368,6 +368,8 @@
       "hts8": "26202100",
       "brief_description": "Leaded gasoline sludges and leaded anti-knock compound sludges, containing mainly lead",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
       "mfn_rate_type_code": "0",
@@ -384,20 +386,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -441,6 +440,8 @@
       "hts8": "26202900",
       "brief_description": "Ash and residues (other than from the manufacture of iron or steel), containing mainly lead, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
       "mfn_rate_type_code": "0",
@@ -457,20 +458,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -514,6 +512,8 @@
       "hts8": "26203000",
       "brief_description": "Ash and residues (not from the mfr. of iron or steel), containing mainly copper",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
       "mfn_rate_type_code": "0",
@@ -530,20 +530,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 999999,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (999999.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -587,6 +584,8 @@
       "hts8": "26204000",
       "brief_description": "Ash and residues (not from the mfr. of iron or steel), containing mainly aluminum",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -608,10 +607,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -655,6 +655,8 @@
       "hts8": "26206010",
       "brief_description": "Ash/residues contain arsenic, mercury, thallium or their mixtures, kind used only for extraction of arsenic or manufacture of its compounds",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "5%",
@@ -674,13 +676,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 25,
-      "trade_action_countries": [
-        "CA",
-        "MX"
-      ],
-      "trade_action_label": "Trade Action Tariff (25%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -831,10 +826,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -878,6 +874,8 @@
       "hts8": "26206090",
       "brief_description": "Ash/residue contain arsenic,mercury,thallium/their mixtures,kind used only for extraction of those metals or manufacture of their compounds",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -897,20 +895,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -954,6 +949,8 @@
       "hts8": "26209100",
       "brief_description": "Ash and residues (other than from the manufacture of iron or steel), containing antimony, beryllium, cadmium, chromium or their mixtures",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -973,20 +970,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1030,6 +1024,8 @@
       "hts8": "26209910",
       "brief_description": "Ash and residues (other than from the manufacture of iron or steel), containing mainly vanadium",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -1052,10 +1048,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1099,6 +1096,8 @@
       "hts8": "26209920",
       "brief_description": "Ash and residues (other than from the manufacture of iron or steel), containing mainly tungsten",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -1119,10 +1118,6 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 40,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (40.0%)",
       "available_programs": [
         {
           "program_key": "cbi",
@@ -1273,10 +1268,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1320,6 +1316,8 @@
       "hts8": "26209930",
       "brief_description": "Materials (ash and residues) not provided for elsewhere in heading 2620 containing by weight over 10 percent nickel",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "quantity_2_code": "CKG",
       "wto_binding_code": "B",
@@ -1342,10 +1340,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1389,6 +1388,8 @@
       "hts8": "26209950",
       "brief_description": "Slag (other than from the manufacture of iron or steel) contains over 40% titanium & if has over 2% Cu/Pb/Zn is not for recovery thereof",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1410,10 +1411,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1457,6 +1459,8 @@
       "hts8": "26209975",
       "brief_description": "Residues (not from mfr. of iron or steel) cont. metals/metal compounds nesoi, and n/adv. in value or cond. & if > 2% Cu/Pb/Zn n/for recovery",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
       "mfn_rate_type_code": "0",
@@ -1477,10 +1481,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1524,6 +1529,8 @@
       "hts8": "26209985",
       "brief_description": "Other ash and residues (other than from the manufacture of iron or steel), containing metals or metal compounds, nesoi",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "KG",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1543,20 +1550,17 @@
         "RU",
         "BY"
       ],
-      "has_special_trade_action": true,
-      "trade_action_rate": 30,
-      "trade_action_countries": [],
-      "trade_action_label": "Trade Action Tariff (30.0%)",
       "available_programs": [],
       "additive_duties": [
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1600,6 +1604,8 @@
       "hts8": "26211000",
       "brief_description": "Ash and residues from the incineraction of municipal waste",
       "is_chapter_99": false,
+      "section_301_list": "4a",
+      "section_301_rate": 7.5,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1620,11 +1626,12 @@
         {
           "type": "section_301",
           "name": "Section 301 - China Trade",
-          "rate": 25,
+          "rate": 7.5,
+          "list": "4a",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 4a (7.5%)"
         }
       ],
       "reciprocal_tariffs": [
@@ -1668,6 +1675,8 @@
       "hts8": "26219000",
       "brief_description": "Other slag and ash, including seaweed ash (kelp), not elsewhere specified or included",
       "is_chapter_99": false,
+      "section_301_list": "3",
+      "section_301_rate": 25,
       "quantity_1_code": "T",
       "wto_binding_code": "B",
       "mfn_text_rate": "Free",
@@ -1689,10 +1698,11 @@
           "type": "section_301",
           "name": "Section 301 - China Trade",
           "rate": 25,
+          "list": "3",
           "countries": [
             "CN"
           ],
-          "label": "Section 301 (25.0%)"
+          "label": "Section 301 List 3 (25.0%)"
         }
       ],
       "reciprocal_tariffs": [
