@@ -16,6 +16,73 @@ feat: enhance Tariff Engineering features and UI improvements
 - Enhanced UI elements across various screens for improved user experience and accessibility.
 - Adjusted button layouts and added new styles for better visual consistency.
 
+[2025-07-12]
+
+## Unified Tariff Processing System
+
+### Added
+
+- **Unified Tariff Processing Script** (`process_tariff_unified.sh`)
+  - Single script handles both ALL entries (12,935 codes) and Section 301-only (9,202 codes) processing
+  - Supports HTS Revision 16 with automatic revision detection from filenames
+  - Optional PDF extraction for Section 301 data with `--extract-301` flag
+  - Interactive Azure blob storage upload with confirmation prompt
+  - Comprehensive error handling and colored output for better UX
+
+- **Hybrid Tariff Architecture**
+  - Created `scripts/config/tariff_rules.json` as single source of truth for all tariff rules
+  - Added `src/config/tariffRulesConfig.ts` with `USE_SHARED_CONFIG` flag for instant rollback
+  - Eliminates duplicate logic between Python preprocessing and TypeScript runtime
+
+- **Comprehensive Tariff Type Support**
+  - Section 301 (China): Lists 1-3 at 25%, List 4a at 7.5%
+  - Section 232 (Steel/Aluminum): 50% global, 25% for UK
+  - Section 201 (Solar): 14% safeguard with 7 country exemptions
+  - IEEPA (Canada/Mexico): 25% standard, 10% for energy/potash
+  - Reciprocal (China): 10% temporary 90-day agreement
+  - Fentanyl (China): 20% anti-trafficking measure
+
+- **Python Virtual Environment Setup**
+  - Created `venv_tariff` with all dependencies in `requirements.txt`
+  - Added `openpyxl` for Excel file processing
+  - Handles macOS system Python protection
+
+- **Comprehensive Documentation**
+  - Created `scripts/data/TARIFF_PROCESSING_README.md` with complete usage guide
+  - Documented both processing modes, prerequisites, and troubleshooting
+  - Added architecture diagrams and configuration details
+
+### Changed
+
+- **Segment File Generation**
+  - Fixed nested `data/data` directory issue in `segment-tariff-data.js`
+  - Segments now correctly output to `scripts/data/tariff-segments/`
+  - Improved path handling for cross-platform compatibility
+
+- **Processing Scripts Organization**
+  - Consolidated functionality from multiple legacy scripts
+  - Standardized output naming: `_all` suffix for complete datasets
+  - Improved date extraction from new filename format (MM_DD)
+
+### Fixed
+
+- **Directory Structure Issues**
+  - Resolved incorrect segment output path creating nested directories
+  - Fixed path references in segmentation script
+  - Cleaned up legacy directory structures
+
+- **Dependency Management**
+  - Added missing `pandas` and `openpyxl` to requirements
+  - Fixed virtual environment activation for tariff processing
+  - Resolved module import errors
+
+### Performance
+
+- **Segmented Architecture Benefits**
+  - ALL entries mode: 237 segments covering complete dataset
+  - Section 301 mode: 158 segments for faster China-focused queries
+  - Efficient 3-digit HTS prefix segmentation for quick lookups
+
 [2025-07-07]
 
 ## UI/UX Enhancements

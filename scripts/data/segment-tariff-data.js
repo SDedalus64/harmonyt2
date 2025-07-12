@@ -14,7 +14,7 @@ if (!inputFile) {
 const tariffData = JSON.parse(fs.readFileSync(inputFile, "utf8"));
 
 // Create output directory
-const outputDir = path.join(__dirname, "./data/tariff-segments");
+const outputDir = path.join(__dirname, "./tariff-segments");
 if (fs.existsSync(outputDir)) {
   fs.rmSync(outputDir, { recursive: true, force: true });
 }

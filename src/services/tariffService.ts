@@ -3,6 +3,7 @@
 
 // Import Azure configuration
 import { AZURE_CONFIG, getAzureUrls } from "../config/azure.config";
+import { getSection232QuotaInfo } from "../../scripts/data/section232_quota_countries";
 
 export interface TariffData {
   data_last_updated?: string;
@@ -534,6 +535,7 @@ export class TariffService {
     isReciprocalAdditive: boolean = true, // Always treat reciprocal tariffs as additive
     excludeReciprocalTariff: boolean = false, // New parameter to control RT inclusion
     isUSMCAOrigin: boolean = false, // New parameter to specify USMCA origin
+    isWithinQuota: boolean = false, // New parameter for Section 232 quota status
   ): Promise<{
     amount: number;
     dutyOnly: number;
@@ -935,19 +937,40 @@ export class TariffService {
             totalRate += duty.rate;
             breakdown.push(`${duty.label}: +${duty.rate}%`);
           } else if (duty.type === "section_232") {
-            // Handle Section 232 with UK-specific rates
+            // Handle Section 232 with UK-specific rates and quotas
             let section232Rate = duty.rate;
             let section232Label = duty.label;
 
-            // Check if UK gets reduced rate
-            if (
-              (countryCode === "GB" || countryCode === "UK") &&
-              duty.rate_uk !== undefined
-            ) {
-              section232Rate = duty.rate_uk;
-              section232Label = duty.label
-                .replace("50%", "25%")
-                .replace("UK 25%", "UK rate applied");
+            // Check if country has quota and user selected "within quota"
+            const quotaInfo = getSection232QuotaInfo(countryCode);
+            if (quotaInfo && isWithinQuota) {
+              // Determine if this is steel or aluminum based on HTS code
+              const isSteel =
+                actualHtsCode.startsWith("72") ||
+                actualHtsCode.startsWith("73");
+              const isAluminum = actualHtsCode.startsWith("76");
+
+              if (isSteel && quotaInfo.hasSteel) {
+                section232Rate = quotaInfo.steelQuotaRate; // Usually 0%
+                section232Label = `Section 232 Steel - ${quotaInfo.name} (In-Quota ${quotaInfo.steelQuotaRate}%)`;
+              } else if (isAluminum && quotaInfo.hasAluminum) {
+                section232Rate = quotaInfo.aluminumQuotaRate; // Usually 0%
+                section232Label = `Section 232 Aluminum - ${quotaInfo.name} (In-Quota ${quotaInfo.aluminumQuotaRate}%)`;
+              }
+            } else if (quotaInfo && !isWithinQuota) {
+              // Over-quota rates apply
+              const isSteel =
+                actualHtsCode.startsWith("72") ||
+                actualHtsCode.startsWith("73");
+              const isAluminum = actualHtsCode.startsWith("76");
+
+              if (isSteel && quotaInfo.hasSteel) {
+                section232Rate = quotaInfo.steelOverRate; // 50% for most, 25% for UK
+                section232Label = `Section 232 Steel - ${quotaInfo.name} (Over-Quota ${quotaInfo.steelOverRate}%)`;
+              } else if (isAluminum && quotaInfo.hasAluminum) {
+                section232Rate = quotaInfo.aluminumOverRate; // 50% for most, 25% for UK
+                section232Label = `Section 232 Aluminum - ${quotaInfo.name} (Over-Quota ${quotaInfo.aluminumOverRate}%)`;
+              }
             }
 
             console.log("Adding Section 232 to components:", {
@@ -965,6 +988,11 @@ export class TariffService {
             });
             totalRate += section232Rate;
             breakdown.push(`${section232Label}: +${section232Rate}%`);
+
+            // Add UK expiration note if it's UK
+            if ((countryCode === "GB" || countryCode === "UK") && quotaInfo) {
+              breakdown.push("  (UK quota arrangement expires March 12, 2025)");
+            }
           } else {
             // For all other duties, always add them
             components.push({

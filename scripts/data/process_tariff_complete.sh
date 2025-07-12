@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Tariff Data Processing Script
+# Tariff Data Processing Script with Section 301 Integration
 # This script automates the complete tariff data processing workflow
+# It processes ONLY HTS codes with Section 301 add-ons for HarmonyTi
 # It can be run from any directory and will automatically find the correct paths
 
 # Colors for output
@@ -32,9 +33,9 @@ print_warning() {
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if we found the scripts directory
-if [[ ! -f "$SCRIPT_DIR/data/preprocess_tariff_data.py" ]]; then
-    print_error "Cannot find preprocess_tariff_data.py in $SCRIPT_DIR/data"
-    print_error "This script should be in the Harmony/scripts directory"
+if [[ ! -f "$SCRIPT_DIR/preprocess_tariff_data.py" ]]; then
+    print_error "Cannot find preprocess_tariff_data.py in $SCRIPT_DIR"
+    print_error "Please ensure preprocess_tariff_data.py exists in the scripts/data directory"
     exit 1
 fi
 
@@ -49,37 +50,39 @@ cd "$SCRIPT_DIR" || {
 
 print_status "Working directory: $(pwd)"
 
+# Check for Section 301 deduplicated CSV
+SECTION_301_CSV="$SCRIPT_DIR/../exports/section301_deduplicated.csv"
+if [[ ! -f "$SECTION_301_CSV" ]]; then
+    print_error "Section 301 deduplicated CSV not found at: $SECTION_301_CSV"
+    print_error "Please run the Section 301 extraction scripts first"
+    exit 1
+fi
+
 # Check arguments
 if [ $# -lt 1 ]; then
     echo "Usage: $0 <excel-file> [revision-number]"
-    echo "Example: $0 data/tariff_database_2025_06062025.xlsx 14"
+    echo "Example: $0 data/tariff_data_2025/tariff_database_2025_07_01_R16.xlsx"
     echo ""
     echo "The excel-file path can be:"
-    echo "  - Relative to current directory: data/tariff_database_2025_06062025.xlsx"
-    echo "  - Relative to scripts directory: ../data/tariff_database_2025_06062025.xlsx"
-    echo "  - Absolute path: /Users/you/Harmony/scripts/data/tariff_database_2025_06062025.xlsx"
+    echo "  - Relative to current directory: data/tariff_data_2025/tariff_database_2025_07_01_R16.xlsx"
+    echo "  - Relative to scripts directory: ../data/tariff_data_2025/tariff_database_2025_07_01_R16.xlsx"
+    echo "  - Absolute path: /Users/you/harmonyt2/scripts/data/tariff_data_2025/tariff_database_2025_07_01_R16.xlsx"
+    echo ""
+    echo "Expected filename format: tariff_database_2025_MM_DD_R##.xlsx"
+    echo "  where MM_DD is the date and R## is the revision number (e.g., R16)"
     echo ""
     echo "This script will:"
     echo "  1. Convert Excel to CSV"
-    echo "  2. Process tariff data with the specified revision"
-    echo "  3. Generate segment files"
+    echo "  2. Process tariff data with Section 301 integration"
+    echo "  3. Filter to ONLY HTS codes with Section 301 add-ons"
+    echo "  4. Generate segment files"
+    echo ""
+    echo "Prerequisites:"
+    echo "  - Section 301 deduplicated CSV must exist at: ../exports/section301_deduplicated.csv"
     exit 1
 fi
 
 EXCEL_INPUT="$1"
-
-# If revision not provided as argument, prompt for it
-if [ $# -lt 2 ]; then
-    echo ""
-    read -p "Enter the HTS revision number (e.g., 14, 15, 16): " REVISION
-    if [ -z "$REVISION" ]; then
-        print_error "Revision number cannot be empty"
-        cd "$ORIGINAL_DIR"
-        exit 1
-    fi
-else
-    REVISION="$2"
-fi
 
 # Handle different input path formats
 if [[ "$EXCEL_INPUT" = /* ]]; then
@@ -99,19 +102,49 @@ else
     exit 1
 fi
 
-# Extract date from filename (assuming format: tariff_database_2025_MMDDYYYY.xlsx)
-DATE_PART=$(basename "$EXCEL_FILE" | grep -oE '[0-9]{8}' | tail -1)
+# Extract date and revision from filename (format: tariff_database_2025_MM_DD_R##.xlsx)
+FILENAME=$(basename "$EXCEL_FILE")
+
+# Extract date part (MM_DD) - specifically after the year
+DATE_PART=$(echo "$FILENAME" | sed -n 's/.*2025_\([0-9][0-9]_[0-9][0-9]\).*/\1/p')
 if [ -z "$DATE_PART" ]; then
     print_warning "Could not extract date from filename, using current date"
-    DATE_PART=$(date +%m%d%Y)
+    DATE_PART=$(date +%m_%d)
+fi
+
+# Convert MM_DD to MMDDYYYY format for backwards compatibility
+MONTH=$(echo "$DATE_PART" | cut -d'_' -f1)
+DAY=$(echo "$DATE_PART" | cut -d'_' -f2)
+YEAR="2025"
+DATE_FORMATTED="${MONTH}${DAY}${YEAR}"
+
+# Extract revision number from filename (R##)
+REVISION_FROM_FILE=$(echo "$FILENAME" | grep -oE 'R[0-9]+' | grep -oE '[0-9]+')
+
+# If revision provided as argument, use it; otherwise use from filename
+if [ $# -ge 2 ]; then
+    REVISION="$2"
+    print_warning "Using revision $REVISION from command line (overriding R$REVISION_FROM_FILE from filename)"
+elif [ -n "$REVISION_FROM_FILE" ]; then
+    REVISION="$REVISION_FROM_FILE"
+    print_status "Using revision $REVISION from filename"
+else
+    echo ""
+    read -p "Enter the HTS revision number (e.g., 14, 15, 16): " REVISION
+    if [ -z "$REVISION" ]; then
+        print_error "Revision number cannot be empty"
+        cd "$ORIGINAL_DIR"
+        exit 1
+    fi
 fi
 
 # Set output files in scripts directory
-CSV_FILE="$(pwd)/tariff_database_2025_${DATE_PART}.csv"
-JSON_FILE="$(pwd)/tariff_processed_${DATE_PART}.json"
+CSV_FILE="$(pwd)/tariff_database_2025_${DATE_FORMATTED}.csv"
+JSON_FILE="$(pwd)/tariff_processed_${DATE_FORMATTED}_R${REVISION}.json"
 
 print_status "Starting tariff data processing..."
 print_status "Excel file: $EXCEL_FILE"
+print_status "Detected date: $DATE_PART (formatted as $DATE_FORMATTED)"
 print_status "HTS Revision: $REVISION"
 print_status "CSV output: $CSV_FILE"
 print_status "JSON output: $JSON_FILE"
@@ -119,7 +152,7 @@ print_status "JSON output: $JSON_FILE"
 # Step 1: Convert Excel to CSV
 if [ -f "$EXCEL_FILE" ]; then
     print_status "Converting Excel to CSV..."
-    python3 "$SCRIPT_DIR/data/excel_to_csv.py" "$EXCEL_FILE" "$CSV_FILE"
+    python3 "$SCRIPT_DIR/excel_to_csv.py" "$EXCEL_FILE" "$CSV_FILE"
 
     if [ $? -ne 0 ]; then
         print_error "Failed to convert Excel to CSV"
@@ -133,10 +166,13 @@ else
     exit 1
 fi
 
-# Step 2: Process tariff data with revision
+# Step 2: Process tariff data with revision and Section 301 integration
 if [ -f "$CSV_FILE" ]; then
     print_status "Processing tariff data with revision: $REVISION"
-    python3 "$SCRIPT_DIR/data/preprocess_tariff_data.py" "$CSV_FILE" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
+    print_status "Integrating Section 301 data from: $SECTION_301_CSV"
+    print_status "Filtering to ONLY HTS codes with Section 301 add-ons..."
+    
+    python3 "$SCRIPT_DIR/preprocess_tariff_data_with_301.py" "$CSV_FILE" "$SECTION_301_CSV" "$JSON_FILE" "$REVISION" --inject-extra-tariffs
 
     if [ $? -ne 0 ]; then
         print_error "Failed to process tariff data"
@@ -144,6 +180,7 @@ if [ -f "$CSV_FILE" ]; then
         exit 1
     fi
     print_status "✓ Tariff data processing complete"
+    print_status "✓ Only Section 301 affected HTS codes included"
 else
     print_error "CSV file not found: $CSV_FILE"
     cd "$ORIGINAL_DIR"
@@ -155,9 +192,9 @@ if [ -f "$JSON_FILE" ]; then
     print_status "Generating segment files..."
 
     # Create segments directory if it doesn't exist
-    mkdir -p "$SCRIPT_DIR/data/tariff-segments"
+    mkdir -p "$SCRIPT_DIR/tariff-segments"
 
-    node "$SCRIPT_DIR/data/segment-tariff-data.js" "$JSON_FILE"
+    node "$SCRIPT_DIR/segment-tariff-data.js" "$JSON_FILE"
 
     if [ $? -ne 0 ]; then
         print_error "Failed to generate segments"
@@ -167,7 +204,7 @@ if [ -f "$JSON_FILE" ]; then
     print_status "✓ Segment generation complete"
 
     # Count generated files
-    SEGMENT_COUNT=$(ls -1 "$SCRIPT_DIR/data/tariff-segments/" 2>/dev/null | wc -l)
+    SEGMENT_COUNT=$(ls -1 "$SCRIPT_DIR/tariff-segments/" 2>/dev/null | wc -l)
     print_status "Generated $SEGMENT_COUNT segment files"
 
     # --- Optional: Automatically upload segment files to Azure Blob Storage ---
@@ -187,7 +224,7 @@ if [ -f "$JSON_FILE" ]; then
         --account-name "$ACCOUNT_NAME" \
         --auth-mode login \
         --destination "$CONTAINER_NAME/$DEST_PATH/tariff-segments" \
-        --source "$SCRIPT_DIR/data/tariff-segments" \
+        --source "$SCRIPT_DIR/tariff-segments" \
         --overwrite true \
         --no-progress || print_warning "Failed to upload segment files"
     else
@@ -205,17 +242,28 @@ cd "$ORIGINAL_DIR"
 # Summary
 echo ""
 print_status "=== Processing Complete ==="
+print_status "IMPORTANT: This dataset contains ONLY HTS codes with Section 301 add-ons"
+print_status ""
 print_status "Processed files:"
 print_status "  - CSV: $CSV_FILE"
-print_status "  - JSON: $JSON_FILE"
-print_status "  - Segments: $SCRIPT_DIR/data/tariff-segments/"
+print_status "  - Section 301 CSV: $SECTION_301_CSV"
+print_status "  - JSON: $JSON_FILE (Section 301 only)"
+print_status "  - Segments: $SCRIPT_DIR/tariff-segments/"
 print_status "  - HTS Revision: $REVISION"
+print_status "  - Date: $DATE_PART"
 echo ""
 print_status "File sizes:"
 ls -lh "$JSON_FILE" | awk '{print "  - JSON: " $5}'
 echo ""
+
+# Count Section 301 entries
+ENTRY_COUNT=$(grep -c '"hts8"' "$JSON_FILE" 2>/dev/null || echo "0")
+print_status "Section 301 HTS codes processed: $ENTRY_COUNT"
+
+echo ""
 print_status "Next steps:"
 print_status "  1. Verify segment files were uploaded to Azure"
-print_status "  2. The app will show: 'HTS Rev. $REVISION'"
+print_status "  2. The app will show: 'HTS Rev. $REVISION' with Section 301 data"
+print_status "  3. Only HTS codes with Section 301 tariffs will appear in HarmonyTi"
 echo ""
 print_status "You are now back in: $(pwd)"

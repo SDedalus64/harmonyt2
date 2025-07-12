@@ -34,6 +34,7 @@ import { useTariff } from "../hooks/useTariff";
 import { useHistory, HistoryItem } from "../hooks/useHistory";
 import { useSettings } from "../hooks/useSettings";
 import { getCountryName } from "../utils/countries";
+import { quotaAppliesForHTS } from "../../scripts/data/section232_quota_countries";
 import DisclaimerModal from "./DisclaimerModal";
 import HistoryScreen from "./HistoryScreen";
 import SettingsScreen from "./SettingsScreen";
@@ -254,6 +255,7 @@ export default function LookupScreen() {
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const loadingSpinValue = useRef(new Animated.Value(0)).current;
   const [isUSMCAOrigin, setIsUSMCAOrigin] = useState(false);
+  const [isWithinQuota, setIsWithinQuota] = useState(false);
   const [isLoadingFromHistory, setIsLoadingFromHistory] = useState(false);
 
   // New drawer state
@@ -1233,6 +1235,7 @@ export default function LookupScreen() {
         settings.isReciprocalAdditive,
         false, // excludeReciprocalTariff is false by default
         isUSMCAOrigin,
+        isWithinQuota,
       );
 
       console.log("Calculation result:", calculation);
@@ -1459,6 +1462,7 @@ export default function LookupScreen() {
     setShowUnitCalculations(settings.showUnitCalculations ?? true); // Reset to user preference
     setLoadedHistoryTimestamp(null); // Reset the history timestamp
     setIsUSMCAOrigin(false); // Reset USMCA origin
+    setIsWithinQuota(false); // Reset quota status
 
     // Clear chips data
     setAdditionalCosts([]);
@@ -3193,6 +3197,30 @@ export default function LookupScreen() {
                         >
                           <Ionicons
                             name={isUSMCAOrigin ? "checkbox" : "square-outline"}
+                            size={getResponsiveValue(24, 28)}
+                            color={BRAND_COLORS.darkNavy}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
+
+                  {/* Section 232 Quota Checkbox */}
+                  {selectedCountry &&
+                    htsCode &&
+                    quotaAppliesForHTS(selectedCountry.code, htsCode) && (
+                      <View style={[styles.toggleContainer, { marginTop: 8 }]}>
+                        <Text style={styles.toggleLabel}>Within quota?</Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            haptics.selection();
+                            setIsWithinQuota(!isWithinQuota);
+                            closeMainFab(false);
+                            closeAllNavigationDrawers();
+                          }}
+                          style={{ paddingLeft: 8 }}
+                        >
+                          <Ionicons
+                            name={isWithinQuota ? "checkbox" : "square-outline"}
                             size={getResponsiveValue(24, 28)}
                             color={BRAND_COLORS.darkNavy}
                           />

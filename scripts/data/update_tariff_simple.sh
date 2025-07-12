@@ -1,96 +1,98 @@
 #!/bin/bash
 
-# Simple Tariff Update Script
-# Just run: ./update_tariffs
+# Update tariff data (simple version - no Section 301 filtering)
+# This version processes ALL HTS codes, not just Section 301
 
-# Colors for output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
-
-# Get script directory
+# Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$SCRIPT_DIR" || exit 1
 
-echo -e "${GREEN}=== Harmony Tariff Update Tool ===${NC}"
-echo ""
-
-# Find the latest CSV file
-LATEST_CSV=$(ls -t tariff_database_*.csv 2>/dev/null | head -1)
-
-if [ -z "$LATEST_CSV" ]; then
-    echo -e "${RED}No tariff CSV files found in $SCRIPT_DIR${NC}"
-    echo "Please place your tariff_database_YYYY_MMDDYYYY.csv file in the scripts directory"
+# Change to scripts directory
+cd "$SCRIPT_DIR" || {
+    echo "Failed to change to scripts directory"
     exit 1
-fi
+}
 
-echo -e "${GREEN}Found CSV file:${NC} $LATEST_CSV"
+echo "Current directory: $(pwd)"
 
-# Extract date from filename
-DATE_PART=$(echo "$LATEST_CSV" | grep -oE '[0-9]{8}' | tail -1)
-if [ -z "$DATE_PART" ]; then
-    DATE_PART=$(date +%m%d%Y)
-fi
+# Find the latest tariff CSV file
+# Look for new format first (tariff_database_2025_MM_DD_R##.xlsx)
+LATEST_EXCEL=$(ls -t tariff_data_2025/tariff_database_*.xlsx 2>/dev/null | head -1)
 
-# Check if there's a Change Record PDF
-CHANGE_RECORD=$(ls -t data/Change*Record*.pdf 2>/dev/null | head -1)
-if [ -n "$CHANGE_RECORD" ]; then
-    echo -e "${GREEN}Found Change Record:${NC} $CHANGE_RECORD"
-    echo ""
-    echo "Please check the Change Record PDF for the HTS revision number."
-    echo "Look for patterns like: 'HTS 2025 Revision 14'"
+if [ -z "$LATEST_EXCEL" ]; then
+    # Try old format in current directory
+    LATEST_CSV=$(ls -t tariff_database_*.csv 2>/dev/null | head -1)
+    
+    if [ -z "$LATEST_CSV" ]; then
+        echo "No tariff database files found!"
+        echo "Please place your tariff_database_2025_MM_DD_R##.xlsx file in the tariff_data_2025 directory"
+        exit 1
+    fi
+    
+    echo "Using existing CSV: $LATEST_CSV"
+    CSV_FILE="$LATEST_CSV"
+    
+    # Extract date from old format for output naming
+    DATE_PART=$(basename "$CSV_FILE" | grep -oE '[0-9]{8}' | tail -1)
+    REVISION=""
 else
-    echo ""
-    echo -e "${YELLOW}No Change Record PDF found in data/ directory${NC}"
+    # Process Excel file with new format
+    echo "Found Excel file: $LATEST_EXCEL"
+    
+    # Extract date and revision from filename
+    FILENAME=$(basename "$LATEST_EXCEL")
+    
+    # Extract date part (MM_DD) - specifically after the year
+    DATE_PART=$(echo "$FILENAME" | sed -n 's/.*2025_\([0-9][0-9]_[0-9][0-9]\).*/\1/p')
+    
+    # Convert MM_DD to MMDDYYYY format
+    MONTH=$(echo "$DATE_PART" | cut -d'_' -f1)
+    DAY=$(echo "$DATE_PART" | cut -d'_' -f2)
+    YEAR="2025"
+    DATE_FORMATTED="${MONTH}${DAY}${YEAR}"
+    
+    # Extract revision from filename
+    REVISION=$(echo "$FILENAME" | grep -oE 'R[0-9]+' | grep -oE '[0-9]+')
+    
+    # Convert to CSV
+    CSV_FILE="tariff_database_2025_${DATE_FORMATTED}.csv"
+    echo "Converting Excel to CSV..."
+    python3 excel_to_csv.py "$LATEST_EXCEL" "$CSV_FILE"
+    
+    if [ $? -ne 0 ]; then
+        echo "Failed to convert Excel to CSV"
+        exit 1
+    fi
+    echo "✓ CSV conversion complete"
 fi
 
-echo ""
-read -p "Enter the HTS revision number (e.g., 14): " REVISION_NUM
+# Set output JSON filename
+if [ -n "$REVISION" ]; then
+    JSON_FILE="tariff_processed_${DATE_FORMATTED}_R${REVISION}.json"
+else
+    JSON_FILE="tariff_processed_${DATE_PART}.json"
+fi
 
-if [ -z "$REVISION_NUM" ]; then
-    echo -e "${RED}Revision number is required!${NC}"
+# Prompt for HTS revision if not extracted from filename
+if [ -z "$REVISION" ]; then
+    read -p "Enter the HTS revision number (e.g., 14, 15, 16): " REVISION
+fi
+
+echo "Processing tariff data..."
+echo "  CSV: $CSV_FILE"
+echo "  Revision: $REVISION"
+echo "  Output: $JSON_FILE"
+
+# Process the CSV file without Section 301 filtering
+python3 preprocess_tariff_data.py "$CSV_FILE" "$JSON_FILE" "$REVISION"
+
+if [ $? -eq 0 ]; then
+    echo "✓ Tariff data processing complete"
+    echo "✓ Generated: $JSON_FILE"
+    
+    # Count entries
+    ENTRY_COUNT=$(grep -c '"hts8"' "$JSON_FILE" 2>/dev/null || echo "0")
+    echo "✓ Total HTS codes processed: $ENTRY_COUNT"
+else
+    echo "✗ Failed to process tariff data"
     exit 1
 fi
-
-REVISION="Revision $REVISION_NUM"
-JSON_FILE="tariff_processed_${DATE_PART}.json"
-
-echo ""
-echo -e "${GREEN}Processing with HTS $REVISION...${NC}"
-
-# Process the tariff data
-echo "• Processing tariff data..."
-python3 preprocess_tariff_data.py "$LATEST_CSV" "$JSON_FILE" "$REVISION"
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Failed to process tariff data${NC}"
-    exit 1
-fi
-
-# Generate segments
-echo "• Generating segments..."
-mkdir -p data/tariff-segments
-node segment-tariff-data.js "$JSON_FILE"
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Failed to generate segments${NC}"
-    exit 1
-fi
-
-# Count files
-SEGMENT_COUNT=$(ls -1 data/tariff-segments/*.json 2>/dev/null | wc -l)
-
-echo ""
-echo -e "${GREEN}✓ Success!${NC}"
-echo ""
-echo "Processed files:"
-echo "  • JSON: $JSON_FILE ($(ls -lh "$JSON_FILE" | awk '{print $5}'))"
-echo "  • Segments: $SEGMENT_COUNT files in data/tariff-segments/"
-echo "  • HTS Version: $REVISION"
-echo ""
-echo "Next steps:"
-echo "  1. Upload $JSON_FILE to Azure Blob Storage"
-echo "  2. Upload all files from data/tariff-segments/ to Azure"
-echo ""
-echo -e "${GREEN}The app will now show: 'HTS $REVISION'${NC}"
